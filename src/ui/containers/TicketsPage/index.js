@@ -4,47 +4,35 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { getNotebookContent } from 'ui/utils/resources';
 import { changeResourceSelected } from 'ui/containers/SidebarMenu/actions';
+import CashDrawer from 'ui/containers/CashDrawer';
 import { selectResources, selectResource } from './selectors';
-import messages from './messages';
-import { Container } from './wrappers';
+// import messages from './messages';
+import { Container, TicketContainer } from './wrappers';
 
-export class WorkSpacePage extends React.Component {
-  componentDidMount() {
-    // Doe snot work with routing !!!!!!!!!!!!
-    this.props.changeResourceSelected(
-      location.pathname.replace('/notebooks/', '')
-    );
-  }
+export class TicketsPage extends React.Component {
+  componentDidMount() {}
 
   render() {
-    const notebook = getNotebookContent(
-      this.props.resources,
-      location.pathname.replace('/notebooks/', '')
-    );
     return (
       <Container>
         <Helmet
-          title="OctoQL Workspace"
-          meta={[
-            { name: 'description', content: 'Description of WorkSpacePage' },
-          ]}
+          title="Kalzate Ticket"
+          meta={[{ name: 'description', content: 'Ticket' }]}
         />
-        <h1>
-          {notebook ? notebook.title : 'No Notebook found'}
-        </h1>
+        <TicketContainer />
+        <CashDrawer />
       </Container>
     );
   }
 }
 
-WorkSpacePage.propTypes = {
+TicketsPage.propTypes = {
   resources: React.PropTypes.object,
   resourceSelected: React.PropTypes.string,
   changeResourceSelected: React.PropTypes.func,
@@ -62,4 +50,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkSpacePage);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketsPage);

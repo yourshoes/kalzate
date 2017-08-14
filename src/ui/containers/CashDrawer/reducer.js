@@ -9,7 +9,7 @@ import { TOGGLE_VISIBILITY } from './constants';
 
 const initialState = fromJS({ visible: true });
 
-function blogPostReducer(state = initialState, action) {
+function cashDrawerReducer(state = initialState, action) {
   switch (action.type) {
     case TOGGLE_VISIBILITY:
       return state.setIn(['visible'], !state.getIn(['visible']));
@@ -18,4 +18,4 @@ function blogPostReducer(state = initialState, action) {
   }
 }
 
-export default blogPostReducer;
+export default cashDrawerReducer;

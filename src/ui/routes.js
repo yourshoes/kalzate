@@ -50,7 +50,7 @@ export default function createRoutes(store) {
       },
     },
     {
-      path: '/tickets/:id',
+      path: '/tickets(/:id)',
       name: 'tickets',
       getComponent(nextState, cb) {
         const importModules = Promise.all([

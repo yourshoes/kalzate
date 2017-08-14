@@ -10,3 +10,8 @@ export const Container = styled.section`
   display: flex;
   flex: 1 1 auto;
 `;
+
+export const TicketContainer = styled.section`
+  display: flex;
+  flex: 1 1 auto;
+`;

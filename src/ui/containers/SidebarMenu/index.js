@@ -34,7 +34,7 @@ function SidebarMenu(props) {
           />
         </MenuGroup>
         <MenuGroup>
-          <MenuItem title="Your Tickets" />
+          <MenuItem title="Your Tickets" actived={routeName === 'tickets'} />
           <MenuItem title="10001" small highlight cursor />
           <MenuItem title="10002" small highlight cursor />
           <MenuItem title="100013" small highlight cursor />
