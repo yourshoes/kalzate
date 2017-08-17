@@ -5,6 +5,7 @@
 
 /* System imports */
 import React from 'react';
+import Octicon from 'react-octicon';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -68,6 +69,9 @@ export const SectionContainer = styled.div`
   height: 50%;
   width: 100%;
 `;
+export const FirstSectionContainer = SectionContainer.extend`
+  border-bottom: 1px solid rgba(163, 168, 174, 0.1);
+`;
 export const SectionTitle = styled.p`
   width: 100%;
   height: 35px;
@@ -85,6 +89,16 @@ export const SectionTitle = styled.p`
   font-variant: all-petite-caps;
   font-style: normal;
 `;
+export function FirstSection(props) {
+  return (
+    <FirstSectionContainer>
+      <SectionTitle>
+        {props.title}
+      </SectionTitle>
+      {props.children}
+    </FirstSectionContainer>
+  );
+}
 export function Section(props) {
   return (
     <SectionContainer>
@@ -104,130 +118,67 @@ const PaymentMethodsSection = styled.div`
   height: 25%;
   width: 100%;
   display: table;
-  text-align: center;
-  background-color: rgba(163, 168, 174, 0.05);
+  // background-color: rgba(163, 168, 174, 0.05);
+  background-color: rgba(163, 168, 174, 0.1);
+  color: #6494ed;
+  margin: 0;
+  padding-left: 30px;
+  font-size: 1.8em;
+  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
+    Cantarell, Arial, sans-serif;
+  font-weight: 100;
+  -webkit-font-smoothing: antialiased;
+  font-variant: all-petite-caps;
+  font-style: normal;
   // margin: 25px 0;
+  &::selection {
+    color: rgba(163, 168, 174, 0.6);
+    background-color: rgba(163, 168, 174, 0.1);
+  }
 `;
+const PaymentMethodsItem = styled.div`
+  margin: 0;
+  padding: 0;
+  display: table-cell;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: color .5s ease-in-out;
+  &:hover {
+    color: #73c990;
+  }
+`;
+const PaymentMethodsItemTitle = styled.span`margin-left: 10px;`;
 export function PaymentMethods(props) {
   return (
     <PaymentSectionContainer>
-      <PaymentMethodsSection />
-      <PaymentMethodsSection />
-      <PaymentMethodsSection />
-      <PaymentMethodsSection />
+      <PaymentMethodsSection>
+        <PaymentMethodsItem>
+          <Octicon mega name="credit-card" />{' '}
+          <PaymentMethodsItemTitle>Credit Card</PaymentMethodsItemTitle>
+        </PaymentMethodsItem>
+      </PaymentMethodsSection>
+      <PaymentMethodsSection>
+        <PaymentMethodsItem>
+          <Octicon mega name="gift" />{' '}
+          <PaymentMethodsItemTitle>Cheque</PaymentMethodsItemTitle>
+        </PaymentMethodsItem>
+      </PaymentMethodsSection>
+      <PaymentMethodsSection>
+        <PaymentMethodsItem>
+          <Octicon mega name="credit-card" />{' '}
+          <PaymentMethodsItemTitle>Efectivo</PaymentMethodsItemTitle>
+        </PaymentMethodsItem>
+      </PaymentMethodsSection>
+      <PaymentMethodsSection>
+        <PaymentMethodsItem>
+          <Octicon mega name="device-mobile" />{' '}
+          <PaymentMethodsItemTitle>Phone</PaymentMethodsItemTitle>
+        </PaymentMethodsItem>
+      </PaymentMethodsSection>
     </PaymentSectionContainer>
   );
 }
-const PaymentSection = styled.div`
-  height: 33.333%;
-  width: 100%;
-  display: table;
-  text-align: center;
-`;
-const Total = styled.p`
-  border-left: 4px solid #6494ed;
-  border-right: 4px solid #6494ed;
-  color: #6494ed;
-  margin: 0;
-  padding: 0;
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 5em;
-  text-align: center;
-  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
-    Cantarell, Arial, sans-serif;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  font-variant: all-petite-caps;
-  font-style: normal;
-
-  &::selection {
-    color: rgba(163, 168, 174, 0.6);
-    background-color: rgba(163, 168, 174, 0.1);
-  }
-`;
-const Take = styled.input`
-  border-left: 4px solid #73c990;
-  outline: none;
-  width: 100%;
-  height: 100%;
-  border-right: 4px solid #73c990;
-  color: #73c990;
-  margin: 0;
-  padding: 0;
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 5em;
-  text-align: center;
-  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
-    Cantarell, Arial, sans-serif;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  font-variant: all-petite-caps;
-  font-style: normal;
-
-  &::selection {
-    color: rgba(163, 168, 174, 0.6);
-    background-color: rgba(163, 168, 174, 0.1);
-  }
-`;
-const Returns = styled.p`
-  border-left: 4px solid rgb(226, 192, 141);
-  border-right: 4px solid rgb(226, 192, 141);
-  color: rgb(226, 192, 141);
-  margin: 0;
-  padding: 0;
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 5em;
-  text-align: center;
-  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
-    Cantarell, Arial, sans-serif;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  font-variant: all-petite-caps;
-  font-style: normal;
-
-  &::selection {
-    color: rgba(163, 168, 174, 0.6);
-    background-color: rgba(163, 168, 174, 0.1);
-  }
-`;
-
 const PaymentSectionContainer = styled.div`
   height: calc(100% - 35px);
   padding: 10px;
 `;
-export function TicketPaymentSummary(props) {
-  return (
-    <PaymentSectionContainer>
-      <PaymentSection>
-        <Total>
-          {props.total.toFixed(2)} €
-        </Total>
-      </PaymentSection>
-      <PaymentSection>
-        <Take
-          defaultValue={`${props.take.toFixed(2)} €`}
-          onChange={() => null}
-          onFocus={(event) =>
-            (event.target.value = `${event.target.value
-              .trim()
-              .replace('€', '')}`)}
-          onBlur={(event) =>
-            (event.target.value = `${event.target.value.trim()} €`)}
-        />
-      </PaymentSection>
-      <PaymentSection>
-        <Returns>
-          {props.returns.toFixed(2)} €
-        </Returns>
-      </PaymentSection>
-    </PaymentSectionContainer>
-  );
-}
-TicketPaymentSummary.propTypes = {
-  total: React.PropTypes.number,
-  take: React.PropTypes.number,
-  returns: React.PropTypes.number,
-};

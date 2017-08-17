@@ -13,7 +13,11 @@
 import { fromJS } from 'immutable';
 import _ from 'lodash';
 import * as Resources from 'ui/utils/resources';
-import { CHANGE_RESOURCE_SELECTED, ADD_RESOURCE } from './constants';
+import {
+  CHANGE_RESOURCE_SELECTED,
+  ADD_RESOURCE,
+  CHANGE_TAKE_AMOUNT,
+} from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
@@ -24,6 +28,12 @@ const initialState = fromJS({
     language: 'en',
     theme: 'default',
     resource: '', // 'tsur/octoql/example',
+  },
+  ticket: {
+    totalAmount: '0.00',
+    takeAmount: '0.00',
+    returnAmount: '0.00',
+    currency: '€',
   },
   resources: {
     tsur: {
@@ -64,22 +74,29 @@ function createPath(pathRoute, localState) {
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_RESOURCE_SELECTED:
-      return state.setIn(['app', 'resource'], action.resource);
-    case ADD_RESOURCE:
-      let path = (action.resource || '').trim();
-      if (action.resource.startsWith('https://github.com/')) {
-        path = `${path.replace('https://github.com/', '')}/notebook1`;
-      }
-      if (!/^([a-zA-Z0-9_\-/:.]+)$/.test(path)) return state;
-      const localState = state.setIn(['app', 'resource'], path);
-      // Remove empty values in array
-      const aNewResourcePath = path.split('/');
-      if (_.size(aNewResourcePath) !== 3) {
-        return state;
-      }
-      return createPath(aNewResourcePath, localState);
+    case CHANGE_TAKE_AMOUNT:
+      const takeAmountString = action.amount
+        .replace(state.getIn(['ticket', 'currency']), '')
+        .trim();
+      // validate takeAmountString
+      if (!/^[0-9]+([,.]{1}[0-9]+)?$/.test(takeAmountString)) return state;
+      // normalize takeAmountString
+      console.log(
+        'changing2',
+        takeAmountString,
+        parseFloat(takeAmountString, 10).toFixed(2)
+      );
 
+      const takeState = state.setIn(
+        ['ticket', 'takeAmount'],
+        parseFloat(takeAmountString.replace(',', '.'), 10).toFixed(2)
+      );
+
+      return takeState.setIn(
+        ['ticket', 'returnAmount'],
+        (parseFloat(takeAmountString.replace(',', '.'), 10) -
+          parseFloat(state.getIn(['ticket', 'totalAmount']), 10)).toFixed(2)
+      );
     default:
       return state;
   }

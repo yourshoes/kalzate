@@ -12,12 +12,14 @@ import { createStructuredSelector } from 'reselect';
 import { selectBlogPostVisibility } from 'ui/containers/CashDrawer/selectors';
 import { toggleBlogPostVisibility } from 'ui/containers/CashDrawer/actions';
 // import messages from './messages';
+import PaymentSummary from 'ui/containers/PaymentSummary';
 import {
   Container,
   GlobalScroll,
   ContainerSwitcher,
   Section,
-  TicketPaymentSummary,
+  FirstSection,
+  // TicketPaymentSummary,
   PaymentMethods,
 } from './wrappers';
 
@@ -29,11 +31,10 @@ function CashDrawer(props) {
         title="Expand/Collapse Tutorial"
         onClick={() => props.toggleBlogPostVisibility()}
       />
-
       <GlobalScroll>
-        <Section title="Payment Summary">
-          <TicketPaymentSummary total={17.98} take={20.0} returns={2.02} />
-        </Section>
+        <FirstSection title="Payment Summary">
+          <PaymentSummary />
+        </FirstSection>
         <Section title="Payment Method">
           <PaymentMethods />
         </Section>

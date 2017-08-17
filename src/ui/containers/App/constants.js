@@ -10,5 +10,7 @@
  */
 
 export const DEFAULT_LOCALE = 'en';
+export const CHANGE_TOTAL_AMOUNT = 'kalzate/App/CHANGE_TOTAL_AMOUNT';
+export const CHANGE_TAKE_AMOUNT = 'kalzate/App/CHANGE_TAKE_AMOUNT';
 export const CHANGE_RESOURCE_SELECTED = 'octoql/App/CHANGE_RESOURCE_SELECTED';
 export const ADD_RESOURCE = 'octoql/App/ADD_RESOURCE';
