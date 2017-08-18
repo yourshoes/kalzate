@@ -10,8 +10,12 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  background-color: #161719;
-  color: #a3a8ae;
+  background-color: ${(props) =>
+    props.theme && props.theme.app.bgColor
+      ? props.theme.app.bgColor
+      : '#161719'};
+  color: ${(props) =>
+    props.theme && props.theme.app.color ? props.theme.app.color : ' #a3a8ae'};
   position: relative;
   box-sizing: border-box;
   height: initial;
@@ -19,13 +23,17 @@ export const Container = styled.div`
   // min-width: 300px;
   width: 300px;
   max-width: 300px;
+  min-width: 300px;
   z-index: 2;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   padding: 0;
-  border-left: 1px solid #27292c;
-  ${(props) => !props.expanded && 'max-width: 0px;'};
+  border-left: ${(props) =>
+    props.theme && props.theme.app.border
+      ? props.theme.app.border
+      : '1px solid #27292c'};
+  ${(props) => !props.expanded && 'max-width: 0px;min-width:0px;'};
 `;
 
 export const GlobalScroll = styled.div`
@@ -44,24 +52,27 @@ export const ContainerSwitcher = styled.span`
   display: inline-block;
   border-bottom-left-radius: 60px;
   border-top-left-radius: 60px;
-  height: 35px;
+  height: 44px;
   width: 20px;
   position: relative;
   top: 50%;
+  // left: ${(props) => (props.expanded ? '280' : '-20')}px;
   left: -20px;
   padding: 0;
   margin: 0;
   cursor: pointer;
-
+  z-index: 99;
   &:before {
     transform: translate(8px, 8px);
     content: ${(props) => (props.expanded ? '"\\F078"' : '"\\F0A4"')};
     font-family: 'octicons';
     font-weight: normal;
     font-style: normal;
-    font-size: 15px;
+    font-size: 16px;
     display: inline-block;
     -webkit-font-smoothing: antialiased;
+    position: relative;
+    top: 3px;
   }
 `;
 
@@ -70,16 +81,19 @@ export const SectionContainer = styled.div`
   width: 100%;
 `;
 export const FirstSectionContainer = SectionContainer.extend`
-  border-bottom: 1px solid rgba(163, 168, 174, 0.1);
+  border-bottom: ${(props) =>
+    props.theme && props.theme.app.border
+      ? props.theme.app.border
+      : '1px solid #27292c'};
 `;
 export const SectionTitle = styled.p`
   width: 100%;
-  height: 35px;
+  height: 44px;
   background-color: rgba(163, 168, 174, 0.1);
   color: rgba(163, 168, 174, 0.6);
   margin: 0;
   padding: 0;
-  line-height: 1.9em;
+  line-height: 2.5em;
   font-size: 1.5em;
   text-align: center;
   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
@@ -179,6 +193,6 @@ export function PaymentMethods(props) {
   );
 }
 const PaymentSectionContainer = styled.div`
-  height: calc(100% - 35px);
+  height: calc(100% - 44px);
   padding: 10px;
 `;

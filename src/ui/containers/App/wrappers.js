@@ -17,6 +17,13 @@ export const Section = styled.section`
   position: absolute;
   top: 0;
   left: 0;
+  background-color: ${(props) =>
+    props.theme && props.theme.app.bgColor
+      ? props.theme.app.bgColor
+      : '#161719'};
+  color: ${(props) =>
+    props.theme && props.theme.app.color ? props.theme.app.color : ' #a3a8ae'};
+  font-size: 11px;
 `;
 
 export const Article = styled.article`

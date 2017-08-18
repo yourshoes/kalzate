@@ -11,8 +11,12 @@ import { Link } from 'react-router';
 
 export const Container = styled.div`
   display: flex;
-  background-color: #161719;
-  color: #a3a8ae;
+  background-color: ${(props) =>
+    props.theme && props.theme.app.bgColor
+      ? props.theme.app.bgColor
+      : '#161719'};
+  color: ${(props) =>
+    props.theme && props.theme.app.color ? props.theme.app.color : ' #a3a8ae'};
   position: relative;
   box-sizing: border-box;
   height: initial;
@@ -29,7 +33,10 @@ export const Container = styled.div`
   flex: 1 1 auto;
   padding: 0;
   margin: 0;
-  border-right: 1px solid #27292c;
+  border-right: ${(props) =>
+    props.theme && props.theme.app.border
+      ? props.theme.app.border
+      : '1px solid #27292c'};
 `;
 
 export const MenuGroup = styled.ul`
@@ -62,13 +69,18 @@ const FooterContent = styled(Link)`
   height: 100%;
   width: 100%;
   text-decoration:none;
-  color: inherit;
   padding: 0;
   margin: 0;
   transition: color .5s ease-in-out;
-  color: rgba(163, 168, 174, 0.5);
+  color: ${(props) =>
+    props.theme && props.theme.sidebar.color
+      ? props.theme.sidebar.color
+      : 'rgba(163, 168, 174, 0.5)'};
   &:hover {
-    color: rgba(163, 168, 174, 0.8);
+    color: ${(props) =>
+      props.theme && props.theme.sidebar.hoverColor
+        ? props.theme.sidebar.hoverColor
+        : 'rgba(163, 168, 174, 0.8)'};
   }
 `;
 export function MenuFooter(props) {
@@ -91,7 +103,10 @@ export const Menu = styled.div`
   border: 0;
   outline: 0;
   border-image: none;
-  border-bottom: 1px solid #27292c;
+  border-bottom: ${(props) =>
+    props.theme && props.theme.app.border
+      ? props.theme.app.border
+      : '1px solid #27292c'};
   order: 0;
   display: flex;
   flex-direction: column;
@@ -102,11 +117,13 @@ export const Menu = styled.div`
   overflow-x: hidden;
 `;
 
-const cursor = `
+const cursor = (props) => `
 transition: color .5s ease-in-out;
 cursor:pointer;
  &:hover {
-    color: rgba(163, 168, 174, 0.8);
+    color: ${props.theme && props.theme.sidebar.hoverColor
+      ? props.theme.sidebar.hoverColor
+      : 'rgba(163, 168, 174, 0.8)'};
   }`;
 
 const route = `
@@ -115,7 +132,10 @@ const route = `
 `;
 
 const Item = styled.li`
-  color: rgba(163, 168, 174, 0.5);
+  color: ${(props) =>
+    props.theme && props.theme.sidebar.color
+      ? props.theme.sidebar.color
+      : 'rgba(163, 168, 174, 0.5)'};
   font-size: ${(props) => (props.small ? '1.1' : '1.5')}em;
   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
     Cantarell, Arial, sans-serif;
@@ -123,7 +143,7 @@ const Item = styled.li`
   font-weight: ${(props) => (props.highlight ? '100' : '100')};
   -webkit-font-smoothing: antialiased;
   font-variant: all-petite-caps;
-  ${(props) => (props.cursor ? cursor : '')};
+  ${(props) => (props.cursor ? cursor(props) : '')};
   border-left: 5px solid transparent;
   ${(props) => (props.actived ? route : '')};
 `;
@@ -135,11 +155,28 @@ const P = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+const actived = (props) => `
+    color: ${props.theme && props.theme.sidebar.hoverColor
+      ? props.theme.sidebar.hoverColor
+      : 'rgba(163, 168, 174, 0.8)'};
+`;
+const notActived = (props) => `
+    color: ${props.theme && props.theme.sidebar.color
+      ? props.theme.sidebar.color
+      : 'rgba(163, 168, 174, 0.5)'};
+`;
 const Route = styled(Link)`
+  transition: color .5s ease-in-out;
   text-decoration:none;
-  color: inherit;
+  ${(props) => (props.actived ? actived(props) : notActived(props))};
   padding: 0;
   margin: 0;
+  &:hover {
+    color: ${(props) =>
+      props.theme && props.theme.sidebar.hoverColor
+        ? props.theme.sidebar.hoverColor
+        : 'rgba(163, 168, 174, 0.8)'};
+  }
 `;
 export function MenuItem(props) {
   return (
@@ -150,7 +187,7 @@ export function MenuItem(props) {
       actived={props.actived}
     >
       {props.to
-        ? <Route to={props.to}>
+        ? <Route to={props.to} actived={props.actived}>
           <P>
             {props.title.toUpperCase()}
           </P>
