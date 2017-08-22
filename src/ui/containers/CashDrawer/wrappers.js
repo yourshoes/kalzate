@@ -55,7 +55,7 @@ export const ContainerSwitcher = styled.span`
   height: 44px;
   width: 20px;
   position: relative;
-  top: 50%;
+  top: 25%;
   // left: ${(props) => (props.expanded ? '280' : '-20')}px;
   left: -20px;
   padding: 0;
@@ -79,6 +79,8 @@ export const ContainerSwitcher = styled.span`
 export const SectionContainer = styled.div`
   height: 50%;
   width: 100%;
+  padding: ${(props) =>
+    props.theme && props.theme.app.padding ? props.theme.app.padding : '0px'};
 `;
 export const FirstSectionContainer = SectionContainer.extend`
   border-bottom: ${(props) =>

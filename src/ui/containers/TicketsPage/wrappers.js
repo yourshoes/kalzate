@@ -21,6 +21,8 @@ const TicketContainerSection = styled.section`
 const TicketContainerItem = styled.div`
   height: 50%;
   width: 100%;
+  padding: ${(props) =>
+    props.theme && props.theme.app.padding ? props.theme.app.padding : '0px'};
 `;
 const TicketCartContainerItem = TicketContainerItem.extend`
   border-bottom: 1px solid rgba(163, 168, 174, 0.1);
@@ -32,9 +34,23 @@ const TicketCartContainer = styled.div`
   flex: 0 1 auto;
   flex-direction: row;
 `;
+const TicketCartSummaryContainer = styled.div`
+  width: 100%;
+  height: calc(100% - 88px);
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+`;
 const TicketStockEditorContainer = styled.div`
   width: 100%;
   height: 44px;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+`;
+const TicketStockItemsContainer = styled.div`
+  width: 100%;
+  height: calc(100% - 44px);
   display: flex;
   flex: 0 1 auto;
   flex-direction: row;
@@ -174,18 +190,50 @@ const StockLabel = styled.label`
   transition: all .2s;
   margin-left: 10px;
   font-size: 14px;
+  user-select: none;
 `;
 function StockField(props) {
+  let inputElement;
   return (
     <FloatLabel>
-      <StockInput type="text" placeholder={props.placeholder} />
-      <StockLabel for="first">
+      <StockInput
+        innerRef={(input) => (inputElement = input)}
+        type="text"
+        placeholder={props.placeholder}
+      />
+      <StockLabel onClick={() => inputElement.focus()} for="first">
         {props.placeholder}
       </StockLabel>
     </FloatLabel>
   );
 }
-
+const Button = styled.button`
+  width: 100%;
+  height: 100%;
+  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
+    Cantarell, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-variant: all-petite-caps;
+  width: 50%;
+  height: 100%;
+  font-size: 1.8em;
+  border: 5px solid rgba(163, 168, 174, 0.1);
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+  outline: 0;
+  line-height: 1em;
+  &:hover {
+    color: #73c990;
+    border: 5px solid rgba(115, 201, 144, 0.6);
+  }
+`;
+function StockButton(props) {
+  return (
+    <Button>
+      <Octicon name={props.icon} /> {props.children}
+    </Button>
+  );
+}
 function Search(props) {
   return (
     <SearchContainer>
@@ -194,23 +242,12 @@ function Search(props) {
     </SearchContainer>
   );
 }
-const CheckoutContainer = styled.div`
-  outline: none;
-  font-size: 1.3em;
-  margin-left: 5px;
-  width: 150px;
-  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
-    Cantarell, Arial, sans-serif;
-  font-weight: 100;
-  -webkit-font-smoothing: antialiased;
-  font-variant: all-petite-caps;
-  font-style: normal;
-`;
 const CheckoutButton = styled.button`
   outline: none;
   font-size: 1.3em;
   margin-left: 5px;
-  width: 150px;
+  height: 35px;
+  width: 115px;
   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
     Cantarell, Arial, sans-serif;
   font-weight: 100;
@@ -220,12 +257,49 @@ const CheckoutButton = styled.button`
   margin-right: 10px;
   border: 1px solid rgb(115, 201, 144);
   color: rgb(115, 201, 144);
+  cursor: pointer;
+  transition: all .4s ease-in-out;
+  font-weight: 400;
+  &:hover {
+    background-color: #73c990;
+    color: black;
+  }
+`;
+const ViewTicketButton = styled.button`
+  outline: none;
+  font-size: 1.3em;
+  margin-left: 5px;
+  height: 35px;
+  width: 115px;
+  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
+    Cantarell, Arial, sans-serif;
+  font-weight: 100;
+  -webkit-font-smoothing: antialiased;
+  font-variant: all-petite-caps;
+  font-style: normal;
+  margin-right: 10px;
+  border: 1px solid rgb(226, 192, 141);
+  color: rgb(226, 192, 141);
+  cursor: pointer;
+  transition: all .4s ease-in-out;
+  font-weight: 400;
+  &:hover {
+    background-color: rgb(226, 192, 141);
+    color: black;
+  }
 `;
 function Checkout(props) {
   return (
     <CheckoutButton>
       <Octicon name="check" /> Checkout
     </CheckoutButton>
+  );
+}
+function ViewTicket(props) {
+  return (
+    <ViewTicketButton>
+      <Octicon name="checklist" /> Full Ticket
+    </ViewTicketButton>
   );
 }
 export function TicketContainer(props) {
@@ -241,6 +315,22 @@ export function TicketContainer(props) {
           <Section50>
             <SectionRight>
               <Checkout />
+            </SectionRight>
+          </Section50>
+        </TicketCartContainer>
+        <TicketCartSummaryContainer>1</TicketCartSummaryContainer>
+        <TicketCartContainer>
+          <Section50>
+            <SectionLeft>
+              <Search />
+            </SectionLeft>
+            <SectionLeft>
+              <Search />
+            </SectionLeft>
+          </Section50>
+          <Section50>
+            <SectionRight>
+              <ViewTicket />
             </SectionRight>
           </Section50>
         </TicketCartContainer>
@@ -269,10 +359,11 @@ export function TicketContainer(props) {
             <StockField placeholder="Amount" />
           </Section10>
           <Section10>
-            <Octicon name="search" /> Search
-            <Octicon name="save" /> Save
+            <StockButton icon="search" />
+            <StockButton icon="plus" />
           </Section10>
         </TicketStockEditorContainer>
+        <TicketStockItemsContainer>2</TicketStockItemsContainer>
       </TicketContainerItem>
     </TicketContainerSection>
   );

@@ -3,6 +3,7 @@ export const dark = {
     bgColor: '#161719',
     color: '#a3a8ae',
     border: '1px solid #27292c',
+    padding: '5px',
   },
   footer: {
     color: '#a3a8ae',
@@ -17,6 +18,7 @@ export const monokai = {
     bgColor: ' #2d2c2c',
     color: '#bbb7b7',
     border: '1px solid rgba(163,168,174,0.1)',
+    padding: '5px',
   },
   footer: {
     color: '#a3a8ae',
