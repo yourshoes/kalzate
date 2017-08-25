@@ -7,6 +7,7 @@
 import React from 'react';
 import Octicon from 'react-octicon';
 import styled from 'styled-components';
+import Button2 from 'ui/components/Button';
 
 export const Container = styled.section`
   display: flex;
@@ -242,66 +243,66 @@ function Search(props) {
     </SearchContainer>
   );
 }
-const CheckoutButton = styled.button`
-  outline: none;
-  font-size: 1.3em;
-  margin-left: 5px;
-  height: 35px;
-  width: 115px;
-  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
-    Cantarell, Arial, sans-serif;
-  font-weight: 100;
-  -webkit-font-smoothing: antialiased;
-  font-variant: all-petite-caps;
-  font-style: normal;
-  margin-right: 10px;
-  border: 1px solid rgb(115, 201, 144);
-  color: rgb(115, 201, 144);
-  cursor: pointer;
-  transition: all .4s ease-in-out;
-  font-weight: 400;
-  &:hover {
-    background-color: #73c990;
-    color: black;
-  }
-`;
-const ViewTicketButton = styled.button`
-  outline: none;
-  font-size: 1.3em;
-  margin-left: 5px;
-  height: 35px;
-  width: 115px;
-  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
-    Cantarell, Arial, sans-serif;
-  font-weight: 100;
-  -webkit-font-smoothing: antialiased;
-  font-variant: all-petite-caps;
-  font-style: normal;
-  margin-right: 10px;
-  border: 1px solid rgb(226, 192, 141);
-  color: rgb(226, 192, 141);
-  cursor: pointer;
-  transition: all .4s ease-in-out;
-  font-weight: 400;
-  &:hover {
-    background-color: rgb(226, 192, 141);
-    color: black;
-  }
-`;
-function Checkout(props) {
-  return (
-    <CheckoutButton>
-      <Octicon name="check" /> Checkout
-    </CheckoutButton>
-  );
-}
-function ViewTicket(props) {
-  return (
-    <ViewTicketButton>
-      <Octicon name="checklist" /> Full Ticket
-    </ViewTicketButton>
-  );
-}
+// const CheckoutButton = styled.button`
+//   outline: none;
+//   font-size: 1.3em;
+//   margin-left: 5px;
+//   height: 35px;
+//   width: 115px;
+//   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
+//     Cantarell, Arial, sans-serif;
+//   font-weight: 100;
+//   -webkit-font-smoothing: antialiased;
+//   font-variant: all-petite-caps;
+//   font-style: normal;
+//   margin-right: 10px;
+//   border: 1px solid rgb(115, 201, 144);
+//   color: rgb(115, 201, 144);
+//   cursor: pointer;
+//   transition: all .4s ease-in-out;
+//   font-weight: 400;
+//   &:hover {
+//     background-color: #73c990;
+//     color: black;
+//   }
+// `;
+// const ViewTicketButton = styled.button`
+//   outline: none;
+//   font-size: 1.3em;
+//   margin-left: 5px;
+//   height: 35px;
+//   width: 115px;
+//   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
+//     Cantarell, Arial, sans-serif;
+//   font-weight: 100;
+//   -webkit-font-smoothing: antialiased;
+//   font-variant: all-petite-caps;
+//   font-style: normal;
+//   margin-right: 10px;
+//   border: 1px solid rgb(226, 192, 141);
+//   color: rgb(226, 192, 141);
+//   cursor: pointer;
+//   transition: all .4s ease-in-out;
+//   font-weight: 400;
+//   &:hover {
+//     background-color: rgb(226, 192, 141);
+//     color: black;
+//   }
+// `;
+// function Checkout(props) {
+//   return (
+//     <CheckoutButton>
+//       <Octicon name="check" /> Checkout
+//     </CheckoutButton>
+//   );
+// }
+// function ViewTicket(props) {
+//   return (
+//     <ViewTicketButton>
+//       <Octicon name="checklist" /> Full Ticket
+//     </ViewTicketButton>
+//   );
+// }
 export function TicketContainer(props) {
   return (
     <TicketContainerSection>
@@ -314,7 +315,7 @@ export function TicketContainer(props) {
           </Section50>
           <Section50>
             <SectionRight>
-              <Checkout />
+              <Button2 primary icon="check" title="Checkout" />
             </SectionRight>
           </Section50>
         </TicketCartContainer>
@@ -330,7 +331,7 @@ export function TicketContainer(props) {
           </Section50>
           <Section50>
             <SectionRight>
-              <ViewTicket />
+              <Button2 icon="checklist" title="Full Ticket" />
             </SectionRight>
           </Section50>
         </TicketCartContainer>
