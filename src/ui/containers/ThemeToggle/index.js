@@ -17,7 +17,7 @@ import { makeSelectLocale } from 'ui/containers/LanguageProvider/selectors';
 import { changeLocale } from 'ui/containers/LanguageProvider/actions';
 import { Span } from './wrappers';
 
-class LocaleToggle extends React.Component {
+class ThemeToggle extends React.Component {
   componentWillMount() {
     // Subscribe to hotkeys
     this.props.bindShortcut(
@@ -52,7 +52,7 @@ class LocaleToggle extends React.Component {
   }
 
   changeLang(topic, lang) {
-    this.props.onLocaleToggle(lang);
+    this.props.onThemeToggle(lang);
   }
 
   render() {
@@ -64,8 +64,8 @@ class LocaleToggle extends React.Component {
   }
 }
 
-LocaleToggle.propTypes = {
-  onLocaleToggle: React.PropTypes.func,
+ThemeToggle.propTypes = {
+  onThemeToggle: React.PropTypes.func,
   locale: React.PropTypes.string,
   bindShortcut: React.PropTypes.func,
   children: React.PropTypes.object,
@@ -76,10 +76,10 @@ const mapStateToProps = createSelector(makeSelectLocale(), (locale) => ({
 }));
 
 const mapDispatchToProps = (dispatch) => ({
-  onLocaleToggle: (lang) => dispatch(changeLocale(lang)),
+  onThemeToggle: (lang) => dispatch(changeLocale(lang)),
   dispatch,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  mouseTrap(LocaleToggle)
+  mouseTrap(ThemeToggle)
 );

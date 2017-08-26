@@ -3,49 +3,72 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Octicon from 'react-octicon';
 import LocaleToggle from 'ui/containers/LocaleToggle';
+import ThemeToggle from 'ui/containers/ThemeToggle';
+import A from 'ui/components/A';
 import {
-  Footer as FooterContainer,
+  Container,
   StatusBar,
   StatusBarLeft,
   StatusBarRight,
-  StatusBarSecondaryIcon,
-  StatusBarImportantIcon,
-  A,
+  StatusBarItem,
 } from './wrappers';
 import messages from './messages';
 
 export default function Footer() {
   return (
-    <FooterContainer>
+    <Container>
       <StatusBar>
         <StatusBarLeft>
-          <StatusBarImportantIcon>
-            <Octicon name="home" />{' '}
-            <A to="/">
-              <em>Home</em>
+          <StatusBarItem>
+            <A to="/" style={{ primary: true }}>
+              <Octicon name="home" />
+              <FormattedMessage {...messages.home} />
             </A>
-          </StatusBarImportantIcon>
-          <span>
-            <Octicon name="flame" /> <em>Bugs</em>
-          </span>
-          <span>
-            <Octicon name="law" />
-            <em>
+          </StatusBarItem>
+          <StatusBarItem>
+            <A
+              target="_blank"
+              href="https://github.com/yourshoes/kalzate/issues"
+            >
+              <Octicon name="flame" />
+              <FormattedMessage {...messages.bugs} />
+            </A>
+          </StatusBarItem>
+          <StatusBarItem>
+            <A
+              target="_blank"
+              href="https://github.com/yourshoes/kalzate/blob/unstable/LICENSE.md"
+            >
+              <Octicon name="law" />
               <FormattedMessage {...messages.license} />
-            </em>
-          </span>
+            </A>
+          </StatusBarItem>
         </StatusBarLeft>
         <StatusBarRight>
-          <LocaleToggle />
-          <span>
-            <Octicon name="paintcan" /> <em>Themes</em>
-          </span>
-          <StatusBarSecondaryIcon>
-            <Octicon name="sync" /> <em>Sync</em>
-          </StatusBarSecondaryIcon>
-          {/* <span className={styles.status_bar_update}><Octicon name="package"/>  Update</span>*/}
+          <LocaleToggle>
+            <StatusBarItem>
+              <A>
+                <Octicon name="globe" />
+                <FormattedMessage {...messages.languages} />
+              </A>
+            </StatusBarItem>
+          </LocaleToggle>
+          <ThemeToggle>
+            <StatusBarItem>
+              <A>
+                <Octicon name="paintcan" />
+                <FormattedMessage {...messages.themes} />
+              </A>
+            </StatusBarItem>
+          </ThemeToggle>
+          <StatusBarItem>
+            <A style={{ secondary: true }}>
+              <Octicon name="sync" />
+              <FormattedMessage {...messages.help} />
+            </A>
+          </StatusBarItem>
         </StatusBarRight>
       </StatusBar>
-    </FooterContainer>
+    </Container>
   );
 }

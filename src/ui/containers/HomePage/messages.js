@@ -7,15 +7,15 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   help: {
-    id: 'octoql.components.HomePage.help',
+    id: 'kz.components.HomePage.help',
     defaultMessage: 'Discover all you can do with',
   },
   header: {
-    id: 'octoql.components.HomePage.header',
-    defaultMessage: 'OctoQL',
+    id: 'kz.components.HomePage.header',
+    defaultMessage: 'Kalzate',
   },
   subheader: {
-    id: 'octoql.components.HomePage.subheader',
-    defaultMessage: 'A Github Query Language',
+    id: 'kz.components.HomePage.subheader',
+    defaultMessage: 'A Point Of Sale For Humans"',
   },
 });

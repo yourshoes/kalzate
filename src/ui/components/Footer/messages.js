@@ -6,8 +6,28 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  home: {
+    id: 'kz.components.Footer.home',
+    defaultMessage: 'Home',
+  },
+  bugs: {
+    id: 'kz.components.Footer.bugs',
+    defaultMessage: 'Bugs',
+  },
   license: {
-    id: 'octoql.components.Footer.license',
+    id: 'kz.components.Footer.license',
     defaultMessage: 'MIT',
+  },
+  languages: {
+    id: 'kz.components.Footer.languages',
+    defaultMessage: 'Languages',
+  },
+  themes: {
+    id: 'kz.components.Footer.themes',
+    defaultMessage: 'Themes',
+  },
+  help: {
+    id: 'kz.components.Footer.help',
+    defaultMessage: 'Help',
   },
 });

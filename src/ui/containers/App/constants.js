@@ -9,7 +9,7 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const DEFAULT_LOCALE = 'en';
+export const DEFAULT_LOCALE = 'es';
 export const CHANGE_TOTAL_AMOUNT = 'kalzate/App/CHANGE_TOTAL_AMOUNT';
 export const CHANGE_TAKE_AMOUNT = 'kalzate/App/CHANGE_TAKE_AMOUNT';
 export const CHANGE_RESOURCE_SELECTED = 'octoql/App/CHANGE_RESOURCE_SELECTED';
