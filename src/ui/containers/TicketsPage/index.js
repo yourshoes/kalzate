@@ -4,49 +4,64 @@
  *
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 // import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { changeResourceSelected } from 'ui/containers/SidebarMenu/actions';
-import CashDrawer from 'ui/containers/CashDrawer';
-import { selectResources, selectResource } from './selectors';
-// import messages from './messages';
-import { Container, TicketContainer } from './wrappers';
+import TicketItems from 'ui/containers/TicketItems';
+import TicketTotal from 'ui/containers/TicketTotalContainer';
+import TicketPayments from 'ui/containers/TicketPaymentsContainer';
+import StockItems from 'ui/containers/StockItems';
+import { Grid, Row2, Column } from 'ui/components/Grid';
+import {
+  makeSelectTicketTotalVisibility,
+  makeSelectTicketPaymentsVisibility,
+} from 'ui/containers/TicketsPage/selectors';
 
 export class TicketsPage extends React.Component {
   componentDidMount() {}
 
   render() {
     return (
-      <Container>
+      <Grid>
         <Helmet
           title="Kalzate Ticket"
           meta={[{ name: 'description', content: 'Ticket' }]}
         />
-        <TicketContainer />
-        <CashDrawer />
-      </Container>
+        <Row2>
+          <Column>
+            <TicketItems />
+          </Column>
+          <Column w={this.props.ticketTotalVisibility ? '300px' : '0px'}>
+            <TicketTotal />
+          </Column>
+        </Row2>
+        <Row2>
+          <Column>
+            <StockItems />
+          </Column>
+          <Column w={this.props.ticketPaymentsVisibility ? '300px' : '0px'}>
+            <TicketPayments />
+          </Column>
+        </Row2>
+      </Grid>
     );
   }
 }
-
 TicketsPage.propTypes = {
-  resources: React.PropTypes.object,
-  resourceSelected: React.PropTypes.string,
-  changeResourceSelected: React.PropTypes.func,
+  ticketTotalVisibility: PropTypes.bool,
+  ticketPaymentsVisibility: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
-  resources: selectResources(),
-  resourceSelected: selectResource(),
+  ticketTotalVisibility: makeSelectTicketTotalVisibility(),
+  ticketPaymentsVisibility: makeSelectTicketPaymentsVisibility(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeResourceSelected: (resource) =>
-      dispatch(changeResourceSelected(resource)),
+    dispatch,
   };
 }
 

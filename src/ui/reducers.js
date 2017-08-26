@@ -10,6 +10,10 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import globalReducer from 'ui/containers/App/reducer';
 import languageProviderReducer from 'ui/containers/LanguageProvider/reducer';
 import themeProviderReducer from 'ui/containers/ThemeProvider/reducer';
+import ticketItemsReducer from 'ui/containers/TicketItems/reducer';
+import ticketTotalReducer from 'ui/containers/TicketTotalContainer/reducer';
+import ticketPaymentsReducer from 'ui/containers/TicketPaymentsContainer/reducer';
+import stockItemsReducer from 'ui/containers/StockItems/reducer';
 import cashDrawerReducer from 'ui/containers/CashDrawer/reducer';
 
 /*
@@ -48,6 +52,10 @@ export default function createReducer(asyncReducers) {
     global: globalReducer,
     theme: themeProviderReducer,
     cashDrawer: cashDrawerReducer,
+    ticketItems: ticketItemsReducer,
+    ticketTotal: ticketTotalReducer,
+    ticketPayments: ticketPaymentsReducer,
+    stockItems: stockItemsReducer,
     route: routeReducer,
     language: languageProviderReducer,
     ...asyncReducers,

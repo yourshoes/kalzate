@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
  * Direct selector to the ticketTotal state domain
  */
 const selectTicketTotalDomain = () => (state) => state.get('ticketTotal');
-const selectTicketPaymentsDomain = () => (state) => state.get('ticketPayments');
 
 /**
  * Other specific selectors
@@ -18,9 +17,6 @@ const makeSelectTicketTotalVisibility = () =>
   createSelector(selectTicketTotalDomain(), (ticketTotalState) =>
     ticketTotalState.getIn(['visible'])
   );
-const makeSelectTicketPaymentsVisibility = () =>
-  createSelector(selectTicketPaymentsDomain(), (ticketTotalState) =>
-    ticketTotalState.getIn(['visible'])
-  );
 
-export { makeSelectTicketTotalVisibility, makeSelectTicketPaymentsVisibility };
+export default makeSelectTicketTotalVisibility;
+export { selectTicketTotalDomain, makeSelectTicketTotalVisibility };
