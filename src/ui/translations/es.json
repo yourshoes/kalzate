@@ -8,6 +8,8 @@
   "kz.components.Footer.languages": "Idiomas",
   "kz.components.Footer.themes": "Temas",
   "kz.components.Footer.help": "Ayuda",
+  "kz.containers.StockItems.notFound": "Si ningún producto poco vas a hacer ...",
+  "kz.containers.StockItems.notFoundHelp": "Añada un producto a su stock o modifique los criterios de búsqueda.",
   "octoql.components.Footer.license": "MIT",
   "octoql.components.FuzzyFinder.notFound": "Sin resultados",
   "octoql.components.HelperTour.footer.left.message": "Usa estas acciones  para acceder a la página principal o reportar errores",

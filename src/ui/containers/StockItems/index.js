@@ -8,15 +8,23 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import makeSelectStockItems from './selectors';
+import Center from 'ui/components/Center';
+import NotFound from 'ui/components/NotFound';
+import {
+  makeSelectStockItems,
+  makeSelectStockLimit,
+  makeSelectStockOffset,
+  makeSelectStockCount,
+} from './selectors';
 import messages from './messages';
 import {
   Container,
-  TicketStockEditorContainer,
-  TicketStockItemsContainer,
-  Section10,
+  StockTableHeader,
+  StockTableBody,
   StockField,
   StockButton,
+  Title,
+  Subtitle,
 } from './wrappers';
 
 export class StockItems extends React.Component {
@@ -24,45 +32,44 @@ export class StockItems extends React.Component {
   render() {
     return (
       <Container>
-        <TicketStockEditorContainer>
-          <Section10>
-            <StockField placeholder="Reference" />
-          </Section10>
-          <Section10>
-            <StockField placeholder="Brand" />
-          </Section10>
-          <Section10>
-            <StockField placeholder="Gender" />
-          </Section10>
-          <Section10>
-            <StockField placeholder="Color" />
-          </Section10>
-          <Section10>
-            <StockField placeholder="Size" />
-          </Section10>
-          <Section10>
-            <StockField placeholder="Price" />
-          </Section10>
-          <Section10>
-            <StockField placeholder="Amount" />
-          </Section10>
-          <Section10>
-            <StockButton icon="search" />
-            <StockButton icon="plus" />
-          </Section10>
-        </TicketStockEditorContainer>
-        <TicketStockItemsContainer>2</TicketStockItemsContainer>
+        <StockTableHeader>
+          <StockField placeholder="Reference" />
+          <StockField placeholder="Brand" />
+          <StockField placeholder="Gender" />
+          <StockField placeholder="Color" />
+          <StockField placeholder="Size" />
+          <StockField placeholder="Price" />
+          <StockField placeholder="Amount" />
+          <StockButton primary icon="search" />
+          <StockButton primary icon="plus" />
+        </StockTableHeader>
+        <StockTableBody>
+          {!this.props.count &&
+            <Center>
+              <NotFound icon="thumbsdown">
+                <Title>
+                  <FormattedMessage {...messages.notFound} />
+                </Title>
+                <Subtitle>
+                  <FormattedMessage {...messages.notFoundHelp} />
+                </Subtitle>
+              </NotFound>
+            </Center>}
+        </StockTableBody>
       </Container>
     );
   }
 }
 
 StockItems.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  count: PropTypes.number,
 };
 
 const mapStateToProps = createStructuredSelector({
-  StockItems: makeSelectStockItems(),
+  items: makeSelectStockItems(),
+  limit: makeSelectStockLimit(),
+  offset: makeSelectStockOffset(),
+  count: makeSelectStockCount(),
 });
 
 function mapDispatchToProps(dispatch) {

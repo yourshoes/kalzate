@@ -6,8 +6,12 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.containers.StockItems.header',
-    defaultMessage: 'This is StockItems container !',
+  notFound: {
+    id: 'kz.containers.StockItems.notFound',
+    defaultMessage: "Hey, Looks as there's no Items!",
+  },
+  notFoundHelp: {
+    id: 'kz.containers.StockItems.notFoundHelp',
+    defaultMessage: 'Try adding a new one or changing the searching criterias.',
   },
 });

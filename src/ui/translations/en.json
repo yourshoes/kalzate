@@ -8,6 +8,8 @@
   "kz.components.Footer.languages": "Languages",
   "kz.components.Footer.themes": "Themes",
   "kz.components.Footer.help": "Help",
+  "kz.containers.StockItems.notFound": "Hey, Looks as there's no Items!",
+  "kz.containers.StockItems.notFoundHelp": "Try adding a new one or changing the searching criterias.",
   "octoql.components.FuzzyFinder.notFound": "No matches found",
   "octoql.components.HelperTour.footer.left.message": "Use the actions below to access home section or to report bugs",
   "octoql.components.HelperTour.footer.right.message": "Use the actions below to change the application language, the theme or to save notebooks",

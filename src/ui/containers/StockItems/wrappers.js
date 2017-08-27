@@ -7,6 +7,7 @@
 import React from 'react';
 import Octicon from 'react-octicon';
 import styled from 'styled-components';
+import Button from 'ui/components/Button';
 
 export const Container = styled.section`
   height: 100%;
@@ -14,22 +15,30 @@ export const Container = styled.section`
     props.theme && props.theme.app.padding ? props.theme.app.padding : '0px'};
 `;
 
-export const TicketStockEditorContainer = styled.div`
+export const StockTableHeader = styled.div`
   width: 100%;
   height: 44px;
   display: flex;
   flex: 0 1 auto;
   flex-direction: row;
 `;
-export const TicketStockItemsContainer = styled.div`
+export const StockTableBody = styled.div`
   width: 100%;
   height: calc(100% - 44px);
   display: flex;
   flex: 0 1 auto;
   flex-direction: row;
 `;
-export const Section10 = styled.div`
+const Section10 = styled.div`
   width: 12.5%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border-right: 1px solid rgba(163, 168, 174, 0.1);
+  background-color: rgba(163, 168, 174, 0.1);
+`;
+const Section5 = styled.div`
+  width: 6.25%;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -148,42 +157,43 @@ const StockLabel = styled.label`
 export function StockField(props) {
   let inputElement;
   return (
-    <FloatLabel>
-      <StockInput
-        innerRef={(input) => (inputElement = input)}
-        type="text"
-        placeholder={props.placeholder}
-      />
-      <StockLabel onClick={() => inputElement.focus()} for="first">
-        {props.placeholder}
-      </StockLabel>
-    </FloatLabel>
+    <Section10>
+      <FloatLabel>
+        <StockInput
+          innerRef={(input) => (inputElement = input)}
+          type="text"
+          placeholder={props.placeholder}
+        />
+        <StockLabel onClick={() => inputElement.focus()}>
+          {props.placeholder}
+        </StockLabel>
+      </FloatLabel>
+    </Section10>
   );
 }
-const Button = styled.button`
+const StyledButton = styled(Button)`
   width: 100%;
   height: 100%;
-  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
-    Cantarell, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-variant: all-petite-caps;
-  width: 50%;
-  height: 100%;
-  font-size: 1.8em;
-  border: 5px solid rgba(163, 168, 174, 0.1);
-  cursor: pointer;
-  transition: all .5s ease-in-out;
-  outline: 0;
-  line-height: 1em;
+  border: none;
+  margin: 0;
   &:hover {
-    color: #73c990;
-    border: 5px solid rgba(115, 201, 144, 0.6);
+    border: none
   }
 `;
 export function StockButton(props) {
   return (
-    <Button>
-      <Octicon name={props.icon} /> {props.children}
-    </Button>
+    <Section5>
+      <StyledButton {...props} />
+    </Section5>
   );
 }
+
+export const Title = styled.p`
+  font-size: 1.1em;
+  margin-bottom: 0;
+`;
+export const Subtitle = styled.p`
+  font-size: .9em;
+  font-weight: 200;
+  margin-top: 5px;
+`;

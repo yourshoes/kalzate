@@ -9,17 +9,29 @@ const selectStockItemsDomain = () => (state) => state.get('stockItems');
  * Other specific selectors
  */
 
-
 /**
  * Default selector used by StockItems
  */
 
-const makeSelectStockItems = () => createSelector(
-  selectStockItemsDomain(),
-  (substate) => substate.toJS()
-);
+const makeSelectStockItems = () =>
+  createSelector(selectStockItemsDomain(), (substate) =>
+    substate.get('items').toJS()
+  );
 
-export default makeSelectStockItems;
+const makeSelectStockLimit = () =>
+  createSelector(selectStockItemsDomain(), (substate) => substate.get('limit'));
+
+const makeSelectStockOffset = () =>
+  createSelector(selectStockItemsDomain(), (substate) => substate.get('offset'));
+
+const makeSelectStockCount = () =>
+  createSelector(selectStockItemsDomain(), (substate) => substate.get('count'));
+
+export default selectStockItemsDomain;
 export {
   selectStockItemsDomain,
+  makeSelectStockItems,
+  makeSelectStockLimit,
+  makeSelectStockOffset,
+  makeSelectStockCount,
 };
