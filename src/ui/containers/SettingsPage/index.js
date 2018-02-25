@@ -10,41 +10,125 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { getNotebookContent } from 'ui/utils/resources';
+import { Grid, Row2, Column } from 'ui/components/Grid';
 import { changeResourceSelected } from 'ui/containers/SidebarMenu/actions';
 import { selectResources, selectResource } from './selectors';
 import messages from './messages';
-import { Container } from './wrappers';
+import { Panel, Title, StockField, StockArea, FormWrapper } from './wrappers';
 
-export class WorkSpacePage extends React.Component {
+export class SettingsPage extends React.Component {
   componentDidMount() {
-    // Doe snot work with routing !!!!!!!!!!!!
-    this.props.changeResourceSelected(
-      location.pathname.replace('/notebooks/', '')
-    );
+
   }
 
   render() {
-    const notebook = getNotebookContent(
-      this.props.resources,
-      location.pathname.replace('/notebooks/', '')
-    );
     return (
-      <Container>
+      <Grid>
         <Helmet
-          title="OctoQL Workspace"
-          meta={[
-            { name: 'description', content: 'Description of WorkSpacePage' },
-          ]}
+          title="Kalzate Settings"
+          meta={[{ name: 'description', content: 'Settings' }]}
         />
-        <h1>
-          {notebook ? notebook.title : 'No Notebook found'}
-        </h1>
-      </Container>
+        <Row2>
+          <Column>
+            <Panel>
+              <Title>User Settings</Title>
+              <FormWrapper>
+                <Grid>
+                  <Row2>
+                    <Column>
+                      <StockField placeholder="Country" />
+                    </Column>
+                    <Column>
+                      <StockField placeholder="Language" />
+                    </Column>
+                  </Row2>
+                  <Row2>
+                    <Column>
+                      <StockField placeholder="Theme" />
+                    </Column>
+                    <Column>
+                      <StockField placeholder="Timezone" />
+                    </Column>
+                  </Row2>
+                </Grid>
+              </FormWrapper>
+            </Panel>
+          </Column>
+          <Column>
+            <Panel>
+              <Title>Company Settings</Title>
+              <FormWrapper>
+                <Grid>
+                  <Row2>
+                    <Column>
+                      <StockField placeholder="Name" />
+                    </Column>
+                    <Column>
+                      <StockField placeholder="Address" />
+                    </Column>
+                  </Row2>
+                  <Row2>
+                    <Column>
+                      <StockField placeholder="Email" />
+                    </Column>
+                    <Column>
+                      <StockField placeholder="Phone" />
+                    </Column>
+                  </Row2>
+                </Grid>
+              </FormWrapper>
+            </Panel>
+          </Column>
+        </Row2>
+        <Row2>
+          <Column>
+            <Panel><Title>Ticket Settings</Title>
+              <FormWrapper>
+                <Grid>
+                  <Row2>
+                    <Column>
+                      <StockField placeholder="Printer Name" />
+                    </Column>
+                    <Column>
+                      <StockField placeholder="Printer IP" />
+                    </Column>
+                  </Row2>
+                  <Row2>
+                    <Column>
+                      <StockArea placeholder="Ticket Template" />
+                    </Column>
+                  </Row2>
+                </Grid>
+              </FormWrapper>
+            </Panel>
+          </Column>
+          <Column>
+            <Panel><Title>Storage Settings</Title>
+              <FormWrapper>
+                <Grid>
+                  <Row2>
+                    <Column>
+                      <StockField placeholder="Backup Time" />
+                    </Column>
+                    <Column>
+                      <StockField placeholder="Backup Folder" />
+                    </Column>
+                  </Row2>
+                  <Row2>
+                    <Column>
+                      <StockField placeholder="Database IP" />
+                    </Column>
+                  </Row2>
+                </Grid>
+              </FormWrapper></Panel>
+          </Column>
+        </Row2>
+      </Grid>
     );
   }
 }
 
-WorkSpacePage.propTypes = {
+SettingsPage.propTypes = {
   resources: React.PropTypes.object,
   resourceSelected: React.PropTypes.string,
   changeResourceSelected: React.PropTypes.func,
@@ -62,4 +146,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkSpacePage);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

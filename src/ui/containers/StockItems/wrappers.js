@@ -5,7 +5,6 @@
 
 /* System imports */
 import React from 'react';
-import Octicon from 'react-octicon';
 import styled from 'styled-components';
 import Button from 'ui/components/Button';
 
@@ -16,11 +15,14 @@ export const Container = styled.section`
 `;
 
 export const StockTableHeader = styled.div`
-  width: 100%;
+  width: ${(props) => (props.content ? 'calc(100% - 5px)' : '100%')};
   height: 44px;
   display: flex;
   flex: 0 1 auto;
   flex-direction: row;
+  background-color: ${(props) =>
+    props.even ? 'rgba(163,168,174,0.2)' : 'rgba(163, 168, 174, 0.1)'};
+  color: ${(props) => (props.even ? 'white' : 'rgba(187, 183, 183, 1)')};
 `;
 export const StockTableBody = styled.div`
   width: 100%;
@@ -35,7 +37,6 @@ const Section10 = styled.div`
   margin: 0;
   padding: 0;
   border-right: 1px solid rgba(163, 168, 174, 0.1);
-  background-color: rgba(163, 168, 174, 0.1);
 `;
 const Section5 = styled.div`
   width: 6.25%;
@@ -43,7 +44,6 @@ const Section5 = styled.div`
   margin: 0;
   padding: 0;
   border-right: 1px solid rgba(163, 168, 174, 0.1);
-  background-color: rgba(163, 168, 174, 0.1);
 `;
 const SearchInput = styled.input`
   outline: none;
@@ -138,6 +138,7 @@ const StockInput = SearchInput.extend`
 `;
 const StockLabel = styled.label`
   position: absolute;
+  pointer-events: none; // makes the input ot get focus having the label on top of it
   left: 0;
   top: 0;
   cursor: text;
@@ -159,19 +160,15 @@ export function StockField(props) {
   return (
     <Section10>
       <FloatLabel>
-        <StockInput
-          innerRef={(input) => (inputElement = input)}
-          type="text"
-          placeholder={props.placeholder}
-        />
-        <StockLabel onClick={() => inputElement.focus()}>
+        <StockInput type="text" placeholder={props.placeholder} />
+        <StockLabel>
           {props.placeholder}
         </StockLabel>
       </FloatLabel>
     </Section10>
   );
 }
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button) `
   width: 100%;
   height: 100%;
   border: none;
@@ -197,3 +194,28 @@ export const Subtitle = styled.p`
   font-weight: 200;
   margin-top: 5px;
 `;
+const StockTableContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+`;
+export function StockTable(props) {
+  return (
+    <StockTableContainer>
+      {props.items.map((item, i) =>
+        <StockTableHeader even={(i + 1) % 2}>
+          <StockField placeholder={item.reference || 'Reference'} />
+          <StockField placeholder={item.brand || 'Brand'} />
+          <StockField placeholder={item.gender || 'Gender'} />
+          <StockField placeholder={item.color || 'Color'} />
+          <StockField placeholder={item.size || 'Size'} />
+          <StockField placeholder={item.price || 'Price'} />
+          <StockField placeholder={item.amount || 'Amount'} />
+          <StockButton primary icon="check" />
+          <StockButton primary icon="remove-close" />
+          <StockButton primary icon="link-external" />
+        </StockTableHeader>
+      )}
+    </StockTableContainer>
+  );
+}

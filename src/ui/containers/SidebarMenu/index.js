@@ -10,7 +10,7 @@ import { withRouter } from 'react-router';
 // import { changeResourceSelected, addTreeResource } from './actions';
 // import { selectResources, selectResource } from './selectors';
 // import messages from './messages';
-import { Container, Menu, MenuFooter, MenuGroup, MenuItem } from './wrappers';
+import { Container, Menu, MenuFooter, MenuSearch, MenuGroup, MenuItem } from './wrappers';
 
 function SidebarMenu(props) {
   const routeName = props.routes[props.routes.length - 1].name;
@@ -32,6 +32,13 @@ function SidebarMenu(props) {
             highlight
             cursor
           />
+          <MenuItem
+            title="Discover"
+            actived={routeName === 'discover'}
+            to="/discover"
+            highlight
+            cursor
+          />
         </MenuGroup>
         <MenuGroup>
           <MenuItem title="Your Tickets" actived={routeName === 'tickets'} />
@@ -40,6 +47,7 @@ function SidebarMenu(props) {
           <MenuItem title="100013" small highlight cursor />
         </MenuGroup>
       </Menu>
+      <MenuSearch title="Search Tickets" />
       <MenuFooter to="/tickets" icon="inbox" title="New Ticket" />
     </Container>
   );

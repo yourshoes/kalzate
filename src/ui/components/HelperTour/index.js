@@ -28,7 +28,7 @@ function HelperTour() {
     // left -> bottom 40, right 111
     // down -> bottom 40, left 170
     <Container>
-      <Tip message={messages.treeMessage} direction="up" top="19" left="170" />
+      {/* <Tip message={messages.treeMessage} direction="up" top="19" left="170" />
       <Tip
         message={messages.footerLeftMessage}
         direction="down"
@@ -40,7 +40,7 @@ function HelperTour() {
         direction="down"
         bottom="7"
         right="215"
-      />
+  />*/}
       <div className={'overlay'} />
     </Container>
   );

@@ -20,7 +20,7 @@ import {
 } from 'ui/containers/TicketsPage/selectors';
 
 export class TicketsPage extends React.Component {
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (
@@ -33,7 +33,7 @@ export class TicketsPage extends React.Component {
           <Column>
             <TicketItems />
           </Column>
-          <Column w={this.props.ticketTotalVisibility ? '300px' : '0px'}>
+          <Column w={this.props.ticketTotalVisibility ? '300px' : '25px'}>
             <TicketTotal />
           </Column>
         </Row2>
@@ -41,7 +41,7 @@ export class TicketsPage extends React.Component {
           <Column>
             <StockItems />
           </Column>
-          <Column w={this.props.ticketPaymentsVisibility ? '300px' : '0px'}>
+          <Column w={this.props.ticketPaymentsVisibility ? '300px' : '25px'}>
             <TicketPayments />
           </Column>
         </Row2>

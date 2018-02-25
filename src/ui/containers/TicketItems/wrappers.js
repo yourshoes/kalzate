@@ -94,3 +94,21 @@ export function Search(props) {
     </SearchContainer>
   );
 }
+
+export function Vat(props) {
+  return (
+    <SearchContainer>
+      <Octicon name="triangle-up" />
+      <SearchInput type="text" placeholder="VAT %" />
+    </SearchContainer>
+  );
+}
+
+export function Discount(props) {
+  return (
+    <SearchContainer>
+      <Octicon name="triangle-down" />
+      <SearchInput type="text" placeholder="Discount %" />
+    </SearchContainer>
+  );
+}

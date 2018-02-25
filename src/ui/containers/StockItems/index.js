@@ -25,6 +25,7 @@ import {
   StockButton,
   Title,
   Subtitle,
+  StockTable,
 } from './wrappers';
 
 export class StockItems extends React.Component {
@@ -32,7 +33,7 @@ export class StockItems extends React.Component {
   render() {
     return (
       <Container>
-        <StockTableHeader>
+        <StockTableHeader content>
           <StockField placeholder="Reference" />
           <StockField placeholder="Brand" />
           <StockField placeholder="Gender" />
@@ -42,6 +43,7 @@ export class StockItems extends React.Component {
           <StockField placeholder="Amount" />
           <StockButton primary icon="search" />
           <StockButton primary icon="plus" />
+          <StockButton primary icon="cloud-upload" />
         </StockTableHeader>
         <StockTableBody>
           {!this.props.count &&
@@ -55,6 +57,7 @@ export class StockItems extends React.Component {
                 </Subtitle>
               </NotFound>
             </Center>}
+          {!!this.props.count && <StockTable items={this.props.items} />}
         </StockTableBody>
       </Container>
     );
@@ -63,6 +66,7 @@ export class StockItems extends React.Component {
 
 StockItems.propTypes = {
   count: PropTypes.number,
+  items: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({

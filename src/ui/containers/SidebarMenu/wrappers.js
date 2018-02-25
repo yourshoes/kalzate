@@ -50,6 +50,10 @@ const Footer = styled.div`
   font-size: 1.5em;
   text-align: center;
   display: table;
+  border-top: ${(props) =>
+    props.theme && props.theme.app.border
+      ? props.theme.app.border
+      : '1px solid #27292c'};
 `;
 const EM = styled.em`
   font-size: 1em;
@@ -62,7 +66,7 @@ const EM = styled.em`
   margin-left: 10px;
   font-style: normal;
 `;
-const FooterContent = styled(Link)`
+const FooterContent = styled(Link) `
   display: table-cell;
   vertical-align: middle;
   cursor: pointer;
@@ -78,9 +82,9 @@ const FooterContent = styled(Link)`
       : 'rgba(163, 168, 174, 0.5)'};
   &:hover {
     color: ${(props) =>
-      props.theme && props.theme.sidebar.hoverColor
-        ? props.theme.sidebar.hoverColor
-        : 'rgba(163, 168, 174, 0.8)'};
+    props.theme && props.theme.sidebar.hoverColor
+      ? props.theme.sidebar.hoverColor
+      : 'rgba(163, 168, 174, 0.8)'};
   }
 `;
 export function MenuFooter(props) {
@@ -98,6 +102,64 @@ MenuFooter.propTypes = {
   title: React.PropTypes.string.isRequired,
   to: React.PropTypes.string,
 };
+
+const SearchContainer = styled.div`
+  color: rgba(163, 168, 174, 0.5);
+  width: 100%;
+  text-align: center;
+  padding: 8px 0px;
+`;
+const SearchInput = styled.input`
+  outline: none;
+  font-size: 1.3em;
+  margin-left: 14px;
+  width: 100px;
+  font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
+    Cantarell, Arial, sans-serif;
+  font-weight: 100;
+  -webkit-font-smoothing: antialiased;
+  font-variant: all-petite-caps;
+  font-style: normal;
+
+  &::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: rgba(163, 168, 174, 0.9);
+  }
+  &:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: rgba(163, 168, 174, 0.9);
+    opacity: 1;
+  }
+  &::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: rgba(163, 168, 174, 0.9);
+    opacity: 1;
+  }
+  &:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: rgba(163, 168, 174, 0.9);
+  }
+  &::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: rgba(163, 168, 174, 0.9);
+  }
+`;
+
+export function Search(props) {
+  return (
+    <SearchContainer>
+      <Octicon name="search" />
+      <SearchInput type="text" placeholder="Search Tickets" />
+    </SearchContainer>
+  );
+}
+
+
+export function MenuSearch(props) {
+  return (
+    <Search />
+  );
+}
 
 export const Menu = styled.div`
   border: 0;
@@ -122,8 +184,8 @@ transition: color .5s ease-in-out;
 cursor:pointer;
  &:hover {
     color: ${props.theme && props.theme.sidebar.hoverColor
-      ? props.theme.sidebar.hoverColor
-      : 'rgba(163, 168, 174, 0.8)'};
+    ? props.theme.sidebar.hoverColor
+    : 'rgba(163, 168, 174, 0.8)'};
   }`;
 
 const route = `
@@ -157,15 +219,15 @@ const P = styled.p`
 `;
 const actived = (props) => `
     color: ${props.theme && props.theme.sidebar.hoverColor
-      ? props.theme.sidebar.hoverColor
-      : 'rgba(163, 168, 174, 0.8)'};
+    ? props.theme.sidebar.hoverColor
+    : 'rgba(163, 168, 174, 0.8)'};
 `;
 const notActived = (props) => `
     color: ${props.theme && props.theme.sidebar.color
-      ? props.theme.sidebar.color
-      : 'rgba(163, 168, 174, 0.5)'};
+    ? props.theme.sidebar.color
+    : 'rgba(163, 168, 174, 0.5)'};
 `;
-const Route = styled(Link)`
+const Route = styled(Link) `
   transition: color .5s ease-in-out;
   text-decoration:none;
   ${(props) => (props.actived ? actived(props) : notActived(props))};
@@ -173,9 +235,9 @@ const Route = styled(Link)`
   margin: 0;
   &:hover {
     color: ${(props) =>
-      props.theme && props.theme.sidebar.hoverColor
-        ? props.theme.sidebar.hoverColor
-        : 'rgba(163, 168, 174, 0.8)'};
+    props.theme && props.theme.sidebar.hoverColor
+      ? props.theme.sidebar.hoverColor
+      : 'rgba(163, 168, 174, 0.8)'};
   }
 `;
 export function MenuItem(props) {
