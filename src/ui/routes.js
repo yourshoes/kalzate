@@ -50,6 +50,23 @@ export default function createRoutes(store) {
       },
     },
     {
+      path: '/discover',
+      name: 'discover',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('ui/containers/DiscoverPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },
+    {
       path: '/tickets(/:id)',
       name: 'tickets',
       getComponent(nextState, cb) {

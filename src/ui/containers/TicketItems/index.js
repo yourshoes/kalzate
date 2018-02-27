@@ -9,15 +9,6 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import Button from 'ui/components/Button';
-import {
-  StockTableHeader,
-  StockTableBody,
-  StockField,
-  StockButton,
-  Title,
-  Subtitle,
-  StockTable,
-} from 'ui/containers/StockItems/wrappers';
 import Center from 'ui/components/Center';
 import NotFound from 'ui/components/NotFound';
 import makeSelectTicketItems from './selectors';
@@ -32,6 +23,13 @@ import {
   Discount,
   SectionRight,
   TicketCartSummaryContainer,
+
+  StockTableHeader,
+  StockTableBody,
+  StockField,
+  StockButton,
+  StockTable,
+  TableContainer,
 } from './wrappers';
 
 export class TicketItems extends React.Component {
@@ -53,7 +51,7 @@ export class TicketItems extends React.Component {
           </Section50>
         </TicketCartContainer>
         <TicketCartSummaryContainer>
-          {true &&
+          {/* true &&
             <Center>
               <NotFound icon="thumbsdown">
                 <Title>
@@ -63,20 +61,19 @@ export class TicketItems extends React.Component {
                   Add some items to this ticket
               </Subtitle>
               </NotFound>
-            </Center>}
+          </Center>*/}
 
 
-          {/* false && <StockTableHeader content>
+          {true && <TableContainer><StockTableHeader content>
             <StockField placeholder="Reference" />
             <StockField placeholder="Description" />
             <StockField placeholder="Price" />
             <StockField placeholder="Amount" />
-            <StockButton primary icon="remove" />
+            <StockButton primary icon="remove-close" />
           </StockTableHeader>
             <StockTableBody>
-              <StockTable items={[]} />
-            </StockTableBody>
-          */}
+              <StockTable items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 20]} />
+            </StockTableBody></TableContainer>}
         </TicketCartSummaryContainer>
         <TicketCartContainer>
           <Section50>
