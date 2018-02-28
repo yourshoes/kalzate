@@ -6,18 +6,20 @@
 
 import { fromJS } from 'immutable';
 import {
-  DEFAULT_ACTION,
+  SETTING_UPDATED_ACTION,
 } from './constants';
 
-const initialState = fromJS({});
+const initialState = fromJS({
 
-function workSpacePageReducer(state = initialState, action) {
+});
+
+function settingPageReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
+    case SETTING_UPDATED_ACTION:
       return state;
     default:
       return state;
   }
 }
 
-export default workSpacePageReducer;
+export default settingPageReducer;

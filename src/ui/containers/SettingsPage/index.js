@@ -7,14 +7,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { getNotebookContent } from 'ui/utils/resources';
 import { Grid, Row2, Column } from 'ui/components/Grid';
-import { changeResourceSelected } from 'ui/containers/SidebarMenu/actions';
-import { selectResources, selectResource } from './selectors';
+import { selectSettings } from './selectors';
+import { updateSetting } from './actions';
 import messages from './messages';
-import { Panel, Title, StockField, StockArea, FormWrapper } from './wrappers';
+import { Panel, Title, TextField, AreaField, FormWrapper } from './wrappers';
 
 export class SettingsPage extends React.Component {
   componentDidMount() {
@@ -31,23 +30,23 @@ export class SettingsPage extends React.Component {
         <Row2>
           <Column>
             <Panel>
-              <Title>User Settings</Title>
+              <Title><FormattedMessage {...messages.userSettings} /></Title>
               <FormWrapper>
                 <Grid>
                   <Row2>
                     <Column>
-                      <StockField placeholder="Country" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.countryField })} />
                     </Column>
                     <Column>
-                      <StockField placeholder="Language" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} />
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      <StockField placeholder="Theme" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.themeField })} />
                     </Column>
                     <Column>
-                      <StockField placeholder="Timezone" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.timezoneField })} />
                     </Column>
                   </Row2>
                 </Grid>
@@ -56,23 +55,23 @@ export class SettingsPage extends React.Component {
           </Column>
           <Column>
             <Panel>
-              <Title>Company Settings</Title>
+              <Title><FormattedMessage {...messages.companySettings} /></Title>
               <FormWrapper>
                 <Grid>
                   <Row2>
                     <Column>
-                      <StockField placeholder="Name" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.nameField })} />
                     </Column>
                     <Column>
-                      <StockField placeholder="Address" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.addressField })} />
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      <StockField placeholder="Email" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.emailField })} />
                     </Column>
                     <Column>
-                      <StockField placeholder="Phone" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.phoneField })} />
                     </Column>
                   </Row2>
                 </Grid>
@@ -82,20 +81,20 @@ export class SettingsPage extends React.Component {
         </Row2>
         <Row2>
           <Column>
-            <Panel><Title>Ticket Settings</Title>
+            <Panel><Title><FormattedMessage {...messages.ticketSettings} /></Title>
               <FormWrapper>
                 <Grid>
                   <Row2>
                     <Column>
-                      <StockField placeholder="Printer Name" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerNameField })} />
                     </Column>
                     <Column>
-                      <StockField placeholder="Printer IP" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerIPField })} />
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      <StockArea placeholder="Ticket Template" />
+                      <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} />
                     </Column>
                   </Row2>
                 </Grid>
@@ -103,20 +102,20 @@ export class SettingsPage extends React.Component {
             </Panel>
           </Column>
           <Column>
-            <Panel><Title>Storage Settings</Title>
+            <Panel><Title><FormattedMessage {...messages.storageSettings} /></Title>
               <FormWrapper>
                 <Grid>
                   <Row2>
                     <Column>
-                      <StockField placeholder="Backup Time" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupPeriodField })} />
                     </Column>
                     <Column>
-                      <StockField placeholder="Backup Folder" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupLocationField })} />
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      <StockField placeholder="Database IP" />
+                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.analyticsServerField })} />
                     </Column>
                   </Row2>
                 </Grid>
@@ -129,21 +128,18 @@ export class SettingsPage extends React.Component {
 }
 
 SettingsPage.propTypes = {
-  resources: React.PropTypes.object,
-  resourceSelected: React.PropTypes.string,
-  changeResourceSelected: React.PropTypes.func,
+  intl: intlShape.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  resources: selectResources(),
-  resourceSelected: selectResource(),
+  settings: selectSettings(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeResourceSelected: (resource) =>
-      dispatch(changeResourceSelected(resource)),
+    update: (key, value) =>
+      dispatch(updateSetting(key, value)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(SettingsPage));

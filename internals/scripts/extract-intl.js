@@ -10,12 +10,12 @@ const transform = require('babel-core').transform;
 const animateProgress = require('./helpers/progress');
 const addCheckmark = require('./helpers/checkmark');
 
-const babelrc = fs.readFileSync(`${__dirname}/../../.babelrc`);
+const babelrc = JSON.parse(fs.readFileSync(`${__dirname}/../../.babelrc`));
 const presets = babelrc.presets;
 const plugins = babelrc.plugins || [];
 
 const i18n = require('../../src/ui/i18n');
-import { DEFAULT_LOCALE } from '../../src/ui/containers/App/constants';
+const { DEFAULT_LOCALE } = require('../../src/ui/containers/App/constants');
 
 require('shelljs/global');
 
@@ -151,7 +151,7 @@ const extractFromFile = async fileName => {
       // Sort the translation JSON file so that git diffing is easier
       // Otherwise the translation messages will jump around every time we extract
       let messages = {};
-      Object.keys(localeMappings[locale]).sort().forEach(function(key) {
+      Object.keys(localeMappings[locale]).sort().forEach(function (key) {
         messages[key] = localeMappings[locale][key];
       });
 

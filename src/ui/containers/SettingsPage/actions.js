@@ -5,11 +5,13 @@
  */
 
 import {
-  DEFAULT_ACTION,
+  UPDATE_SETTING_ACTION,
 } from './constants';
 
-export function defaultAction() {
+export function updateSetting(key, value) {
   return {
-    type: DEFAULT_ACTION,
+    type: UPDATE_SETTING_ACTION,
+    key,
+    value,
   };
 }

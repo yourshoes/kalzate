@@ -237,7 +237,7 @@ const StockLabel = styled.label`
   font-size: 14px;
   user-select: none;
 `;
-export function StockField(props) {
+export function TextField(props) {
   return (
     <Section10>
       <FloatLabel>
@@ -249,7 +249,7 @@ export function StockField(props) {
     </Section10>
   );
 }
-export function StockArea(props) {
+export function AreaField(props) {
   return (
     <Section10>
       <FloatLabel>

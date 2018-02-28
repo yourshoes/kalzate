@@ -4,4 +4,5 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/WorkSpacePage/DEFAULT_ACTION';
+export const UPDATE_SETTING_ACTION = 'ui/SettingsPage/UPDATE_SETTING_ACTION';
+export const SETTING_UPDATED_ACTION = 'ui/SettingsPage/SETTING_UPDATED_ACTION';

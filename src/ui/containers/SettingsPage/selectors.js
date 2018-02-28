@@ -1,15 +1,10 @@
-import { createSelector } from 'reselect';
+// import { createSelector } from 'reselect';
 
-const selectGlobal = () => (state) => state.get('global');
+const selectSettings = () => (state) => state.get('settings').toJSON();
 
-const selectResources = () =>
-  createSelector(selectGlobal(), (globalState) =>
-    globalState.get('resources').toJSON()
-  );
+// const selectSettings = () =>
+//   createSelector(selectGlobal(), (globalState) =>
+//     globalState.get('settings').toJSON()
+//   );
 
-const selectResource = () =>
-  createSelector(selectGlobal(), (globalState) =>
-    globalState.getIn(['app', 'resource'])
-  );
-
-export { selectResources, selectResource };
+export { selectSettings };

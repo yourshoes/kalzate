@@ -8,6 +8,10 @@ import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import globalReducer from 'ui/containers/App/reducer';
+import settingsReducer from 'ui/reducers/settings';
+import ticketsReducer from 'ui/reducers/tickets';
+import ticketReducer from 'ui/reducers/ticket';
+import stockReducer from 'ui/reducers/stock';
 import languageProviderReducer from 'ui/containers/LanguageProvider/reducer';
 import themeProviderReducer from 'ui/containers/ThemeProvider/reducer';
 import ticketItemsReducer from 'ui/containers/TicketItems/reducer';
@@ -16,6 +20,7 @@ import ticketPaymentsReducer from 'ui/containers/TicketPaymentsContainer/reducer
 import stockItemsReducer from 'ui/containers/StockItems/reducer';
 import cashDrawerReducer from 'ui/containers/CashDrawer/reducer';
 
+import { databaseAsyncReducer } from './db';
 /*
  * routeReducer
  *
@@ -48,16 +53,22 @@ function routeReducer(state = routeInitialState, action) {
  * Creates the main reducer with the asynchronously loaded ones
  */
 export default function createReducer(asyncReducers) {
-  return combineReducers({
-    global: globalReducer,
+  return databaseAsyncReducer(combineReducers({
+    settings: settingsReducer,
+    tickets: ticketsReducer,
+    ticket: ticketReducer,
+    stock: stockReducer,
     theme: themeProviderReducer,
+    route: routeReducer,
+    language: languageProviderReducer,
+
+
+    global: globalReducer,
     cashDrawer: cashDrawerReducer,
     ticketItems: ticketItemsReducer,
     ticketTotal: ticketTotalReducer,
     ticketPayments: ticketPaymentsReducer,
     stockItems: stockItemsReducer,
-    route: routeReducer,
-    language: languageProviderReducer,
     ...asyncReducers,
-  });
+  }));
 }
