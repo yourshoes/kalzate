@@ -15,8 +15,8 @@ import esTranslationMessages from './translations/es.json';
 export const appLocales = ['en', 'es'];
 
 export const appLocalesMessages = {
-  en: 'octoql.components.LanguageProvider.eng',
-  es: 'octoql.components.LanguageProvider.es',
+  en: 'kz.containers.LanguageProvider.en',
+  es: 'kz.containers.LanguageProvider.es',
 };
 
 addLocaleData(enLocaleData);

@@ -19,11 +19,11 @@ export default defineMessages({
     defaultMessage: 'Open Notebook',
   },
   englishLang: {
-    id: 'octoql.components.LanguageProvider.eng',
+    id: 'kz.containers.LanguageProvider.en',
     defaultMessage: 'English',
   },
   spanishLang: {
-    id: 'octoql.components.LanguageProvider.es',
+    id: 'kz.containers.LanguageProvider.es',
     defaultMessage: 'Spanish',
   },
 });

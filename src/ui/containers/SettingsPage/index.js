@@ -17,7 +17,9 @@ import { Panel, Title, TextField, AreaField, FormWrapper } from './wrappers';
 
 export class SettingsPage extends React.Component {
   componentDidMount() {
+  }
 
+  componentWillReceiveProps() {
   }
 
   render() {
@@ -35,18 +37,19 @@ export class SettingsPage extends React.Component {
                 <Grid>
                   <Row2>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.countryField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.countryField })} value={this.props.settings.country} onBlur={(country) => this.props.update('country', country)} />}
                     </Column>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} />
+                      {/* <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} value={this.props.intl.formatMessage({ id: `kz.containers.LanguageProvider.${this.props.settings.lang}`, default: '' })} />*/}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} value={this.props.settings.lang} />}
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.themeField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.themeField })} value={this.props.settings.theme} />}
                     </Column>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.timezoneField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.timezoneField })} value={this.props.settings.timezone} />}
                     </Column>
                   </Row2>
                 </Grid>
@@ -60,18 +63,18 @@ export class SettingsPage extends React.Component {
                 <Grid>
                   <Row2>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.nameField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.nameField })} value={this.props.settings.name} />}
                     </Column>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.addressField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.addressField })} value={this.props.settings.address} />}
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.emailField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.emailField })} value={this.props.settings.email} />}
                     </Column>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.phoneField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.phoneField })} value={this.props.settings.phone} />}
                     </Column>
                   </Row2>
                 </Grid>
@@ -86,15 +89,15 @@ export class SettingsPage extends React.Component {
                 <Grid>
                   <Row2>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerNameField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerNameField })} value={this.props.settings.printerName} />}
                     </Column>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerIPField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerIPField })} value={this.props.settings.printerIP} />}
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} />
+                      {this.props.settings && <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} value={this.props.settings.ticketTemplate} />}
                     </Column>
                   </Row2>
                 </Grid>
@@ -107,15 +110,15 @@ export class SettingsPage extends React.Component {
                 <Grid>
                   <Row2>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupPeriodField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupPeriodField })} value={this.props.settings.backupFrecuency} />}
                     </Column>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupLocationField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupLocationField })} value={this.props.settings.backupLocation} />}
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      <TextField placeholder={this.props.intl.formatMessage({ ...messages.analyticsServerField })} />
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.analyticsServerField })} value={this.props.settings.analyticsServer} />}
                     </Column>
                   </Row2>
                 </Grid>
@@ -129,11 +132,11 @@ export class SettingsPage extends React.Component {
 
 SettingsPage.propTypes = {
   intl: intlShape.isRequired,
+  settings: PropTypes.object,
+  update: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  settings: selectSettings(),
-});
+const mapStateToProps = createStructuredSelector({ settings: selectSettings() });
 
 function mapDispatchToProps(dispatch) {
   return {

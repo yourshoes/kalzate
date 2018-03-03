@@ -6,16 +6,19 @@
 
 import { fromJS } from 'immutable';
 import {
-  SETTING_UPDATED_ACTION,
+  UPDATE_SETTING_SUCCESS_ACTION,
+  UPDATE_SETTING_ERROR_ACTION,
 } from './constants';
 
-const initialState = fromJS({
-
-});
+const initialState = fromJS(undefined);
 
 function settingPageReducer(state = initialState, action) {
   switch (action.type) {
-    case SETTING_UPDATED_ACTION:
+    case UPDATE_SETTING_SUCCESS_ACTION:
+      console.log('SUCCESS', action);
+      return state;
+    case UPDATE_SETTING_ERROR_ACTION:
+      console.log('ERROR', action.error);
       return state;
     default:
       return state;

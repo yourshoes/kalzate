@@ -238,10 +238,11 @@ const StockLabel = styled.label`
   user-select: none;
 `;
 export function TextField(props) {
+  // console.log(props);
   return (
     <Section10>
       <FloatLabel>
-        <StockInput type="text" placeholder={props.placeholder} />
+        <StockInput placeholder={props.placeholder} defaultValue={props.value} onBlur={(event) => props.onBlur ? props.onBlur(event.target.value) : null} />
         <StockLabel>
           {props.placeholder}
         </StockLabel>

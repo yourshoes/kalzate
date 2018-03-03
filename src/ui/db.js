@@ -1,4 +1,6 @@
 import kalzateDB from 'kalzate-db';
+import { DEFAULT_SETTINGS } from 'ui/constants';
+import { assign } from 'lodash';
 
 let db;
 
@@ -6,9 +8,9 @@ export const STATE_LOADING_START = 'ui/STATE_LOADING_START';
 export const STATE_LOADING_DONE = 'ui/STATE_LOADING_DONE';
 export const STATE_LOADING_FAILED = 'ui/STATE_LOADING_FAILED';
 
-export const Stock = () => db.stock;
-export const Settings = () => db.settings;
-export const Tickets = () => db.tickets;
+export const Stock = () => db.stock.collection;
+export const Settings = () => db.settings.collection;
+export const Tickets = () => db.tickets.collection;
 
 const initFromDB = (load) => (store) => {
   store.dispatch({
@@ -35,9 +37,9 @@ const loadStoreFromDatabase = (currentState) => new Promise(async (resolve) => {
   // Get initialState({settings, tickets, stock, ticket, insights})
   db = await kalzateDB();
   const state = currentState.merge({
-    settings: await db.settings.init(),
+    settings: assign({}, DEFAULT_SETTINGS, await db.settings.init()),
     tickets: await db.tickets.init(),
-    stock: await db.stock.init()
+    stock: await db.stock.init(),
   });
   resolve(state);
 });

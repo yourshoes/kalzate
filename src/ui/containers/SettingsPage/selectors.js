@@ -1,10 +1,4 @@
-// import { createSelector } from 'reselect';
 
-const selectSettings = () => (state) => state.get('settings').toJSON();
-
-// const selectSettings = () =>
-//   createSelector(selectGlobal(), (globalState) =>
-//     globalState.get('settings').toJSON()
-//   );
+const selectSettings = () => (state) => state.get('settings') ? state.get('settings').toJSON() : state.get('settings');
 
 export { selectSettings };
