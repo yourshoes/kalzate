@@ -174,7 +174,7 @@ const StockInput = SearchInput.extend`
   margin: 0;
   margin-left: 10px;
   padding-top: 10px;
-  padding-right: 10px;
+  padding-right: 20px;
   font-size: 2em;
   &::-webkit-input-placeholder {
     opacity: 1;
@@ -254,7 +254,7 @@ export function AreaField(props) {
   return (
     <Section10>
       <FloatLabel>
-        <Textarea type="text" placeholder={props.placeholder} />
+        <Textarea type="text" placeholder={props.placeholder} defaultValue={props.value} onBlur={(event) => props.onBlur ? props.onBlur(event.target.value) : null} />
         <StockLabel>
           {props.placeholder}
         </StockLabel>

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
+import * as Constants from 'ui/constants';
 import { Grid, Row2, Column } from 'ui/components/Grid';
 import { selectSettings } from './selectors';
 import { updateSetting } from './actions';
@@ -37,19 +38,18 @@ export class SettingsPage extends React.Component {
                 <Grid>
                   <Row2>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.countryField })} value={this.props.settings.country} onBlur={(country) => this.props.update('country', country)} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.countryField })} value={this.props.settings.country} onBlur={(country) => this.props.update(Constants.COUNTRY_SETTING, country)} />}
                     </Column>
                     <Column>
-                      {/* <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} value={this.props.intl.formatMessage({ id: `kz.containers.LanguageProvider.${this.props.settings.lang}`, default: '' })} />*/}
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} value={this.props.settings.lang} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} value={this.props.settings.lang} onBlur={(lang) => this.props.update(Constants.LANG_SETTING, lang)} />}
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.themeField })} value={this.props.settings.theme} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.themeField })} value={this.props.settings.theme} onBlur={(theme) => this.props.update(Constants.THEME_SETTING, theme)} />}
                     </Column>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.timezoneField })} value={this.props.settings.timezone} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.timezoneField })} value={this.props.settings.timezone} onBlur={(timezone) => this.props.update(Constants.TIMEZONE_SETTING, timezone)} />}
                     </Column>
                   </Row2>
                 </Grid>
@@ -63,18 +63,18 @@ export class SettingsPage extends React.Component {
                 <Grid>
                   <Row2>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.nameField })} value={this.props.settings.name} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.nameField })} value={this.props.settings.name} onBlur={(name) => this.props.update(Constants.NAME_SETTING, name)} />}
                     </Column>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.addressField })} value={this.props.settings.address} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.addressField })} value={this.props.settings.address} onBlur={(address) => this.props.update(Constants.ADDRESS_SETTING, address)} />}
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.emailField })} value={this.props.settings.email} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.emailField })} value={this.props.settings.email} onBlur={(email) => this.props.update(Constants.EMAIL_SETTING, email)} />}
                     </Column>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.phoneField })} value={this.props.settings.phone} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.phoneField })} value={this.props.settings.phone} onBlur={(phone) => this.props.update(Constants.PHONE_SETTING, phone)} />}
                     </Column>
                   </Row2>
                 </Grid>
@@ -89,15 +89,15 @@ export class SettingsPage extends React.Component {
                 <Grid>
                   <Row2>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerNameField })} value={this.props.settings.printerName} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerNameField })} value={this.props.settings.printerName} onBlur={(printerName) => this.props.update(Constants.PRINTER_NAME_SETTING, printerName)} />}
                     </Column>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerIPField })} value={this.props.settings.printerIP} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerIPField })} value={this.props.settings.printerIP} onBlur={(printerIP) => this.props.update(Constants.PRINTER_IP_SETTING, printerIP)} />}
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      {this.props.settings && <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} value={this.props.settings.ticketTemplate} />}
+                      {this.props.settings && <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} value={this.props.settings.ticketTemplate} onBlur={(ticketTemplate) => this.props.update(Constants.TICKET_TEMPLATE_SETTING, ticketTemplate)} />}
                     </Column>
                   </Row2>
                 </Grid>
@@ -109,16 +109,17 @@ export class SettingsPage extends React.Component {
               <FormWrapper>
                 <Grid>
                   <Row2>
+                    {/* Web mode the UI notifies you to remember you about making the backup, i.e. "Hey, last time you made a backup was ..., it is recommended to make a new backup. Click here to back data up", However in desktop mode it makes the backup and then notifies you about the backup as made*/}
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupPeriodField })} value={this.props.settings.backupFrecuency} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupPeriodField })} value={this.props.settings.backupFrecuency} onBlur={(backupFrecuency) => this.props.update(Constants.BACKUP_FRECUENCY_SETTING, backupFrecuency)} />}
                     </Column>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupLocationField })} value={this.props.settings.backupLocation} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupLocationField })} value={this.props.settings.backupLocation} onBlur={(backupLocation) => this.props.update(Constants.BACKUP_LOCATION_SETTING, backupLocation)} />}
                     </Column>
                   </Row2>
                   <Row2>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.analyticsServerField })} value={this.props.settings.analyticsServer} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.analyticsServerField })} value={this.props.settings.analyticsServer} onBlur={(analyticsServer) => this.props.update(Constants.ANALYTICS_SERVER_SETTING, analyticsServer)} />}
                     </Column>
                   </Row2>
                 </Grid>

@@ -1,6 +1,7 @@
 import kalzateDB from 'kalzate-db';
 import { DEFAULT_SETTINGS } from 'ui/constants';
-import { assign } from 'lodash';
+import { merge } from 'lodash';
+import { DEFAULT_STOCK_ITEMS_LIMIT } from './constants';
 
 let db;
 
@@ -8,9 +9,9 @@ export const STATE_LOADING_START = 'ui/STATE_LOADING_START';
 export const STATE_LOADING_DONE = 'ui/STATE_LOADING_DONE';
 export const STATE_LOADING_FAILED = 'ui/STATE_LOADING_FAILED';
 
-export const Stock = () => db.stock.collection;
-export const Settings = () => db.settings.collection;
-export const Tickets = () => db.tickets.collection;
+export const Stock = () => db.stock;
+export const Settings = () => db.settings;
+export const Tickets = () => db.tickets;
 
 const initFromDB = (load) => (store) => {
   store.dispatch({
@@ -36,10 +37,11 @@ const initFromDB = (load) => (store) => {
 const loadStoreFromDatabase = (currentState) => new Promise(async (resolve) => {
   // Get initialState({settings, tickets, stock, ticket, insights})
   db = await kalzateDB();
+  console.log('stock db ', await db.stock.init(DEFAULT_STOCK_ITEMS_LIMIT, 0));
   const state = currentState.merge({
-    settings: assign({}, DEFAULT_SETTINGS, await db.settings.init()),
+    settings: merge({}, DEFAULT_SETTINGS, await db.settings.init()),
     tickets: await db.tickets.init(),
-    stock: await db.stock.init(),
+    stock: await db.stock.init(DEFAULT_STOCK_ITEMS_LIMIT, 0),
   });
   resolve(state);
 });
