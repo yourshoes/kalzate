@@ -1,8 +1,8 @@
 /**
-*
-* Button
-*
-*/
+ *
+ * Button
+ *
+ */
 
 import styled, { keyframes } from 'styled-components';
 
@@ -36,14 +36,12 @@ const Button = styled.button`
   border: 1px solid rgba(163, 168, 174, 0.6);
   color: rgba(163, 168, 174, 0.6);
   cursor: pointer;
-  transition: all .5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   position: relative;
   overflow: hidden;
   &:hover {
-    border: 1px solid
-      ${(props) => (props.primary ? 'rgb(115, 201, 144)' : 'rgb(226, 192, 141)')};
-    color: ${(props) =>
-      props.primary ? 'rgb(115, 201, 144)' : 'rgb(226, 192, 141)'};
+    border: 1px solid ${(props) => props.color[0]};
+    color: ${(props) => props.color[0]};
   }
   &::after {
     content: '';
@@ -54,8 +52,7 @@ const Button = styled.button`
     height: 5px;
     opacity: 0;
     border-radius: 100%;
-    background-color: ${(props) =>
-      props.primary ? 'rgba(115, 201, 144, .2)' : 'rgba(226, 192, 141, .2)'};
+    background-color: ${(props) => props.color[1]};
     transform: scale(1, 1) translate(-50%);
     transform-origin: 50% 50%;
   }

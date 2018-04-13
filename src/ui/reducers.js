@@ -13,6 +13,7 @@ import ticketsReducer from 'ui/reducers/tickets';
 import ticketReducer from 'ui/reducers/ticket';
 import stockReducer from 'ui/reducers/stock';
 import languageProviderReducer from 'ui/containers/LanguageProvider/reducer';
+import tmpReducer from 'ui/reducers/tmp';
 import themeProviderReducer from 'ui/containers/ThemeProvider/reducer';
 import ticketItemsReducer from 'ui/containers/TicketItems/reducer';
 import ticketTotalReducer from 'ui/containers/TicketTotalContainer/reducer';
@@ -61,7 +62,7 @@ export default function createReducer(asyncReducers) {
     theme: themeProviderReducer,
     route: routeReducer,
     language: languageProviderReducer,
-
+    tmp: tmpReducer,
 
     global: globalReducer,
     cashDrawer: cashDrawerReducer,

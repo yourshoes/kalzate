@@ -23,7 +23,6 @@ import {
   Discount,
   SectionRight,
   TicketCartSummaryContainer,
-
   StockTableHeader,
   StockTableBody,
   StockField,
@@ -63,17 +62,21 @@ export class TicketItems extends React.Component {
               </NotFound>
           </Center>*/}
 
-
-          {true && <TableContainer><StockTableHeader content>
-            <StockField placeholder="Reference" />
-            <StockField placeholder="Description" />
-            <StockField placeholder="Price" />
-            <StockField placeholder="Amount" />
-            <StockButton primary icon="remove-close" />
-          </StockTableHeader>
-            <StockTableBody>
-              <StockTable items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 20]} />
-            </StockTableBody></TableContainer>}
+          {true && (
+            <TableContainer>
+              <StockTableHeader content>
+                <StockField placeholder="Reference" />
+                <StockField placeholder="Description" />
+                <StockField placeholder="Price" />
+                <StockField placeholder="Amount" />
+                <StockButton primary icon="remove-close" />{' '}
+                {/* This removes the current ticket state to start again with a new ticket, otherwise it has to be clicked on save ticke or check out to start with a new ticket. Going back and forth (i.e. from ticket screen to home screen and again to ticket screen again) does not removes current ticket state but preserves it as a draft */}
+              </StockTableHeader>
+              <StockTableBody>
+                <StockTable items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 20]} />
+              </StockTableBody>
+            </TableContainer>
+          )}
         </TicketCartSummaryContainer>
         <TicketCartContainer>
           <Section50>

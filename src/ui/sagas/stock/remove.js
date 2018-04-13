@@ -5,17 +5,21 @@ import {
   REMOVE_STOCK_ACTION,
   REMOVE_STOCK_ERROR_ACTION,
   REMOVE_STOCK_SUCCESS_ACTION,
-  REFRESH_STOCK_SUCCESS_ACTION,
+  REFRESH_STOCK_ACTION,
 } from 'ui/containers/StockItems/constants';
 import { DEFAULT_STOCK_ITEMS_LIMIT } from 'constants';
 
 function* removeStock(action) {
   try {
-    const { reference } = action;
+    const { reference, limit, skip, search } = action;
     const stock = yield call((...args) => Stock().remove(...args), reference);
     yield put({ type: REMOVE_STOCK_SUCCESS_ACTION, stock });
-    const stockUpdated = yield call((...args) => Stock().init(...args), DEFAULT_STOCK_ITEMS_LIMIT, 0);
-    yield put({ type: REFRESH_STOCK_SUCCESS_ACTION, stock: stockUpdated });
+    yield put({
+      type: REFRESH_STOCK_ACTION,
+      limit: limit || DEFAULT_STOCK_ITEMS_LIMIT,
+      skip: skip || 0,
+      search,
+    });
   } catch (e) {
     yield put({ type: REMOVE_STOCK_ERROR_ACTION, message: e.message });
   }

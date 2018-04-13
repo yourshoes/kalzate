@@ -18,6 +18,7 @@ import { mouseTrap } from 'react-mousetrap';
 import mouseTrapCore from 'mousetrap';
 
 /* Components imports */
+import Modal from 'ui/components/Modal';
 import SidebarMenu from 'ui/containers/SidebarMenu';
 import Footer from 'ui/components/Footer';
 import HelperTour from 'ui/components/HelperTour';
@@ -28,6 +29,11 @@ import { Section, Article } from './wrappers';
 import messages from './messages';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { blur: false };
+  }
+
   componentWillMount() {
     // Subscribe to hotkeys
     this.props.bindShortcut(
@@ -83,7 +89,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Section>
+      <div>
         <Helmet
           titleTemplate="%s - Kalzate"
           defaultTitle="Kalzate"
@@ -94,14 +100,20 @@ class App extends React.Component {
             },
           ]}
         />
-        <Article>
-          <SidebarMenu />
-          {React.Children.toArray(this.props.children)}
-        </Article>
-        <Footer />
-        <FuzzyFinder />
-        <HelperTour />
-      </Section>
+        <Section blur={this.state.blur}>
+          <Article>
+            <SidebarMenu />
+            {React.Children.toArray(this.props.children)}
+          </Article>
+          <Footer />
+          <FuzzyFinder />
+          <HelperTour />
+        </Section>
+        <Modal
+          onOpen={() => this.setState({ blur: true })}
+          onClose={() => this.setState({ blur: false })}
+        />
+      </div>
     );
   }
 }

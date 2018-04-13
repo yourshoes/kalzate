@@ -34,17 +34,17 @@ const initFromDB = (load) => (store) => {
   return (next) => (action) => next(action);
 };
 
-const loadStoreFromDatabase = (currentState) => new Promise(async (resolve) => {
-  // Get initialState({settings, tickets, stock, ticket, insights})
-  db = await kalzateDB();
-  console.log('stock db ', await db.stock.init(DEFAULT_STOCK_ITEMS_LIMIT, 0));
-  const state = currentState.merge({
-    settings: merge({}, DEFAULT_SETTINGS, await db.settings.init()),
-    tickets: await db.tickets.init(),
-    stock: await db.stock.init(DEFAULT_STOCK_ITEMS_LIMIT, 0),
+const loadStoreFromDatabase = (currentState) =>
+  new Promise(async (resolve) => {
+    // Get initialState({settings, tickets, stock, ticket, insights})
+    db = await kalzateDB();
+    const state = currentState.merge({
+      settings: merge({}, DEFAULT_SETTINGS, await db.settings.init()),
+      tickets: await db.tickets.init(),
+      stock: await db.stock.get({ limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0 }),
+    });
+    resolve(state);
   });
-  resolve(state);
-});
 
 export const databaseAsyncReducer = (reducers) => (state, action) => {
   if (action.type === STATE_LOADING_DONE) {

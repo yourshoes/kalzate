@@ -9,8 +9,12 @@ import {
 
 function* refreshStock(action) {
   try {
-    const { limit, skip } = action;
-    const stock = yield call((...args) => Stock().init(...args), limit, skip);
+    const { limit, skip, search: match } = action;
+    const stock = yield call((...args) => Stock().get(...args), {
+      limit,
+      skip,
+      match,
+    });
     yield put({ type: REFRESH_STOCK_SUCCESS_ACTION, stock });
   } catch (e) {
     yield put({ type: REFRESH_STOCK_ERROR_ACTION, message: e.message });

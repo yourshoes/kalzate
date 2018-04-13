@@ -24,6 +24,7 @@ export const Section = styled.section`
   color: ${(props) =>
     props.theme && props.theme.app.color ? props.theme.app.color : ' #a3a8ae'};
   font-size: 11px;
+  filter: ${(props) => (props.blur ? 'blur(3px)' : 'none')};
 `;
 
 export const Article = styled.article`

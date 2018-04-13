@@ -9,6 +9,8 @@ PubSub.topics = {
   HELPER_TOUR_TIP_OPENED: 'HELPER_TOUR_TIP_OPENED', // Fired when user opens a tip
   HELPER_TOUR_TIP_CLOSED: 'HELPER_TOUR_TIP_CLOSED', // Fired when user closed a tip
   HELPER_TOUR_TIP_REMOVED: 'HELPER_TOUR_TIP_REMOVED', // Fired when user removed a tip
+  MODAL_OPENED: 'MODAL_OPENED', // Fired when user opened the modal
+  MODAL_CLOSED: 'MODAL_CLOSED', // Fired when user closed the modal
   ACTION_SELECTED: 'ACTION_SELECTED', // Fired when user selected a global action in the fuzzy finder
 };
 
