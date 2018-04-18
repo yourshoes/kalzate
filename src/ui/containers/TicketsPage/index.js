@@ -20,7 +20,7 @@ import {
 } from 'ui/containers/TicketsPage/selectors';
 
 export class TicketsPage extends React.Component {
-  componentDidMount() { }
+  componentDidMount() {}
 
   render() {
     return (
@@ -49,6 +49,7 @@ export class TicketsPage extends React.Component {
     );
   }
 }
+
 TicketsPage.propTypes = {
   ticketTotalVisibility: PropTypes.bool,
   ticketPaymentsVisibility: PropTypes.bool,
@@ -59,10 +60,4 @@ const mapStateToProps = createStructuredSelector({
   ticketPaymentsVisibility: makeSelectTicketPaymentsVisibility(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TicketsPage);
+export default connect(mapStateToProps)(TicketsPage);

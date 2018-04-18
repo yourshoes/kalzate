@@ -9,14 +9,16 @@ import {
   UPDATE_STOCK_ACTION,
   REFRESH_STOCK_ACTION,
   REMOVE_STOCK_ACTION,
+  EXPORT_STOCK_ACTION,
   SEARCH_STOCK_ACTION,
   UPDATE_TMP_STOCK_DATA_ACTION,
 } from './constants';
 
-export function createStock(stock) {
+export function createStock(stock, options = {}) {
   return {
     type: CREATE_STOCK_ACTION,
     stock,
+    options,
   };
 }
 
@@ -43,6 +45,13 @@ export function removeStock(reference, limit, skip, search) {
     limit,
     skip,
     search,
+  };
+}
+
+export function exportStock(decrypt) {
+  return {
+    type: EXPORT_STOCK_ACTION,
+    decrypt,
   };
 }
 

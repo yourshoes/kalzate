@@ -12,7 +12,14 @@ import SyncIcon from '../atoms/SyncIcon';
 import PageIteratorContainer from '../atoms/PageIteratorContainer';
 import PageIteratorIcon from '../atoms/PageIteratorIcon';
 
-export function StockPagination({ total, limit, skip, search, refreshStock }) {
+export function StockPagination({
+  total,
+  limit,
+  skip,
+  search,
+  refreshStock,
+  exportStock,
+}) {
   const page = Math.floor(skip / limit);
   const lastPage = Math.ceil(total / limit) - 1;
   const enabledPrev = page > 0;
@@ -21,7 +28,7 @@ export function StockPagination({ total, limit, skip, search, refreshStock }) {
     <StockPaginationContainer>
       <StockPaginationSection>
         {/* <Octicon name={'sync'} onClick={() => refreshStock(limit, 0)} />*/}
-        <DownloadIcon onClick={() => null} />
+        <DownloadIcon onClick={() => exportStock(false)} />
         <SyncIcon onClick={() => refreshStock(limit, 0)} />
       </StockPaginationSection>
       <StockPaginationSection right>

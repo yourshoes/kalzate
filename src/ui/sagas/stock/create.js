@@ -11,8 +11,10 @@ import { DEFAULT_STOCK_ITEMS_LIMIT } from 'constants';
 
 function* createStock(action) {
   try {
-    const { stock: stockItem } = action;
-    yield call((...args) => Stock().create(...args), stockItem);
+    const { stock: stockItem, options } = action;
+    yield call((...args) => Stock().create(...args), stockItem, options);
+    if (options.batch) {
+    }
     // yield put({ type: CREATE_STOCK_SUCCESS_ACTION, stock: stockItem });
     yield put({
       type: REFRESH_STOCK_ACTION,

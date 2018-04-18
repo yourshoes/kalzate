@@ -48,25 +48,25 @@ export const GlobalScroll = styled.div`
 `;
 
 export const ContainerSwitcher = styled.span`
-position: absolute;
-display: inline-block;
-top: 4px;
-left: ${(props) => (props.expanded ? '6' : '3')}px;
-cursor: pointer;
-z-index: 99;
-color: rgba(255, 255, 255, 0.4);
-&:before {
-  transform: translate(8px, 8px);
-  content: ${(props) => (props.expanded ? '"\\F078"' : '"\\F0A4"')};
-  font-family: 'octicons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 16px;
+  position: absolute;
   display: inline-block;
-  -webkit-font-smoothing: antialiased;
-  position: relative;
-  top: 3px;
-}
+  top: 4px;
+  left: ${(props) => (props.expanded ? '6' : '3')}px;
+  cursor: pointer;
+  z-index: 99;
+  color: rgba(255, 255, 255, 0.4);
+  &:before {
+    transform: translate(8px, 8px);
+    content: ${(props) => (props.expanded ? '"\\F078"' : '"\\F0A4"')};
+    font-family: 'octicons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    top: 3px;
+  }
 `;
 // export const ContainerSwitcher = styled.span`
 //   background: rgba(163, 168, 174, 0.1);
@@ -129,9 +129,7 @@ export const SectionTitle = styled.p`
 export function FirstSection(props) {
   return (
     <FirstSectionContainer>
-      <SectionTitle>
-        {props.title}
-      </SectionTitle>
+      <SectionTitle>{props.title}</SectionTitle>
       {props.children}
     </FirstSectionContainer>
   );
@@ -139,9 +137,7 @@ export function FirstSection(props) {
 export function Section(props) {
   return (
     <SectionContainer>
-      <SectionTitle>
-        {props.title}
-      </SectionTitle>
+      <SectionTitle>{props.title}</SectionTitle>
       {props.children}
     </SectionContainer>
   );
@@ -179,12 +175,18 @@ const PaymentMethodsItem = styled.div`
   display: table-cell;
   vertical-align: middle;
   cursor: pointer;
-  transition: color .5s ease-in-out;
+  transition: color 0.5s ease-in-out;
   &:hover {
     color: #73c990;
   }
 `;
-const PaymentMethodsItemTitle = styled.span`margin-left: 10px;`;
+const PaymentMethodsItemTitle = styled.span`
+  margin-left: 10px;
+`;
+const PaymentSectionContainer = styled.div`
+  height: calc(100% - 44px);
+  padding: 10px;
+`;
 export function PaymentMethods(props) {
   return (
     <PaymentSectionContainer>
@@ -215,7 +217,3 @@ export function PaymentMethods(props) {
     </PaymentSectionContainer>
   );
 }
-const PaymentSectionContainer = styled.div`
-  height: calc(100% - 44px);
-  padding: 10px;
-`;

@@ -12,7 +12,8 @@ import ModalActions from './atoms/ModalActions';
 export class Modal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { visible: false, content: null };
+    this.state = { visible: false, content: null, disableOkButton: true };
+    this.onApproved = () => null;
   }
 
   componentWillMount() {
@@ -44,8 +45,12 @@ export class Modal extends React.Component {
     }());
   }
 
+  disableNext(disableOkButton = true) {
+    this.setState({ disableOkButton });
+  }
+
   cancel() {
-    this.props.onClose();
+    this.props.onClose(); // needed to apply effect such as blur/unblur
     this.fadeOut(this.overlap, () => this.setState({ visible: false }));
   }
 
@@ -56,12 +61,26 @@ export class Modal extends React.Component {
         <OverlapLayer innerRef={(overlap) => (this.overlap = overlap)}>
           <Container>
             <ModalContent>
-              {ModalCustomContent ? <ModalCustomContent /> : null}
+              {ModalCustomContent ? (
+                <ModalCustomContent
+                  disableNext={(...args) => this.disableNext(...args)}
+                  onApproved={(fn) => (this.onApproved = fn)}
+                />
+              ) : null}
             </ModalContent>
             <Divider />
             <ModalActions>
               <Button onClick={() => this.cancel()} title={'Cancel'} />
-              <Button secundary title={'ok'} />
+              <Button
+                secundary
+                title={'ok'}
+                disable={this.state.disableOkButton}
+                onClick={() => {
+                  if (this.onApproved()) {
+                    this.cancel();
+                  }
+                }}
+              />
             </ModalActions>
           </Container>
         </OverlapLayer>

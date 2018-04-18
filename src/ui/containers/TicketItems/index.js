@@ -108,10 +108,4 @@ const mapStateToProps = createStructuredSelector({
   TicketItems: makeSelectTicketItems(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TicketItems);
+export default connect(mapStateToProps)(TicketItems);

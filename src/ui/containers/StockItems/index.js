@@ -21,6 +21,7 @@ import {
   updateStock,
   refreshStock,
   removeStock,
+  exportStock,
   searchStock,
   updateTmpData,
 } from './actions';
@@ -41,7 +42,7 @@ export function StockItemsPage(props) {
 
 StockItemsPage.propTypes = {
   total: PropTypes.number,
-  items: PropTypes.array,
+  items: PropTypes.any, // @todo move to array
   skip: PropTypes.number,
   limit: PropTypes.number,
   match: PropTypes.object,
@@ -50,6 +51,7 @@ StockItemsPage.propTypes = {
   updateStock: PropTypes.func,
   refreshStock: PropTypes.func,
   removeStock: PropTypes.func,
+  exportStock: PropTypes.func,
   updateTmpData: PropTypes.func,
 };
 
@@ -68,6 +70,7 @@ function mapDispatchToProps(dispatch) {
     updateStock: (stock) => dispatch(updateStock(stock)),
     refreshStock: (limit, skip) => dispatch(refreshStock(limit, skip)),
     removeStock: (reference) => dispatch(removeStock(reference)),
+    exportStock: (decrypt) => dispatch(exportStock(decrypt)),
     searchStock: (search, limit, skip) =>
       dispatch(searchStock(search, limit, skip)),
     updateTmpData: (reference, data) =>

@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { getNotebookContent } from 'ui/utils/resources';
 import { Grid, Row2, Column } from 'ui/components/Grid';
 import { changeResourceSelected } from 'ui/containers/SidebarMenu/actions';
 import { selectResources, selectResource } from './selectors';
@@ -17,9 +16,7 @@ import messages from './messages';
 import { Panel, Title, StockField, StockArea, FormWrapper } from './wrappers';
 
 export class SettingsPage extends React.Component {
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   render() {
     return (
@@ -34,9 +31,7 @@ export class SettingsPage extends React.Component {
               <Title>Sales Chart</Title>
               <p>total sold per day/week/month</p>
               <FormWrapper>
-                <Grid>
-
-                </Grid>
+                <Grid />
               </FormWrapper>
             </Panel>
           </Column>
@@ -45,9 +40,7 @@ export class SettingsPage extends React.Component {
               <Title>Tickets Chart</Title>
               <p>Number of tickets made per day/week/month</p>
               <FormWrapper>
-                <Grid>
-
-                </Grid>
+                <Grid />
               </FormWrapper>
             </Panel>
           </Column>
@@ -58,20 +51,18 @@ export class SettingsPage extends React.Component {
               <Title>Top Stock Chart</Title>
               <p>Top 10 Stock items more sold</p>
               <FormWrapper>
-                <Grid>
-
-                </Grid>
+                <Grid />
               </FormWrapper>
             </Panel>
           </Column>
           <Column>
-            <Panel><Title>Alert Stock Chart</Title>
+            <Panel>
+              <Title>Alert Stock Chart</Title>
               <p>Stock items with only one unit left</p>
               <FormWrapper>
-                <Grid>
-
-                </Grid>
-              </FormWrapper></Panel>
+                <Grid />
+              </FormWrapper>
+            </Panel>
           </Column>
         </Row2>
       </Grid>

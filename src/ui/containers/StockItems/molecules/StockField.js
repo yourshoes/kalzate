@@ -46,7 +46,7 @@ export class StockField extends React.Component {
 }
 
 StockField.propTypes = {
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.any, // @todo move to string
   onChange: PropTypes.func,
 };
 

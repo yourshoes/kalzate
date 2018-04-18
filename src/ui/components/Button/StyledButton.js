@@ -23,6 +23,7 @@ const rippleAnimation = keyframes`
 
 const Button = styled.button`
   outline: none;
+  pointer-events: ${(props) => (props.disable ? 'none' : 'auto')};
   margin-left: 5px;
   height: 35px;
   width: 115px;

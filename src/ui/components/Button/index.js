@@ -18,13 +18,13 @@ const getColor = (props) => {
 function Button(props) {
   return (
     <StyledButton color={getColor(props)} {...props}>
-      <Octicon name={props.icon} /> {props.title}
+      {props.icon && <Octicon name={props.icon} />} {props.title}
     </StyledButton>
   );
 }
 
 Button.propTypes = {
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.string, // @todo PropTypes.string.isRequired
   title: PropTypes.string,
 };
 

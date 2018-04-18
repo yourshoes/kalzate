@@ -19,7 +19,7 @@ export function StockTableRows(props) {
   return (
     <StockTableContainer>
       {props.items.map(({ _data }, i) => (
-        <StockTableHeaderContainer even={(i + 1) % 2}>
+        <StockTableHeaderContainer key={i} even={(i + 1) % 2}>
           <StockField placeholder={_data.reference || 'Reference'} readonly />
           <StockField
             placeholder={_data.brand || 'Brand'}
@@ -122,7 +122,7 @@ export function StockTableRows(props) {
 
 StockTableRows.propTypes = {
   tmp: PropTypes.object,
-  items: PropTypes.array,
+  items: PropTypes.any, // @todo move to array type
 };
 
 export default StockTableRows;

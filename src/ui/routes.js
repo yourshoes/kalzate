@@ -9,7 +9,12 @@ const errorLoading = (err) => {
 };
 
 const loadModule = (cb) => (componentModule) => {
-  cb(null, componentModule.default);
+  cb(
+    null,
+    componentModule && componentModule.default
+      ? componentModule.default
+      : componentModule
+  );
 };
 
 export default function createRoutes(store) {

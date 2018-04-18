@@ -30,6 +30,12 @@ export const REMOVE_STOCK_ERROR_ACTION =
 export const REMOVE_STOCK_SUCCESS_ACTION =
   'ui/StockItems/REMOVE_STOCK_SUCCESS_ACTION';
 
+export const EXPORT_STOCK_ACTION = 'ui/StockItems/EXPORT_STOCK_ACTION';
+export const EXPORT_STOCK_ERROR_ACTION =
+  'ui/StockItems/EXPORT_STOCK_ERROR_ACTION';
+export const EXPORT_STOCK_SUCCESS_ACTION =
+  'ui/StockItems/EXPORT_STOCK_SUCCESS_ACTION';
+
 export const SEARCH_STOCK_ACTION = 'ui/StockItems/SEARCH_STOCK_ACTION';
 export const SEARCH_STOCK_ERROR_ACTION =
   'ui/StockItems/SEARCH_STOCK_ERROR_ACTION';
@@ -38,3 +44,5 @@ export const SEARCH_STOCK_SUCCESS_ACTION =
 
 export const UPDATE_TMP_STOCK_DATA_ACTION =
   'ui/StockItems/UPDATE_TMP_STOCK_DATA_ACTION';
+
+export const FILE_EXTENSIONS_ALLOWED = ['json', 'yaml', 'csv'];

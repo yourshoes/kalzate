@@ -114,7 +114,7 @@ export function Discount(props) {
   );
 }
 export const StockTableHeader = styled.div`
-width: ${(props) => (props.content ? 'calc(100% - 5px)' : '100%')};
+  width: ${(props) => (props.content ? 'calc(100% - 5px)' : '100%')};
   height: 44px;
   display: flex;
   flex: 0 1 auto;
@@ -143,7 +143,8 @@ const Section5 = styled.div`
   margin: 0;
   padding: 0;
   border-right: 1px solid rgba(163, 168, 174, 0.1);
-// `;
+  //
+`;
 // const SearchInput = styled.input`
 //   outline: none;
 //   font-size: 1.3em;
@@ -195,23 +196,23 @@ const StockInput = SearchInput.extend`
   padding-right: 10px;
   &::-webkit-input-placeholder {
     opacity: 1;
-    -webkit-transition: all .2s;
-    transition: all .2s;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
   }
   &::-moz-placeholder {
     opacity: 1;
-    -webkit-transition: all .2s;
-    transition: all .2s;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
   }
   &:-ms-input-placeholder {
     opacity: 1;
-    -webkit-transition: all .2s;
-    transition: all .2s;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
   }
   &::placeholder {
     opacity: 1;
-    -webkit-transition: all .2s;
-    transition: all .2s;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
   }
   &:placeholder-shown:not(:focus)::-webkit-input-placeholder {
     opacity: 0;
@@ -227,8 +228,8 @@ const StockInput = SearchInput.extend`
   }
   &:placeholder-shown:not(:focus) + * {
     font-size: 1.7em;
-    opacity: .5;
-    top: .35em;
+    opacity: 0.5;
+    top: 0.35em;
   }
   &:focus {
     outline: none;
@@ -248,8 +249,8 @@ const StockLabel = styled.label`
   font-variant: all-petite-caps;
   font-style: normal;
   opacity: 1;
-  -webkit-transition: all .2s;
-  transition: all .2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
   margin-left: 10px;
   font-size: 14px;
   user-select: none;
@@ -260,20 +261,18 @@ export function StockField(props) {
     <Section10>
       <FloatLabel>
         <StockInput type="text" placeholder={props.placeholder} />
-        <StockLabel>
-          {props.placeholder}
-        </StockLabel>
+        <StockLabel>{props.placeholder}</StockLabel>
       </FloatLabel>
     </Section10>
   );
 }
-const StyledButton = styled(Button) `
+const StyledButton = styled(Button)`
   width: 100%;
   height: 100%;
   border: none;
   margin: 0;
   &:hover {
-    border: none
+    border: none;
   }
 `;
 export function StockButton(props) {
@@ -289,7 +288,7 @@ export const Title = styled.p`
   margin-bottom: 0;
 `;
 export const Subtitle = styled.p`
-  font-size: .9em;
+  font-size: 0.9em;
   font-weight: 200;
   margin-top: 5px;
 `;
@@ -301,15 +300,15 @@ const StockTableContainer = styled.div`
 export function StockTable(props) {
   return (
     <StockTableContainer>
-      {props.items.map((item, i) =>
-        <StockTableHeader even={(i + 1) % 2}>
+      {props.items.map((item, i) => (
+        <StockTableHeader key={i} even={(i + 1) % 2}>
           <StockField placeholder="Reference" />
           <StockField placeholder="Description" />
           <StockField placeholder="Price" />
           <StockField placeholder="Amount" />
           <StockButton primary icon="remove-close" />
         </StockTableHeader>
-      )}
+      ))}
     </StockTableContainer>
   );
 }

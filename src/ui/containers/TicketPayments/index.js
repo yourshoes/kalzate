@@ -18,18 +18,10 @@ export class TicketPayments extends React.Component {
   }
 }
 
-TicketPayments.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+TicketPayments.propTypes = {};
 
 const mapStateToProps = createStructuredSelector({
   TicketPayments: makeSelectTicketPayments(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TicketPayments);
+export default connect(mapStateToProps)(TicketPayments);
