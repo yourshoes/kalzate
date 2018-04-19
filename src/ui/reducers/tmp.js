@@ -12,18 +12,23 @@
 
 import { fromJS } from 'immutable';
 import { omit, merge } from 'lodash';
+import {
+  UPDATE_TMP_STOCK_DATA_ACTION,
+  UPDATE_STOCK_SUCCESS_ACTION,
+  UPDATE_STOCK_MODAL_OPTION_ACTION,
+  SEARCH_STOCK_SUCCESS_ACTION,
+} from 'ui/containers/StockItems/constants';
 
 // The initial state of the App
 const initialState = fromJS({
   stock: {},
-  search: { stock: {}, ticket: {}, menu: {} },
+  search: {
+    stock: {},
+    ticket: {},
+    menu: {},
+  },
+  modal: { removeStock: false, archiveStock: false },
 });
-
-import {
-  UPDATE_TMP_STOCK_DATA_ACTION,
-  UPDATE_STOCK_SUCCESS_ACTION,
-  SEARCH_STOCK_SUCCESS_ACTION,
-} from 'ui/containers/StockItems/constants';
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
@@ -39,6 +44,8 @@ function appReducer(state = initialState, action) {
       );
     case SEARCH_STOCK_SUCCESS_ACTION:
       return state.updateIn(['search', 'stock'], () => action.search || {});
+    case UPDATE_STOCK_MODAL_OPTION_ACTION:
+      return state.updateIn(['modal', action.option], () => action.value);
     default:
       return state;
   }

@@ -12,6 +12,7 @@ import {
   EXPORT_STOCK_ACTION,
   SEARCH_STOCK_ACTION,
   UPDATE_TMP_STOCK_DATA_ACTION,
+  UPDATE_STOCK_MODAL_OPTION_ACTION,
 } from './constants';
 
 export function createStock(stock, options = {}) {
@@ -69,5 +70,13 @@ export function updateTmpData(reference, data) {
     type: UPDATE_TMP_STOCK_DATA_ACTION,
     reference,
     data,
+  };
+}
+
+export function updateModalOption(option, value) {
+  return {
+    type: UPDATE_STOCK_MODAL_OPTION_ACTION,
+    option,
+    value,
   };
 }

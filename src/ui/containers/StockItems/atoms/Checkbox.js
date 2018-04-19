@@ -78,10 +78,14 @@ export const SwitchCheckbox = styled.div`
   }
 `;
 
-export const Checkbox = ({ type }) => (
+export const Checkbox = ({ type, defaultChecked, onChange }) => (
   <InnerContainer>
     <SwitchLabel>
-      <SwitchInput type={type} />
+      <SwitchInput
+        type={type}
+        defaultChecked={defaultChecked}
+        onChange={({ target }) => onChange(target.checked)}
+      />
       <SwitchCheckbox />
     </SwitchLabel>
   </InnerContainer>

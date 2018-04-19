@@ -35,6 +35,19 @@ const makeSelectStockSearch = () =>
 const makeSelectStockTmpData = () =>
   createSelector(selectTmpData(), (substate) => substate.get('stock'));
 
+const makeSelectStockModalOptions = () =>
+  createSelector(selectTmpData(), (substate) => substate.get('modal'));
+
+const makeSelectStockModalRemoveOption = () =>
+  createSelector(selectTmpData(), (substate) =>
+    substate.get('modal').get('removeStock')
+  );
+
+const makeSelectStockModalArchiveOption = () =>
+  createSelector(selectTmpData(), (substate) =>
+    substate.get('modal').get('archiveStock')
+  );
+
 export default selectStockItemsDomain;
 export {
   selectStockItemsDomain,
@@ -44,4 +57,7 @@ export {
   makeSelectStockCount,
   makeSelectStockSearch,
   makeSelectStockTmpData,
+  makeSelectStockModalOptions,
+  makeSelectStockModalRemoveOption,
+  makeSelectStockModalArchiveOption,
 };

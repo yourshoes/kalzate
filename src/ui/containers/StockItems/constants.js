@@ -45,4 +45,7 @@ export const SEARCH_STOCK_SUCCESS_ACTION =
 export const UPDATE_TMP_STOCK_DATA_ACTION =
   'ui/StockItems/UPDATE_TMP_STOCK_DATA_ACTION';
 
+export const UPDATE_STOCK_MODAL_OPTION_ACTION =
+  'ui/StockItems/UPDATE_STOCK_MODAL_OPTION_ACTION';
+
 export const FILE_EXTENSIONS_ALLOWED = ['json', 'yaml', 'csv'];

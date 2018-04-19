@@ -18,13 +18,27 @@ export class ModalOptions extends React.Component {
     return (
       <OptionsContainer>
         <div style={{ display: 'inline-block', width: '50%' }}>
-          <Checkbox type="checkbox" style={{ marginRight: '5px' }} />
+          <Checkbox
+            defaultChecked={this.props.removeStockOption}
+            type="checkbox"
+            style={{ marginRight: '5px' }}
+            onChange={(value) =>
+              this.props.updateModalOption('removeStock', value)
+            }
+          />
           <label>Remove Current Stock</label>
         </div>
         <div
           style={{ display: 'inline-block', width: '50%', paddingLeft: '20px' }}
         >
-          <Checkbox type="checkbox" style={{ marginRight: '5px' }} />
+          <Checkbox
+            type="checkbox"
+            defaultChecked={this.props.archiveStockOption}
+            style={{ marginRight: '5px' }}
+            onChange={(value) =>
+              this.props.updateModalOption('archiveStock', value)
+            }
+          />
           <label>Archive Current Stock</label>
           {/* <label>Validate Stock File</label>*/}
         </div>

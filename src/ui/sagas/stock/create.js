@@ -13,8 +13,6 @@ function* createStock(action) {
   try {
     const { stock: stockItem, options } = action;
     yield call((...args) => Stock().create(...args), stockItem, options);
-    if (options.batch) {
-    }
     // yield put({ type: CREATE_STOCK_SUCCESS_ACTION, stock: stockItem });
     yield put({
       type: REFRESH_STOCK_ACTION,

@@ -25,9 +25,9 @@ export class ModalDropZone extends React.Component {
     // Emit action to save items taking into account options (remove current stock & run in background)
     this.props.createStock(this.state.items, {
       batch: true,
-      remove: false,
+      remove: this.props.removeStockOption,
       // remove: this.props.removeOption,
-      archive: false,
+      archive: this.props.archiveStockOption,
       filename: this.state.filename,
       // background: this.props.backgroundOption,
     });
@@ -82,7 +82,7 @@ export class ModalDropZone extends React.Component {
         fileExtension.toLowerCase(),
         (error, jsContent) =>
           this.setState(
-            { loading: false, items: jsContent, filename: file.filename },
+            { loading: false, items: jsContent, filename: file.name },
             () => this.props.enable()
           )
       );
