@@ -8,26 +8,27 @@ import React from 'react';
 import { mouseTrap } from 'react-mousetrap';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { FormattedMessage } from 'react-intl';
 import Octicon from 'react-octicon';
 import HotKeys from 'ui/utils/hotkeys';
 import PubSub from 'ui/utils/pubsub';
-import { appLocalesMessages } from 'ui/i18n';
-import { getLangItems } from 'ui/utils/helper';
-import { makeSelectLocale } from 'ui/containers/LanguageProvider/selectors';
-import { changeLocale } from 'ui/containers/LanguageProvider/actions';
+import { getThemeItems } from 'ui/containers/ThemeProvider/utils';
+import { makeSelectThemeName } from 'ui/containers/ThemeProvider/selectors';
+import { changeTheme } from 'ui/containers/ThemeProvider/actions';
 import { Span } from './wrappers';
+import messages from './messages';
 
 class ThemeToggle extends React.Component {
   componentWillMount() {
     // Subscribe to hotkeys
     this.props.bindShortcut(
-      HotKeys.CHANGE_LANG.keys,
+      HotKeys.CHANGE_THEME.keys,
       this.bindShortcut.bind(this)
     );
     // Subscribe to fuzzy finder lang messages
     this.pubSubToken = PubSub.subscribe(
-      PubSub.topics.FUZZY_FINDER_LANG_ITEM_SELECTED,
-      this.changeLang.bind(this)
+      PubSub.topics.FUZZY_FINDER_THEME_ITEM_SELECTED,
+      this.changeTheme.bind(this)
     );
   }
 
@@ -40,24 +41,24 @@ class ThemeToggle extends React.Component {
     // Request the fuzzy finder
     PubSub.publish(PubSub.topics.FUZZY_FINDER_REQUIRED, {
       // items: [{title: 'English', marked: true, value: 'en'}, {title: 'Spanish', value: 'es'}, {title: 'Hebrew', value: 'heb'}],
-      items: getLangItems(appLocalesMessages, this.props.locale),
-      topic: PubSub.topics.FUZZY_FINDER_LANG_ITEM_SELECTED,
+      items: getThemeItems(this.props.theme),
+      topic: PubSub.topics.FUZZY_FINDER_THEME_ITEM_SELECTED,
     });
   }
 
   bindShortcut() {
     this.openFuzzyFinder();
     // Prevent default
-    return HotKeys.CHANGE_LANG.default;
+    return HotKeys.CHANGE_THEME.default;
   }
 
-  changeLang(topic, lang) {
-    this.props.onThemeToggle(lang);
+  changeTheme(topic, theme) {
+    this.props.onThemeToggle(theme);
   }
 
   render() {
     return (
-      <Span title={this.props.locale} onClick={() => this.openFuzzyFinder()}>
+      <Span title={this.props.theme} onClick={() => this.openFuzzyFinder()}>
         {this.props.children}
       </Span>
     );
@@ -66,17 +67,16 @@ class ThemeToggle extends React.Component {
 
 ThemeToggle.propTypes = {
   onThemeToggle: React.PropTypes.func,
-  locale: React.PropTypes.string,
+  theme: React.PropTypes.string,
   bindShortcut: React.PropTypes.func,
-  children: React.PropTypes.object,
 };
 
-const mapStateToProps = createSelector(makeSelectLocale(), (locale) => ({
-  locale,
+const mapStateToProps = createSelector(makeSelectThemeName(), (theme) => ({
+  theme,
 }));
 
 const mapDispatchToProps = (dispatch) => ({
-  onThemeToggle: (lang) => dispatch(changeLocale(lang)),
+  onThemeToggle: (theme) => dispatch(changeTheme(theme)),
   dispatch,
 });
 

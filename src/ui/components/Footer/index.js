@@ -65,6 +65,7 @@ export default function Footer() {
             <A style={{ secondary: true }}>
               <Octicon name="sync" />
               <FormattedMessage {...messages.help} />
+              {/* <FormattedMessage {...messages.notifications} />*/}
             </A>
           </StatusBarItem>
         </StatusBarRight>

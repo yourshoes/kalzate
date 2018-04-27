@@ -14,6 +14,7 @@ import {
   makeSelectStockCount,
   makeSelectStockSearch,
   makeSelectStockTmpData,
+  makeSelectStockReferenceMatches,
 } from './selectors';
 import {
   createStock,
@@ -22,6 +23,7 @@ import {
   removeStock,
   exportStock,
   searchStock,
+  getMatches,
   updateTmpData,
 } from './actions';
 import Container from './atoms/Container';
@@ -45,6 +47,7 @@ StockItemsPage.propTypes = {
   skip: PropTypes.number,
   limit: PropTypes.number,
   match: PropTypes.object,
+  matches: PropTypes.array,
   tmp: PropTypes.object,
   createStock: PropTypes.func,
   updateStock: PropTypes.func,
@@ -60,6 +63,7 @@ const mapStateToProps = createStructuredSelector({
   skip: makeSelectStockOffset(),
   total: makeSelectStockCount(),
   search: makeSelectStockSearch(),
+  matches: makeSelectStockReferenceMatches(),
   tmp: makeSelectStockTmpData(),
 });
 
@@ -72,6 +76,7 @@ function mapDispatchToProps(dispatch) {
     exportStock: (decrypt) => dispatch(exportStock(decrypt)),
     searchStock: (search, limit, skip) =>
       dispatch(searchStock(search, limit, skip)),
+    getMatches: (field, value) => dispatch(getMatches(field, value)),
     updateTmpData: (reference, data) =>
       dispatch(updateTmpData(reference, data)),
   };

@@ -84,7 +84,9 @@ export function StockTableRows(props) {
               props.updateTmpData(_data.reference, {
                 price: isRealNumeric(price)
                   ? price
-                  : price ? props.tmp[_data.reference].price : '',
+                  : price && props.tmp[_data.reference]
+                    ? props.tmp[_data.reference].price
+                    : '',
               })
             }
           />

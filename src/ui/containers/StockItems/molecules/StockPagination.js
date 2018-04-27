@@ -7,10 +7,8 @@
 import React from 'react';
 import StockPaginationContainer from '../atoms/StockPaginationContainer';
 import StockPaginationSection from '../atoms/StockPaginationSection';
-import DownloadIcon from '../atoms/DownloadIcon';
-import SyncIcon from '../atoms/SyncIcon';
+import { DownloadIcon, SyncIcon, PageIteratorIcon } from '../atoms/StockIcons';
 import PageIteratorContainer from '../atoms/PageIteratorContainer';
-import PageIteratorIcon from '../atoms/PageIteratorIcon';
 
 export function StockPagination({
   total,

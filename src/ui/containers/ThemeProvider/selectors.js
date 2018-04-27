@@ -9,12 +9,10 @@ const selectTheme = (state) => state.get('theme');
  * Select the language locale
  */
 
-const makeSelectTheme = () => createSelector(
-  selectTheme,
-  (themeState) => themeState.get('theme')
-);
+const makeSelectTheme = () =>
+  createSelector(selectTheme, (themeState) => themeState.get('theme'));
 
-export {
-  selectTheme,
-  makeSelectTheme,
-};
+const makeSelectThemeName = () =>
+  createSelector(selectTheme, (themeState) => themeState.get('name'));
+
+export { selectTheme, makeSelectTheme, makeSelectThemeName };

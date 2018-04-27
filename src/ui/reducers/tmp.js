@@ -17,6 +17,7 @@ import {
   UPDATE_STOCK_SUCCESS_ACTION,
   UPDATE_STOCK_MODAL_OPTION_ACTION,
   SEARCH_STOCK_SUCCESS_ACTION,
+  GET_MATCHES_STOCK_SUCCESS_ACTION,
 } from 'ui/containers/StockItems/constants';
 
 // The initial state of the App
@@ -26,6 +27,9 @@ const initialState = fromJS({
     stock: {},
     ticket: {},
     menu: {},
+  },
+  matches: {
+    stock: { reference: [] },
   },
   modal: { removeStock: false, archiveStock: false },
 });
@@ -44,6 +48,11 @@ function appReducer(state = initialState, action) {
       );
     case SEARCH_STOCK_SUCCESS_ACTION:
       return state.updateIn(['search', 'stock'], () => action.search || {});
+    case GET_MATCHES_STOCK_SUCCESS_ACTION:
+      return state.updateIn(
+        ['matches', 'stock', action.field],
+        () => action.items || []
+      );
     case UPDATE_STOCK_MODAL_OPTION_ACTION:
       return state.updateIn(['modal', action.option], () => action.value);
     default:

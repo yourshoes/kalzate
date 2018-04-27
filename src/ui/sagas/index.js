@@ -8,6 +8,7 @@ import {
   stockRemoveSaga,
   stockExportSaga,
   stockSearchSaga,
+  stockMatchesSaga,
 } from './stock';
 
 export default function* () {
@@ -20,5 +21,6 @@ export default function* () {
     stockRemoveSaga,
     stockExportSaga,
     stockSearchSaga,
+    stockMatchesSaga,
   ]);
 }

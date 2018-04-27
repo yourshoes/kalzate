@@ -14,12 +14,14 @@ function* createStock(action) {
     const { stock: stockItem, options } = action;
     yield call((...args) => Stock().create(...args), stockItem, options);
     // yield put({ type: CREATE_STOCK_SUCCESS_ACTION, stock: stockItem });
+    // @todo print notification if batch mode
     yield put({
       type: REFRESH_STOCK_ACTION,
       limit: DEFAULT_STOCK_ITEMS_LIMIT,
       skip: 0,
     });
   } catch (e) {
+    // @todo print notification if batch mode
     yield put({ type: CREATE_STOCK_ERROR_ACTION, message: e.message });
   }
 }

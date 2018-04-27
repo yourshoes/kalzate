@@ -10,7 +10,7 @@ import { DOWNLOAD_FILE_ACTION } from 'ui/containers/App/constants';
 function* exportStock(action) {
   try {
     const { decrypt } = action;
-    const stock = yield call((...args) => Stock().export(...args), decrypt);
+    const stock = yield call((...args) => Stock().dump(...args), decrypt);
     yield put({
       type: DOWNLOAD_FILE_ACTION,
       content: JSON.stringify(stock.docs),

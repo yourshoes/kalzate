@@ -44,7 +44,14 @@ export class ModalDropZone extends React.Component {
         case FILE_EXTENSIONS_ALLOWED[1]:
           return cb(null, fromYAML(str));
         case FILE_EXTENSIONS_ALLOWED[2]:
-          return fromCSV()
+          return fromCSV({
+            colParser: {
+              size: 'number',
+              price: 'number',
+              amount: 'number',
+              colors: (item) => item.split(',').map((i) => i.trim()),
+            },
+          })
             .fromString(str)
             .on('end_parsed', (data) => cb(null, data))
             .on('error', (error) => cb(error));

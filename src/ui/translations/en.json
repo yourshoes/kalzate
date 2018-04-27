@@ -8,7 +8,7 @@
   "kz.components.Footer.home": "",
   "kz.components.Footer.languages": "",
   "kz.components.Footer.license": "",
-  "kz.components.Footer.themes": "",
+  "kz.components.Footer.themes": "Themes",
   "kz.components.HomePage.header": "",
   "kz.components.HomePage.help": "",
   "kz.components.HomePage.subheader": "",
@@ -45,5 +45,12 @@
   "octoql.containers.App.actions.addNotebook": "",
   "octoql.containers.App.actions.changeLang": "",
   "octoql.containers.App.actions.openNotebook": "",
-  "octoql.containers.WorkSpacePage.title": ""
+  "octoql.containers.WorkSpacePage.title": "",
+  "kz.components.Ribbon.forkme": "Fork me at Github",
+  "kz.containers.App.actions.changeLang": "Change Language",
+  "kz.containers.App.actions.changeTheme": "Change Theme",
+  "kz.containers.App.actions.importStock": "Import Stock",
+  "kz.containers.ThemeProvider.themes.dark": "Dark",
+  "kz.containers.ThemeProvider.themes.light": "Light",
+  "kz.containers.ThemeProvider.themes.monokai": "Monokai"
 }

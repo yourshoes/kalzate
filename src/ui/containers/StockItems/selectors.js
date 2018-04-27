@@ -29,6 +29,14 @@ const makeSelectStockCount = () =>
 const makeSelectSearch = () =>
   createSelector(selectTmpData(), (substate) => substate.get('search'));
 
+const makeSelectMatches = () =>
+  createSelector(selectTmpData(), (substate) => substate.get('matches'));
+
+const makeSelectStockReferenceMatches = () =>
+  createSelector(makeSelectMatches(), (substate) =>
+    substate.get('stock').get('reference')
+  );
+
 const makeSelectStockSearch = () =>
   createSelector(makeSelectSearch(), (substate) => substate.get('stock'));
 
@@ -60,4 +68,5 @@ export {
   makeSelectStockModalOptions,
   makeSelectStockModalRemoveOption,
   makeSelectStockModalArchiveOption,
+  makeSelectStockReferenceMatches,
 };

@@ -12,7 +12,7 @@ function* updateStock(action) {
     const { stock: stockItem } = action;
     stockItem.price = parseFloat(stockItem.price);
     const updatedStock = yield call(
-      (...args) => Stock().upsert(...args),
+      (...args) => Stock().update(...args),
       stockItem
     );
     yield put({ type: UPDATE_STOCK_SUCCESS_ACTION, stock: updatedStock });

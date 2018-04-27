@@ -7,16 +7,16 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   changeLang: {
-    id: 'octoql.containers.App.actions.changeLang',
+    id: 'kz.containers.App.actions.changeLang',
     defaultMessage: 'Change Language',
   },
-  addNotebook: {
-    id: 'octoql.containers.App.actions.addNotebook',
-    defaultMessage: 'Add Notebook',
+  changeTheme: {
+    id: 'kz.containers.App.actions.changeTheme',
+    defaultMessage: 'Change Theme',
   },
-  openNotebook: {
-    id: 'octoql.containers.App.actions.openNotebook',
-    defaultMessage: 'Open Notebook',
+  importStock: {
+    id: 'kz.containers.App.actions.importStock',
+    defaultMessage: 'Import Stock',
   },
   englishLang: {
     id: 'kz.containers.LanguageProvider.en',

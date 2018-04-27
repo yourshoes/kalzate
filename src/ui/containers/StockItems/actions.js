@@ -11,6 +11,7 @@ import {
   REMOVE_STOCK_ACTION,
   EXPORT_STOCK_ACTION,
   SEARCH_STOCK_ACTION,
+  GET_MATCHES_STOCK_ACTION,
   UPDATE_TMP_STOCK_DATA_ACTION,
   UPDATE_STOCK_MODAL_OPTION_ACTION,
 } from './constants';
@@ -62,6 +63,14 @@ export function searchStock(search, limit, skip) {
     limit,
     skip,
     search,
+  };
+}
+
+export function getMatches(field, value) {
+  return {
+    type: GET_MATCHES_STOCK_ACTION,
+    field,
+    value,
   };
 }
 

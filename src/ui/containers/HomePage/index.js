@@ -14,6 +14,7 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { platformKeySymbols } from 'ui/utils/helper';
 import Logo from 'ui/components/Logo';
+import Ribbon from 'ui/components/Ribbon';
 import messages from './messages';
 import {
   Container,
@@ -57,14 +58,13 @@ export default class HomePage extends React.PureComponent {
               <MessageListItem>
                 <Help>
                   <FormattedMessage {...messages.help} />
-                  <KeyStroke>
-                    {platformKeySymbols(0)}C
-                  </KeyStroke>
+                  <KeyStroke>{platformKeySymbols(0)}C</KeyStroke>
                 </Help>
               </MessageListItem>
             </MessageList>
           </MessageCentered>
         </MessageContainer>
+        <Ribbon />
       </Container>
     );
   }

@@ -25,6 +25,7 @@ import HelperTour from 'ui/components/HelperTour';
 import FuzzyFinder from 'ui/containers/FuzzyFinder';
 import HotKeys from 'ui/utils/hotkeys';
 import PubSub from 'ui/utils/pubsub';
+import StockModal from 'ui/containers/StockItems/molecules/StockModal';
 import { Section, Article } from './wrappers';
 import messages from './messages';
 
@@ -41,6 +42,12 @@ class App extends React.Component {
       this.discoverAction.bind(this)
     );
 
+    // Subscribe to hotkeys
+    this.props.bindShortcut(
+      HotKeys.IMPORT_STOCK.keys,
+      this.openImportStockModal.bind(this)
+    );
+
     // Subscribe to fuzzy finder lang messages
     this.pubSubToken = PubSub.subscribe(
       PubSub.topics.ACTION_SELECTED,
@@ -55,6 +62,7 @@ class App extends React.Component {
 
   openFuzzyFinder() {
     // Request the fuzzy finder
+    // (topic, value) is emitted when the item is selected in fuzzy finder
     PubSub.publish(PubSub.topics.FUZZY_FINDER_REQUIRED, {
       items: [
         {
@@ -63,14 +71,14 @@ class App extends React.Component {
           hint: HotKeys.CHANGE_LANG.keys,
         },
         {
-          value: HotKeys.ADD_NOTEBOOK.keys,
-          title: messages.addNotebook.id,
-          hint: HotKeys.ADD_NOTEBOOK.keys,
+          value: HotKeys.CHANGE_THEME.keys,
+          title: messages.changeTheme.id,
+          hint: HotKeys.CHANGE_THEME.keys,
         },
         {
-          value: HotKeys.OPEN_NOTEBOOK.keys,
-          title: messages.openNotebook.id,
-          hint: HotKeys.OPEN_NOTEBOOK.keys,
+          value: HotKeys.IMPORT_STOCK.keys,
+          title: messages.importStock.id,
+          hint: HotKeys.IMPORT_STOCK.keys,
         },
       ],
       topic: PubSub.topics.ACTION_SELECTED,
@@ -84,7 +92,12 @@ class App extends React.Component {
   }
 
   actionSelected(topic, resource) {
+    // resource here is the keyboard key combination to trigger (i.e. alt+t)
     mouseTrapCore.trigger(resource);
+  }
+
+  openImportStockModal() {
+    PubSub.publish(PubSub.topics.MODAL_OPENED, StockModal);
   }
 
   render() {
