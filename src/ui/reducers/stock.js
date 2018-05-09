@@ -12,7 +12,7 @@
 
 import { fromJS } from 'immutable';
 import { DEFAULT_STOCK_ITEMS_LIMIT } from 'ui/constants';
-import { remove } from 'lodash';
+// import { remove } from 'lodash';
 import {
   // CREATE_STOCK_SUCCESS_ACTION,
   // CREATE_STOCK_ERROR_ACTION,

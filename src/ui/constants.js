@@ -1,3 +1,8 @@
+/** ****************************************************************************/
+/*                                                                             */
+/*    SETTINGS CONSTANTS                                                       */
+/*                                                                             */
+/** ****************************************************************************/
 export const DEFAULT_COUNTRY = 'spain';
 export const DEFAULT_LOCALE = 'en';
 export const DEFAULT_TIMEZONE = 'Europe/Madrid';
@@ -7,9 +12,10 @@ export const DEFAULT_EMAIL = 'zurisadai.pabon@gmail.com';
 export const DEFAULT_PHONE = '+34610601389';
 export const DEFAULT_PRINTER_NAME = 'TERMICA';
 export const DEFAULT_BACKUP_FRECUENCY = 'daily';
-export const DEFAULT_TICKET_TEMPLATE = '\r\n             SHOES STORE ${name}\r\n\r\n Address: ${address}\r\n Email: ${email}  Phone: ${phone}\r\n Ticket: ${code}  Date: ${date}\r\n\r\n------------------------------------------\r\n Item                   U.  PSP  Subtotal\r\n------------------------------------------\r\n${items}\r\n------------------------------------------\r\n                          TOTAL: ${total}\r\n                         (TAXES included)\r\n\r\n Method: ${payment}, Amount: ${payment_in}\r\n\r\n RETURNS ADMITTED BETWEEN ${date} AND ${date_return} \r\n\r\n *** THANKS FOR SHOPPING AT ${name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
+export const DEFAULT_TICKET_TEMPLATE =
+  '\r\n             SHOES STORE ${name}\r\n\r\n Address: ${address}\r\n Email: ${email}  Phone: ${phone}\r\n Ticket: ${code}  Date: ${date}\r\n\r\n------------------------------------------\r\n Item                   U.  PSP  Subtotal\r\n------------------------------------------\r\n${items}\r\n------------------------------------------\r\n                          TOTAL: ${total}\r\n                         (TAXES included)\r\n\r\n Method: ${payment}, Amount: ${payment_in}\r\n\r\n RETURNS ADMITTED BETWEEN ${date} AND ${date_return} \r\n\r\n *** THANKS FOR SHOPPING AT ${name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
 
-export const DEFAULT_STOCK_ITEMS_LIMIT = 5;
+export const DEFAULT_STOCK_ITEMS_LIMIT = 50;
 
 export const COUNTRY_SETTING = 'country';
 export const LANG_SETTING = 'lang';
@@ -42,3 +48,13 @@ export const DEFAULT_SETTINGS = {
   [BACKUP_LOCATION_SETTING]: '',
   [ANALYTICS_SERVER_SETTING]: '',
 };
+
+/** ****************************************************************************/
+/*                                                                             */
+/*    PAYMENT CONSTANTS                                                        */
+/*                                                                             */
+/** ****************************************************************************/
+export const PAYMENT_METHOD_CREDIT_CARD = 'payment_method_credit_card';
+export const PAYMENT_METHOD_PHONE = 'payment_method_phone';
+export const PAYMENT_METHOD_CASH = 'payment_method_cash';
+export const PAYMENT_METHOD_TICKET = 'payment_method_ticket';

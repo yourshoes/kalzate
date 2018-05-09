@@ -4,12 +4,11 @@
  *
  */
 
-import {
-  DEFAULT_ACTION,
-} from './constants';
+import { SET_METHOD_TICKET_PAYMENTS_ACTION } from './constants';
 
-export function defaultAction() {
+export function setMethod(method) {
   return {
-    type: DEFAULT_ACTION,
+    type: SET_METHOD_TICKET_PAYMENTS_ACTION,
+    method,
   };
 }

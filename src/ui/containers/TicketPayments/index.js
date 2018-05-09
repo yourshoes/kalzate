@@ -6,22 +6,36 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import makeSelectTicketPayments from './selectors';
-import messages from './messages';
-import { PaymentMethods } from './wrappers';
+import { PaymentMethods } from './molecules/PaymentMethods';
+import { setMethod } from './actions';
+
 export class TicketPayments extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    return <PaymentMethods />;
+    return (
+      <PaymentMethods
+        method={this.props.ticketPayments.get('method')}
+        {...this.props}
+      />
+    );
   }
 }
 
-TicketPayments.propTypes = {};
+TicketPayments.propTypes = {
+  ticketPayments: PropTypes.object.isRequired,
+  setMethod: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setMethod: (method) => dispatch(setMethod(method)),
+  };
+}
 
 const mapStateToProps = createStructuredSelector({
-  TicketPayments: makeSelectTicketPayments(),
+  ticketPayments: makeSelectTicketPayments(),
 });
 
-export default connect(mapStateToProps)(TicketPayments);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketPayments);

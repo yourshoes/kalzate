@@ -80,6 +80,11 @@ class App extends React.Component {
           title: messages.importStock.id,
           hint: HotKeys.IMPORT_STOCK.keys,
         },
+        {
+          value: HotKeys.EXPORT_STOCK.keys,
+          title: messages.exportStock.id,
+          hint: HotKeys.EXPORT_STOCK.keys,
+        },
       ],
       topic: PubSub.topics.ACTION_SELECTED,
     });
