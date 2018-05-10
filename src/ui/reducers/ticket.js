@@ -13,6 +13,7 @@
 import { fromJS } from 'immutable';
 // import { PAYMENT_METHOD_CREDIT_CARD } from 'ui/constants';
 import { SET_METHOD_TICKET_PAYMENTS_ACTION } from 'ui/containers/TicketPayments/constants';
+import { ADD_STOCK_TO_TICKET_ACTION } from 'ui/containers/StockItems/constants';
 
 // The initial state of the App
 const initialState = fromJS({
@@ -29,6 +30,8 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case ADD_STOCK_TO_TICKET_ACTION:
+      return state.update('items', (items) => items.push(action.item));
     case SET_METHOD_TICKET_PAYMENTS_ACTION:
       return state.updateIn(['payment', 'method'], () => action.method);
     default:

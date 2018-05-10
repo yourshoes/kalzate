@@ -115,7 +115,7 @@ export function StockTableRows(props) {
             icon="remove-close"
             onClick={() => props.onRemove(_data)}
           />
-          <StockButton primary icon="link-external" />
+          <StockButton primary icon="link-external" onClick={() => props.addStockToTicket(_data)} />
         </StockTableHeaderContainer>
       ))}
     </StockTableContainer>

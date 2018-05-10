@@ -13,17 +13,27 @@ import TicketTableButton from './TicketTableButton';
 
 export class TicketTableBody extends React.Component {
 
+  abbrv(type, value) {
+    switch (type) {
+      case 'COLORS':
+      case 'GENDER':
+      case 'BRAND':
+        return value.substring(0, 3);
+      default: return value;
+    }
+  }
+
   render() {
     return (
       <HeightAdapterContainer>
         <TicketTableBodyContainer>
           {this.props.items.map((item, i) => (
             <TicketTableRowContainer key={i} even={(i + 1) % 2}>
-              <TicketTableField placeholder="Reference" />
-              <TicketTableField placeholder="Description" />
-              <TicketTableField placeholder="Price" />
-              <TicketTableField placeholder="Amount" />
-              <TicketTableField placeholder="Subtotal" />
+              <TicketTableField placeholder={item.reference} readonly />
+              <TicketTableField placeholder={`${this.abbrv('BRAND', item.brand)}-${item.colors.map((c) => this.abbrv('COLORS', c)).join()} (${item.size}-${this.abbrv('BRAND', item.gender)})`} readonly bigger />
+              <TicketTableField placeholder={item.price} readonly />
+              <TicketTableField placeholder={'1'} />
+              <TicketTableField placeholder={item.price} readonly />
               <TicketTableButton primary icon="remove-close" />
             </TicketTableRowContainer>
           ))}

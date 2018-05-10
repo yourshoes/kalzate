@@ -25,6 +25,7 @@ import {
   searchStock,
   getMatches,
   updateTmpData,
+  addStockToTicket,
 } from './actions';
 import Container from './atoms/Container';
 import StockTableHeader from './molecules/StockTableHeader';
@@ -79,6 +80,8 @@ function mapDispatchToProps(dispatch) {
     getMatches: (field, value) => dispatch(getMatches(field, value)),
     updateTmpData: (reference, data) =>
       dispatch(updateTmpData(reference, data)),
+    addStockToTicket: (stockItem) =>
+      dispatch(addStockToTicket(stockItem)),
   };
 }
 

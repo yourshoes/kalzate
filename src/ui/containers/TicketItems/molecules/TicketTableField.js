@@ -14,10 +14,10 @@ export class TicketTableField extends React.Component {
 
   render() {
     return (
-      <Section10>
+      <Section10 bigger={this.props.bigger}>
         <FloatLabel>
-          <TicketInput type="text" placeholder={this.props.placeholder} />
-          <TicketLabel>{this.props.placeholder}</TicketLabel>
+          {!this.props.readonly && <TicketInput type="text" placeholder={this.props.placeholder} />}
+          <TicketLabel readonly={this.props.readonly}>{this.props.placeholder}</TicketLabel>
         </FloatLabel>
       </Section10>
     );

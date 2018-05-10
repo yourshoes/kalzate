@@ -7,7 +7,7 @@
 import styled from 'styled-components';
 
 export const Section5 = styled.div`
-width: 8%;
+width: 6%;
 height: 100%;
 margin: 0;
 padding: 0;

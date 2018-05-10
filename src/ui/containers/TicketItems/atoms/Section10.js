@@ -7,7 +7,7 @@
 import styled from 'styled-components';
 
 export const Section10 = styled.div`
-width: 23%;
+width: ${(props) => props.bigger ? '30' : '16'}%;
 height: 100%;
 margin: 0;
 padding: 0;
