@@ -4,4 +4,5 @@
  *
  */
 
-export const TOGGLE_VISIBILITY = 'app/BlogPost/TOGGLE_VISIBILITY';
+export const SET_TICKET_GIVEN_AMOUNT_ACTION =
+  'ui/TicketTotal/SET_TICKET_GIVEN_AMOUNT_ACTION';

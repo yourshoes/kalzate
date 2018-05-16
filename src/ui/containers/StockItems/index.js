@@ -8,6 +8,9 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
+  addStockToTicket,
+} from 'ui/containers/TicketItems/actions';
+import {
   makeSelectStockItems,
   makeSelectStockLimit,
   makeSelectStockOffset,
@@ -25,7 +28,6 @@ import {
   searchStock,
   getMatches,
   updateTmpData,
-  addStockToTicket,
 } from './actions';
 import Container from './atoms/Container';
 import StockTableHeader from './molecules/StockTableHeader';

@@ -18,3 +18,5 @@ describe('<App/>', ()=>{
 
 })
 ```
+
+use `jest.spyOn(lib, method).mockImplementation()` instead of `sinon.stub(lib, method).returns()` and `jest.fn()` instead of `sinon.spy()`

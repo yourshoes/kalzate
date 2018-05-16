@@ -90,10 +90,3 @@ export function updateModalOption(option, value) {
     value,
   };
 }
-
-export function addStockToTicket(item) {
-  return {
-    type: ADD_STOCK_TO_TICKET_ACTION,
-    item,
-  };
-}

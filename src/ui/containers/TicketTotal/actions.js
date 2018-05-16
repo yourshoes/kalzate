@@ -4,10 +4,11 @@
  *
  */
 
-import { TOGGLE_VISIBILITY } from './constants';
+import { SET_TICKET_GIVEN_AMOUNT_ACTION } from './constants';
 
-export function toggleBlogPostVisibility() {
+export function setTicketGivenAmount(amount) {
   return {
-    type: TOGGLE_VISIBILITY,
+    type: SET_TICKET_GIVEN_AMOUNT_ACTION,
+    amount,
   };
 }

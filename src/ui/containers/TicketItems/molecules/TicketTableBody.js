@@ -9,6 +9,7 @@ import TicketTableBodyContainer from '../atoms/TicketTableBodyContainer';
 import HeightAdapterContainer from '../atoms/HeightAdapterContainer';
 import TicketTableRowContainer from '../atoms/TicketTableRowContainer';
 import TicketTableField from './TicketTableField';
+import TicketTableAmountField from './TicketTableAmountField';
 import TicketTableButton from './TicketTableButton';
 
 export class TicketTableBody extends React.Component {
@@ -24,6 +25,7 @@ export class TicketTableBody extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <HeightAdapterContainer>
         <TicketTableBodyContainer>
@@ -31,10 +33,29 @@ export class TicketTableBody extends React.Component {
             <TicketTableRowContainer key={i} even={(i + 1) % 2}>
               <TicketTableField placeholder={item.reference} readonly />
               <TicketTableField placeholder={`${this.abbrv('BRAND', item.brand)}-${item.colors.map((c) => this.abbrv('COLORS', c)).join()} (${item.size}-${this.abbrv('BRAND', item.gender)})`} readonly bigger />
-              <TicketTableField placeholder={item.price} readonly />
-              <TicketTableField placeholder={'1'} />
-              <TicketTableField placeholder={item.price} readonly />
-              <TicketTableButton primary icon="remove-close" />
+              <TicketTableField placeholder={item.price.toFixed(2)} readonly />
+              <TicketTableAmountField
+                placeholder={item.amount || '1'}
+                value={
+                  this.props.tmp[item.reference] && this.props.tmp[item.reference].amount
+                    ? this.props.tmp[item.reference].amount
+                    : ''
+                }
+                onChange={(amount) =>
+                  this.props.updateTmpData(item.reference, {
+                    amount: parseInt(amount, 10),
+                  })
+                }
+                onBlur={(e) => {
+                  if (this.props.tmp[item.reference] && this.props.tmp[item.reference].amount) {
+                    this.props.updateTicketData(item, {
+                      amount: this.props.tmp[item.reference].amount,
+                    });
+                  }
+                }}
+              />
+              <TicketTableField placeholder={(item.price * item.amount).toFixed(2)} readonly />
+              <TicketTableButton primary icon="remove-close" onClick={() => this.props.removeStockFromTicket(item, i)} />
             </TicketTableRowContainer>
           ))}
         </TicketTableBodyContainer>

@@ -30,7 +30,7 @@ export class TicketBody extends React.Component {
           </Center>}
 
         {!this.props.items.isEmpty() && (
-          <TicketTable items={this.props.items} />
+          <TicketTable {...this.props} />
         )}
       </TicketBodyContainer>
     );

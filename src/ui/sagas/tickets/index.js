@@ -1,1 +1,1 @@
-export addItemToTicketSaga from './add_item';
+export updateTicketSaga from './update_ticket';

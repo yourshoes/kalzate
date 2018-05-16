@@ -5,6 +5,8 @@ import { createSelector } from 'reselect';
  */
 const selectTicketPaymentsDomain = () => (state) => state.get('ticket');
 
+const selectTmpData = () => (state) => state.get('tmp');
+
 /**
  * Other specific selectors
  */
@@ -18,5 +20,12 @@ const makeSelectTicketItems = () =>
     substate.get('items')
   );
 
+
+const makeSelectTicketTmpData = () =>
+  createSelector(selectTmpData(), (substate) => substate.get('ticket'));
+
 export default makeSelectTicketItems;
-export { selectTicketPaymentsDomain };
+export {
+  selectTicketPaymentsDomain, makeSelectTicketItems,
+  makeSelectTicketTmpData,
+};

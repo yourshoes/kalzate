@@ -10,59 +10,38 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
   makeSelectTotalAmount,
-  makeSelectTakeAmount,
+  makeSelectGivenAmount,
   makeSelectReturnAmount,
   makeSelectCurrency,
-} from 'ui/containers/App/selectors';
-import { setTicketTakeAmount } from 'ui/containers/App/actions';
-// import messages from './messages';
-import {
-  PaymentSectionContainer,
-  PaymentSection,
-  Total,
-  Take,
-  Returns,
-} from './wrappers';
+} from './selectors';
+import { setTicketGivenAmount } from './actions';
+import PaymentSummary from './molecules/PaymentSummary';
 
-function PaymentSummary(props) {
+function TicketTotal(props) {
   return (
-    <PaymentSectionContainer>
-      <PaymentSection>
-        <Total currency={props.currency} amount={props.ticketTotalAmount} />
-      </PaymentSection>
-      <PaymentSection>
-        <Take
-          currency={props.currency}
-          amount={props.ticketTakeAmount}
-          onTakeChange={(takingAmount) => props.setTicketTakeAmount(takingAmount)}
-        />
-      </PaymentSection>
-      <PaymentSection>
-        <Returns currency={props.currency} amount={props.ticketReturnAmount} />
-      </PaymentSection>
-    </PaymentSectionContainer>
+    <PaymentSummary {...props} />
   );
 }
 
-PaymentSummary.propTypes = {
-  ticketTotalAmount: React.PropTypes.string,
-  ticketTakeAmount: React.PropTypes.string,
-  ticketReturnAmount: React.PropTypes.string,
+TicketTotal.propTypes = {
+  totalAmount: React.PropTypes.string,
+  givenAmount: React.PropTypes.string,
+  returnAmount: React.PropTypes.string,
   currency: React.PropTypes.string,
-  setTicketTakeAmount: React.PropTypes.func,
+  setTicketGivenAmount: React.PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  ticketTotalAmount: makeSelectTotalAmount(),
-  ticketTakeAmount: makeSelectTakeAmount(),
-  ticketReturnAmount: makeSelectReturnAmount(),
+  totalAmount: makeSelectTotalAmount(),
+  givenAmount: makeSelectGivenAmount(),
+  returnAmount: makeSelectReturnAmount(),
   currency: makeSelectCurrency(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    setTicketTakeAmount: (amount) => dispatch(setTicketTakeAmount(amount)),
+    setTicketGivenAmount: (amount) => dispatch(setTicketGivenAmount(amount)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketTotal);

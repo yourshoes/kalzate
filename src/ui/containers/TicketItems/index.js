@@ -7,7 +7,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import makeSelectTicketItems from './selectors';
+import {
+  makeSelectTicketItems,
+  makeSelectTicketTmpData,
+} from './selectors';
+import {
+  updateTmpData,
+  updateTicketData,
+  removeStockFromTicket,
+} from './actions';
 import Container from './atoms/Container';
 import TicketHeader from './molecules/TicketHeader';
 import TicketBody from './molecules/TicketBody';
@@ -28,10 +36,27 @@ export class TicketItems extends React.Component {
 
 TicketItems.propTypes = {
   items: PropTypes.array,
+  tmp: PropTypes.object,
+  updateTmpData: PropTypes.func,
+  updateTicketData: PropTypes.func,
+  removeStockFromTicket: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   items: makeSelectTicketItems(),
+  tmp: makeSelectTicketTmpData(),
 });
 
-export default connect(mapStateToProps)(TicketItems);
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateTmpData: (reference, data) =>
+      dispatch(updateTmpData(reference, data)),
+    updateTicketData: (item, data) =>
+      dispatch(updateTicketData(item, data)),
+    removeStockFromTicket: (item, positioninList) =>
+      dispatch(removeStockFromTicket(item, positioninList)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TicketItems);

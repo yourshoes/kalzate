@@ -55,7 +55,5 @@ export const UPDATE_TMP_STOCK_DATA_ACTION =
 export const UPDATE_STOCK_MODAL_OPTION_ACTION =
   'ui/StockItems/UPDATE_STOCK_MODAL_OPTION_ACTION';
 
-export const ADD_STOCK_TO_TICKET_ACTION = 'ui/StockItems/ADD_STOCK_TO_TICKET_ACTION';
-
 export const FILE_EXTENSIONS_ALLOWED = ['json', 'yaml', 'csv'];
 
