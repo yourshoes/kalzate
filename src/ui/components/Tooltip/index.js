@@ -1,7 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import Octicon from 'react-octicon';
-import PubSub from 'ui/utils/pubsub';
 import { Animate, Container, ToolTip } from './wrappers';
 
 class Tip extends React.Component {
@@ -11,12 +9,10 @@ class Tip extends React.Component {
   }
   startReadingTip() {
     this.setState({ visible: true });
-    PubSub.publish(PubSub.topics.HELPER_TOUR_TIP_OPENED, null);
   }
 
   stopReadingTip() {
     this.setState({ visible: false });
-    PubSub.publish(PubSub.topics.HELPER_TOUR_TIP_CLOSED, null);
   }
 
   remove() {
@@ -37,12 +33,14 @@ class Tip extends React.Component {
         top={this.props.top}
         right={this.props.right}
         bottom={this.props.bottom}
+        color={this.props.color}
+        onClick={(event) => this.props.onClick ? this.props.onClick(event) : null}
       >
         {this.props.animated ? (<Animate>
           <Octicon name={this.props.icon || 'unverified'} />
         </Animate>) : <Octicon name={this.props.icon || 'unverified'} />}
         <ToolTip direction={this.props.direction} visible={this.state.visible}>
-          <FormattedMessage {...this.props.message} />
+          {this.props.children}
         </ToolTip>
       </Container>
     );
@@ -50,17 +48,16 @@ class Tip extends React.Component {
 }
 
 Tip.propTypes = {
-  message: React.PropTypes.shape({
-    id: React.PropTypes.string,
-    defaultMessage: React.PropTypes.string,
-  }),
+  children: React.PropTypes.node,
   direction: React.PropTypes.string,
   left: React.PropTypes.string,
   top: React.PropTypes.string,
   right: React.PropTypes.string,
   bottom: React.PropTypes.string,
   icon: React.PropTypes.string,
-  animated: React.PropTypes.boolean,
+  animated: React.PropTypes.bool,
+  onClick: React.PropTypes.func,
+  color: React.PropTypes.string,
 };
 
 export default Tip;

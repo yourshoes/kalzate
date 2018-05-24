@@ -7,10 +7,25 @@
 import React, { PropTypes } from 'react';
 import { safeLoad as fromYAML } from 'js-yaml';
 import fromCSV from 'csvtojson';
+import Tooltip from 'ui/components/Tooltip';
 import { DottedContainer } from '../atoms/ModalContainer';
+import { ImportStockInfoTooltip } from '../atoms/ImportStockInfoTooltip';
 import { FILE_EXTENSIONS_ALLOWED } from '../constants';
 
 export class ModalDropZone extends React.Component {
+
+  static SAMPLE_FILE = `reference, brand, gender, colors, size, price, amount
+  400, Adidas, man, "white,red", 38, 64.95, 10
+  401, Nike, man, "white,blue", 40, 69.99, 15
+  402, Alpina, man, "red", 44, 44, 5
+  403, Barker, man, "black", 39, 39.99, 5
+  404, Faith, man, "white,blue", 37, 77.77, 7
+  410, Joma, woman, "green, yellow", 37, 59.90, 15
+  411, Tamaris, man, "white,red", 36, 35.95, 5
+  412, Whyred, woman, "black,brown", 41, 54.99, 15
+  413, Racoon, man, "red", 38, 75.5, 10
+  414, Ultimo, woman, "black", 34, 59.99, 5`;
+
   constructor(props) {
     super(props);
     this.state = { loading: false, items: null, filename: '' };
@@ -99,7 +114,7 @@ export class ModalDropZone extends React.Component {
     fileReader.readAsText(file, 'UTF-8');
   }
 
-  openFileContext() {
+  openFileContext(target) {
     if (this.fileInput) {
       this.fileInput.click();
     }
@@ -139,11 +154,17 @@ export class ModalDropZone extends React.Component {
     }
   }
 
+  downloadSample(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.props.downloadFile(ModalDropZone.SAMPLE_FILE, 'sample_stock_file.csv', 'text/csv');
+  }
+
   render() {
     return (
       <DottedContainer
         draggable="true"
-        onClick={() => this.openFileContext()}
+        onClick={({ target }) => this.openFileContext(target)}
         onDrop={(event) => this.dropHandler(event)}
         onDragOver={(event) => this.dragOverHandler(event)}
       >
@@ -159,9 +180,16 @@ export class ModalDropZone extends React.Component {
         />
         <div style={{ display: 'table-cell', verticalAlign: 'middle' }}>
           <p style={{ margin: '2px' }}>Drop stock file here</p>
-          <p style={{ fontSize: '0.6em', margin: '2px' }}>
+          <div style={{ fontSize: '0.6em', margin: '2px' }}>
             Use a csv, json or yaml file extension
-          </p>
+            {/* <Tooltip animated color="inherit" right="62" top="135" direction="down" onClick={(event) => this.downloadSample(event)}>*/}
+            {/* <Tooltip animated color="inherit" right="100" top="100" direction="down" onClick={(event) => this.downloadSample(event)}>*/}
+            <Tooltip animated color="inherit" right="65" top="5" direction="down" onClick={(event) => this.downloadSample(event)}>
+              <ImportStockInfoTooltip onClick={(event) => this.downloadSample(event)}>
+                Need Help ? Download a stock file sample here
+              </ImportStockInfoTooltip>
+            </Tooltip>
+          </div>
           {this.state.items && (
             <p
               style={{

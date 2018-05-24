@@ -7,6 +7,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import {
+  downloadFile,
+} from 'ui/containers/App/actions';
 import ModalContainer from '../atoms/ModalContainer';
 import DropZone from './ModalDropZone';
 import Options from './ModalOptions';
@@ -28,6 +31,7 @@ export class StockModal extends React.Component {
           disable={() => this.props.disableNext()}
           onApproved={(...args) => this.props.onApproved(...args)}
           {...this.props}
+          downloadFile={(...args) => this.props.downloadFile(...args)}
         />
         <Options {...this.props} />
       </ModalContainer>
@@ -46,6 +50,9 @@ function mapDispatchToProps(dispatch) {
   return {
     createStock: (...args) => dispatch(createStock(...args)),
     updateModalOption: (...args) => dispatch(updateModalOption(...args)),
+    downloadFile: (content, fileName, mime) =>
+      dispatch(downloadFile({ content, fileName, mime })),
+
   };
 }
 

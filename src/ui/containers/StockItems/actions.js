@@ -14,7 +14,6 @@ import {
   GET_MATCHES_STOCK_ACTION,
   UPDATE_TMP_STOCK_DATA_ACTION,
   UPDATE_STOCK_MODAL_OPTION_ACTION,
-  ADD_STOCK_TO_TICKET_ACTION,
 } from './constants';
 
 export function createStock(stock, options = {}) {

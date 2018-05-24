@@ -44,7 +44,6 @@ function setTicketGivenAmount(state, action) {
   const totalAmount = parseFloat(state.getIn(['payment', 'totalAmount']));
   const givenAmount = parseFloat(action.amount);
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
-  console.log(action, totalAmount, givenAmount, returnAmount);
   return state.updateIn(['payment', 'givenAmount'], () => givenAmount.toFixed(2)).updateIn(['payment', 'returnAmount'], () => returnAmount);
 }
 
