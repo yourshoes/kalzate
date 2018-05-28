@@ -13,6 +13,7 @@ import {
   makeSelectGivenAmount,
   makeSelectReturnAmount,
   makeSelectCurrency,
+  makeSelectMethod,
 } from './selectors';
 import { setTicketGivenAmount } from './actions';
 import PaymentSummary from './molecules/PaymentSummary';
@@ -32,6 +33,7 @@ TicketTotal.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  method: makeSelectMethod(),
   totalAmount: makeSelectTotalAmount(),
   givenAmount: makeSelectGivenAmount(),
   returnAmount: makeSelectReturnAmount(),

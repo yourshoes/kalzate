@@ -38,6 +38,11 @@ const makeSelectCurrency = () =>
     substate.get('currency')
   );
 
+const makeSelectMethod = () =>
+  createSelector(makeSelectTicketPayments(), (substate) =>
+    substate.get('method')
+  );
+
 export default makeSelectTicketPayments;
 export {
   selectTicketPaymentsDomain,
@@ -45,4 +50,5 @@ export {
   makeSelectGivenAmount,
   makeSelectReturnAmount,
   makeSelectCurrency,
+  makeSelectMethod,
 };
