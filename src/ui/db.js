@@ -1,7 +1,6 @@
 import kalzateDB from 'kalzate-db';
-import { DEFAULT_SETTINGS } from 'ui/constants';
 import { merge } from 'lodash';
-import { DEFAULT_STOCK_ITEMS_LIMIT } from './constants';
+import { DEFAULT_SETTINGS, DEFAULT_STOCK_ITEMS_LIMIT, DEFAULT_TICKET_ITEMS_LIMIT } from 'ui/constants';
 
 let db;
 
@@ -38,9 +37,10 @@ const loadStoreFromDatabase = (currentState) =>
   new Promise(async (resolve) => {
     // Get initialState({settings, tickets, stock, ticket, insights})
     db = await kalzateDB();
+    console.log(await db.tickets.get({ limit: DEFAULT_TICKET_ITEMS_LIMIT, skip: 0 }));
     const state = currentState.merge({
       settings: merge({}, DEFAULT_SETTINGS, await db.settings.init()),
-      tickets: await db.tickets.init(),
+      tickets: await db.tickets.get({ limit: DEFAULT_TICKET_ITEMS_LIMIT, skip: 0 }),
       stock: await db.stock.get({ limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0 }),
     });
     resolve(state);

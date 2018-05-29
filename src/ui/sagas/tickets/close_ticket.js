@@ -17,9 +17,9 @@ function* closeTicket(action) {
 
     console.log(ticket, state);
 
-    // if (state === TICKET_SAVE_STATE) {
-    //   yield call((...args) => Tickets().save(...args), ticket, state);
-    // }
+    if (state === TICKET_SAVE_STATE) {
+      yield call((...args) => Tickets().save(...args), ticket, state);
+    }
     // if (state === TICKET_DONE_STATE) {
     //   // print ticket
     //   yield call((...args) => Ticket().checkout(...args), ticket, state);
