@@ -10,6 +10,8 @@ import {
   REMOVE_STOCK_FROM_TICKET_ACTION,
   ADD_STOCK_TO_TICKET_ACTION,
   UPDATE_TICKET_ACTION,
+  REMOVE_TICKET_ACTION,
+  CLOSE_TICKET_ACTION,
 } from './constants';
 
 export function updateTmpData(reference, data) {
@@ -38,6 +40,12 @@ export function removeStockFromTicket(item, positionInList) {
   };
 }
 
+export function removeTicket() {
+  return {
+    type: REMOVE_TICKET_ACTION,
+  };
+}
+
 export function addStockToTicket(item) {
   return {
     type: UPDATE_TICKET_ACTION,
@@ -46,3 +54,10 @@ export function addStockToTicket(item) {
   };
 }
 
+export function closeTicket(ticket, state) {
+  return {
+    type: CLOSE_TICKET_ACTION,
+    ticket,
+    state,
+  };
+}

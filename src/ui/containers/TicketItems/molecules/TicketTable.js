@@ -14,7 +14,7 @@ export class TicketTable extends React.Component {
   render() {
     return (
       <TicketTableContainer>
-        <TicketTableHeader />
+        <TicketTableHeader {...this.props} />
         <TicketTableBody {...this.props} />
       </TicketTableContainer>
     );

@@ -29,7 +29,7 @@ export class TicketTableBody extends React.Component {
     return (
       <HeightAdapterContainer>
         <TicketTableBodyContainer>
-          {this.props.items.map((item, i) => (
+          {this.props.ticket.get('items').map((item, i) => (
             <TicketTableRowContainer key={i} even={(i + 1) % 2}>
               <TicketTableField placeholder={item.reference} readonly />
               <TicketTableField placeholder={`${this.abbrv('BRAND', item.brand)}-${item.colors.map((c) => this.abbrv('COLORS', c)).join()} (${item.size}-${this.abbrv('BRAND', item.gender)})`} readonly bigger />

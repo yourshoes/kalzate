@@ -58,3 +58,10 @@ export const PAYMENT_METHOD_CREDIT_CARD = 'payment_method_credit_card';
 export const PAYMENT_METHOD_PHONE = 'payment_method_phone';
 export const PAYMENT_METHOD_CASH = 'payment_method_cash';
 export const PAYMENT_METHOD_TICKET = 'payment_method_ticket';
+
+/** ****************************************************************************/
+/*                                                                             */
+/*    TICKETS CONSTANTS                                                        */
+/*                                                                             */
+/** ****************************************************************************/
+export const TICKET_SAVE_STATE = 'TICKET_SAVE_STATE';

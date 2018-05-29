@@ -5,6 +5,9 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import {
+  TICKET_SAVE_STATE,
+} from 'ui/constants';
 import Button from 'ui/components/Button';
 import TicketSectionContainer from '../atoms/TicketSectionContainer';
 import Section50 from '../atoms/Section50';
@@ -12,7 +15,6 @@ import SectionLeft from '../atoms/SectionLeft';
 import SectionRight from '../atoms/SectionRight';
 import TicketDiscountField from './TicketDiscountField';
 import TicketVatField from './TicketVatField';
-
 export class TicketFooter extends React.Component {
 
   render() {
@@ -28,8 +30,8 @@ export class TicketFooter extends React.Component {
         </Section50>
         <Section50>
           <SectionRight>
-            <Button icon="cloud-download" title="Save Ticket" />
-            <Button icon="trashcan" title="Delete Ticket" />
+            <Button inactive={this.props.ticket.get('items').isEmpty()} icon="cloud-download" title="Save Ticket" onClick={() => this.props.closeTicket(this.props.ticket, TICKET_SAVE_STATE)} />
+            <Button inactive={this.props.ticket.get('items').isEmpty()} icon="trashcan" title="Delete Ticket" onClick={() => this.props.removeTicket()} />
             {/* Full ticket displays a modal where user can edit the final content of the ticket, useful in same cases */}
             {/* <Button icon="checklist" title="Full Ticket" /> */}
           </SectionRight>

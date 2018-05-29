@@ -21,6 +21,7 @@ import {
 import {
   UPDATE_STOCK_TICKET_DATA_ACTION,
   REMOVE_STOCK_FROM_TICKET_ACTION,
+  REMOVE_TICKET_ACTION,
   ADD_STOCK_TO_TICKET_ACTION,
   UPDATE_TICKET_SUCCESS_ACTION,
 } from 'ui/containers/TicketItems/constants';
@@ -37,7 +38,7 @@ const initialState = fromJS({
     tax: 0,  // from 0 to 1, i.e. 50% == 0.5
     currency: '€',
   },
-  state: 'in progress', // sold, saved, refunded, in prrogres
+  state: null, // sold, saved, refunded,
   items: [],
 });
 
@@ -82,6 +83,10 @@ function removeStockFromTicket(state, action) {
   return state.update('items', (items) => items.splice(action.positionInList, 1));
 }
 
+function removeTicket() {
+  return initialState;
+}
+
 function setTicketPaymentMethod(state, action) {
   const paymentMethodState = state.updateIn(['payment', 'method'], () => action.method);
 
@@ -104,6 +109,8 @@ function appReducer(state = initialState, action) {
       return addStockToTicket(state, action);
     case REMOVE_STOCK_FROM_TICKET_ACTION:
       return removeStockFromTicket(state, action);
+    case REMOVE_TICKET_ACTION:
+      return removeTicket(state, action);
     case SET_METHOD_TICKET_PAYMENTS_ACTION:
       return setTicketPaymentMethod(state, action);
     case SET_TICKET_GIVEN_AMOUNT_ACTION:

@@ -24,8 +24,8 @@ export class TicketHeader extends React.Component {
         </Section50>
         <Section50>
           <SectionRight>
-            <Button primary icon="gift" title="Is a Gift" />
-            <Button primary icon="check" title="Checkout" />
+            <Button inactive={this.props.ticket.get('items').isEmpty()} primary icon="gift" title="Is a Gift" />
+            <Button inactive={this.props.ticket.get('items').isEmpty()} primary icon="check" title="Checkout" />
           </SectionRight>
         </Section50>
       </TicketSectionContainer>

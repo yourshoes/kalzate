@@ -21,9 +21,13 @@ const rippleAnimation = keyframes`
   }
 `;
 
+const inactiveButton = (props) => props.disabled ? '' :
+  ` 
+`;
+
 const Button = styled.button`
   outline: none;
-  pointer-events: ${(props) => (props.disable ? 'none' : 'auto')};
+  pointer-events: ${(props) => (props.inactive ? 'none' : 'auto')};
   margin-left: 5px;
   height: 35px;
   width: 115px;
@@ -40,10 +44,6 @@ const Button = styled.button`
   transition: all 0.5s ease-in-out;
   position: relative;
   overflow: hidden;
-  &:hover {
-    border: 1px solid ${(props) => props.color[0]};
-    color: ${(props) => props.color[0]};
-  }
   &::after {
     content: '';
     position: absolute;
@@ -56,6 +56,10 @@ const Button = styled.button`
     background-color: ${(props) => props.color[1]};
     transform: scale(1, 1) translate(-50%);
     transform-origin: 50% 50%;
+  }
+  &:hover {
+    border: 1px solid ${(props) => props.color[0]};
+    color: ${(props) => props.color[0]};
   }
   &:focus:not(:active)::after {
     animation: ${rippleAnimation} 1s ease-out;
