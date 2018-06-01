@@ -1,7 +1,11 @@
 import React from 'react';
 // import styles from './styles.css';
 import { withRouter } from 'react-router';
-// import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import {
+  makeSelectTicketItems,
+} from './selectors';
 // import { mouseTrap } from 'react-mousetrap';
 // import { createStructuredSelector } from 'reselect';
 // import { push } from 'react-router-redux';
@@ -42,9 +46,12 @@ function SidebarMenu(props) {
         </MenuGroup>
         <MenuGroup>
           <MenuItem title="Your Tickets" actived={routeName === 'tickets'} />
-          <MenuItem title="10001" small highlight cursor />
+          {/**
+            <MenuItem title="10001" small highlight cursor />
           <MenuItem title="10002" small highlight cursor />
           <MenuItem title="100013" small highlight cursor />
+          **/}
+          {props.tickets.map((ticket) => (<MenuItem title={String(ticket.created_at)} small highlight cursor />))}
         </MenuGroup>
       </Menu>
       <MenuSearch title="Search Tickets" />
@@ -55,6 +62,21 @@ function SidebarMenu(props) {
 
 SidebarMenu.propTypes = {
   routes: React.PropTypes.array,
+  tickets: React.PropTypes.array,
 };
 
-export default withRouter(SidebarMenu);
+const mapStateToProps = createStructuredSelector({
+  tickets: makeSelectTicketItems(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    // updateTmpData: (reference, data) =>
+    //   dispatch(updateTmpData(reference, data)),
+    dispatch,
+
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SidebarMenu));
+

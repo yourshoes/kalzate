@@ -37,7 +37,7 @@ export class TicketItems extends React.Component {
 }
 
 TicketItems.propTypes = {
-  ticket: PropTypes.array,
+  ticket: PropTypes.object,
   tmp: PropTypes.object,
   updateTmpData: PropTypes.func,
   updateTicketData: PropTypes.func,

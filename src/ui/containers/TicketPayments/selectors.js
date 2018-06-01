@@ -13,10 +13,15 @@ const selectTicketPaymentsDomain = () => (state) => state.get('ticket');
  * Default selector used by TicketPayments
  */
 
-const makeSelectTicketPayments = () =>
+const makeSelectMethod = () =>
   createSelector(selectTicketPaymentsDomain(), (substate) =>
-    substate.get('payment')
+    substate.get('method')
   );
 
-export default makeSelectTicketPayments;
-export { selectTicketPaymentsDomain };
+// const makeSelectTicketPayments = () =>
+//   createSelector(selectTicketPaymentsDomain(), (substate) =>
+//     substate.get('payment')
+//   );
+
+export default selectTicketPaymentsDomain;
+export { selectTicketPaymentsDomain, makeSelectMethod };

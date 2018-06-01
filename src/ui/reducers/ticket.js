@@ -29,39 +29,37 @@ import { PAYMENT_METHOD_CASH } from 'constants';
 
 // The initial state of the App
 const initialState = fromJS({
-  payment: {
-    method: null,
-    totalAmount: '0.00',
-    givenAmount: '0.00',
-    returnAmount: '0.00',
-    discount: 0, // from 0 to 1, i.e. 50% == 0.5
-    tax: 0,  // from 0 to 1, i.e. 50% == 0.5
-    currency: '€',
-  },
+  method: null,
+  totalAmount: '0.00',
+  givenAmount: '0.00',
+  returnAmount: '0.00',
+  discount: 0, // from 0 to 1, i.e. 50% == 0.5
+  tax: 0,  // from 0 to 1, i.e. 50% == 0.5
+  currency: '€',
   state: null, // sold, saved, refunded,
   items: [],
 });
 
 function setTicketGivenAmount(state, action) {
-  const totalAmount = parseFloat(state.getIn(['payment', 'totalAmount']));
+  const totalAmount = parseFloat(state.get('totalAmount'));
   const givenAmount = parseFloat(action.amount);
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
-  return state.updateIn(['payment', 'givenAmount'], () => givenAmount.toFixed(2)).updateIn(['payment', 'returnAmount'], () => returnAmount);
+  return state.update('givenAmount', () => givenAmount.toFixed(2)).update('returnAmount', () => returnAmount);
 }
 
 function updateTicketTotal(state) {
   if (state.get('items').size <= 0) {
-    return state.updateIn(['payment', 'totalAmount'], () => '0.00').updateIn(['payment', 'givenAmount'], () => '0.00').updateIn(['payment', 'returnAmount'], () => '0.00').updateIn(['payment', 'method'], () => null);
+    return state.update('totalAmount', () => '0.00').update('givenAmount', () => '0.00').update('returnAmount', () => '0.00').update('method', () => null);
   }
   const subtotal = state.get('items').map((item) => item.amount * item.price);
   const subtotalTaxesFree = subtotal.reduce((a, b) => a + b, 0);
-  const subtotalWithDiscount = state.getIn(['payment', 'discount']) ? subtotalTaxesFree - (subtotalTaxesFree * state.getIn(['payment', 'discount'])) : subtotalTaxesFree;
-  const subtotalWithTaxes = state.getIn(['payment', 'tax']) ? subtotalWithDiscount + (subtotalWithDiscount * state.getIn(['payment', 'tax'])) : subtotalWithDiscount;
+  const subtotalWithDiscount = state.get('discount') ? subtotalTaxesFree - (subtotalTaxesFree * state.get('discount')) : subtotalTaxesFree;
+  const subtotalWithTaxes = state.get('tax') ? subtotalWithDiscount + (subtotalWithDiscount * state.get('tax')) : subtotalWithDiscount;
   const totalAmount = subtotalWithTaxes.toFixed(2);
-  const givenAmount = parseFloat(state.getIn(['payment', 'givenAmount']));
+  const givenAmount = parseFloat(state.get('givenAmount'));
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
   // console.log('total is', subtotalTaxesFree, subtotalWithDiscount, subtotalWithTaxes, totalAmount);
-  return state.updateIn(['payment', 'totalAmount'], () => totalAmount).updateIn(['payment', 'returnAmount'], () => givenAmount > 0 ? returnAmount : '0.00');
+  return state.update('totalAmount', () => totalAmount).update('returnAmount', () => givenAmount > 0 ? returnAmount : '0.00');
 }
 
 function updateTicketData(state, action) {
@@ -88,10 +86,10 @@ function removeTicket() {
 }
 
 function setTicketPaymentMethod(state, action) {
-  const paymentMethodState = state.updateIn(['payment', 'method'], () => action.method);
+  const paymentMethodState = state.update('method', () => action.method);
 
   if (action.method !== PAYMENT_METHOD_CASH) {
-    return paymentMethodState.updateIn(['payment', 'givenAmount'], () => state.getIn(['payment', 'totalAmount'])).updateIn(['payment', 'returnAmount'], () => '0.00');
+    return paymentMethodState.update('givenAmount', () => state.get('totalAmount')).update('returnAmount', () => '0.00');
   }
 
   return paymentMethodState;

@@ -7,7 +7,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import makeSelectTicketPayments from './selectors';
+import { makeSelectMethod } from './selectors';
 import { PaymentMethods } from './molecules/PaymentMethods';
 import { setMethod } from './actions';
 
@@ -16,7 +16,6 @@ export class TicketPayments extends React.Component {
   render() {
     return (
       <PaymentMethods
-        method={this.props.ticketPayments.get('method')}
         {...this.props}
       />
     );
@@ -24,7 +23,7 @@ export class TicketPayments extends React.Component {
 }
 
 TicketPayments.propTypes = {
-  ticketPayments: PropTypes.object.isRequired,
+  method: PropTypes.string,
   setMethod: PropTypes.func.isRequired,
 };
 
@@ -35,7 +34,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  ticketPayments: makeSelectTicketPayments(),
+  method: makeSelectMethod(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketPayments);

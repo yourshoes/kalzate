@@ -14,11 +14,11 @@ import {
 function* closeTicket(action) {
   try {
     const { ticket, state } = action;
-
-    console.log(ticket, state);
+    const finalTicket = { ...ticket, state };
+    let response = {};
 
     if (state === TICKET_SAVE_STATE) {
-      yield call((...args) => Tickets().save(...args), ticket, state);
+      response = yield call((...args) => Tickets().save(...args), finalTicket);
     }
     // if (state === TICKET_DONE_STATE) {
     //   // print ticket
@@ -30,7 +30,7 @@ function* closeTicket(action) {
       type: REMOVE_TICKET_ACTION,
     });
     yield put({
-      ...action,
+      ticket: response,
       type: CLOSE_TICKET_SUCCESS_ACTION,
     });
   } catch (e) {
