@@ -10,16 +10,16 @@
  *   return state.set('yourStateVariable', true);
  */
 
-import { fromJS } from 'immutable';
 import {
   CLOSE_TICKET_SUCCESS_ACTION,
 } from 'ui/containers/TicketItems/constants';
 
 // The initial state of the App
-const initialState = fromJS({ total: 0, items: [] });
+const initialState = { total: 0, items: [] };
 
 function addTicketToState(state, action) {
-  return state.update('items', (items) => items.push(action.ticket)).update('total', (total) => total + 1);
+  state.items.push(action.ticket);
+  return { ...state, total: state.items.length };
 }
 
 function appReducer(state = initialState, action) {

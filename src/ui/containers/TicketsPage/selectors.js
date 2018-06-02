@@ -3,8 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the ticketTotal state domain
  */
-const selectTicketTotalDomain = () => (state) => state.get('ticketTotal');
-const selectTicketPaymentsDomain = () => (state) => state.get('ticketPayments');
+const selectTicketVisibility = () => (state) => state.tmp.visibility.tickets;
 
 /**
  * Other specific selectors
@@ -15,12 +14,12 @@ const selectTicketPaymentsDomain = () => (state) => state.get('ticketPayments');
  */
 
 const makeSelectTicketTotalVisibility = () =>
-  createSelector(selectTicketTotalDomain(), (ticketTotalState) =>
-    ticketTotalState.getIn(['visible'])
+  createSelector(selectTicketVisibility(), (substate) =>
+    substate.total
   );
 const makeSelectTicketPaymentsVisibility = () =>
-  createSelector(selectTicketPaymentsDomain(), (ticketTotalState) =>
-    ticketTotalState.getIn(['visible'])
+  createSelector(selectTicketVisibility(), (substate) =>
+    substate.payments
   );
 
 export { makeSelectTicketTotalVisibility, makeSelectTicketPaymentsVisibility };

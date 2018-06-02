@@ -5,18 +5,15 @@
  */
 
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { Grid, Row2, Column } from 'ui/components/Grid';
-import { changeResourceSelected } from 'ui/containers/SidebarMenu/actions';
-import { selectResources, selectResource } from './selectors';
 import messages from './messages';
 import { Panel, Title, StockField, StockArea, FormWrapper } from './wrappers';
 
 export class SettingsPage extends React.Component {
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (
@@ -76,16 +73,4 @@ SettingsPage.propTypes = {
   changeResourceSelected: React.PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  resources: selectResources(),
-  resourceSelected: selectResource(),
-});
-
-function mapDispatchToProps(dispatch) {
-  return {
-    changeResourceSelected: (resource) =>
-      dispatch(changeResourceSelected(resource)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);
+export default SettingsPage;

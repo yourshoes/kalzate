@@ -26,7 +26,7 @@ ThemeProvider.propTypes = {
 };
 
 const mapStateToProps = createSelector(makeSelectTheme(), (theme) => ({
-  theme: theme.toJS(),
+  theme,
 }));
 
 export default connect(mapStateToProps)(ThemeProvider);

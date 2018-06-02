@@ -1,4 +1,4 @@
 
-const selectSettings = () => (state) => state.get('settings') ? state.get('settings').toJSON() : state.get('settings');
+const selectSettings = () => (state) => state.settings;
 
 export { selectSettings };

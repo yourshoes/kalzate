@@ -10,7 +10,6 @@
  *   return state.set('yourStateVariable', true);
  */
 
-import { fromJS } from 'immutable';
 // import { PAYMENT_METHOD_CREDIT_CARD } from 'ui/constants';
 import {
   SET_METHOD_TICKET_PAYMENTS_ACTION,
@@ -29,7 +28,7 @@ import {
 import { PAYMENT_METHOD_CASH } from 'constants';
 
 // The initial state of the App
-const initialState = fromJS({
+const initialState = {
   method: null,
   totalAmount: '0.00',
   givenAmount: '0.00',
@@ -39,47 +38,53 @@ const initialState = fromJS({
   currency: '€',
   state: null, // sold, saved, refunded,
   items: [],
-});
+};
 
 function setTicketGivenAmount(state, action) {
-  const totalAmount = parseFloat(state.get('totalAmount'));
+  const totalAmount = parseFloat(state.totalAmount);
   const givenAmount = parseFloat(action.amount);
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
-  return state.update('givenAmount', () => givenAmount.toFixed(2)).update('returnAmount', () => returnAmount);
+  return { ...state, givenAmount: givenAmount.toFixed(2), returnAmount };
 }
 
 function updateTicketTotal(state) {
-  if (state.get('items').size <= 0) {
-    return state.update('totalAmount', () => '0.00').update('givenAmount', () => '0.00').update('returnAmount', () => '0.00').update('method', () => null);
+  if (state.items.length <= 0) {
+    return { ...state, totalAmount: '0.00', givenAmount: '0.00', returnAmount: '0.00', method: null };
   }
-  const subtotal = state.get('items').map((item) => item.amount * item.price);
+  const subtotal = state.items.map((item) => item.amount * item.price);
   const subtotalTaxesFree = subtotal.reduce((a, b) => a + b, 0);
-  const subtotalWithDiscount = state.get('discount') ? subtotalTaxesFree - (subtotalTaxesFree * state.get('discount')) : subtotalTaxesFree;
-  const subtotalWithTaxes = state.get('tax') ? subtotalWithDiscount + (subtotalWithDiscount * state.get('tax')) : subtotalWithDiscount;
+  const subtotalWithDiscount = state.discount ? subtotalTaxesFree - (subtotalTaxesFree * state.discount) : subtotalTaxesFree;
+  const subtotalWithTaxes = state.tax ? subtotalWithDiscount + (subtotalWithDiscount * state.tax) : subtotalWithDiscount;
   const totalAmount = subtotalWithTaxes.toFixed(2);
-  const givenAmount = parseFloat(state.get('givenAmount'));
+  const givenAmount = parseFloat(state.givenAmount);
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
   // console.log('total is', subtotalTaxesFree, subtotalWithDiscount, subtotalWithTaxes, totalAmount);
-  return state.update('totalAmount', () => totalAmount).update('returnAmount', () => givenAmount > 0 ? returnAmount : '0.00');
+  return { ...state, totalAmount, returnAmount: givenAmount > 0 ? returnAmount : '0.00' };
 }
 
 function updateTicketData(state, action) {
-  return state.update('items', (items) => items.map((item) => item.reference === action.item.reference ? ({ ...item, ...action.data }) : item));
+  return { ...state, items: state.items.map((item) => item.reference === action.item.reference ? ({ ...item, ...action.data }) : item) };
 }
 
 function addStockToTicket(state, action) {
-  const itemToAdd = { ...action.item, amount: 1 };
-  return state.update('items', (items) => {
-    const itemFound = items.find((item) => item.reference === itemToAdd.reference);
-
-    if (!itemFound) { return items.push(itemToAdd); }
-
-    return items.map((item) => item.reference === action.item.reference ? ({ ...item, amount: item.amount + 1 }) : item);
-  });
+  const itemFound = state.items.find((item) => item.reference === action.item.reference);
+  if (itemFound) {
+    const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount: item.amount + 1 }) : item);
+    return { ...state, items };
+  }
+  return {
+    ...state, items: state.items.concat([{ ...action.item, amount: 1 }]),
+  };
 }
 
 function removeStockFromTicket(state, action) {
-  return state.update('items', (items) => items.splice(action.positionInList, 1));
+  return {
+    ...state,
+    items: [
+      ...state.items.slice(0, action.positionInList),
+      ...state.items.slice(action.positionInList + 1),
+    ],
+  };
 }
 
 function removeTicket() {
@@ -88,17 +93,15 @@ function removeTicket() {
 
 function loadTicket(state, action) {
   console.log('loadTicket', action.ticket.toJSON());
-  return fromJS(action.ticket.toJSON());
+  return action.ticket.toJSON();
 }
 
 function setTicketPaymentMethod(state, action) {
-  const paymentMethodState = state.update('method', () => action.method);
-
   if (action.method !== PAYMENT_METHOD_CASH) {
-    return paymentMethodState.update('givenAmount', () => state.get('totalAmount')).update('returnAmount', () => '0.00');
+    return { ...state, method: action.method, givenAmount: state.totalAmount, returnAmount: '0.00' };
   }
 
-  return paymentMethodState;
+  return { ...state, method: action.method };
 }
 
 function appReducer(state = initialState, action) {

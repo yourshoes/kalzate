@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the ticketPayments state domain
  */
-const selectTicketPaymentsDomain = () => (state) => state.get('ticket');
+const selectTicketPaymentsDomain = () => (state) => state.ticket;
 
 /**
  * Other specific selectors
@@ -15,7 +15,7 @@ const selectTicketPaymentsDomain = () => (state) => state.get('ticket');
 
 const makeSelectMethod = () =>
   createSelector(selectTicketPaymentsDomain(), (substate) =>
-    substate.get('method')
+    substate.method
   );
 
 // const makeSelectTicketPayments = () =>

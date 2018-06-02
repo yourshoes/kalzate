@@ -4,10 +4,10 @@
  *
  */
 
-import { TOGGLE_VISIBILITY } from './constants';
+import { TOGGLE_TICKET_TOTAL_VISIBILITY } from './constants';
 
 export function toggleTicketTotalVisibility() {
   return {
-    type: TOGGLE_VISIBILITY,
+    type: TOGGLE_TICKET_TOTAL_VISIBILITY,
   };
 }

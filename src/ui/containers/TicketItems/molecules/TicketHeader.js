@@ -5,6 +5,7 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 import Button from 'ui/components/Button';
 import TicketSectionContainer from '../atoms/TicketSectionContainer';
 import Section50 from '../atoms/Section50';
@@ -24,8 +25,8 @@ export class TicketHeader extends React.Component {
         </Section50>
         <Section50>
           <SectionRight>
-            <Button inactive={this.props.ticket.get('items').isEmpty()} primary icon="gift" title="Is a Gift" />
-            <Button inactive={this.props.ticket.get('items').isEmpty()} primary icon="check" title="Checkout" />
+            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="gift" title="Is a Gift" />
+            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="check" title="Checkout" />
           </SectionRight>
         </Section50>
       </TicketSectionContainer>

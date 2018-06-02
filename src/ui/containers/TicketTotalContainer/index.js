@@ -16,6 +16,7 @@ import { Container, ContainerSwitcher, FirstSection } from './wrappers';
 
 export function TicketTotalContainer(props) {
   // eslint-disable-line react/prefer-stateless-function
+  console.log(props);
   return (
     <Container>
       <ContainerSwitcher

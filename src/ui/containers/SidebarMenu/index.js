@@ -69,7 +69,7 @@ function SidebarMenu(props) {
 
 SidebarMenu.propTypes = {
   routes: React.PropTypes.array,
-  tickets: React.PropTypes.object,
+  tickets: React.PropTypes.array,
   loadTicket: React.PropTypes.func,
 };
 

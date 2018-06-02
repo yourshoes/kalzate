@@ -5,6 +5,7 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import { isEmpty } from 'lodash';
 import Center from 'ui/components/Center';
 import NotFound from 'ui/components/NotFound';
 import TicketBodyContainer from '../atoms/TicketBodyContainer';
@@ -17,7 +18,7 @@ export class TicketBody extends React.Component {
   render() {
     return (
       <TicketBodyContainer>
-        {this.props.ticket.get('items').isEmpty() &&
+        {isEmpty(this.props.ticket.items) &&
           <Center>
             <NotFound icon="thumbsdown">
               <Title>
@@ -29,7 +30,7 @@ export class TicketBody extends React.Component {
             </NotFound>
           </Center>}
 
-        {!this.props.ticket.get('items').isEmpty() && (
+        {!isEmpty(this.props.ticket.items) && (
           <TicketTable {...this.props} />
         )}
       </TicketBodyContainer>

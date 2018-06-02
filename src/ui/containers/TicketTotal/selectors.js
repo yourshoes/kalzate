@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the ticketPayments state domain
  */
-const selectTicketPaymentsDomain = () => (state) => state.get('ticket');
+const selectTicketPaymentsDomain = () => (state) => state.ticket;
 
 /**
  * Other specific selectors
@@ -15,32 +15,32 @@ const selectTicketPaymentsDomain = () => (state) => state.get('ticket');
 
 // const makeSelectTicketPayments = () =>
 //   createSelector(selectTicketPaymentsDomain(), (substate) =>
-//     substate.get('payment')
+//     substate.payment')
 //   );
 
 const makeSelectTotalAmount = () =>
   createSelector(selectTicketPaymentsDomain(), (substate) =>
-    substate.get('totalAmount')
+    substate.totalAmount
   );
 
 const makeSelectGivenAmount = () =>
   createSelector(selectTicketPaymentsDomain(), (substate) =>
-    substate.get('givenAmount')
+    substate.givenAmount
   );
 
 const makeSelectReturnAmount = () =>
   createSelector(selectTicketPaymentsDomain(), (substate) =>
-    substate.get('returnAmount')
+    substate.returnAmount
   );
 
 const makeSelectCurrency = () =>
   createSelector(selectTicketPaymentsDomain(), (substate) =>
-    substate.get('currency')
+    substate.currency
   );
 
 const makeSelectMethod = () =>
   createSelector(selectTicketPaymentsDomain(), (substate) =>
-    substate.get('method')
+    substate.method
   );
 
 export default selectTicketPaymentsDomain;

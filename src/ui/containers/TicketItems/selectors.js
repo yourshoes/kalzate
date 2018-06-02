@@ -3,9 +3,9 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the ticketPayments state domain
  */
-const selectTicketDomain = () => (state) => state.get('ticket');
+const selectTicketDomain = () => (state) => state.ticket;
 
-const selectTmpData = () => (state) => state.get('tmp');
+const selectTmpData = () => (state) => state.tmp;
 
 /**
  * Other specific selectors
@@ -17,12 +17,12 @@ const selectTmpData = () => (state) => state.get('tmp');
 
 const makeSelectTicketItems = () =>
   createSelector(selectTicketDomain(), (substate) =>
-    substate.get('items')
+    substate.items
   );
 
 
 const makeSelectTicketTmpData = () =>
-  createSelector(selectTmpData(), (substate) => substate.get('ticket'));
+  createSelector(selectTmpData(), (substate) => substate.ticket);
 
 export default makeSelectTicketItems;
 export {

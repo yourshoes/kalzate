@@ -3,8 +3,8 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the stockItems state domain
  */
-const selectStockItemsDomain = () => (state) => state.get('stock');
-const selectTmpData = () => (state) => state.get('tmp');
+const selectStockItemsDomain = () => (state) => state.stock;
+const selectTmpData = () => (state) => state.tmp;
 
 /**
  * Other specific selectors
@@ -15,45 +15,45 @@ const selectTmpData = () => (state) => state.get('tmp');
  */
 
 const makeSelectStockItems = () =>
-  createSelector(selectStockItemsDomain(), (substate) => substate.get('items'));
+  createSelector(selectStockItemsDomain(), (substate) => substate.items);
 
 const makeSelectStockLimit = () =>
-  createSelector(selectStockItemsDomain(), (substate) => substate.get('limit'));
+  createSelector(selectStockItemsDomain(), (substate) => substate.limit);
 
 const makeSelectStockOffset = () =>
-  createSelector(selectStockItemsDomain(), (substate) => substate.get('skip'));
+  createSelector(selectStockItemsDomain(), (substate) => substate.skip);
 
 const makeSelectStockCount = () =>
-  createSelector(selectStockItemsDomain(), (substate) => substate.get('total'));
+  createSelector(selectStockItemsDomain(), (substate) => substate.total);
 
 const makeSelectSearch = () =>
-  createSelector(selectTmpData(), (substate) => substate.get('search'));
+  createSelector(selectTmpData(), (substate) => substate.search);
 
 const makeSelectMatches = () =>
-  createSelector(selectTmpData(), (substate) => substate.get('matches'));
+  createSelector(selectTmpData(), (substate) => substate.matches);
 
 const makeSelectStockReferenceMatches = () =>
   createSelector(makeSelectMatches(), (substate) =>
-    substate.get('stock').get('reference')
+    substate.stock.reference
   );
 
 const makeSelectStockSearch = () =>
-  createSelector(makeSelectSearch(), (substate) => substate.get('stock'));
+  createSelector(makeSelectSearch(), (substate) => substate.stock);
 
 const makeSelectStockTmpData = () =>
-  createSelector(selectTmpData(), (substate) => substate.get('stock'));
+  createSelector(selectTmpData(), (substate) => substate.stock);
 
 const makeSelectStockModalOptions = () =>
-  createSelector(selectTmpData(), (substate) => substate.get('modal'));
+  createSelector(selectTmpData(), (substate) => substate.modal);
 
 const makeSelectStockModalRemoveOption = () =>
   createSelector(selectTmpData(), (substate) =>
-    substate.get('modal').get('removeStock')
+    substate.modal.removeStock
   );
 
 const makeSelectStockModalArchiveOption = () =>
   createSelector(selectTmpData(), (substate) =>
-    substate.get('modal').get('archiveStock')
+    substate.modal.archiveStock
   );
 
 export default selectStockItemsDomain;

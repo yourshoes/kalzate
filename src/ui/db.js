@@ -37,12 +37,12 @@ const loadStoreFromDatabase = (currentState) =>
   new Promise(async (resolve) => {
     // Get initialState({settings, tickets, stock, ticket, insights})
     db = await kalzateDB();
-    const state = currentState.merge({
+    const state = {
       settings: merge({}, DEFAULT_SETTINGS, await db.settings.init()),
       tickets: await db.tickets.query(db.tickets.queries.dailyTickets(DEFAULT_TICKET_ITEMS_LIMIT, 0)),
       stock: await db.stock.get({ limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0 }),
-    });
-    resolve(state);
+    };
+    resolve({ ...currentState, ...state });
   });
 
 export const databaseAsyncReducer = (reducers) => (state, action) => {

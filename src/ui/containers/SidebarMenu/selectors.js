@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the ticketPayments state domain
  */
-const selectTickets = () => (state) => state.get('tickets');
+const selectTickets = () => (state) => state.tickets;
 
 
 /**
@@ -16,8 +16,7 @@ const selectTickets = () => (state) => state.get('tickets');
 
 const makeSelectTicketItems = () =>
   createSelector(selectTickets(), (substate) =>
-    substate.get('items')
-  );
+    substate.items);
 
 
 export default selectTickets;
