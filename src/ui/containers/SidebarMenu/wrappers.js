@@ -247,6 +247,7 @@ export function MenuItem(props) {
       cursor={props.cursor}
       highlight={props.highlight}
       actived={props.actived}
+      onClick={(event) => props.onClick(event)}
     >
       {props.to
         ? <Route to={props.to} actived={props.actived}>
@@ -268,4 +269,5 @@ MenuItem.propTypes = {
   cursor: React.PropTypes.bool,
   actived: React.PropTypes.bool,
   to: React.PropTypes.string,
+  onClick: React.PropTypes.func,
 };

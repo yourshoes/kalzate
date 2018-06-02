@@ -22,6 +22,7 @@ import {
   UPDATE_STOCK_TICKET_DATA_ACTION,
   REMOVE_STOCK_FROM_TICKET_ACTION,
   REMOVE_TICKET_ACTION,
+  LOAD_TICKET_ACTION,
   ADD_STOCK_TO_TICKET_ACTION,
   UPDATE_TICKET_SUCCESS_ACTION,
 } from 'ui/containers/TicketItems/constants';
@@ -85,6 +86,11 @@ function removeTicket() {
   return initialState;
 }
 
+function loadTicket(state, action) {
+  console.log('loadTicket', action.ticket.toJSON());
+  return fromJS(action.ticket.toJSON());
+}
+
 function setTicketPaymentMethod(state, action) {
   const paymentMethodState = state.update('method', () => action.method);
 
@@ -109,6 +115,8 @@ function appReducer(state = initialState, action) {
       return removeStockFromTicket(state, action);
     case REMOVE_TICKET_ACTION:
       return removeTicket(state, action);
+    case LOAD_TICKET_ACTION:
+      return loadTicket(state, action);
     case SET_METHOD_TICKET_PAYMENTS_ACTION:
       return setTicketPaymentMethod(state, action);
     case SET_TICKET_GIVEN_AMOUNT_ACTION:

@@ -11,7 +11,7 @@ import {
 // import { push } from 'react-router-redux';
 // import HotKeys from 'ui/utils/hotkeys';
 // import PubSub from 'ui/utils/pubsub';
-// import { changeResourceSelected, addTreeResource } from './actions';
+import { loadTicket } from './actions';
 // import { selectResources, selectResource } from './selectors';
 // import messages from './messages';
 import { Container, Menu, MenuFooter, MenuSearch, MenuGroup, MenuItem } from './wrappers';
@@ -51,7 +51,14 @@ function SidebarMenu(props) {
           <MenuItem title="10002" small highlight cursor />
           <MenuItem title="100013" small highlight cursor />
           **/}
-          {props.tickets.map((ticket) => (<MenuItem title={String(ticket.created_at)} small highlight cursor />))}
+          {props.tickets.map((ticket) =>
+            (<MenuItem
+              key={ticket.created_at}
+              title={String(ticket.created_at)}
+              onClick={() => props.loadTicket(ticket)}
+              small highlight cursor
+            />
+            ))}
         </MenuGroup>
       </Menu>
       <MenuSearch title="Search Tickets" />
@@ -62,7 +69,8 @@ function SidebarMenu(props) {
 
 SidebarMenu.propTypes = {
   routes: React.PropTypes.array,
-  tickets: React.PropTypes.array,
+  tickets: React.PropTypes.object,
+  loadTicket: React.PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -71,10 +79,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    // updateTmpData: (reference, data) =>
-    //   dispatch(updateTmpData(reference, data)),
-    dispatch,
-
+    loadTicket: (ticket) => dispatch(loadTicket(ticket)),
   };
 }
 

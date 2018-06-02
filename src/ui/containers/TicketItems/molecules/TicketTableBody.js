@@ -19,17 +19,20 @@ export class TicketTableBody extends React.Component {
       case 'COLORS':
       case 'GENDER':
       case 'BRAND':
-        return value.substring(0, 3);
+        return value ? value.substring(0, 3) : '';
       default: return value;
     }
   }
 
+  getItems(fn) {
+    return this.props.ticket.get('items').map((item, i) => fn(item.toJS ? item.toJS() : item, i));
+  }
+
   render() {
-    console.log(this.props);
     return (
       <HeightAdapterContainer>
         <TicketTableBodyContainer>
-          {this.props.ticket.get('items').map((item, i) => (
+          {this.getItems((item, i) => (
             <TicketTableRowContainer key={i} even={(i + 1) % 2}>
               <TicketTableField placeholder={item.reference} readonly />
               <TicketTableField placeholder={`${this.abbrv('BRAND', item.brand)}-${item.colors.map((c) => this.abbrv('COLORS', c)).join()} (${item.size}-${this.abbrv('BRAND', item.gender)})`} readonly bigger />
