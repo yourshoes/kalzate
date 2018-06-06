@@ -26,7 +26,9 @@ export class TicketSearchField extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ value: nextProps.ticket.created_at });
+    if (this.props.ticket.created_at != nextProps.ticket.created_at) {
+      this.setState({ value: nextProps.ticket.created_at });
+    }
   }
 
   getMatches(created_at) {
@@ -35,21 +37,32 @@ export class TicketSearchField extends React.Component {
   }
 
   shouldDisplayMatches() {
-    return (
-      this.state.matchesVisible &&
+    console.log(this.state, this.props.matches, this.state.matchesVisible &&
       this.state.value &&
       !!this.state.value.length &&
       this.props.matches &&
       this.props.matches.length > 1 &&
       this.props.matches.every(
         (match) =>
-          match.startsWith(this.state.value) &&
-          match !== this.state.value
+          String(match).startsWith(this.state.value) &&
+          String(match) !== this.state.value
+      ));
+    return (
+      this.state.matchesVisible &&
+      !!this.state.value &&
+      !!this.state.value.length &&
+      this.props.matches &&
+      this.props.matches.length > 1 &&
+      this.props.matches.every(
+        (match) =>
+          String(match).startsWith(this.state.value) &&
+          String(match) !== this.state.value
       )
     );
   }
 
   render() {
+    console.log(this.props.matches);
     return (
       <SearchContainer>
         {this.shouldDisplayMatches() && (
@@ -57,6 +70,7 @@ export class TicketSearchField extends React.Component {
             <MatchesList>
               {this.props.matches.map((match, i) => (
                 <MatchesListItem
+                  key={i}
                   onClick={() =>
                     this.setState({ value: match, matchIndex: 0 })
                   }
