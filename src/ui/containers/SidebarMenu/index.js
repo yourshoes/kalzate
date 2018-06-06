@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import {
   makeSelectTicketItems,
+  makeSelectTicketID,
 } from './selectors';
 // import { mouseTrap } from 'react-mousetrap';
 // import { createStructuredSelector } from 'reselect';
@@ -48,21 +49,27 @@ function SidebarMenu(props) {
           <MenuItem title="Your Tickets" actived={routeName === 'tickets'} />
           {/**
             <MenuItem title="10001" small highlight cursor />
-          <MenuItem title="10002" small highlight cursor />
-          <MenuItem title="100013" small highlight cursor />
+            <MenuItem title="10002" small highlight cursor />
+            <MenuItem title="100013" small highlight cursor />
           **/}
           {props.tickets.map((ticket) =>
             (<MenuItem
               key={ticket.created_at}
               title={String(ticket.created_at)}
-              onClick={() => props.loadTicket(ticket)}
+              selected={ticket.id === props.ticketID}
+              onClick={() => {
+                // @todo move to a saga
+                props.loadTicket(ticket);
+                props.router.push('/tickets');
+              }}
+              state={ticket.state}
               small highlight cursor
             />
             ))}
         </MenuGroup>
       </Menu>
       <MenuSearch title="Search Tickets" />
-      <MenuFooter to="/tickets" icon="inbox" title="New Ticket" />
+      <MenuFooter to="/tickets" icon="inbox" title="Cash Drawer" />
     </Container>
   );
 }
@@ -70,11 +77,13 @@ function SidebarMenu(props) {
 SidebarMenu.propTypes = {
   routes: React.PropTypes.array,
   tickets: React.PropTypes.array,
+  ticketID: React.PropTypes.string,
   loadTicket: React.PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   tickets: makeSelectTicketItems(),
+  ticketID: makeSelectTicketID(),
 });
 
 function mapDispatchToProps(dispatch) {

@@ -17,13 +17,9 @@ import messages from './messages';
 import { Panel, Title, TextField, AreaField, FormWrapper } from './wrappers';
 
 export class SettingsPage extends React.Component {
-  componentDidMount() {
-  }
-
-  componentWillReceiveProps() {
-  }
 
   render() {
+    console.log(this.props.settings);
     return (
       <Grid>
         <Helmet

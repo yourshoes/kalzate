@@ -12,6 +12,10 @@ import {
   UPDATE_TICKET_ACTION,
   REMOVE_TICKET_ACTION,
   CLOSE_TICKET_ACTION,
+  UPDATE_TICKET_TAX_ACTION,
+  UPDATE_TICKET_DISCOUNT_ACTION,
+  GET_MATCHES_TICKETS_ACTION,
+  LOAD_TICKET_ACTION,
 } from './constants';
 
 export function updateTmpData(reference, data) {
@@ -28,6 +32,22 @@ export function updateTicketData(item, data) {
     put: UPDATE_STOCK_TICKET_DATA_ACTION,
     item,
     data,
+  };
+}
+
+export function updateTicketTax(tax) {
+  return {
+    type: UPDATE_TICKET_ACTION,
+    put: UPDATE_TICKET_TAX_ACTION,
+    tax,
+  };
+}
+
+export function updateTicketDiscount(discount) {
+  return {
+    type: UPDATE_TICKET_ACTION,
+    put: UPDATE_TICKET_DISCOUNT_ACTION,
+    discount,
   };
 }
 
@@ -61,3 +81,20 @@ export function closeTicket(ticket, state) {
     state,
   };
 }
+
+export function getMatches(field, value) {
+  return {
+    type: GET_MATCHES_TICKETS_ACTION,
+    field,
+    value,
+  };
+}
+
+export function loadTicket(ticket, options = {}) {
+  return {
+    type: LOAD_TICKET_ACTION,
+    ticket,
+    options,
+  };
+}
+

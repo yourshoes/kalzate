@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Octicon from 'react-octicon';
 import { Link } from 'react-router';
-
+import { TICKET_SAVE_STATE, TICKET_SOLD_STATE, TICKET_RETURN_STATE } from 'ui/constants';
 export const Container = styled.div`
   display: flex;
   background-color: ${(props) =>
@@ -193,6 +193,8 @@ const route = `
   background-color: rgba(163, 168, 174, 0.1);
 `;
 
+const selected = (isSelected, color) => isSelected ? color : 'inherit';
+
 const Item = styled.li`
   color: ${(props) =>
     props.theme && props.theme.sidebar.color
@@ -216,6 +218,7 @@ const P = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${(props) => selected(props.selected, props.theme.sidebar.hoverColor)};
 `;
 const actived = (props) => `
     color: ${props.theme && props.theme.sidebar.hoverColor
@@ -240,6 +243,35 @@ const Route = styled(Link) `
       : 'rgba(163, 168, 174, 0.8)'};
   }
 `;
+
+const TicketStateSpan = styled.span`
+  display: inline-block;
+  border-radius: 50%;
+  width: .5em;
+  height: .5em;
+  margin-left: 8px;
+  margin-bottom: 1px;
+`;
+const TicketSaveStateSpan = styled(TicketStateSpan) `
+  background-color: rgba(163, 168, 174, 0.6);
+`;
+const TicketSoldStateSpan = styled(TicketStateSpan) `
+  background-color: rgba(100, 148, 237, 1);
+`;
+const TicketReturnStateSpan = styled(TicketStateSpan) `
+  background-color: rgba(226, 192, 141, 1);
+`;
+const getTicketState = (state) => {
+  if (state === TICKET_SAVE_STATE) {
+    return (<TicketSaveStateSpan title={'saved'} />);
+  }
+  if (state === TICKET_SOLD_STATE) {
+    return (<TicketSoldStateSpan title={'sold'} />);
+  }
+  if (state === TICKET_RETURN_STATE) {
+    return (<TicketReturnStateSpan title={'return'} />);
+  }
+};
 export function MenuItem(props) {
   return (
     <Item
@@ -247,16 +279,18 @@ export function MenuItem(props) {
       cursor={props.cursor}
       highlight={props.highlight}
       actived={props.actived}
-      onClick={(event) => props.onClick(event)}
+      onClick={(event) => props.onClick ? props.onClick(event) : null}
     >
       {props.to
         ? <Route to={props.to} actived={props.actived}>
-          <P>
+          <P selected={props.selected}>
             {props.title.toUpperCase()}
+            {!!props.state && getTicketState(props.state)}
           </P>
         </Route>
-        : <P>
+        : <P selected={props.selected}>
           {props.title.toUpperCase()}
+          {!!props.state && getTicketState(props.state)}
         </P>}
     </Item>
   );
@@ -268,6 +302,7 @@ MenuItem.propTypes = {
   highlight: React.PropTypes.bool,
   cursor: React.PropTypes.bool,
   actived: React.PropTypes.bool,
+  selected: React.PropTypes.bool,
   to: React.PropTypes.string,
   onClick: React.PropTypes.func,
 };

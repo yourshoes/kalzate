@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 export const SearchInput = styled.input`
   outline: none;
-  font-size: 1.3em;
+  font-size: 1.2em;
   margin-left: 5px;
   width: 150px;
   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,

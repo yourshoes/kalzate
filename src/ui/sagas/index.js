@@ -1,7 +1,7 @@
 import { all } from 'redux-saga/effects';
 import settingsSaga from './settings';
 import { downloadFileSaga } from './app';
-import { updateTicketSaga, closeTicketSaga } from './tickets';
+import { updateTicketSaga, closeTicketSaga, loadTicketSaga, matchesTicketSaga } from './tickets';
 import {
   stockCreateSaga,
   stockUpdateSaga,
@@ -18,6 +18,8 @@ export default function* () {
     settingsSaga,
     updateTicketSaga,
     closeTicketSaga,
+    loadTicketSaga,
+    matchesTicketSaga,
     stockCreateSaga,
     stockUpdateSaga,
     stockRefreshSaga,

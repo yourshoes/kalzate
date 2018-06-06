@@ -20,6 +20,13 @@ const makeSelectTicketItems = () =>
     substate.items
   );
 
+const makeSelectMatches = () =>
+  createSelector(selectTmpData(), (substate) => substate.matches);
+
+const makeSelectTicketCreatedAtMatches = () =>
+  createSelector(makeSelectMatches(), (substate) =>
+    substate.tickets.created_at
+  );
 
 const makeSelectTicketTmpData = () =>
   createSelector(selectTmpData(), (substate) => substate.ticket);
@@ -28,4 +35,6 @@ export default makeSelectTicketItems;
 export {
   selectTicketDomain, makeSelectTicketItems,
   makeSelectTicketTmpData,
+  makeSelectMatches,
+  makeSelectTicketCreatedAtMatches,
 };

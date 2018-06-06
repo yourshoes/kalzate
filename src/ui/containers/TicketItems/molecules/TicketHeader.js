@@ -20,7 +20,12 @@ export class TicketHeader extends React.Component {
       <TicketSectionContainer>
         <Section50>
           <SectionLeft>
-            <TicketSearchField />
+            <TicketSearchField
+              ticket={this.props.ticket}
+              matches={this.props.matches}
+              getMatches={(...args) => this.props.getMatches(...args)}
+              loadTicket={(...args) => this.props.loadTicket(...args)}
+            />
           </SectionLeft>
         </Section50>
         <Section50>

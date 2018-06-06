@@ -10,13 +10,18 @@ import { createStructuredSelector } from 'reselect';
 import {
   selectTicketDomain,
   makeSelectTicketTmpData,
+  makeSelectTicketCreatedAtMatches,
 } from './selectors';
 import {
   updateTmpData,
   updateTicketData,
+  updateTicketTax,
+  updateTicketDiscount,
   removeStockFromTicket,
   removeTicket,
   closeTicket,
+  getMatches,
+  loadTicket,
 } from './actions';
 import Container from './atoms/Container';
 import TicketHeader from './molecules/TicketHeader';
@@ -47,6 +52,7 @@ TicketItems.propTypes = {
 const mapStateToProps = createStructuredSelector({
   ticket: selectTicketDomain(),
   tmp: makeSelectTicketTmpData(),
+  matches: makeSelectTicketCreatedAtMatches(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -55,12 +61,18 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateTmpData(reference, data)),
     updateTicketData: (item, data) =>
       dispatch(updateTicketData(item, data)),
+    updateTicketTax: (vat) =>
+      dispatch(updateTicketTax(vat)),
+    updateTicketDiscount: (discount) =>
+      dispatch(updateTicketDiscount(discount)),
     removeStockFromTicket: (item, positioninList) =>
       dispatch(removeStockFromTicket(item, positioninList)),
     removeTicket: () =>
       dispatch(removeTicket()),
+    getMatches: (field, value) => dispatch(getMatches(field, value)),
+    loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
     closeTicket: (ticket, state) =>
-      dispatch(closeTicket(ticket.toJS(), state)),
+      dispatch(closeTicket(ticket, state)),
   };
 }
 

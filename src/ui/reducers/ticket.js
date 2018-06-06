@@ -21,15 +21,17 @@ import {
   UPDATE_STOCK_TICKET_DATA_ACTION,
   REMOVE_STOCK_FROM_TICKET_ACTION,
   REMOVE_TICKET_ACTION,
-  LOAD_TICKET_ACTION,
+  LOAD_TICKET_SUCCESS_ACTION,
   ADD_STOCK_TO_TICKET_ACTION,
   UPDATE_TICKET_SUCCESS_ACTION,
+  UPDATE_TICKET_TAX_ACTION,
+  UPDATE_TICKET_DISCOUNT_ACTION,
 } from 'ui/containers/TicketItems/constants';
-import { PAYMENT_METHOD_CASH } from 'constants';
+import { PAYMENT_METHOD_CREDIT_CARD, PAYMENT_METHOD_CASH } from 'ui/constants';
 
 // The initial state of the App
 const initialState = {
-  method: null,
+  method: PAYMENT_METHOD_CREDIT_CARD,
   totalAmount: '0.00',
   givenAmount: '0.00',
   returnAmount: '0.00',
@@ -66,6 +68,14 @@ function updateTicketData(state, action) {
   return { ...state, items: state.items.map((item) => item.reference === action.item.reference ? ({ ...item, ...action.data }) : item) };
 }
 
+function updateTicketTax(state, action) {
+  return { ...state, tax: action.tax / 100 };
+}
+
+function updateTicketDiscount(state, action) {
+  return { ...state, discount: action.discount / 100 };
+}
+
 function addStockToTicket(state, action) {
   const itemFound = state.items.find((item) => item.reference === action.item.reference);
   if (itemFound) {
@@ -92,7 +102,6 @@ function removeTicket() {
 }
 
 function loadTicket(state, action) {
-  console.log('loadTicket', action.ticket.toJSON());
   return action.ticket.toJSON();
 }
 
@@ -110,6 +119,10 @@ function appReducer(state = initialState, action) {
       return updateTicketTotal(state, action);
     case UPDATE_STOCK_TICKET_DATA_ACTION:
       return updateTicketData(state, action);
+    case UPDATE_TICKET_TAX_ACTION:
+      return updateTicketTax(state, action);
+    case UPDATE_TICKET_DISCOUNT_ACTION:
+      return updateTicketDiscount(state, action);
     case ADD_STOCK_TO_TICKET_ACTION:
       // uncomment line below to remove sagas/tickets
       // return updateTicketTotal(addStockToTicket(state, action));
@@ -118,7 +131,7 @@ function appReducer(state = initialState, action) {
       return removeStockFromTicket(state, action);
     case REMOVE_TICKET_ACTION:
       return removeTicket(state, action);
-    case LOAD_TICKET_ACTION:
+    case LOAD_TICKET_SUCCESS_ACTION:
       return loadTicket(state, action);
     case SET_METHOD_TICKET_PAYMENTS_ACTION:
       return setTicketPaymentMethod(state, action);

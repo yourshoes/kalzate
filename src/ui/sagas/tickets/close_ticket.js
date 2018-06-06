@@ -16,19 +16,26 @@ function* closeTicket(action) {
     const { ticket, state } = action;
     const finalTicket = { ...ticket, state };
     let response = {};
-
+    console.log(finalTicket);
     if (state === TICKET_SAVE_STATE) {
-      response = yield call((...args) => Tickets().save(...args), finalTicket);
+      response = yield call(
+        (...args) => Tickets().save(...args),
+        finalTicket
+      );
     }
+    console.log(response);
     // if (state === TICKET_DONE_STATE) {
     //   // print ticket
     //   yield call((...args) => Ticket().checkout(...args), ticket, state);
 
     // }
-    yield put({
-      ...action,
-      type: REMOVE_TICKET_ACTION,
-    });
+    // if ticket does not exists yet, then add to menu
+    if (!finalTicket.id) {
+      yield put({
+        ...action,
+        type: REMOVE_TICKET_ACTION,
+      });
+    }
     yield put({
       ticket: response,
       type: CLOSE_TICKET_SUCCESS_ACTION,

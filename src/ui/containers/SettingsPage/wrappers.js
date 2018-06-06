@@ -237,29 +237,50 @@ const StockLabel = styled.label`
   font-size: 14px;
   user-select: none;
 `;
-export function TextField(props) {
-  // console.log(props);
-  return (
-    <Section10>
-      <FloatLabel>
-        <StockInput placeholder={props.placeholder} defaultValue={props.value} onBlur={(event) => props.onBlur ? props.onBlur(event.target.value) : null} />
-        <StockLabel>
-          {props.placeholder}
-        </StockLabel>
-      </FloatLabel>
-    </Section10>
-  );
-}
-export function AreaField(props) {
-  return (
-    <Section10>
-      <FloatLabel>
-        <Textarea type="text" placeholder={props.placeholder} defaultValue={props.value} onBlur={(event) => props.onBlur ? props.onBlur(event.target.value) : null} />
-        <StockLabel>
-          {props.placeholder}
-        </StockLabel>
-      </FloatLabel>
-    </Section10>
-  );
-}
+export class TextField extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { value: props.value };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ value: nextProps.value });
+  }
+
+  render() {
+    return (
+      <Section10>
+        <FloatLabel>
+          <StockInput placeholder={this.props.placeholder} onChange={({ target }) => this.setState({ value: target.value })} value={this.state.value} onBlur={(event) => this.props.onBlur ? this.props.onBlur(event.target.value) : null} />
+          <StockLabel>
+            {this.props.placeholder}
+          </StockLabel>
+        </FloatLabel>
+      </Section10>
+    );
+  }
+}
+export class AreaField extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { value: props.value };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ value: nextProps.value });
+  }
+
+  render() {
+    return (<Section10>
+      <FloatLabel>
+        <Textarea type="text" placeholder={this.props.placeholder} value={this.state.value} onBlur={(event) => this.props.onBlur ? this.props.onBlur(event.target.value) : null} />
+        <StockLabel>
+          {this.props.placeholder}
+        </StockLabel>
+      </FloatLabel>
+    </Section10>
+    );
+  }
+}

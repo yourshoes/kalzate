@@ -22,8 +22,13 @@ export class PaymentGiven extends React.Component {
     if (nextProps.totalAmount <= 0) {
       return this.setState({ value: `0.00 ${nextProps.currency}` });
     }
-    if (nextProps.method !== PAYMENT_METHOD_CASH) {
+    if (nextProps.method !== PAYMENT_METHOD_CASH && nextProps.created_at === this.props.created_at) {
       return this.setState({ value: `${nextProps.totalAmount} ${nextProps.currency}` });
+    }
+
+    if (nextProps.created_at !== this.props.created_at) {
+      console.log(nextProps);
+      return this.setState({ value: `${nextProps.givenAmount} ${nextProps.currency}` });
     }
     // return this.setState({ value: `${nextProps.givenAmount} ${nextProps.currency}` });
   }

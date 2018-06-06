@@ -9,9 +9,10 @@ import {
  *
  * @return {object}    An action object with a type of CHANGE_USERNAME
  */
-export function loadTicket(ticket) {
+export function loadTicket(ticket, options = {}) {
   return {
     type: LOAD_TICKET_ACTION,
     ticket,
+    options,
   };
 }

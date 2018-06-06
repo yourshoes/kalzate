@@ -18,8 +18,14 @@ import {
 const initialState = { total: 0, items: [] };
 
 function addTicketToState(state, action) {
-  state.items.push(action.ticket);
-  return { ...state, total: state.items.length };
+  if (state.items.find(({ id }) => id === action.ticket.id)) {
+    return {
+      ...state,
+      items: state.items.map((ticket) => ticket.id === action.ticket.id ? action.ticket : ticket),
+      total: state.total + 1,
+    };
+  }
+  return { ...state, items: state.items.concat([action.ticket]), total: state.total + 1 };
 }
 
 function appReducer(state = initialState, action) {
