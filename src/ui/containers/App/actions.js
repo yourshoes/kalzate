@@ -4,7 +4,7 @@
  *
  */
 
-import { CHANGE_TAKE_AMOUNT, DOWNLOAD_FILE_ACTION } from './constants';
+import { CHANGE_TAKE_AMOUNT, DOWNLOAD_FILE_ACTION, PRINT_ACTION } from './constants';
 
 export function setTicketTakeAmount(amount) {
   return {
@@ -18,5 +18,12 @@ export function downloadFile({ content, fileName }) {
     type: DOWNLOAD_FILE_ACTION,
     content,
     fileName,
+  };
+}
+
+export function print({ content }) {
+  return {
+    type: PRINT_ACTION,
+    content,
   };
 }

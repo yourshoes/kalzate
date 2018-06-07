@@ -37,16 +37,6 @@ export class TicketSearchField extends React.Component {
   }
 
   shouldDisplayMatches() {
-    console.log(this.state, this.props.matches, this.state.matchesVisible &&
-      this.state.value &&
-      !!this.state.value.length &&
-      this.props.matches &&
-      this.props.matches.length > 1 &&
-      this.props.matches.every(
-        (match) =>
-          String(match).startsWith(this.state.value) &&
-          String(match) !== this.state.value
-      ));
     return (
       this.state.matchesVisible &&
       !!this.state.value &&
@@ -62,7 +52,6 @@ export class TicketSearchField extends React.Component {
   }
 
   render() {
-    console.log(this.props.matches);
     return (
       <SearchContainer>
         {this.shouldDisplayMatches() && (

@@ -58,10 +58,10 @@ function updateTicketTotal(state) {
   const subtotalWithDiscount = state.discount ? subtotalTaxesFree - (subtotalTaxesFree * state.discount) : subtotalTaxesFree;
   const subtotalWithTaxes = state.tax ? subtotalWithDiscount + (subtotalWithDiscount * state.tax) : subtotalWithDiscount;
   const totalAmount = subtotalWithTaxes.toFixed(2);
-  const givenAmount = parseFloat(state.givenAmount);
+  const givenAmount = state.method !== PAYMENT_METHOD_CASH ? totalAmount : parseFloat(state.givenAmount);
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
   // console.log('total is', subtotalTaxesFree, subtotalWithDiscount, subtotalWithTaxes, totalAmount);
-  return { ...state, totalAmount, returnAmount: givenAmount > 0 ? returnAmount : '0.00' };
+  return { ...state, totalAmount, givenAmount, returnAmount: givenAmount > 0 ? returnAmount : '0.00' };
 }
 
 function updateTicketData(state, action) {
@@ -79,11 +79,15 @@ function updateTicketDiscount(state, action) {
 function addStockToTicket(state, action) {
   const itemFound = state.items.find((item) => item.reference === action.item.reference);
   if (itemFound) {
-    const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount: item.amount + 1 }) : item);
+    // totalAmount field contains the total amount of stock units that item has
+    // and is used later when checking out to update the stock, note
+    // this will not work if the database is updated outside from the kalzate application
+    // unless the client is synced
+    const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount: item.amount + 1, totalAmount: action.item.amount }) : item);
     return { ...state, items };
   }
   return {
-    ...state, items: state.items.concat([{ ...action.item, amount: 1 }]),
+    ...state, items: state.items.concat([{ ...action.item, amount: 1, totalAmount: action.item.amount }]),
   };
 }
 

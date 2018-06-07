@@ -7,6 +7,8 @@ const selectTicketDomain = () => (state) => state.ticket;
 
 const selectTmpData = () => (state) => state.tmp;
 
+const selectSettingsData = () => (state) => state.settings;
+
 /**
  * Other specific selectors
  */
@@ -33,7 +35,9 @@ const makeSelectTicketTmpData = () =>
 
 export default makeSelectTicketItems;
 export {
-  selectTicketDomain, makeSelectTicketItems,
+  selectTicketDomain,
+  selectSettingsData,
+  makeSelectTicketItems,
   makeSelectTicketTmpData,
   makeSelectMatches,
   makeSelectTicketCreatedAtMatches,

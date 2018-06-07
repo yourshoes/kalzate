@@ -13,7 +13,7 @@ export const DEFAULT_PHONE = '+34610601389';
 export const DEFAULT_PRINTER_NAME = 'TERMICA';
 export const DEFAULT_BACKUP_FRECUENCY = 'daily';
 export const DEFAULT_TICKET_TEMPLATE =
-  '\r\n             SHOES STORE ${name}\r\n\r\n Address: ${address}\r\n Email: ${email}  Phone: ${phone}\r\n Ticket: ${code}  Date: ${date}\r\n\r\n------------------------------------------\r\n Item                   U.  PSP  Subtotal\r\n------------------------------------------\r\n${items}\r\n------------------------------------------\r\n                          TOTAL: ${total}\r\n                         (TAXES included)\r\n\r\n Method: ${payment}, Amount: ${payment_in}\r\n\r\n RETURNS ADMITTED BETWEEN ${date} AND ${date_return} \r\n\r\n *** THANKS FOR SHOPPING AT ${name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
+  '\r\n             SHOES STORE ${info.name}\r\n\r\n Address: ${info.address}\r\n Email: ${info.email}  Phone: ${info.phone}\r\n Ticket: ${ticket.created_at}  Date: ${_.dateFormat(new Date(ticket.created_at), "dd/mm/yyyy HH:MM")}\r\n\r\n------------------------------------------\r\n Item                   U.  PSP  Subtotal\r\n------------------------------------------\r\n${ticket.id}\r\n------------------------------------------\r\n                          TOTAL: ${ticket.totalAmount}\r\n                         (TAXES included)\r\n\r\n Method: ${ticket.method}, Amount: ${ticket.givenAmount}\r\n\r\n RETURNS ADMITTED BETWEEN ${_.dateFormat(new Date(ticket.created_at), "dd/mm/yyyy")} AND ${_.dateFormat(_.addDays(ticket.created_at, 15), "dd/mm/yyyy")} \r\n\r\n *** THANKS FOR SHOPPING AT ${info.name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
 
 export const DEFAULT_STOCK_ITEMS_LIMIT = 50;
 

@@ -11,6 +11,7 @@ import {
   selectTicketDomain,
   makeSelectTicketTmpData,
   makeSelectTicketCreatedAtMatches,
+  selectSettingsData,
 } from './selectors';
 import {
   updateTmpData,
@@ -53,6 +54,7 @@ const mapStateToProps = createStructuredSelector({
   ticket: selectTicketDomain(),
   tmp: makeSelectTicketTmpData(),
   matches: makeSelectTicketCreatedAtMatches(),
+  settings: selectSettingsData(),
 });
 
 function mapDispatchToProps(dispatch) {

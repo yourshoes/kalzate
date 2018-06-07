@@ -7,7 +7,7 @@ import {
   // CREATE_STOCK_SUCCESS_ACTION,
   REFRESH_STOCK_ACTION,
 } from 'ui/containers/StockItems/constants';
-import { DEFAULT_STOCK_ITEMS_LIMIT } from 'constants';
+import { DEFAULT_STOCK_ITEMS_LIMIT } from 'ui/constants';
 
 function* createStock(action) {
   try {

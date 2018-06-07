@@ -1,7 +1,8 @@
-import _ from 'lodash';
+import dateFormat from 'dateFormat';
+import lodash from 'lodash';
 
 export function Option(ifNotNull, ifNull) {
-  if (!_.isEmpty(ifNotNull)) return ifNotNull;
+  if (!lodash.isEmpty(ifNotNull)) return ifNotNull;
 
   return ifNull;
 }
@@ -19,11 +20,24 @@ export function platformKeySymbols(key, platform = window.navigator.platform) {
   switch (key) {
     case 0: // ALT
       return platformName.includes('mac') ||
-      platformName.includes('iphone') ||
-      platformName.includes('ipad')
+        platformName.includes('iphone') ||
+        platformName.includes('ipad')
         ? '⌥'
         : 'Alt-';
     default:
       return key;
   }
+}
+
+export function compileTicket(info, ticket) {
+  const utils = {
+    dateFormat,
+    lodash,
+    addDays(date, days) {
+      const result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    },
+  };
+  return Function('_', 'info', 'ticket', `return \`${info.ticketTemplate}\`;`).call(null, utils, info, ticket);
 }

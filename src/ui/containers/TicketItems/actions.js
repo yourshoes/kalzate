@@ -74,11 +74,11 @@ export function addStockToTicket(item) {
   };
 }
 
-export function closeTicket(ticket, state) {
+export function closeTicket(ticket, options = {}) {
   return {
     type: CLOSE_TICKET_ACTION,
     ticket,
-    state,
+    options,
   };
 }
 
