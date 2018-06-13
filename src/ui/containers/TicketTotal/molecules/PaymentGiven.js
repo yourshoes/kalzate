@@ -5,7 +5,8 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
-import { PAYMENT_METHOD_CASH } from 'ui/constants';
+import { PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'ui/constants';
+import { isRealNumeric } from 'ui/utils/helper';
 import PaymentSection from '../atoms/PaymentSection';
 import GivenAmount from '../atoms/GivenAmount';
 
@@ -14,35 +15,83 @@ export class PaymentGiven extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.method !== PAYMENT_METHOD_CASH ? `${props.totalAmount} ${props.currency}` : `0.00 ${props.currency}`,
+      value: props.method !== PAYMENT_METHOD_CASH ? `${props.totalAmount}` : '0.00',
+      cursorStart: 0,
+      cursorEnd: 0,
     };
+    this.increaseShiftValues = [10, 0.1];
+    this.increaseNoShiftValues = [1, 0.01];
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.totalAmount <= 0) {
-      return this.setState({ value: `0.00 ${nextProps.currency}` });
-    }
-    if (nextProps.method !== PAYMENT_METHOD_CASH && nextProps.created_at === this.props.created_at) {
-      return this.setState({ value: `${nextProps.totalAmount} ${nextProps.currency}` });
-    }
-
-    if (nextProps.created_at !== this.props.created_at) {
-      console.log(nextProps);
-      return this.setState({ value: `${nextProps.givenAmount} ${nextProps.currency}` });
-    }
-    // return this.setState({ value: `${nextProps.givenAmount} ${nextProps.currency}` });
+    this.setState({ value: `${nextProps.givenAmount}` });
   }
 
-  setValue(value) {
-    if (value) {
-      this.setState({ value }, () => this.props.setTicketGivenAmount(value));
+
+  componentDidUpdate(prevProps) {
+    return this.updateCursor(this.state.cursorStart, this.state.cursorEnd);
+  }
+
+  updateCursor(start, end) {
+    if (!this.input) {
+      return;
     }
+
+    this.input.setSelectionRange(start, end);
+  }
+
+  setValue(value, event) {
+    if (value && !value.includes('.') && this.state.value.includes('.')) {
+      return this.setState({ cursorStart: event.target.selectionStart - 1, cursorEnd: event.target.selectionEnd - 1 }, () => this.props.setTicketGivenAmount(`${value.substr(0, this.state.value.indexOf('.') - 1)}.${value.substr(this.state.value.indexOf('.') + 1)}`));
+    }
+
+    if (value && value.includes(',.')) {
+      return this.setState({ cursorStart: event.target.selectionStart, cursorEnd: event.target.selectionEnd }, () => this.props.setTicketGivenAmount(value.replace(',.', '.')));
+    }
+
+    if (value && !isRealNumeric(value)) {
+      return this.setState({ cursorStart: event.target.selectionStart - 1, cursorEnd: event.target.selectionEnd - 1 }, () => this.props.setTicketGivenAmount(value));
+    }
+
+    this.setState({ cursorStart: event.target.selectionStart, cursorEnd: event.target.selectionEnd }, () => this.props.setTicketGivenAmount(value));
   }
 
   onBlur() {
-    if (this.props.method === PAYMENT_METHOD_CASH) {
-      this.setState({ value: `${this.props.givenAmount} ${this.props.currency}` });
+    if (!this.state.value) {
+      return this.setState({ value: '0.00' });
     }
+    if (this.props.method === PAYMENT_METHOD_CASH) {
+      return this.setState({ value: `${this.props.givenAmount}` });
+    }
+  }
+
+  onClick(event) {
+    if (event.target.selectionStart >= this.state.value.length) {
+      return this.setState({ cursorStart: this.state.value.length, cursorEnd: this.state.value.length });
+    }
+    this.setState({ cursorStart: event.target.selectionStart, cursorEnd: event.target.selectionEnd });
+  }
+
+  onDoubleClick() {
+    if (this.props.method === PAYMENT_METHOD_CASH) {
+      this.setState({ value: '', cursorStart: 0, cursorEnd: 0 });
+    }
+  }
+
+  onChange(event) {
+    const value = event.target.value.replace(` ${this.props.currency}`, '').trim();
+    return this.setValue(value, event);
+  }
+
+  getByGivenAmountPosition(target, isShift) {
+    const increaseValues = isShift ? this.increaseShiftValues : this.increaseNoShiftValues;
+    return target.selectionStart <= this.state.value.indexOf('.') ? increaseValues[0] : increaseValues[1];
+  }
+
+  stopPropagation(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
   }
 
   render() {
@@ -50,12 +99,42 @@ export class PaymentGiven extends React.Component {
       <PaymentSection>
         <GivenAmount
           type="text"
+          innerRef={(input) => (this.input = input)}
           disabled={this.props.method !== PAYMENT_METHOD_CASH}
+          onClick={(e) =>
+            this.onClick(e)}
           onBlur={() =>
             this.onBlur()}
-          onDoubleClick={(event) => (this.props.method === PAYMENT_METHOD_CASH ? event.target.value = '' : null)}
-          value={this.state.value}
-          onChange={(event) => this.setValue(event.target.value)}
+          onDoubleClick={(event) => this.onDoubleClick(event)}
+          onKeyDown={(event) => {
+            const { target, key } = event;
+            const isShift = !!event.shiftKey;
+            switch (key) {
+              case 'Enter':
+                this.setState({ value: this.props.totalAmount, cursorStart: 0, cursorEnd: 0 });
+                return this.stopPropagation(event);
+              case 'ArrowUp':
+                this.setState({ cursorStart: target.selectionStart, cursorEnd: target.selectionEnd }, () => this.props.increaseGivenAmount(this.getByGivenAmountPosition(target, isShift)));
+                return this.stopPropagation(event);
+              case 'ArrowDown':
+                this.setState({ cursorStart: target.selectionStart, cursorEnd: target.selectionEnd }, () => this.props.decreaseGivenAmount(this.getByGivenAmountPosition(target, isShift)));
+                return this.stopPropagation(event);
+              case 'ArrowRight':
+                if (target.selectionStart >= this.state.value.length) {
+                  this.setState({ cursorStart: target.selectionStart, cursorEnd: target.selectionEnd });
+                  return this.stopPropagation(event);
+                }
+                break;
+              case 'Escape':
+                this.setState({ value: '', cursorStart: 0, cursorEnd: 0 });
+
+                return this.stopPropagation(event);
+              default:
+            }
+            return true;
+          }}
+          value={`${this.state.value} ${this.props.currency}`}
+          onChange={(event) => this.onChange(event)}
         />
 
       </PaymentSection>

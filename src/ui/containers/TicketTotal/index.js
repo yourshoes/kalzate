@@ -15,8 +15,9 @@ import {
   makeSelectCurrency,
   makeSelectMethod,
   makeSelectCreationDate,
+  makeSelectState,
 } from './selectors';
-import { setTicketGivenAmount } from './actions';
+import { setTicketGivenAmount, increaseGivenAmount, decreaseGivenAmount } from './actions';
 import PaymentSummary from './molecules/PaymentSummary';
 
 function TicketTotal(props) {
@@ -35,6 +36,7 @@ TicketTotal.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   method: makeSelectMethod(),
+  state: makeSelectState(),
   created_at: makeSelectCreationDate(),
   totalAmount: makeSelectTotalAmount(),
   givenAmount: makeSelectGivenAmount(),
@@ -45,6 +47,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     setTicketGivenAmount: (amount) => dispatch(setTicketGivenAmount(amount)),
+    increaseGivenAmount: (by) => dispatch(increaseGivenAmount(by)),
+    decreaseGivenAmount: (by) => dispatch(decreaseGivenAmount(by)),
   };
 }
 

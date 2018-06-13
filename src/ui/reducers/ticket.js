@@ -11,11 +11,14 @@
  */
 
 // import { PAYMENT_METHOD_CREDIT_CARD } from 'ui/constants';
+import { omit } from 'lodash';
 import {
   SET_METHOD_TICKET_PAYMENTS_ACTION,
 } from 'ui/containers/TicketPayments/constants';
 import {
   SET_TICKET_GIVEN_AMOUNT_ACTION,
+  INCREASE_TICKET_GIVEN_AMOUNT_ACTION,
+  DECREASE_TICKET_GIVEN_AMOUNT_ACTION,
 } from 'ui/containers/TicketTotal/constants';
 import {
   UPDATE_STOCK_TICKET_DATA_ACTION,
@@ -27,8 +30,13 @@ import {
   UPDATE_TICKET_TAX_ACTION,
   UPDATE_TICKET_DISCOUNT_ACTION,
 } from 'ui/containers/TicketItems/constants';
-import { PAYMENT_METHOD_CREDIT_CARD, PAYMENT_METHOD_CASH } from 'ui/constants';
+import {
+  RETURN_STOCK_FROM_TICKET_ACTION,
+  UNDO_RETURN_STOCK_FROM_TICKET_ACTION,
 
+} from 'ui/containers/TicketReturnItems/constants';
+import { PAYMENT_METHOD_CREDIT_CARD, PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'ui/constants';
+import { toFixed } from 'ui/utils/helper';
 // The initial state of the App
 const initialState = {
   method: PAYMENT_METHOD_CREDIT_CARD,
@@ -40,13 +48,53 @@ const initialState = {
   currency: '€',
   state: null, // sold, saved, refunded,
   items: [],
+  // relatesTo: null
 };
 
-function setTicketGivenAmount(state, action) {
+function increaseTicketGivenAmount(state, action) {
+  if (!action.by) {
+    return state;
+  }
   const totalAmount = parseFloat(state.totalAmount);
-  const givenAmount = parseFloat(action.amount);
+  const givenAmount = parseFloat(state.givenAmount);
+  const givenAmountIncrease = (givenAmount + action.by).toFixed(2);
+  if (givenAmountIncrease >= 999.99) {
+    return state;
+  }
+  const returnAmount = (parseFloat(givenAmountIncrease) - totalAmount).toFixed(2);
+  return { ...state, givenAmount: givenAmountIncrease, returnAmount };
+}
+
+function decreaseTicketGivenAmount(state, action) {
+  if (!action.by) {
+    return state;
+  }
+  const totalAmount = parseFloat(state.totalAmount);
+  const givenAmount = parseFloat(state.givenAmount);
+  const givenAmountDecrease = (givenAmount - action.by).toFixed(2);
+  if (givenAmountDecrease <= 0) {
+    return state;
+  }
+  const returnAmount = (parseFloat(givenAmountDecrease) - totalAmount).toFixed(2);
+  return { ...state, givenAmount: givenAmountDecrease, returnAmount };
+}
+
+function setTicketGivenAmount(state, action) {
+  if (!action.amount) {
+    return { ...state, givenAmount: '', returnAmount: '0.00' };
+  }
+  const totalAmount = parseFloat(state.totalAmount);
+  const givenAmountFixed = toFixed(action.amount, 2, state.givenAmount);
+  const givenAmount = parseFloat(givenAmountFixed);
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
-  return { ...state, givenAmount: givenAmount.toFixed(2), returnAmount };
+  return { ...state, givenAmount: givenAmountFixed, returnAmount };
+}
+
+function updateGivenAmount(state, totalAmount) {
+  if (state.state === TICKET_SOLD_STATE) {
+    return state.givenAmount;
+  }
+  return state.method !== PAYMENT_METHOD_CASH ? totalAmount : parseFloat(state.givenAmount);
 }
 
 function updateTicketTotal(state) {
@@ -58,7 +106,7 @@ function updateTicketTotal(state) {
   const subtotalWithDiscount = state.discount ? subtotalTaxesFree - (subtotalTaxesFree * state.discount) : subtotalTaxesFree;
   const subtotalWithTaxes = state.tax ? subtotalWithDiscount + (subtotalWithDiscount * state.tax) : subtotalWithDiscount;
   const totalAmount = subtotalWithTaxes.toFixed(2);
-  const givenAmount = state.method !== PAYMENT_METHOD_CASH ? totalAmount : parseFloat(state.givenAmount);
+  const givenAmount = updateGivenAmount(state, totalAmount);
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
   // console.log('total is', subtotalTaxesFree, subtotalWithDiscount, subtotalWithTaxes, totalAmount);
   return { ...state, totalAmount, givenAmount, returnAmount: givenAmount > 0 ? returnAmount : '0.00' };
@@ -87,7 +135,7 @@ function addStockToTicket(state, action) {
     return { ...state, items };
   }
   return {
-    ...state, items: state.items.concat([{ ...action.item, amount: 1, totalAmount: action.item.amount }]),
+    ...state, items: state.state === TICKET_SOLD_STATE ? state.items.concat([{ ...action.item, amount: 1, totalAmount: action.item.amount, added: true }]) : state.items.concat([{ ...action.item, amount: 1, totalAmount: action.item.amount }]),
   };
 }
 
@@ -101,6 +149,22 @@ function removeStockFromTicket(state, action) {
   };
 }
 
+function returnStockFromTicket(state, action) {
+  const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount_return: item.amount, amount: 0 }) : item);
+  return {
+    ...state,
+    items,
+  };
+}
+
+function undoReturnStockFromTicket(state, action) {
+  const items = state.items.map((item) => item.reference === action.item.reference ? (omit({ ...item, amount: item.amount_return }, 'amount_return')) : item);
+  return {
+    ...state,
+    items,
+  };
+}
+
 function removeTicket() {
   return initialState;
 }
@@ -110,6 +174,13 @@ function loadTicket(state, action) {
 }
 
 function setTicketPaymentMethod(state, action) {
+  if (state.state === TICKET_SOLD_STATE) {
+    return { ...state, method: action.method };
+  }
+  if (state.totalAmount <= 0) {
+    return { ...state, method: action.method, givenAmount: '0.00', returnAmount: '0.00' };
+  }
+
   if (action.method !== PAYMENT_METHOD_CASH) {
     return { ...state, method: action.method, givenAmount: state.totalAmount, returnAmount: '0.00' };
   }
@@ -133,6 +204,10 @@ function appReducer(state = initialState, action) {
       return addStockToTicket(state, action);
     case REMOVE_STOCK_FROM_TICKET_ACTION:
       return removeStockFromTicket(state, action);
+    case RETURN_STOCK_FROM_TICKET_ACTION:
+      return returnStockFromTicket(state, action);
+    case UNDO_RETURN_STOCK_FROM_TICKET_ACTION:
+      return undoReturnStockFromTicket(state, action);
     case REMOVE_TICKET_ACTION:
       return removeTicket(state, action);
     case LOAD_TICKET_SUCCESS_ACTION:
@@ -141,6 +216,10 @@ function appReducer(state = initialState, action) {
       return setTicketPaymentMethod(state, action);
     case SET_TICKET_GIVEN_AMOUNT_ACTION:
       return setTicketGivenAmount(state, action);
+    case INCREASE_TICKET_GIVEN_AMOUNT_ACTION:
+      return increaseTicketGivenAmount(state, action);
+    case DECREASE_TICKET_GIVEN_AMOUNT_ACTION:
+      return decreaseTicketGivenAmount(state, action);
     default:
       return state;
   }

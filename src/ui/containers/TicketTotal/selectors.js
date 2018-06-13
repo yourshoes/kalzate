@@ -43,6 +43,11 @@ const makeSelectMethod = () =>
     substate.method
   );
 
+const makeSelectState = () =>
+  createSelector(selectTicketPaymentsDomain(), (substate) =>
+    substate.state
+  );
+
 const makeSelectCreationDate = () =>
   createSelector(selectTicketPaymentsDomain(), (substate) =>
     substate.created_at
@@ -57,4 +62,5 @@ export {
   makeSelectCurrency,
   makeSelectMethod,
   makeSelectCreationDate,
+  makeSelectState,
 };

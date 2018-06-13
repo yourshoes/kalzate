@@ -10,6 +10,7 @@ import Helmet from 'react-helmet';
 // import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import TicketItems from 'ui/containers/TicketItems';
+import TicketReturnItems from 'ui/containers/TicketReturnItems';
 import TicketTotal from 'ui/containers/TicketTotalContainer';
 import TicketPayments from 'ui/containers/TicketPaymentsContainer';
 import StockItems from 'ui/containers/StockItems';
@@ -17,10 +18,12 @@ import { Grid, Row2, Column } from 'ui/components/Grid';
 import {
   makeSelectTicketTotalVisibility,
   makeSelectTicketPaymentsVisibility,
+  makeSelectTicketState,
 } from 'ui/containers/TicketsPage/selectors';
+import { TICKET_SOLD_STATE } from 'ui/constants';
 
 export class TicketsPage extends React.Component {
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     return (
@@ -31,7 +34,7 @@ export class TicketsPage extends React.Component {
         />
         <Row2>
           <Column>
-            <TicketItems />
+            {this.props.ticketState === TICKET_SOLD_STATE ? <TicketReturnItems /> : <TicketItems />}
           </Column>
           <Column w={this.props.ticketTotalVisibility ? '300px' : '25px'}>
             <TicketTotal />
@@ -53,11 +56,13 @@ export class TicketsPage extends React.Component {
 TicketsPage.propTypes = {
   ticketTotalVisibility: PropTypes.bool,
   ticketPaymentsVisibility: PropTypes.bool,
+  ticketState: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   ticketTotalVisibility: makeSelectTicketTotalVisibility(),
   ticketPaymentsVisibility: makeSelectTicketPaymentsVisibility(),
+  ticketState: makeSelectTicketState(),
 });
 
 export default connect(mapStateToProps)(TicketsPage);

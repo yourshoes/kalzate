@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 /**
  * Direct selector to the ticketTotal state domain
  */
+const selectTicket = () => (state) => state.ticket;
 const selectTicketVisibility = () => (state) => state.tmp.visibility.tickets;
 
 /**
@@ -21,5 +22,9 @@ const makeSelectTicketPaymentsVisibility = () =>
   createSelector(selectTicketVisibility(), (substate) =>
     substate.payments
   );
+const makeSelectTicketState = () =>
+  createSelector(selectTicket(), (substate) =>
+    substate.state
+  );
 
-export { makeSelectTicketTotalVisibility, makeSelectTicketPaymentsVisibility };
+export { selectTicket, makeSelectTicketTotalVisibility, makeSelectTicketPaymentsVisibility, makeSelectTicketState };
