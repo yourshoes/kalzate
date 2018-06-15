@@ -24,6 +24,7 @@ export class PaymentGiven extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.givenAmount);
     this.setState({ value: `${nextProps.givenAmount}` });
   }
 

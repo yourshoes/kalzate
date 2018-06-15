@@ -265,7 +265,7 @@ export class AreaField extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: props.value };
+    this.state = { value: props.value || props.noValue };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -275,7 +275,7 @@ export class AreaField extends React.Component {
   render() {
     return (<Section10>
       <FloatLabel>
-        <Textarea type="text" placeholder={this.props.placeholder} value={this.state.value} onBlur={(event) => this.props.onBlur ? this.props.onBlur(event.target.value) : null} />
+        <Textarea type="text" placeholder={this.props.placeholder} onChange={({ target }) => this.setState({ value: target.value || this.props.noValue })} value={this.state.value} onBlur={(event) => this.props.onBlur ? this.props.onBlur(event.target.value) : null} />
         <StockLabel>
           {this.props.placeholder}
         </StockLabel>

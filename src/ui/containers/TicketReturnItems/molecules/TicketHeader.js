@@ -8,6 +8,7 @@ import React, { PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import Button from 'ui/components/Button';
 import {
+  TICKET_RETURN_STATE,
   TICKET_SOLD_STATE,
 } from 'ui/constants';
 import TicketSectionContainer from '../atoms/TicketSectionContainer';
@@ -33,8 +34,7 @@ export class TicketHeader extends React.Component {
         </Section50>
         <Section50>
           <SectionRight>
-            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="gift" title="Print Gift" onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SOLD_STATE, asGift: true, settings: this.props.settings })} />
-            <Button inactive={isEmpty(this.props.ticket.items)} icon="check" title="Return" onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SOLD_STATE, asGift: false, settings: this.props.settings })} />
+            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="cloud-download" title="Print Ticket" onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SOLD_STATE, asGift: true, settings: this.props.settings })} />
           </SectionRight>
         </Section50>
       </TicketSectionContainer>

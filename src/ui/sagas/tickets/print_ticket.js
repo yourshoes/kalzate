@@ -7,8 +7,9 @@ import {
 
 function* printTicket(action) {
   try {
-    // const { ticket } = action;
+    const { content, printerName, printerIP } = action;
 
+    console.log(content, printerName, printerIP);
     yield put({
       ...action,
       type: PRINT_TICKET_SUCCESS_ACTION,

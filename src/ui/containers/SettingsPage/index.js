@@ -93,7 +93,7 @@ export class SettingsPage extends React.Component {
                   </Row2>
                   <Row2>
                     <Column>
-                      {this.props.settings && <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} value={this.props.settings.ticketTemplate} onBlur={(ticketTemplate) => this.props.update(Constants.TICKET_TEMPLATE_SETTING, ticketTemplate)} />}
+                      {this.props.settings && <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} value={this.props.settings.ticketTemplate} onBlur={(ticketTemplate) => this.props.update(Constants.TICKET_TEMPLATE_SETTING, ticketTemplate)} noValue={Constants.DEFAULT_TICKET_TEMPLATE} />}
                     </Column>
                   </Row2>
                 </Grid>

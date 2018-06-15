@@ -8,6 +8,7 @@ import React, { PropTypes } from 'react';
 import { isEmpty } from 'lodash';
 import Button from 'ui/components/Button';
 import {
+  TICKET_RETURN_STATE,
   TICKET_SOLD_STATE,
 } from 'ui/constants';
 import TicketSectionContainer from '../atoms/TicketSectionContainer';
@@ -19,7 +20,6 @@ import TicketSearchField from './TicketSearchField';
 export class TicketHeader extends React.Component {
 
   render() {
-    console.log(this.props.ticket.givenAmount, this.props.ticket.totalAmount, this.props.ticket.givenAmount < this.props.ticket.totalAmount);
     return (
       <TicketSectionContainer>
         <Section50>
@@ -34,8 +34,8 @@ export class TicketHeader extends React.Component {
         </Section50>
         <Section50>
           <SectionRight>
-            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="gift" title="Is a Gift" onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SOLD_STATE, asGift: true, settings: this.props.settings })} />
-            <Button inactive={isEmpty(this.props.ticket.items) || (Number(this.props.ticket.givenAmount) < Number(this.props.ticket.totalAmount))} primary icon="check" title="Checkout" onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SOLD_STATE, asGift: false, settings: this.props.settings })} />
+            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="gift" title="Print Gift" onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SOLD_STATE, asGift: true, settings: this.props.settings })} />
+            <Button inactive={isEmpty(this.props.ticket.items) || this.props.ticket.items.every((item) => !item.amount_return)} icon="check" title="Return" onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_RETURN_STATE, relatesTo: String(this.props.ticket.created_at), settings: this.props.settings })} />
           </SectionRight>
         </Section50>
       </TicketSectionContainer>

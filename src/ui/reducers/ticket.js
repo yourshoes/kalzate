@@ -33,8 +33,7 @@ import {
 import {
   RETURN_STOCK_FROM_TICKET_ACTION,
   UNDO_RETURN_STOCK_FROM_TICKET_ACTION,
-
-} from 'ui/containers/TicketReturnItems/constants';
+} from 'ui/containers/TicketSoldItems/constants';
 import { PAYMENT_METHOD_CREDIT_CARD, PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'ui/constants';
 import { toFixed } from 'ui/utils/helper';
 // The initial state of the App
@@ -48,7 +47,7 @@ const initialState = {
   currency: '€',
   state: null, // sold, saved, refunded,
   items: [],
-  // relatesTo: null
+  relatesTo: '',
 };
 
 function increaseTicketGivenAmount(state, action) {
@@ -131,11 +130,11 @@ function addStockToTicket(state, action) {
     // and is used later when checking out to update the stock, note
     // this will not work if the database is updated outside from the kalzate application
     // unless the client is synced
-    const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount: item.amount + 1, totalAmount: action.item.amount }) : item);
+    const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount: item.amount + 1 }) : item);
     return { ...state, items };
   }
   return {
-    ...state, items: state.state === TICKET_SOLD_STATE ? state.items.concat([{ ...action.item, amount: 1, totalAmount: action.item.amount, added: true }]) : state.items.concat([{ ...action.item, amount: 1, totalAmount: action.item.amount }]),
+    ...state, items: state.state === TICKET_SOLD_STATE ? state.items.concat([{ ...action.item, amount: 1, added: true }]) : state.items.concat([{ ...action.item, amount: 1 }]),
   };
 }
 
@@ -177,6 +176,7 @@ function setTicketPaymentMethod(state, action) {
   if (state.state === TICKET_SOLD_STATE) {
     return { ...state, method: action.method };
   }
+
   if (state.totalAmount <= 0) {
     return { ...state, method: action.method, givenAmount: '0.00', returnAmount: '0.00' };
   }

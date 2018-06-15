@@ -37,6 +37,7 @@ export class TicketFooter extends React.Component {
         </Section50>
         <Section50>
           <SectionRight>
+            <Button inactive={isEmpty(this.props.ticket.items)} icon="cloud-download" title="Print Ticket" onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SAVE_STATE })} />
             <Button inactive={isEmpty(this.props.ticket.items)} primary icon="trashcan" title="New Ticket" onClick={() => this.props.removeTicket()} />
             {/* Full ticket displays a modal where user can edit the final content of the ticket, useful in same cases */}
             {/* <Button icon="checklist" title="Full Ticket" /> */}

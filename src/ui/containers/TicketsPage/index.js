@@ -11,6 +11,7 @@ import Helmet from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import TicketItems from 'ui/containers/TicketItems';
 import TicketReturnItems from 'ui/containers/TicketReturnItems';
+import TicketSoldItems from 'ui/containers/TicketSoldItems';
 import TicketTotal from 'ui/containers/TicketTotalContainer';
 import TicketPayments from 'ui/containers/TicketPaymentsContainer';
 import StockItems from 'ui/containers/StockItems';
@@ -20,10 +21,17 @@ import {
   makeSelectTicketPaymentsVisibility,
   makeSelectTicketState,
 } from 'ui/containers/TicketsPage/selectors';
-import { TICKET_SOLD_STATE } from 'ui/constants';
+import { TICKET_SOLD_STATE, TICKET_RETURN_STATE } from 'ui/constants';
 
 export class TicketsPage extends React.Component {
   componentDidMount() { }
+
+  getItemsComponent() {
+    if (this.props.ticketState === TICKET_SOLD_STATE) return <TicketSoldItems />;
+    if (this.props.ticketState === TICKET_RETURN_STATE) return <TicketReturnItems />;
+
+    return <TicketItems />;
+  }
 
   render() {
     return (
@@ -34,7 +42,7 @@ export class TicketsPage extends React.Component {
         />
         <Row2>
           <Column>
-            {this.props.ticketState === TICKET_SOLD_STATE ? <TicketReturnItems /> : <TicketItems />}
+            {this.getItemsComponent()}
           </Column>
           <Column w={this.props.ticketTotalVisibility ? '300px' : '25px'}>
             <TicketTotal />

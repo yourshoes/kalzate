@@ -24,6 +24,18 @@ export class TicketTableBody extends React.Component {
     }
   }
 
+  getTicketItemAction(item, i) {
+    // if returning item
+    if (item.amount_return) {
+      return <TicketTableButton primary icon="remove-close" onClick={() => this.props.undoReturnStockFromTicket(item, i)} />;
+    }
+    // if new ticket item
+    if (item.added) {
+      return <TicketTableButton primary icon="remove-close" onClick={() => this.props.removeStockFromTicket(item, i)} />;
+    }
+    // otherwise (existing item to be returned)
+    return <TicketTableButton primary icon="arrow-left" onClick={() => this.props.returnStockFromTicket(item, i)} />;
+  }
 
   render() {
     return (
@@ -55,6 +67,7 @@ export class TicketTableBody extends React.Component {
                 }}
               />
               <TicketTableField placeholder={(item.price * item.amount).toFixed(2)} readonly />
+              {this.getTicketItemAction(item, i)}
             </TicketTableRowContainer>
           ))}
         </TicketTableBodyContainer>

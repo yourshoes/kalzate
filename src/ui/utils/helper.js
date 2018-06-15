@@ -1,5 +1,11 @@
 import dateFormat from 'dateFormat';
 import lodash from 'lodash';
+import {
+  PAYMENT_METHOD_CREDIT_CARD,
+  PAYMENT_METHOD_PHONE,
+  PAYMENT_METHOD_CASH,
+  PAYMENT_METHOD_TICKET,
+} from 'ui/constants';
 
 export function Option(ifNotNull, ifNull) {
   if (!lodash.isEmpty(ifNotNull)) return ifNotNull;
@@ -29,17 +35,42 @@ export function platformKeySymbols(key, platform = window.navigator.platform) {
   }
 }
 
-export function compileTicket(info, ticket) {
+export function compileTicket(info, { _data }) {
+  const ticket = _data;
+  console.log('>>>', info, ticket);
   const utils = {
     dateFormat,
-    lodash,
     addDays(date, days) {
-      const result = new Date(date);
-      result.setDate(result.getDate() + days);
-      return result;
+      date.setDate(date.getDate() + days);
+      return date;
     },
   };
-  return Function('_', 'info', 'ticket', `return \`${info.ticketTemplate}\`;`).call(null, utils, info, ticket);
+  const ticketInterface = {
+    code: ticket.created_at,
+    date: new Date(ticket.created_at),
+    id: ticket.id,
+    total: ticket.totalAmount,
+    total_input: ticket.givenAmount,
+    total_output: ticket.returnAmount,
+    items(fn) {
+      return ticket.items.map((item) => fn({ description: `${item.brand}`, price: Number(item.price).toFixed(2), amount: item.amount, subtotal: (item.price * item.amount).toFixed(2) })).join('');
+    },
+    payment: (function () {
+      switch (ticket.method) {
+        case PAYMENT_METHOD_CREDIT_CARD:
+          return 'Credit Card';
+        case PAYMENT_METHOD_PHONE:
+          return 'Phone App';
+        case PAYMENT_METHOD_CASH:
+          return 'Cash';
+        case PAYMENT_METHOD_TICKET:
+          return 'Voucher';
+        default: return '';
+      }
+    }()),
+
+  };
+  return Function('_', 'info', 'ticket', `return \`${info.ticketTemplate}\`;`).call(null, utils, info, ticketInterface);
 }
 
 export function isRealNumeric(input) {
