@@ -12,8 +12,33 @@ export const DEFAULT_EMAIL = 'zurisadai.pabon@gmail.com';
 export const DEFAULT_PHONE = '+34610601389';
 export const DEFAULT_PRINTER_NAME = 'TERMICA';
 export const DEFAULT_BACKUP_FRECUENCY = 'daily';
-export const DEFAULT_TICKET_TEMPLATE =
-  '\r\n             SHOES STORE ${info.name}\r\n\r\n Address: ${info.address}\r\n Email: ${info.email}  Phone: ${info.phone}\r\n Ticket: ${ticket.code}  Date: ${_.dateFormat(ticket.date, "dd/mm/yyyy HH:MM")}\r\n\r\n------------------------------------------\r\n Item                   U.  PSP  Subtotal\r\n------------------------------------------\r\n${ticket.items(({description, amount, price, subtotal}) => ` ${description}                 ${amount}  ${price}  ${subtotal}\r\n`)}\r\n------------------------------------------\r\n                          TOTAL: ${ticket.total}\r\n                         (TAXES included)\r\n\r\n Method: ${ticket.payment}, Amount: ${ticket.total_input}\r\n\r\n RETURNS ADMITTED BETWEEN ${_.dateFormat(ticket.date, "dd/mm/yyyy")} AND ${_.dateFormat(_.addDays(ticket.date, 15), "dd/mm/yyyy")} \r\n\r\n *** THANKS FOR SHOPPING AT ${info.name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
+// export const DEFAULT_TICKET_TEMPLATE =
+//   '\r\n             SHOES STORE ${info.name}\r\n\r\n Address: ${info.address}\r\n Email: ${info.email}\r\n Phone: ${info.phone}\r\n Date: ${_.dateFormat(ticket.date, "dd/mm/yyyy HH:MM")}\r\n\r\n Ticket: ${ticket.code}\r\n\r\n--------------------------------------------\r\n Item                   U.   PSP    Subtotal\r\n--------------------------------------------\r\n${ticket.items(({description, amount, price, subtotal}) => ` ${description}${amount}${price}${subtotal}`, {padding: {description: 23, amount: 5, price: 7, subtotal: 7}})}\r\n--------------------------------------------\r\n                          TOTAL: ${ticket.total}\r\n                         (TAXES included)\r\n\r\n Method: ${ticket.payment}, Amount: ${ticket.total_input}\r\n\r\n RETURNS ADMITTED BETWEEN ${_.dateFormat(ticket.date, "dd/mm/yyyy")} AND ${_.dateFormat(_.addDays(ticket.date, 15), "dd/mm/yyyy")} \r\n\r\n *** THANKS FOR SHOPPING AT ${info.name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
+
+export const DEFAULT_TICKET_TEMPLATE = `SHOES STORE {{shop name}}
+
+  Address: {{shop address}}
+  Email: {{shop email}}
+  Phone: {{shop phone}}
+  Date: {{ticket date "dd/mm/yyyy HH:MM"}}
+ 
+  Ticket: {{ticket code}}
+ 
+ --------------------------------------------
+  Item                   U.   PSP    Subtotal
+ --------------------------------------------
+ {{ticket items ["description", "amount", "price", "subtotal"] [23, 5, 7, 7] [1, 0]}}
+ --------------------------------------------
+                           TOTAL: {{ticket total}}
+                          (TAXES included)
+ 
+  Method: {{ticket payment}}, Amount: {{ticket given}}
+ 
+  RETURNS ADMITTED BETWEEN {{ticket date "dd/mm/yyyy"}} AND {{ticket return_date 15 "dd/mm/yyyy"}} 
+ 
+  *** THANKS FOR SHOPPING AT {{shop name}} ***
+ 
+ -   -   -   -   -   -   -   -   -   -   -`;
 
 export const DEFAULT_STOCK_ITEMS_LIMIT = 50;
 

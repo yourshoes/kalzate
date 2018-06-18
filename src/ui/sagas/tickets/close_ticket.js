@@ -16,7 +16,7 @@ import {
 import {
   REFRESH_STOCK_ACTION,
 } from 'ui/containers/StockItems/constants';
-import { compileTicket } from 'ui/utils/helper';
+import { compileTicket } from 'ui/utils/ticket';
 
 function* closeTicket(action) {
   try {
@@ -58,7 +58,7 @@ function* closeTicket(action) {
         });
         // END DANGEROUS
         yield put({
-          content: compileTicket(options.settings, response),
+          content: compileTicket(options.settings, response._data),
           printerName: options.settings.printerName,
           printerIP: options.settings.printerIP,
           type: PRINT_TICKET_ACTION,
@@ -82,9 +82,9 @@ function* closeTicket(action) {
           (...args) => Tickets().save(...args),
           omit({ ...finalTicket, relatesTo: options.relatesTo }, ['id', 'created_at', '_rev'])
         );
-        console.log(compileTicket(options.settings, response));
+        console.log(compileTicket(options.settings, response._data));
         yield put({
-          content: compileTicket(options.settings, response),
+          content: compileTicket(options.settings, response._data),
           settings: options.settings,
           type: PRINT_TICKET_ACTION,
         });

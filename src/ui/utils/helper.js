@@ -35,6 +35,20 @@ export function platformKeySymbols(key, platform = window.navigator.platform) {
   }
 }
 
+export function abbrv(type, value) {
+  switch (type) {
+    case 'COLORS':
+    case 'GENDER':
+    case 'BRAND':
+      return value ? value.substring(0, 3) : '';
+    default: return value;
+  }
+}
+
+export function formatDescription(item) {
+  return `${abbrv('BRAND', item.brand)}-${item.colors.map((c) => abbrv('COLORS', c)).join()} (${item.size}-${abbrv('BRAND', item.gender)})`;
+}
+
 export function compileTicket(info, { _data }) {
   const ticket = _data;
   console.log('>>>', info, ticket);
@@ -52,8 +66,10 @@ export function compileTicket(info, { _data }) {
     total: ticket.totalAmount,
     total_input: ticket.givenAmount,
     total_output: ticket.returnAmount,
-    items(fn) {
-      return ticket.items.map((item) => fn({ description: `${item.brand}`, price: Number(item.price).toFixed(2), amount: item.amount, subtotal: (item.price * item.amount).toFixed(2) })).join('');
+    items(fn, { padding }) {
+      // console.log(padding, rc);
+      // console.log(ticket.items.map((item) => fn({ description: `${lodash.padEnd(formatDescription(item), padding.description || 0)}`, price: lodash.padEnd(Number(item.price).toFixed(2), padding.price || 0), amount: lodash.padEnd(item.amount, padding.amount || 0), subtotal: (item.price * item.amount).toFixed(2) })).join(rc));
+      return ticket.items.map((item) => fn({ description: `${lodash.padEnd(formatDescription(item), padding.description || 0)}`, price: lodash.padEnd(Number(item.price).toFixed(2), padding.price || 0), amount: lodash.padEnd(item.amount, padding.amount || 0), subtotal: (item.price * item.amount).toFixed(2) })).join('\r\r');
     },
     payment: (function () {
       switch (ticket.method) {
@@ -70,7 +86,11 @@ export function compileTicket(info, { _data }) {
     }()),
 
   };
-  return Function('_', 'info', 'ticket', `return \`${info.ticketTemplate}\`;`).call(null, utils, info, ticketInterface);
+  try {
+    return Function('_', 'info', 'ticket', `return \`${info.ticketTemplate}\`;`).call(null, utils, info, ticketInterface);
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export function isRealNumeric(input) {
