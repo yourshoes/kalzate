@@ -21,7 +21,7 @@ import { compileTicket } from 'ui/utils/ticket';
 function* closeTicket(action) {
   try {
     const { ticket, options } = action;
-    const { state } = options;
+    const { state, relatesTo } = options;
     const finalTicket = { ...ticket, state };
     let response = {};
     console.log(finalTicket);
@@ -65,6 +65,16 @@ function* closeTicket(action) {
         });
         break;
       case TICKET_RETURN_STATE:
+
+        response = yield call(
+          (...args) => Tickets().sellBack(...args),
+          { ...finalTicket, relatesTo }
+        );
+        yield put({
+          limit: yield select((store) => store.stock.limit),
+          skip: yield select((store) => store.stock.skip),
+          type: REFRESH_STOCK_ACTION,
+        });
         // Update stock
         // for (const stockItem of ticket.items) {
         //   let amount = (stockItem.totalAmount + stockItem.amount_return);
@@ -77,15 +87,21 @@ function* closeTicket(action) {
         //     type: UPDATE_STOCK_ACTION,
         //   });
         // }
-        console.log('...', omit({ ...finalTicket, relatesTo: options.relatesTo }, ['id', 'created_at']));
-        response = yield call(
-          (...args) => Tickets().save(...args),
-          omit({ ...finalTicket, relatesTo: options.relatesTo }, ['id', 'created_at', '_rev'])
-        );
-        console.log(compileTicket(options.settings, response._data));
+        // console.log('...', omit({ ...finalTicket, relatesTo: options.relatesTo }, ['id', 'created_at']));
+        // response = yield call(
+        //   (...args) => Tickets().save(...args),
+        //   omit({ ...finalTicket, relatesTo: options.relatesTo }, ['id', 'created_at', '_rev'])
+        // );
+        // console.log(compileTicket(options.settings, response._data));
+        // yield put({
+        //   content: compileTicket(options.settings, response._data),
+        //   settings: options.settings,
+        //   type: PRINT_TICKET_ACTION,
+        // });
         yield put({
           content: compileTicket(options.settings, response._data),
-          settings: options.settings,
+          printerName: options.settings.printerName,
+          printerIP: options.settings.printerIP,
           type: PRINT_TICKET_ACTION,
         });
         break;
@@ -94,7 +110,7 @@ function* closeTicket(action) {
 
     console.log(response);
     // New ticket
-    if (!finalTicket.id) {
+    if (state === TICKET_SOLD_STATE || state === TICKET_RETURN_STATE) {
       yield put({
         ...action,
         type: REMOVE_TICKET_ACTION,

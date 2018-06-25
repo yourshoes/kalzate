@@ -265,7 +265,7 @@ export class AreaField extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: props.value.trim() || props.noValue };
+    this.state = { value: props.value ? props.value.trim() : props.noValue };
   }
 
   componentWillReceiveProps(nextProps) {

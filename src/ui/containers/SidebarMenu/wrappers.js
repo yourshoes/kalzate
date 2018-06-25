@@ -42,6 +42,13 @@ export const Container = styled.div`
 export const MenuGroup = styled.ul`
   list-style: none;
   padding: 0;
+  height: ${(props) => props.static ? '88px' : 'calc(100% - 110px)'};
+  overflow: hidden;
+`;
+
+export const MenuTicketListContainer = styled.div`
+  height: calc(100% - 24px);
+  overflow: auto;
 `;
 
 const Footer = styled.div`
@@ -175,7 +182,7 @@ export const Menu = styled.div`
   flex: 1;
   width: 100%;
   height: calc(100% - 70px);
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 `;
 
@@ -218,6 +225,8 @@ const P = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: ${(props) => props.noroute ? '0' : '4px'};
+  padding-bottom: ${(props) => props.noroute ? '4px' : '0'};
   color: ${(props) => selected(props.selected, props.theme.sidebar.hoverColor)};
 `;
 const actived = (props) => `
@@ -288,7 +297,7 @@ export function MenuItem(props) {
             {!!props.state && getTicketState(props.state)}
           </P>
         </Route>
-        : <P selected={props.selected}>
+        : <P selected={props.selected} noroute={props.noroute}>
           {props.title.toUpperCase()}
           {!!props.state && getTicketState(props.state)}
         </P>}

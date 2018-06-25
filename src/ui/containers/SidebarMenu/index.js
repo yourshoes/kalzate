@@ -15,14 +15,14 @@ import {
 import { loadTicket } from './actions';
 // import { selectResources, selectResource } from './selectors';
 // import messages from './messages';
-import { Container, Menu, MenuFooter, MenuSearch, MenuGroup, MenuItem } from './wrappers';
+import { Container, Menu, MenuFooter, MenuSearch, MenuGroup, MenuItem, MenuTicketListContainer } from './wrappers';
 
 function SidebarMenu(props) {
   const routeName = props.routes[props.routes.length - 1].name;
   return (
     <Container>
       <Menu>
-        <MenuGroup>
+        <MenuGroup static>
           <MenuItem
             title="Home"
             actived={routeName === 'home'}
@@ -46,26 +46,28 @@ function SidebarMenu(props) {
           />
         </MenuGroup>
         <MenuGroup>
-          <MenuItem title="Your Tickets" actived={routeName === 'tickets'} />
+          <MenuItem title="Your Tickets" actived={routeName === 'tickets'} noroute />
           {/**
             <MenuItem title="10001" small highlight cursor />
             <MenuItem title="10002" small highlight cursor />
             <MenuItem title="100013" small highlight cursor />
           **/}
-          {props.tickets.map((ticket) =>
-            (<MenuItem
-              key={ticket.created_at}
-              title={String(ticket.created_at)}
-              selected={ticket.id === props.ticketID}
-              onClick={() => {
-                // @todo move to a saga
-                props.loadTicket(ticket);
-                props.router.push('/tickets');
-              }}
-              state={ticket.state}
-              small highlight cursor
-            />
-            ))}
+          <MenuTicketListContainer>
+            {props.tickets.map((ticket) =>
+              (<MenuItem
+                key={ticket.created_at}
+                title={String(ticket.created_at)}
+                selected={ticket.id === props.ticketID}
+                onClick={() => {
+                  // @todo move to a saga
+                  props.loadTicket(ticket);
+                  props.router.push('/tickets');
+                }}
+                state={ticket.state}
+                small highlight cursor
+              />
+              ))}
+          </MenuTicketListContainer>
         </MenuGroup>
       </Menu>
       <MenuSearch title="Search Tickets" />

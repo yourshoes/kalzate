@@ -5,6 +5,7 @@ import {
   PAYMENT_METHOD_PHONE,
   PAYMENT_METHOD_CASH,
   PAYMENT_METHOD_TICKET,
+  TICKET_RETURN_STATE,
 } from 'ui/constants';
 
 const compileTicketTemplateRegex = /{{([^{}]+)}}/g;
@@ -56,12 +57,15 @@ function compileTicketPrintShopCase(settings, field) {
   }
 }
 
-function compileTicketPrintPreprocess(field, value, padding, item) {
+function compileTicketPrintPreprocess(field, value, padding, item, ticket) {
   if (field === 'description') {
     return String(lodash.padEnd(formatDescription(item), parseInt(padding, 10)));
   }
   if (field === 'subtotal') {
-    return String(lodash.padEnd(item.price * item.amount, parseInt(padding, 10)));
+    return String(lodash.padEnd(item.price * (ticket.state === TICKET_RETURN_STATE ? -item.amount_return : item.amount), parseInt(padding, 10)));
+  }
+  if (field === 'amount') {
+    return String(lodash.padEnd(ticket.state === TICKET_RETURN_STATE ? -item.amount_return : item.amount, parseInt(padding, 10)));
   }
   return String(lodash.padEnd(value, parseInt(padding, 10)));
 }
@@ -82,7 +86,7 @@ function compileTicketPrintTicketCase(ticket, field, options) {
     case 'items': {
       const [fields, padding, paddingGlobal] = options.map((option) => JSON.parse(option));
       return ticket.items.map((item) => {
-        const values = fields.map((f, i) => compileTicketPrintPreprocess(f.toLowerCase(), item[f], padding[i], item));
+        const values = fields.map((f, i) => compileTicketPrintPreprocess(f.toLowerCase(), item[f], padding[i], item, ticket));
 
         return `${new Array(paddingGlobal[0] + 1).join(' ')}${values[0]}${values[1]}${values[2]}${values[3]}${new Array(paddingGlobal[1] + 1).join(' ')}`;
       }).join('\r\n');
