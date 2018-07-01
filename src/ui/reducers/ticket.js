@@ -106,7 +106,7 @@ function updateTicketTotal(state) {
   const subtotalWithTaxes = state.tax ? subtotalWithDiscount + (subtotalWithDiscount * state.tax) : subtotalWithDiscount;
   const totalAmount = subtotalWithTaxes.toFixed(2);
   const givenAmount = updateGivenAmount(state, totalAmount);
-  const returnAmount = (givenAmount - totalAmount).toFixed(2);
+  const returnAmount = (Math.abs(givenAmount) - Math.abs(totalAmount)).toFixed(2);
   // console.log('total is', subtotalTaxesFree, subtotalWithDiscount, subtotalWithTaxes, totalAmount);
   return { ...state, totalAmount, givenAmount, returnAmount: givenAmount > 0 ? returnAmount : '0.00' };
 }

@@ -261,8 +261,11 @@ const TicketStateSpan = styled.span`
   margin-left: 8px;
   margin-bottom: 1px;
 `;
+// const TicketSaveStateSpan = styled(TicketStateSpan) `
+//   background-color: rgba(163, 168, 174, 0.6);
+// `;
 const TicketSaveStateSpan = styled(TicketStateSpan) `
-  background-color: rgba(163, 168, 174, 0.6);
+  background-color: rgba(115, 201, 144, 1);
 `;
 const TicketSoldStateSpan = styled(TicketStateSpan) `
   background-color: rgba(100, 148, 237, 1);

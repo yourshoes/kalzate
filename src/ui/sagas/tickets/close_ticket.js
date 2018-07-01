@@ -1,6 +1,5 @@
 import { takeEvery, put, call, select } from 'redux-saga/effects';
 import { Tickets } from 'ui/db';
-import { omit } from 'lodash';
 import {
   CLOSE_TICKET_ACTION,
   CLOSE_TICKET_SUCCESS_ACTION,
@@ -21,7 +20,7 @@ import { compileTicket } from 'ui/utils/ticket';
 function* closeTicket(action) {
   try {
     const { ticket, options } = action;
-    const { state, relatesTo } = options;
+    const { state, relatesTo, asVoucher, asGift } = options;
     const finalTicket = { ...ticket, state };
     let response = {};
     console.log(finalTicket);
@@ -58,7 +57,7 @@ function* closeTicket(action) {
         });
         // END DANGEROUS
         yield put({
-          content: compileTicket(options.settings, response._data),
+          content: compileTicket(options.settings, { ...response._data, asGift }),
           printerName: options.settings.printerName,
           printerIP: options.settings.printerIP,
           type: PRINT_TICKET_ACTION,
@@ -75,31 +74,9 @@ function* closeTicket(action) {
           skip: yield select((store) => store.stock.skip),
           type: REFRESH_STOCK_ACTION,
         });
-        // Update stock
-        // for (const stockItem of ticket.items) {
-        //   let amount = (stockItem.totalAmount + stockItem.amount_return);
-        //   if (stockItem.amount_return === undefined) {
-        //     amount = (stockItem.totalAmount - stockItem.amount) < 0 ? 0 : stockItem.totalAmount - stockItem.amount;
-        //   }
-        //   const stock = omit({ ...stockItem, amount }, ['totalAmount', 'amount_return']);
-        //   yield put({
-        //     stock,
-        //     type: UPDATE_STOCK_ACTION,
-        //   });
-        // }
-        // console.log('...', omit({ ...finalTicket, relatesTo: options.relatesTo }, ['id', 'created_at']));
-        // response = yield call(
-        //   (...args) => Tickets().save(...args),
-        //   omit({ ...finalTicket, relatesTo: options.relatesTo }, ['id', 'created_at', '_rev'])
-        // );
-        // console.log(compileTicket(options.settings, response._data));
-        // yield put({
-        //   content: compileTicket(options.settings, response._data),
-        //   settings: options.settings,
-        //   type: PRINT_TICKET_ACTION,
-        // });
+
         yield put({
-          content: compileTicket(options.settings, response._data),
+          content: compileTicket(options.settings, { ...response._data, asVoucher }),
           printerName: options.settings.printerName,
           printerIP: options.settings.printerIP,
           type: PRINT_TICKET_ACTION,

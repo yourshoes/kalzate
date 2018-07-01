@@ -23,6 +23,7 @@ export const DEFAULT_TICKET_TEMPLATE = `SHOES STORE {{shop name}}
   Date: {{ticket date "dd/mm/yyyy HH:MM"}}
  
   Ticket: {{ticket code}}
+  Category: {{ticket category}}
  
  --------------------------------------------
   Item                   U.   PSP    Subtotal
@@ -30,9 +31,10 @@ export const DEFAULT_TICKET_TEMPLATE = `SHOES STORE {{shop name}}
  {{ticket items ["description", "amount", "price", "subtotal"] [23, 5, 7, 7] [1, 0]}}
  --------------------------------------------
                            TOTAL: {{ticket total}}
-                          (TAXES included)
  
-  Method: {{ticket payment}}, Amount: {{ticket given}}
+  Method: {{ticket payment}}, 
+  Amount: {{ticket given}},
+  Return: {{ticket return}}
  
   RETURNS ADMITTED BETWEEN {{ticket date "dd/mm/yyyy"}} AND {{ticket return_date 15 "dd/mm/yyyy"}} 
  
