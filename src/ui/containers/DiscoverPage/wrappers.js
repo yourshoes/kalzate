@@ -31,7 +31,7 @@ letter-spacing: 0.15em;
 font-weight: ${(props) => (props.highlight ? '100' : '100')};
 -webkit-font-smoothing: antialiased;
 font-variant: all-petite-caps;
-text-align: center;
+text-align: left;
 padding: 15px;
 margin: 0;
 `;

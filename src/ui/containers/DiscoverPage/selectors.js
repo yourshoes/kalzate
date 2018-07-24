@@ -1,15 +1,35 @@
 import { createSelector } from 'reselect';
 
-const selectGlobal = () => (state) => state.get('global');
+/**
+ * Direct selector to the ticketPayments state domain
+ */
+const selectChartsDomain = () => (state) => state.charts;
 
-const selectResources = () =>
-  createSelector(selectGlobal(), (globalState) =>
-    globalState.get('resources').toJSON()
+const makeSelectSalesChart = () =>
+  createSelector(selectChartsDomain(), (substate) =>
+    substate.salesChart
   );
 
-const selectResource = () =>
-  createSelector(selectGlobal(), (globalState) =>
-    globalState.getIn(['app', 'resource'])
+const makeSelectTicketsChart = () =>
+  createSelector(selectChartsDomain(), (substate) =>
+    substate.ticketsChart
   );
 
-export { selectResources, selectResource };
+const makeSelectStockChart = () =>
+  createSelector(selectChartsDomain(), (substate) =>
+    substate.stockChart
+  );
+
+const makeSelectAlertChart = () =>
+  createSelector(selectChartsDomain(), (substate) =>
+    substate.alertChart
+  );
+
+
+export default makeSelectSalesChart;
+export {
+  makeSelectSalesChart,
+  makeSelectTicketsChart,
+  makeSelectStockChart,
+  makeSelectAlertChart,
+};

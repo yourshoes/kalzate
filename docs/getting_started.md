@@ -16,4 +16,4 @@ Run on your browser (localhost:3000):
 
 `yarn start`
 
-Note: Please, make sure you follow same steps and run `npm pack .` in kalzate-db folder
+Note: Please, make sure you follow same steps and run `npm pack .` in kalzate-db folder first

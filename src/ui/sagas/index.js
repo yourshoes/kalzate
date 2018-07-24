@@ -11,6 +11,7 @@ import {
   stockSearchSaga,
   stockMatchesSaga,
 } from './stock';
+import { loadChartDataSaga } from './charts';
 
 export default function* () {
   yield all([
@@ -28,5 +29,6 @@ export default function* () {
     stockExportSaga,
     stockSearchSaga,
     stockMatchesSaga,
+    loadChartDataSaga,
   ]);
 }

@@ -10,6 +10,7 @@ import ticketsReducer from 'ui/reducers/tickets';
 import ticketReducer from 'ui/reducers/ticket';
 import stockReducer from 'ui/reducers/stock';
 import tmpReducer from 'ui/reducers/tmp';
+import chartsReducer from 'ui/reducers/charts';
 import languageProviderReducer from 'ui/reducers/language';
 import themeProviderReducer from 'ui/reducers/theme';
 
@@ -35,6 +36,7 @@ export default function createReducer(asyncReducers) {
     route: routeReducer,
     language: languageProviderReducer,
     tmp: tmpReducer,
+    charts: chartsReducer,
 
     ...asyncReducers,
   }));

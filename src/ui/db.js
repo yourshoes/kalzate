@@ -16,7 +16,7 @@ const initFromDB = (load) => (store) => {
   store.dispatch({
     type: STATE_LOADING_START,
   });
-  load(store.getState()).then(
+  load(store).then(
     (state) => {
       store.dispatch({
         type: STATE_LOADING_DONE,
@@ -33,7 +33,7 @@ const initFromDB = (load) => (store) => {
   return (next) => (action) => next(action);
 };
 
-const loadStoreFromDatabase = (currentState) =>
+const loadStoreFromDatabase = (store) =>
   new Promise(async (resolve) => {
     // Get initialState({settings, tickets, stock, ticket, insights})
     db = await kalzateDB();
@@ -42,6 +42,7 @@ const loadStoreFromDatabase = (currentState) =>
       tickets: await db.tickets.query(db.tickets.queries.dailyTickets(DEFAULT_TICKET_ITEMS_LIMIT, 0)),
       stock: await db.stock.get({ limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0 }),
     };
+    const currentState = store.getState();
     resolve({ ...currentState, ...state });
   });
 
