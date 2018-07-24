@@ -90,7 +90,7 @@ export class DiscoverPage extends React.Component {
                   width={this.state.width}
                   height={this.state.height}
                   data={this.props.ticketsChart}
-                  onMouseOver={({ maximum, minimum, median, quartile1, quartile3, day }) => this.setState({ ticketsTooltipText: `max. ${maximum}, min. ${minimum}, median. ${median} (${day})` })}
+                  onMouseOver={({ maximum, minimum, median, quartile1, quartile3, day }) => this.setState({ ticketsTooltipText: `${maximum}-${minimum}, ${quartile3}-${median}-${quartile1} (${day})` })}
                   onMouseOut={() => this.setState({ ticketsTooltipText: '' })}
                 />}
             </Panel>
@@ -106,7 +106,7 @@ export class DiscoverPage extends React.Component {
                   width={this.state.width}
                   height={this.state.height}
                   data={this.props.stockChart}
-                  onMouseOver={({ amount, price, sold }) => this.setState({ stockTooltipText: `${sold} sold at ${price} (${amount})` })}
+                  onMouseOver={({ amount, price, sold }) => this.setState({ stockTooltipText: `${sold}-${price} (${amount})` })}
                   onMouseOut={() => this.setState({ stockTooltipText: '' })}
                 />}
             </Panel>
