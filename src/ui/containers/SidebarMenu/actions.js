@@ -1,5 +1,6 @@
 import {
   LOAD_TICKET_ACTION,
+  SEARCH_TICKETS_ACTION,
 } from 'ui/containers/TicketItems/constants';
 
 /**
@@ -14,5 +15,14 @@ export function loadTicket(ticket, options = {}) {
     type: LOAD_TICKET_ACTION,
     ticket,
     options,
+  };
+}
+
+export function searchTickets(field, value, operator) {
+  return {
+    type: SEARCH_TICKETS_ACTION,
+    field,
+    value,
+    operator,
   };
 }

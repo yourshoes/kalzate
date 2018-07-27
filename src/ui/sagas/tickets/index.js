@@ -3,3 +3,4 @@ export closeTicketSaga from './close_ticket';
 export loadTicketSaga from './load';
 export matchesTicketSaga from './matches';
 export printTicketSaga from './print_ticket';
+export searchTicketsSaga from './search';

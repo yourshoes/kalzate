@@ -73,7 +73,7 @@ const EM = styled.em`
   margin-left: 10px;
   font-style: normal;
 `;
-const FooterContent = styled(Link) `
+const FooterContent = styled(Link)`
   display: table-cell;
   vertical-align: middle;
   cursor: pointer;
@@ -153,10 +153,33 @@ const SearchInput = styled.input`
 `;
 
 export function Search(props) {
+  const stopPropagation = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
+  };
   return (
     <SearchContainer>
       <Octicon name="search" />
-      <SearchInput type="text" placeholder="Search Tickets" />
+      <SearchInput
+        type="text"
+        placeholder="Search Tickets"
+        onKeyDown={(event) => {
+          const { target, key } = event;
+          switch (key) {
+            case 'Enter':
+              props.onChange
+                ? props.onChange(target.value)
+                : null;
+              return stopPropagation(event);
+
+            case 'Escape':
+              return stopPropagation(event);
+            default:
+          }
+          return true;
+        }}
+      />
     </SearchContainer>
   );
 }
@@ -164,7 +187,7 @@ export function Search(props) {
 
 export function MenuSearch(props) {
   return (
-    <Search />
+    <Search onChange={(value) => props.onChange ? props.onChange(...value.split(' ').map((v) => v.trim())) : null} />
   );
 }
 
@@ -239,7 +262,7 @@ const notActived = (props) => `
     ? props.theme.sidebar.color
     : 'rgba(163, 168, 174, 0.5)'};
 `;
-const Route = styled(Link) `
+const Route = styled(Link)`
   transition: color .5s ease-in-out;
   text-decoration:none;
   ${(props) => (props.actived ? actived(props) : notActived(props))};
@@ -264,13 +287,13 @@ const TicketStateSpan = styled.span`
 // const TicketSaveStateSpan = styled(TicketStateSpan) `
 //   background-color: rgba(163, 168, 174, 0.6);
 // `;
-const TicketSaveStateSpan = styled(TicketStateSpan) `
+const TicketSaveStateSpan = styled(TicketStateSpan)`
   background-color: rgba(115, 201, 144, 1);
 `;
-const TicketSoldStateSpan = styled(TicketStateSpan) `
+const TicketSoldStateSpan = styled(TicketStateSpan)`
   background-color: rgba(100, 148, 237, 1);
 `;
-const TicketReturnStateSpan = styled(TicketStateSpan) `
+const TicketReturnStateSpan = styled(TicketStateSpan)`
   background-color: rgba(226, 192, 141, 1);
 `;
 const getTicketState = (state) => {

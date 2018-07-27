@@ -12,7 +12,7 @@ import {
 // import { push } from 'react-router-redux';
 // import HotKeys from 'ui/utils/hotkeys';
 // import PubSub from 'ui/utils/pubsub';
-import { loadTicket } from './actions';
+import { loadTicket, searchTickets } from './actions';
 // import { selectResources, selectResource } from './selectors';
 // import messages from './messages';
 import { Container, Menu, MenuFooter, MenuSearch, MenuGroup, MenuItem, MenuTicketListContainer } from './wrappers';
@@ -70,7 +70,7 @@ function SidebarMenu(props) {
           </MenuTicketListContainer>
         </MenuGroup>
       </Menu>
-      <MenuSearch title="Search Tickets" />
+      <MenuSearch title="Search Tickets" onChange={(field, value, operator = '$eq') => props.searchTickets(field, value, operator)} />
       <MenuFooter to="/tickets" icon="inbox" title="Cash Drawer" />
     </Container>
   );
@@ -91,6 +91,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     loadTicket: (ticket) => dispatch(loadTicket(ticket)),
+    searchTickets: (field, value, operator) => dispatch(searchTickets(field, value, operator)),
   };
 }
 

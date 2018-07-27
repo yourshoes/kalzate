@@ -12,6 +12,7 @@
 
 import {
   CLOSE_TICKET_SUCCESS_ACTION,
+  SEARCH_TICKETS_SUCCESS_ACTION,
 } from 'ui/containers/TicketItems/constants';
 
 // The initial state of the App
@@ -28,11 +29,18 @@ function addTicketToState(state, action) {
   return { ...state, items: state.items.concat([action.ticket]), total: state.total + 1 };
 }
 
+function searchTickets(state, action) {
+  const { items, total } = action.tickets;
+  return { ...state, items, total };
+}
+
 function appReducer(state = initialState, action) {
   switch (action.type) {
 
     case CLOSE_TICKET_SUCCESS_ACTION:
       return addTicketToState(state, action);
+    case SEARCH_TICKETS_SUCCESS_ACTION:
+      return searchTickets(state, action);
     default:
       return state;
   }
