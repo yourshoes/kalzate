@@ -5,15 +5,17 @@ import {
   LOAD_CHART_DATA_SUCCESS_ACTION,
 } from 'ui/containers/DiscoverPage/constants';
 
-function* loadChartDataSaga(action) {
+function* loadChartDataSaga(action = {}) {
   try {
     const { chart } = action;
 
-    if (!chart) return;
+    if (!Charts()) return;
 
-    const chartData = yield call(
+    const chartData = yield ((!chart) ? call(
+      () => Charts().init()
+    ) : call(
       () => Charts()[chart]()
-    );
+    ));
 
     yield put({
       type: LOAD_CHART_DATA_SUCCESS_ACTION,

@@ -10,7 +10,6 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import Rect from './atoms/Rect';
 import BottomAxis from './molecules/BottomAxis';
 import LeftAxis from './molecules/LeftAxis';
-import Tooltip from './atoms/Tooltip';
 import { G } from './atoms/Axis';
 
 export class BarChart extends React.Component {
@@ -34,7 +33,7 @@ export class BarChart extends React.Component {
       .rangeRound([this.props.height - BarChart.axisXSize, 0])
       .domain([0, max(this.props.data.map(({ amount }) => amount))]);
     this.xScale = scaleBand()
-      .rangeRound([0, this.props.width])
+      .rangeRound([0, this.props.width - 6])
       .padding(0.1)
       .domain(this.props.data.map(({ day }) => day));
   }
@@ -76,7 +75,7 @@ export class BarChart extends React.Component {
           {this.state.tooltipText}
         </Tooltip>*/}
         <svg width={'100%'} height={'100%'}>
-          <G x={0} y={5}>
+          <G x={5} y={5}>
             {this.createBarChart()}
             <LeftAxis scale={this.yScale} x={BarChart.axisYSize} />
             <BottomAxis scale={this.xScale} y={this.props.height - BarChart.axisXSize} x={BarChart.axisYSize} />

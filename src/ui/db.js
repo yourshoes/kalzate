@@ -11,7 +11,7 @@ export const STATE_LOADING_FAILED = 'ui/STATE_LOADING_FAILED';
 export const Stock = () => db.stock;
 export const Settings = () => db.settings;
 export const Tickets = () => db.tickets;
-export const Charts = () => db.charts;
+export const Charts = () => db ? db.charts : db;
 
 const initFromDB = (load) => (store) => {
   store.dispatch({
@@ -44,7 +44,7 @@ const loadStoreFromDatabase = (store) =>
       stock: await db.stock.get({ limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0 }),
       charts: await db.charts.init(),
     };
-    console.log(state.charts)
+    // console.log(state.charts)
     const currentState = store.getState();
     resolve({ ...currentState, ...state });
   });

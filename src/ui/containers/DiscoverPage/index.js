@@ -47,9 +47,12 @@ export class DiscoverPage extends React.Component {
   }
 
   componentDidMount() {
-    // @todo move to db.js at init state
-    // this.props.loadChartsData();
     window.addEventListener('resize', this.updateDimensions);
+    this.props.loadChartsData();
+  }
+
+  componentDidUpdate() {
+    // @todo move to db.js at init state
   }
 
   componentWillUnmount() {
@@ -81,7 +84,7 @@ export class DiscoverPage extends React.Component {
                   width={this.state.width}
                   height={this.state.height}
                   data={this.props.salesChart}
-                  onMouseOver={({ amount, day }) => this.setState({ salesTooltipText: `${amount} (${day})` })}
+                  onMouseOver={({ amount, day }) => this.setState({ salesTooltipText: `${amount.toFixed(2)} (${day})` })}
                   onMouseOut={() => this.setState({ salesTooltipText: '' })}
                 /> : <Center>
                   <NotFound icon="thumbsdown">

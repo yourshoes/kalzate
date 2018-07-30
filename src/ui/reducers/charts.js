@@ -19,6 +19,9 @@ const initialState = { salesChart: [], ticketsChart: [], stockChart: [], alertCh
 
 function updateChartReducer(state, action) {
 
+    console.log(action)
+  if (!action.chart) return {...state, ...action.data};
+
   return {
     ...state,
     [action.chart]: action.data,

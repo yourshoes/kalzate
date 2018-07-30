@@ -55,7 +55,7 @@ export class ScatterPlot extends React.Component {
     return (
       <div style={{ textAlign: 'center', padding: '15px', width: '100%', height: 'calc(100% - 60px)' }}>
         <svg width={'100%'} height={'100%'}>
-          <G x={0} y={5}>
+          <G x={0} y={10}>
             {this.createScatterPlot()}
             <LeftAxis scale={this.yScale} x={ScatterPlot.axisYSize} />
             <BottomAxis scale={this.xScale} y={this.props.height - ScatterPlot.axisXSize} x={ScatterPlot.axisYSize} />
