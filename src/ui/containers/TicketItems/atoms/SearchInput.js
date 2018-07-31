@@ -20,25 +20,30 @@ export const SearchInput = styled.input`
 
   &::-webkit-input-placeholder {
     /* WebKit, Blink, Edge */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.tickets.placeholderColor
+      ? props.theme.tickets.placeholderColor : 'rgba(163, 168, 174, 0.3)'};
   }
   &:-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.tickets.placeholderColor
+      ? props.theme.tickets.placeholderColor : 'rgba(163, 168, 174, 0.3)'};
     opacity: 1;
   }
   &::-moz-placeholder {
     /* Mozilla Firefox 19+ */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.tickets.placeholderColor
+      ? props.theme.tickets.placeholderColor : 'rgba(163, 168, 174, 0.3)'};
     opacity: 1;
   }
   &:-ms-input-placeholder {
     /* Internet Explorer 10-11 */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.tickets.placeholderColor
+      ? props.theme.tickets.placeholderColor : 'rgba(163, 168, 174, 0.3)'};
   }
   &::-ms-input-placeholder {
     /* Microsoft Edge */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.tickets.placeholderColor
+      ? props.theme.tickets.placeholderColor : 'rgba(163, 168, 174, 0.3)'};
   }
 `;
 

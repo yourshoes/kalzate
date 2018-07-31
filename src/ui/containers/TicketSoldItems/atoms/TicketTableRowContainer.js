@@ -6,7 +6,7 @@
 /* System imports */
 import styled from 'styled-components';
 
-const bgColor = (props) => props.even ? 'rgba(163,168,174,0.2)' : 'rgba(163, 168, 174, 0.1)';
+const bgColor = (props) => props.even ? props.theme.tables.bgColorEven : props.theme.tables.bgColor;
 
 export const TicketTableRowContainer = styled.div`
 width: ${(props) => (props.content ? 'calc(100% - 5px)' : '100%')};
@@ -14,9 +14,8 @@ height: 44px;
 display: flex;
 flex: 0 1 auto;
 flex-direction: row;
-    
 background-color: ${(props) =>
-        props.highlight ? 'rgba(226, 192, 141, .25)' : bgColor(props)};
-color: ${(props) => (props.even ? 'white' : 'rgba(187, 183, 183, 1)')};
+        props.highlight ? props.theme.tables.highlightBgColor : bgColor(props)};
+color: ${(props) => (props.even ? props.theme.tables.colorEven : props.theme.tables.color)};
 `;
 export default TicketTableRowContainer;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const color = (props) => props.color;
+const color = (props) => (props.theme.charts.axis ? props.theme.charts.axis : props.color);
 const transform = (props) => `translate(${props.x}px,${props.y}px)`;
 
 export const G = styled.g`

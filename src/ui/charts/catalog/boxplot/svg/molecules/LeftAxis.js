@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Tick from './TickY';
-import { G, Line } from '../atoms/Axis';
+import { G, LineAxis } from '../atoms/Axis';
 
 /**
  * Left Axis.
@@ -19,13 +19,13 @@ function LeftAxis({
   const ticks = scale.ticks ? scale.ticks(nticks) : scale.domain();
   const height = Math.abs(scale.range()[1] - scale.range()[0]);
 
-  console.log(ticks)
+  // console.log(ticks)
 
   return (
     <G {...{ x, y }}>
-      <Line y1={0} y2={0} x1={0} x2={-5} color={color} />
-      <Line y1={0} y2={height} x1={0} x2={0} color={color} />
-      <Line y1={height} y2={height} x1={0} x2={-5} color={color} />
+      <LineAxis y1={0} y2={0} x1={0} x2={-5} color={color} />
+      <LineAxis y1={0} y2={height} x1={0} x2={0} color={color} />
+      <LineAxis y1={height} y2={height} x1={0} x2={-5} color={color} />
       {
         ticks
           .map((tick) =>
@@ -57,7 +57,7 @@ LeftAxis.propTypes = {
    */
   y: PropTypes.number,
   /**
-   * Line and text color
+   * LineAxis and text color
    */
   color: PropTypes.string,
   /**

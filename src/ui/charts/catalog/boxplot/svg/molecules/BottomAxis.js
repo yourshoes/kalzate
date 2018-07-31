@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Tick from './TickX';
-import { G, Line } from '../atoms/Axis';
+import { G, LineAxis } from '../atoms/Axis';
 
 /**
  * Bottom Axis descrription
@@ -19,9 +19,9 @@ function BottomAxis({
 
   return (
     <G {...{ x, y }}>
-      <Line x1={0} x2={0} y1={0} y2={5} color={color} />
-      <Line x1={0} x2={width} y1={0} y2={0} color={color} />
-      <Line x1={width} x2={width} y1={0} y2={5} color={color} />
+      <LineAxis x1={0} x2={0} y1={0} y2={5} color={color} />
+      <LineAxis x1={0} x2={width} y1={0} y2={0} color={color} />
+      <LineAxis x1={width} x2={width} y1={0} y2={5} color={color} />
       {
         ticks.map((tick, i) =>
           (<Tick
@@ -50,7 +50,7 @@ BottomAxis.propTypes = {
    */
   y: PropTypes.number,
   /**
-   * Line and text color
+   * LineAxis and text color
    */
   color: PropTypes.string,
   /**

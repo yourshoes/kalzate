@@ -10,8 +10,10 @@ import styled from 'styled-components';
 export const MatchesListContainer = styled.div`
   position: absolute;
   margin-top: 25px;
-  background-color: rgba(100, 100, 100, 1);
-  color: white;
+  background-color: ${(props) => props.theme && props.theme.tickets.searchMastchesListBgColor
+    ? props.theme.tickets.searchMastchesListBgColor : 'rgba(100, 100, 100, 1)'};
+  color: ${(props) => props.theme && props.theme.tickets.searchMastchesListColor
+    ? props.theme.tickets.searchMastchesListColor : 'white'};
   padding: 0;
 `;
 

@@ -7,7 +7,8 @@
 import styled from 'styled-components';
 
 export const SearchContainer = styled.div`
-color: rgba(163, 168, 174, 0.5);
+color: ${(props) => props.theme && props.theme.tickets.searchColor
+  ? props.theme.tickets.searchColor : 'rgba(163, 168, 174, 0.5)'};
 margin-left: 10px;
 `;
 

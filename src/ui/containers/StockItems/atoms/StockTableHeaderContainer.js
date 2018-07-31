@@ -7,8 +7,8 @@ export const StockTableHeader = styled.div`
   flex: 0 1 auto;
   flex-direction: row;
   background-color: ${(props) =>
-    props.even ? 'rgba(163,168,174,0.2)' : 'rgba(163, 168, 174, 0.1)'};
-  color: ${(props) => (props.even ? 'white' : 'rgba(187, 183, 183, 1)')};
+    props.even ? props.theme.tables.bgColorEven : props.theme.tables.bgColor};
+  color: ${(props) => (props.even ? props.theme.tables.colorEven : props.theme.tables.color)};
 `;
 
 export default StockTableHeader;

@@ -113,7 +113,7 @@ const visible = `
 `;
 
 export const ToolTip = styled.div`
-  background: rgba(39, 41, 44, 0.9);
+  background: ${(props) => props.theme && props.theme.tooltips.bgColor ? props.theme.tooltips.bgColor : 'rgba(39, 41, 44, 0.9)'};
   bottom: 100%;
   color: #a3a8ae;
   display: inline-table;

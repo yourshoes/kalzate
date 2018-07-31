@@ -17,7 +17,7 @@ function BottomAxis({
   const ticks = scale.ticks ? scale.ticks(nticks) : scale.domain();
   const width = scale.range()[1] - scale.range()[0];
 
-  console.log(ticks, scale.ticks(nticks));
+  // console.log(ticks, scale.ticks(nticks));
 
   return (
     <G {...{ x, y }}>

@@ -11,7 +11,10 @@ import React from 'react';
 export const Panel = styled.section`
   width: calc(100% - 30px);
   height: calc(100% - 30px);
-  background-color: rgba(10, 10, 10, 0.2);
+  background-color: ${(props) =>
+    props.theme && props.theme.settings.panelBgColor
+      ? props.theme.settings.panelBgColor
+      : 'rgba(10, 10, 10, 0.2)'};
   margin: 15px;
 `;
 export const FormWrapper = styled.section`

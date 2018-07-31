@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const colorFn = (props) => (props.color ? props.color : 'black');
+const colorFn = (props) => (props.theme.charts.axis ? props.theme.charts.axis : props.color);
 
 const G = styled.g`    
     stroke: 'solid'
@@ -34,7 +34,7 @@ TickY.propTypes = {
 TickY.defaultProps = {
   y: 0,
   content: 0,
-  color: 'black',
+  color: 'white',
 };
 
 export default TickY;

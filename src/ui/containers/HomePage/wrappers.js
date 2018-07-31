@@ -40,7 +40,8 @@ export const MessageCentered = styled.div`
   -webkit-user-select: none;
   cursor: default;
   font-weight: bold;
-  color: rgba(163, 168, 174, 0.3);
+  color: ${(props) => props.theme && props.theme.home.color
+    ? props.theme.home.color : 'rgba(163, 168, 174, 0.3)'};
 `;
 
 export const MessageList = styled.ul`padding: 0;`;
@@ -69,5 +70,8 @@ export const KeyStroke = styled.span`
   }
 `;
 
-export const LogoTitle = styled.span`font-size: 64px;`;
+export const LogoTitle = styled.span`
+font-size: 64px;
+color: ${(props) => props.theme && props.theme.home.titleColor
+  ? props.theme.home.titleColor : 'rgba(163, 168, 174, 0.3)'};`;
 export const Help = styled.span`font-size: 17px;`;

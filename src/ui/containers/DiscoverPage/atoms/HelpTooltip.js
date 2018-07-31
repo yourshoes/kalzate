@@ -12,9 +12,9 @@ export const HelpTooltip = styled.div`
   font-size: 0.7em;
   padding: 15px;
   border-radius: 5px;
-  background-color: rgba(51,51,51, .9);
+  background-color: ${(props) => props.theme && props.theme.discover.helpBgColor ? props.theme.discover.helpBgColor : 'rgba(51,51,51, .9)'};
   position: absolute;
-  color: rgba(151,151,151,1);
+  color: ${(props) => props.theme && props.theme.discover.helpColor ? props.theme.discover.helpColor : 'rgba(151,151,151,1)'};
   max-width: 230px;
   z-index: 10001;
   text-align: left;
