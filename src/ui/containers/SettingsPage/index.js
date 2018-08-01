@@ -19,7 +19,6 @@ import { Panel, Title, TextField, AreaField, FormWrapper } from './wrappers';
 export class SettingsPage extends React.Component {
 
   render() {
-    console.log(this.props.settings);
     return (
       <Grid>
         <Helmet

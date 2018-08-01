@@ -7,13 +7,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-// import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { isEmpty } from 'lodash';
 import { Grid, Row2, Column } from 'ui/components/Grid';
 import Center from 'ui/components/Center';
 import NotFound from 'ui/components/NotFound';
-// import messages from './messages';
+import messages from './messages';
 import BarChart from 'ui/charts/catalog/barchart/svg';
 import ScatterPlot from 'ui/charts/catalog/scatterplot/svg';
 import BoxPlot from 'ui/charts/catalog/boxplot/svg';
@@ -77,7 +77,7 @@ export class DiscoverPage extends React.Component {
         <Row2>
           <Column>
             <Panel>
-              <Title><Help>The sales chart renders the total incoming made (y axis) per day (x axis)</Help>    Sales Chart <Tooltip>{this.state.salesTooltipText}</Tooltip></Title>
+              <Title><Help><FormattedMessage {...messages.salesDesc} /></Help> <FormattedMessage {...messages.salesTitle} /> <Tooltip>{this.state.salesTooltipText}</Tooltip></Title>
               {/* <p>total sold per day/week/month</p>*/}
               {!isEmpty(this.props.salesChart) ?
                 <BarChart
@@ -89,10 +89,10 @@ export class DiscoverPage extends React.Component {
                 /> : <Center>
                   <NotFound icon="thumbsdown">
                     <NoDataTitle>
-                      No enough data to display the sales chart
+                    <FormattedMessage {...messages.salesNoData} />
               </NoDataTitle>
                     <Subtitle>
-                      Please, create some tickets to display it
+                    <FormattedMessage {...messages.salesNoDataDesc} />
                 </Subtitle>
                   </NotFound>
                 </Center>}
@@ -100,7 +100,7 @@ export class DiscoverPage extends React.Component {
           </Column>
           <Column>
             <Panel>
-              <Title><Help>The tickets chart renders ticket aggregaation values including the maximum, minimum, third quartile, median and first quartile (y axis) per day (x axis)</Help> Tickets Chart <Tooltip>{this.state.ticketsTooltipText}</Tooltip></Title>
+              <Title><Help><FormattedMessage {...messages.ticketsDesc} /></Help> <FormattedMessage {...messages.ticketsTitle} /> <Tooltip>{this.state.ticketsTooltipText}</Tooltip></Title>
               {/* <p>Number of tickets made per day/week/month</p>*/}
               {!isEmpty(this.props.ticketsChart) ?
                 <BoxPlot
@@ -112,10 +112,10 @@ export class DiscoverPage extends React.Component {
                 /> : <Center>
                   <NotFound icon="thumbsdown">
                     <NoDataTitle>
-                      No enough data to display the tickets chart
+                    <FormattedMessage {...messages.ticketsNoData} />
                 </NoDataTitle>
                     <Subtitle>
-                      Please, create some tickets to display it
+                    <FormattedMessage {...messages.ticketsNoDataDesc} />
                   </Subtitle>
                   </NotFound>
                 </Center>}
@@ -125,7 +125,7 @@ export class DiscoverPage extends React.Component {
         <Row2>
           <Column>
             <Panel>
-              <Title><Help>The stock chart renders the relationship between the price (y axis) and the number of items sold (x axis). The radius is the amount of items available</Help> Stock Chart <Tooltip>{this.state.stockTooltipText}</Tooltip></Title>
+              <Title><Help><FormattedMessage {...messages.stockDesc} /></Help> <FormattedMessage {...messages.stockTitle} /> <Tooltip>{this.state.stockTooltipText}</Tooltip></Title>
               {/* <p>Top 10 Stock items more sold</p>*/}
               {!isEmpty(this.props.stockChart) ?
                 <ScatterPlot
@@ -137,10 +137,10 @@ export class DiscoverPage extends React.Component {
                 /> : <Center>
                   <NotFound icon="thumbsdown">
                     <NoDataTitle>
-                      No enough data to display the stock chart
+                    <FormattedMessage {...messages.stockNoData} />
                 </NoDataTitle>
                     <Subtitle>
-                      Please, upload stock data in order to display it
+                    <FormattedMessage {...messages.stockNoDataDesc} />
                   </Subtitle>
                   </NotFound>
                 </Center>}
@@ -148,15 +148,15 @@ export class DiscoverPage extends React.Component {
           </Column>
           <Column>
             <Panel>
-              <Title><Help>The alert chart renders the top stock items more sold, the top stock items less sold and the items with no available stock</Help> Alert Stock Chart</Title>
+              <Title><Help><FormattedMessage {...messages.alertDesc} /></Help> <FormattedMessage {...messages.alertTitle} /> </Title>
               {/* <p>Stock items with only one unit left</p>*/}
-              {!isEmpty(this.props.alertChart) ? <Table data={this.props.alertChart} /> : <Center>
+              {!isEmpty(this.props.alertChart) ? <Table data={this.props.alertChart} headerMessages={[<FormattedMessage {...messages.alertTopSold} />,<FormattedMessage {...messages.alertTopLessSold} />,<FormattedMessage {...messages.alertEmptyStock} />]}/> : <Center>
                 <NotFound icon="thumbsdown">
                   <NoDataTitle>
-                    No enough data to display the alert chart
+                  <FormattedMessage {...messages.alertNoData} />
                 </NoDataTitle>
                   <Subtitle>
-                    Please, upload stock data in order to display it
+                  <FormattedMessage {...messages.alertNoDataDesc} />
                   </Subtitle>
                 </NotFound>
               </Center>}

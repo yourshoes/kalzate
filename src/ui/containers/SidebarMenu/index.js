@@ -3,6 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import {
   makeSelectTicketItems,
   makeSelectTicketID,
@@ -14,7 +15,7 @@ import {
 // import PubSub from 'ui/utils/pubsub';
 import { loadTicket, searchTickets } from './actions';
 // import { selectResources, selectResource } from './selectors';
-// import messages from './messages';
+import messages from './messages';
 import { Container, Menu, MenuFooter, MenuSearch, MenuGroup, MenuItem, MenuTicketListContainer } from './wrappers';
 
 function SidebarMenu(props) {
@@ -24,29 +25,35 @@ function SidebarMenu(props) {
       <Menu>
         <MenuGroup static>
           <MenuItem
-            title="Home"
             actived={routeName === 'home'}
             to="/"
             highlight
             cursor
-          />
+          >
+            <FormattedMessage {...messages.home} />
+          </MenuItem>
           <MenuItem
-            title="Settings"
-            actived={routeName === 'settings'}
-            to="/settings"
-            highlight
-            cursor
-          />
+          actived={routeName === 'settings'}
+          to="/settings"
+          highlight
+          cursor
+          >
+            <FormattedMessage {...messages.settings} />
+          </MenuItem>
           <MenuItem
-            title="Discover"
-            actived={routeName === 'discover'}
-            to="/discover"
-            highlight
-            cursor
-          />
+          actived={routeName === 'discover'}
+          to="/discover"
+          highlight
+          cursor
+          >
+            <FormattedMessage {...messages.discover} />
+          </MenuItem>
         </MenuGroup>
         <MenuGroup>
-          <MenuItem title="Your Tickets" actived={routeName === 'tickets'} noroute />
+          <MenuItem actived={routeName === 'tickets'} noroute>
+            <FormattedMessage {...messages.tickets} />
+          </MenuItem>
+          
           {/**
             <MenuItem title="10001" small highlight cursor />
             <MenuItem title="10002" small highlight cursor />
@@ -56,7 +63,6 @@ function SidebarMenu(props) {
             {props.tickets.map((ticket) =>
               (<MenuItem
                 key={ticket.created_at}
-                title={String(ticket.created_at)}
                 selected={ticket.id === props.ticketID}
                 onClick={() => {
                   // @todo move to a saga
@@ -65,13 +71,17 @@ function SidebarMenu(props) {
                 }}
                 state={ticket.state}
                 small highlight cursor
-              />
+              >
+                {String(ticket.created_at)}
+              </MenuItem>
               ))}
           </MenuTicketListContainer>
         </MenuGroup>
       </Menu>
-      <MenuSearch title="Search Tickets" onChange={(field, value, operator = '$eq') => props.searchTickets(field, value, operator)} />
-      <MenuFooter to="/tickets" icon="inbox" title="Cash Drawer" />
+      <MenuSearch onChange={(field, value, operator = '$eq') => props.searchTickets(field, value, operator)} />
+      <MenuFooter to="/tickets" icon="inbox">
+        <FormattedMessage {...messages.cashDrawer} />
+      </MenuFooter>
     </Container>
   );
 }

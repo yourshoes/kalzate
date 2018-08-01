@@ -98,7 +98,7 @@ export function MenuFooter(props) {
   return (
     <Footer>
       <FooterContent to={props.to}>
-        <Octicon name={props.icon} /> <EM>{props.title}</EM>
+        <Octicon name={props.icon} /> <EM>{props.children}</EM>
       </FooterContent>
     </Footer>
   );
@@ -324,12 +324,12 @@ export function MenuItem(props) {
       {props.to
         ? <Route to={props.to} actived={props.actived}>
           <P selected={props.selected}>
-            {props.title.toUpperCase()}
+            {props.children}
             {!!props.state && getTicketState(props.state)}
           </P>
         </Route>
         : <P selected={props.selected} noroute={props.noroute}>
-          {props.title.toUpperCase()}
+          {props.children}
           {!!props.state && getTicketState(props.state)}
         </P>}
     </Item>
@@ -337,7 +337,6 @@ export function MenuItem(props) {
 }
 
 MenuItem.propTypes = {
-  title: React.PropTypes.string.isRequired,
   small: React.PropTypes.bool,
   highlight: React.PropTypes.bool,
   cursor: React.PropTypes.bool,
