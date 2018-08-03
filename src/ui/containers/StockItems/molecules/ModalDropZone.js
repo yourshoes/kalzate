@@ -5,13 +5,14 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { safeLoad as fromYAML } from 'js-yaml';
 import fromCSV from 'csvtojson';
 import Tooltip from 'ui/components/Tooltip';
+import messages from '../messages';
 import { DottedContainer } from '../atoms/ModalContainer';
 import { ImportStockInfoTooltip } from '../atoms/ImportStockInfoTooltip';
 import { FILE_EXTENSIONS_ALLOWED } from '../constants';
-
 export class ModalDropZone extends React.Component {
 
   static SAMPLE_FILE = `reference, brand, gender, colors, size, price, amount
@@ -179,14 +180,14 @@ export class ModalDropZone extends React.Component {
           style={{ display: 'none' }}
         />
         <div style={{ display: 'table-cell', verticalAlign: 'middle' }}>
-          <p style={{ margin: '2px' }}>Drop stock file here</p>
+          <p style={{ margin: '2px' }}><FormattedMessage {...messages.modalTitle} /></p>
           <div style={{ fontSize: '0.6em', margin: '2px' }}>
-            Use a csv, json or yaml file extension
+            <FormattedMessage {...messages.modalDesc} />
             {/* <Tooltip animated color="inherit" right="62" top="135" direction="down" onClick={(event) => this.downloadSample(event)}>*/}
             {/* <Tooltip animated color="inherit" right="100" top="100" direction="down" onClick={(event) => this.downloadSample(event)}>*/}
             <Tooltip animated color="inherit" right="65" top="5" direction="down" onClick={(event) => this.downloadSample(event)}>
               <ImportStockInfoTooltip onClick={(event) => this.downloadSample(event)}>
-                Need Help ? Download a stock file sample here
+                <FormattedMessage {...messages.modalHelp} />
               </ImportStockInfoTooltip>
             </Tooltip>
           </div>
@@ -209,7 +210,7 @@ export class ModalDropZone extends React.Component {
                 fontSize: '0.6em',
               }}
             >
-              Please wait, I'm on it
+              <FormattedMessage {...messages.modalLoading} />
             </p>
           )}
         </div>

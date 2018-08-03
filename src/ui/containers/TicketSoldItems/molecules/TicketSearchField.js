@@ -13,6 +13,7 @@ import {
   MatchesListItem,
 } from '../atoms/MatchesListContainer';
 import InteractiveField from './InteractiveField';
+import messages from '../messages';
 
 export class TicketSearchField extends React.Component {
 
@@ -73,7 +74,7 @@ export class TicketSearchField extends React.Component {
         )}
         <Octicon name="search" />
         <InteractiveField
-          placeholder="Ticket ID"
+          placeholder={this.props.intl.formatMessage(messages.search)}
           readonly={false}
           value={this.state.value}
           onChange={(value) =>

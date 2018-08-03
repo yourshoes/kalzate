@@ -23,7 +23,7 @@ export function TicketPaymentsContainer(props) {
         title="Expand/Collapse Ticket Payments"
         onClick={() => props.toggleTicketPaymentsVisibility()}
       />
-      <Section title="Payment Method">
+      <Section title={<FormattedMessage {...messages.title} />}>
         <TicketPayments />
       </Section>
     </Container>

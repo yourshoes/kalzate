@@ -25,6 +25,7 @@ export function StockTableBody(props) {
       )}
       {!!props.total && (
         <StockTableRows
+          intl={props.intl}
           items={props.items}
           onRemove={({ reference }) =>
             props.removeStock(reference, props.limit, props.skip, props.search)

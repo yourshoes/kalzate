@@ -16,7 +16,6 @@ import { Container, ContainerSwitcher, FirstSection } from './wrappers';
 
 export function TicketTotalContainer(props) {
   // eslint-disable-line react/prefer-stateless-function
-  console.log(props);
   return (
     <Container>
       <ContainerSwitcher
@@ -24,7 +23,7 @@ export function TicketTotalContainer(props) {
         title="Expand/Collapse Ticket Total"
         onClick={() => props.toggleTicketTotalVisibility()}
       />
-      <FirstSection title="Payment Summary">
+      <FirstSection title={<FormattedMessage {...messages.title} />}>
         <TicketTotal />
       </FirstSection>
     </Container>

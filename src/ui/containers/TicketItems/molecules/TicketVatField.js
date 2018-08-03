@@ -5,10 +5,12 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 import Octicon from 'react-octicon';
 import SearchContainer from '../atoms/SearchContainer';
 import SearchInput from '../atoms/SearchInput';
 import TicketSpan from '../atoms/TicketSpan';
+import messages from '../messages';
 
 const isRealNumeric = function (input) {
   return /^[1-9][0-9]{0,1}$/.test(input);
@@ -32,7 +34,7 @@ export class TicketVatField extends React.Component {
     return (
       <SearchContainer>
         <Octicon name="triangle-up" />
-        <TicketSpan> VAT</TicketSpan>
+        <TicketSpan> <FormattedMessage {...messages.vat} /></TicketSpan>
         <SearchInput
           type="text"
           onFocus={({ target }) => target.value = target.value.replace('%', '').trim()}

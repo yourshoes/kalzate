@@ -6,17 +6,13 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  treeMessage: {
-    id: 'octoql.components.HelperTour.tree.message',
-    defaultMessage: 'Use the options up',
+  ok: {
+    id: 'kz.components.Modal.ok',
+    defaultMessage: 'Ok',
   },
-  footerLeftMessage: {
-    id: 'octoql.components.HelperTour.footer.left.message',
-    defaultMessage: 'Use the options down',
-  },
-  footerRightMessage: {
-    id: 'octoql.components.HelperTour.footer.right.message',
+  cancel: {
+    id: 'kz.components.Modal.cancel',
     defaultMessage:
-      'Use the options below to change the application language, report a bug or syncronice your notebooks',
+      'Cancel',
   },
 });

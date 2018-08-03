@@ -9,6 +9,7 @@ import StockTableContainer from '../atoms/StockTableContainer';
 import StockTableHeaderContainer from '../atoms/StockTableHeaderContainer';
 import StockButton from './StockButton';
 import StockField from './StockField';
+import messages from '../messages';
 
 const isRealNumeric = function (input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
@@ -20,9 +21,9 @@ export function StockTableRows(props) {
     <StockTableContainer>
       {props.items.map(({ _data }, i) => (
         <StockTableHeaderContainer key={i} even={(i + 1) % 2}>
-          <StockField placeholder={_data.reference || 'Reference'} readonly />
+          <StockField placeholder={_data.reference || this.props.intl.formatMessage(messages.reference)} readonly />
           <StockField
-            placeholder={_data.brand || 'Brand'}
+            placeholder={_data.brand || this.props.intl.formatMessage(messages.brand)}
             value={
               props.tmp[_data.reference] && props.tmp[_data.reference].brand
                 ? props.tmp[_data.reference].brand
@@ -35,7 +36,7 @@ export function StockTableRows(props) {
             }
           />
           <StockField
-            placeholder={_data.gender || 'Gender'}
+            placeholder={_data.gender || this.props.intl.formatMessage(messages.gender)}
             value={
               props.tmp[_data.reference] && props.tmp[_data.reference].gender
                 ? props.tmp[_data.reference].gender
@@ -48,7 +49,7 @@ export function StockTableRows(props) {
             }
           />
           <StockField
-            placeholder={_data.colors.join() || 'Color'}
+            placeholder={_data.colors.join() || this.props.intl.formatMessage(messages.color)}
             value={
               props.tmp[_data.reference] && props.tmp[_data.reference].colors
                 ? props.tmp[_data.reference].colors.join(',')
@@ -61,7 +62,7 @@ export function StockTableRows(props) {
             }
           />
           <StockField
-            placeholder={_data.size || 'Size'}
+            placeholder={_data.size || this.props.intl.formatMessage(messages.size)}
             value={
               props.tmp[_data.reference] && props.tmp[_data.reference].size
                 ? props.tmp[_data.reference].size
@@ -91,7 +92,7 @@ export function StockTableRows(props) {
             }
           />
           <StockField
-            placeholder={_data.amount || 'Amount'}
+            placeholder={_data.amount || props.intl.formatMessage(messages.amount)}
             value={
               props.tmp[_data.reference] && props.tmp[_data.reference].amount
                 ? props.tmp[_data.reference].amount

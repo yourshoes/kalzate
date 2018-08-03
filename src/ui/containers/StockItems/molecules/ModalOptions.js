@@ -5,6 +5,8 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
+import messages from '../messages';
 import { OptionsContainer } from '../atoms/ModalContainer';
 import { Checkbox } from '../atoms/Checkbox';
 
@@ -26,7 +28,7 @@ export class ModalOptions extends React.Component {
               this.props.updateModalOption('removeStock', value)
             }
           />
-          <label>Remove Current Stock</label>
+          <label><FormattedMessage {...messages.modalOptionRemove} /></label>
         </div>
         <div
           style={{ display: 'inline-block', width: '50%', paddingLeft: '20px' }}
@@ -39,7 +41,7 @@ export class ModalOptions extends React.Component {
               this.props.updateModalOption('archiveStock', value)
             }
           />
-          <label>Archive Current Stock</label>
+          <label><FormattedMessage {...messages.modalOptionArchive} /></label>
           {/* <label>Validate Stock File</label>*/}
         </div>
       </OptionsContainer>

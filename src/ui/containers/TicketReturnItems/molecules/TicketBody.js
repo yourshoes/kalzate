@@ -5,6 +5,7 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { isEmpty } from 'lodash';
 import Center from 'ui/components/Center';
 import NotFound from 'ui/components/NotFound';
@@ -12,6 +13,7 @@ import TicketBodyContainer from '../atoms/TicketBodyContainer';
 import Title from '../atoms/Title';
 import Subtitle from '../atoms/Subtitle';
 import TicketTable from './TicketTable';
+import messages from '../messages';
 
 export class TicketBody extends React.Component {
 
@@ -22,10 +24,10 @@ export class TicketBody extends React.Component {
           <Center>
             <NotFound icon="thumbsdown">
               <Title>
-                Ticket empty
+              <FormattedMessage {...messages.notFound} />
           </Title>
               <Subtitle>
-                Add some items to this ticket
+              <FormattedMessage {...messages.notFoundHelp} />
           </Subtitle>
             </NotFound>
           </Center>}

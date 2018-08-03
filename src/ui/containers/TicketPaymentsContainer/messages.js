@@ -6,8 +6,8 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
-  header: {
-    id: 'app.containers.TicketTotal.header',
-    defaultMessage: 'This is TicketTotal container !',
+  title: {
+    id: 'kz.containers.TicketPaymentsContainer.title',
+    defaultMessage: 'Payment Method',
   },
 });

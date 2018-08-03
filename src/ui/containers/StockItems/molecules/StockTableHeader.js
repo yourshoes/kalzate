@@ -6,11 +6,13 @@ import InteractiveStockField from './InteractiveStockField';
 import StockButton from './StockButton';
 import StockModal from './StockModal';
 import StockTableHeaderContainer from '../atoms/StockTableHeaderContainer';
+import messages from '../messages';
 import {
   MatchesListContainer,
   MatchesList,
   MatchesListItem,
 } from '../atoms/MatchesListContainer';
+
 
 const isNumeric = (number) => /^[1-9][0-9]*$/.test(number);
 const isRealNumeric = function (input) {
@@ -110,7 +112,7 @@ export class StockTableHeader extends React.Component {
         )}
         <StockTableHeaderContainer content>
           <InteractiveStockField
-            placeholder="Reference"
+            placeholder={this.props.intl.formatMessage(messages.reference)}
             value={this.state.reference}
             onChange={(reference) =>
               this.setState(
@@ -143,24 +145,24 @@ export class StockTableHeader extends React.Component {
             }
           />
           <StockField
-            placeholder="Brand"
+            placeholder={this.props.intl.formatMessage(messages.brand)}
             value={this.state.brand}
             onChange={(brand) => this.setState({ brand })}
           />
           <StockField
-            placeholder="Gender"
+            placeholder={this.props.intl.formatMessage(messages.gender)}
             value={this.state.gender}
             onChange={(gender) => this.setState({ gender })}
           />
           <StockField
-            placeholder="Color"
+            placeholder={this.props.intl.formatMessage(messages.color)}
             value={this.state.colors.join()}
             onChange={(color) =>
               this.setState({ colors: color ? [color] : [] })
             }
           />
           <StockField
-            placeholder="Size"
+            placeholder={this.props.intl.formatMessage(messages.size)}
             value={this.state.size}
             onChange={(size) =>
               this.setState({
@@ -171,7 +173,7 @@ export class StockTableHeader extends React.Component {
             }
           />
           <StockField
-            placeholder="Price"
+            placeholder={this.props.intl.formatMessage(messages.price)}
             value={this.state.price}
             onChange={(price) =>
               this.setState({
@@ -182,7 +184,7 @@ export class StockTableHeader extends React.Component {
             }
           />
           <StockField
-            placeholder="Amount"
+            placeholder={this.props.intl.formatMessage(messages.amount)}
             value={this.state.amount}
             onChange={(amount) =>
               this.setState({

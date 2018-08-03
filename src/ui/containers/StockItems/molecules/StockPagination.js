@@ -5,6 +5,8 @@
 
 /* System imports */
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import messages from '../messages';
 import StockPaginationContainer from '../atoms/StockPaginationContainer';
 import StockPaginationSection from '../atoms/StockPaginationSection';
 import { DownloadIcon, SyncIcon, PageIteratorIcon } from '../atoms/StockIcons';
@@ -31,7 +33,7 @@ export function StockPagination({
       </StockPaginationSection>
       <StockPaginationSection right>
         <span>
-          {skip + 1} ... {skip + limit} of {total}
+          {skip + 1} ... {skip + limit} <FormattedMessage {...messages.paginationOf} /> {total}
         </span>
         <PageIteratorContainer>
           <PageIteratorIcon

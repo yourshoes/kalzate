@@ -4,6 +4,7 @@ export const dark = {
     color: '#a3a8ae',
     border: '1px solid #111314', // 1px solid #27292c
     padding: '5px',
+    switchPanelIconColor: 'rgba(255, 255, 255, 0.4)',
     scrollThumbInactiveBgColor: 'rgba(100, 100, 100, 0.4)',
     scrollThumbBgColor: 'rgba(100, 100, 100, 0.8)',
     scrollTrackShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.3)',
@@ -104,6 +105,7 @@ export const monokai = {
     color: '#bbb7b7',
     border: '1px solid rgba(163,168,174,0.1)',
     padding: '5px',
+    switchPanelIconColor: 'rgba(255, 255, 255, 0.4)',
     scrollThumbInactiveBgColor: 'rgba(100, 100, 100, 0.4)',
     scrollThumbBgColor: 'rgba(100, 100, 100, 0.8)',
     scrollTrackShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.3)',
@@ -204,6 +206,7 @@ export const light = {
     color: '#9b9b9b',
     border: '1px solid rgba(163,168,174,0.2)',
     padding: '5px',
+    switchPanelIconColor: 'rgba(110, 110, 110, 0.4)',
     scrollThumbInactiveBgColor: 'rgba(100, 100, 100, 0.1)',
     scrollThumbBgColor: 'rgba(100, 100, 100, 0.2)',
     scrollTrackShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.1)',

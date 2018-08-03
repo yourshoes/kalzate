@@ -7,6 +7,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { injectIntl } from 'react-intl';
 import {
   addStockToTicket,
 } from 'ui/containers/TicketItems/actions';
@@ -87,4 +88,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StockItemsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(StockItemsPage));

@@ -6,6 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import {
   selectTicketDomain,
@@ -84,4 +85,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TicketItems);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(TicketItems));
