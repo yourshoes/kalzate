@@ -29,10 +29,10 @@ export default function configureStore(initialState = {}, history) {
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers =
     process.env.NODE_ENV !== 'production' &&
+      process.env.NODE_ENV !== 'desktop-production' &&
       typeof window === 'object' &&
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
-  /* eslint-enable */
 
   const store = createStore(
     createReducer(),
@@ -47,16 +47,16 @@ export default function configureStore(initialState = {}, history) {
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      import('./reducers').then((reducerModule) => {
-        const createReducers = reducerModule.default;
-        const nextReducers = createReducers(store.asyncReducers);
+  // if (process.env && process.env.NODE_ENV !== 'desktop-production' && module.hot) {
+  //   module.hot.accept('./reducers', () => {
+  //     import('./reducers').then((reducerModule) => {
+  //       const createReducers = reducerModule.default;
+  //       const nextReducers = createReducers(store.asyncReducers);
 
-        store.replaceReducer(nextReducers);
-      });
-    });
-  }
+  //       store.replaceReducer(nextReducers);
+  //     });
+  //   });
+  // }
 
   return store;
 }

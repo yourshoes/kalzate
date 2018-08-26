@@ -18,7 +18,7 @@ import { useScroll } from 'react-router-scroll';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
-import App from 'ui/containers/App';
+import AppDesktop from 'ui/containers/AppDesktop';
 
 // Import selector for `syncHistoryWithStore`
 import { makeSelectLocationState } from 'ui/containers/App/selectors';
@@ -64,7 +64,7 @@ const history = syncHistoryWithStore(routerHistory, store, {
 
 // Set up the router, wrapping all Routes in the App component
 const rootRoute = {
-  component: App,
+  component: AppDesktop,
   childRoutes: createRoutes(store),
 };
 
