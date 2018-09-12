@@ -12,7 +12,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyRouterMiddleware, Router, browserHistory, hashHistory } from 'react-router';
+import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
 import 'sanitize.css/sanitize.css';
@@ -31,9 +31,9 @@ import ThemeProvider from 'ui/containers/ThemeProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
-// import '!file-loader?name=[name].[ext]!./favicon.ico';
-// import '!file-loader?name=[name].[ext]!./manifest.json';
-// import 'file-loader?name=[name].[ext]!./.htaccess';
+import '!file-loader?name=[name].[ext]!./favicon.ico';
+import '!file-loader?name=[name].[ext]!./manifest.json';
+import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import configureStore from './store';
@@ -52,7 +52,7 @@ import createRoutes from './routes';
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
-const routerHistory = process.env && process.env.NODE_ENV === 'desktop-production' ? hashHistory : browserHistory;
+const routerHistory = browserHistory;
 const store = configureStore(initialState, routerHistory);
 
 // Sync history and store, as the react-router-redux reducer
@@ -90,13 +90,13 @@ const render = (messages) => {
 };
 
 // Hot reloadable translation json files
-// if (process.env && process.env.NODE_ENV !== 'desktop-production' && module.hot) {
-//   // modules.hot.accept does not accept dynamic dependencies,
-//   // have to be constants at compile-time
-//   module.hot.accept('./i18n', () => {
-//     render(translationMessages);
-//   });
-// }
+if (module.hot) {
+  // modules.hot.accept does not accept dynamic dependencies,
+  // have to be constants at compile-time
+  module.hot.accept('./i18n', () => {
+    render(translationMessages);
+  });
+}
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {

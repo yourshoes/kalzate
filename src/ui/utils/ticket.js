@@ -7,6 +7,7 @@ import {
   PAYMENT_METHOD_TICKET,
   TICKET_SOLD_STATE,
   TICKET_RETURN_STATE,
+  DEFAULT_SCHEMA_TYPE,
 } from 'ui/constants';
 
 const compileTicketTemplateRegex = /{{([^{}]+)}}/g;
@@ -20,6 +21,8 @@ function abbrv(type, value) {
     case 'GENDER':
     case 'BRAND':
       return value ? value.substring(0, 3) : '';
+    case 'DESC':
+      return value ? value.substring(0, 10) : '';
     default: return value;
   }
 }
@@ -137,5 +140,8 @@ export function compileTicket(settings, ticket) {
 }
 
 export function formatDescription(item) {
+  if (DEFAULT_SCHEMA_TYPE === 'SCHEMA_BASIC') {
+    return `${abbrv('DESC', item.desc)}`;
+  }
   return `${abbrv('BRAND', item.brand)}-${item.colors.map((c) => abbrv('COLORS', c)).join()} (${item.size}-${abbrv('BRAND', item.gender)})`;
 }

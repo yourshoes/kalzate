@@ -18,6 +18,7 @@ import { mouseTrap } from 'react-mousetrap';
 import mouseTrapCore from 'mousetrap';
 
 /* Components imports */
+import { ResetDatabase } from 'ui/db';
 import Modal from 'ui/components/Modal';
 import SidebarMenu from 'ui/containers/SidebarMenu';
 import Footer from 'ui/components/Footer';
@@ -46,6 +47,12 @@ class App extends React.Component {
     this.props.bindShortcut(
       HotKeys.IMPORT_STOCK.keys,
       this.openImportStockModal.bind(this)
+    );
+
+    // Subscribe to hotkeys
+    this.props.bindShortcut(
+      HotKeys.RESET_DB.keys,
+      () => ResetDatabase()
     );
 
     // Subscribe to fuzzy finder lang messages
@@ -84,6 +91,11 @@ class App extends React.Component {
           value: HotKeys.EXPORT_STOCK.keys,
           title: messages.exportStock.id,
           hint: HotKeys.EXPORT_STOCK.keys,
+        },
+        {
+          value: HotKeys.RESET_DB.keys,
+          title: messages.resetDB.id,
+          hint: HotKeys.RESET_DB.keys,
         },
       ],
       topic: PubSub.topics.ACTION_SELECTED,

@@ -153,7 +153,8 @@
       "ip",
       "minimist",
       "sanitize.css",
-      "react-octicon"
+      "react-octicon",
+      "kalzate-db"
     ],
     "include": [
       "core-js",

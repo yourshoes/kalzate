@@ -1,0 +1,12 @@
+/*
+ *
+ * WorkSpacePage constants
+ *
+ */
+
+export const SET_TICKET_GIVEN_AMOUNT_ACTION =
+  'ui/TicketTotal/SET_TICKET_GIVEN_AMOUNT_ACTION';
+export const INCREASE_TICKET_GIVEN_AMOUNT_ACTION =
+  'ui/TicketTotal/INCREASE_TICKET_GIVEN_AMOUNT_ACTION';
+export const DECREASE_TICKET_GIVEN_AMOUNT_ACTION =
+  'ui/TicketTotal/DECREASE_TICKET_GIVEN_AMOUNT_ACTION';

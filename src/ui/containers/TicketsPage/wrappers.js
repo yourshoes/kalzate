@@ -71,6 +71,14 @@ const Section10 = styled.div`
   border-right: 1px solid rgba(163, 168, 174, 0.1);
   background-color: rgba(163, 168, 174, 0.1);
 `;
+const Section30 = styled.div`
+  width: 37.5%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border-right: 1px solid rgba(163, 168, 174, 0.1);
+  background-color: rgba(163, 168, 174, 0.1);
+`;
 const SectionLeft = styled.div`
   display: table-cell;
   vertical-align: middle;
@@ -344,15 +352,9 @@ export function TicketContainer(props) {
           <Section10>
             <StockField placeholder="Brand" />
           </Section10>
-          <Section10>
-            <StockField placeholder="Gender" />
-          </Section10>
-          <Section10>
-            <StockField placeholder="Color" />
-          </Section10>
-          <Section10>
-            <StockField placeholder="Size" />
-          </Section10>
+          <Section30>
+            <StockField placeholder="Description" />
+          </Section30>
           <Section10>
             <StockField placeholder="Price" />
           </Section10>

@@ -3,6 +3,7 @@ export default {
   CHANGE_THEME: { keys: 'alt+t', default: false },
   IMPORT_STOCK: { keys: 'alt+i', default: false },
   EXPORT_STOCK: { keys: 'alt+e', default: false },
+  RESET_DB: { keys: 'alt+r+d', default: false },
   RUN_NOTEBOOK: { keys: 'alt+enter', default: false },
   MOVE_DOWN_FUZZY_FINDER: { keys: 'down', default: true },
   MOVE_UP_FUZZY_FINDER: { keys: 'up', default: true },

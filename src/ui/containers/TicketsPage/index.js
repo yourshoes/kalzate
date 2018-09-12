@@ -15,13 +15,14 @@ import TicketSoldItems from 'ui/containers/TicketSoldItems';
 import TicketTotal from 'ui/containers/TicketTotalContainer';
 import TicketPayments from 'ui/containers/TicketPaymentsContainer';
 import StockItems from 'ui/containers/StockItems';
+import StockItemsBasic from 'ui/containers/StockItemsBasic';
 import { Grid, Row2, Column } from 'ui/components/Grid';
 import {
   makeSelectTicketTotalVisibility,
   makeSelectTicketPaymentsVisibility,
   makeSelectTicketState,
 } from 'ui/containers/TicketsPage/selectors';
-import { TICKET_SOLD_STATE, TICKET_RETURN_STATE } from 'ui/constants';
+import { TICKET_SOLD_STATE, TICKET_RETURN_STATE, DEFAULT_SCHEMA_TYPE } from 'ui/constants';
 
 export class TicketsPage extends React.Component {
   componentDidMount() { }
@@ -31,6 +32,12 @@ export class TicketsPage extends React.Component {
     if (this.props.ticketState === TICKET_RETURN_STATE) return <TicketReturnItems />;
 
     return <TicketItems />;
+  }
+  getStockItemsComponent() {
+    if (DEFAULT_SCHEMA_TYPE === 'SCHEMA_SHOES') return <StockItems />;
+    if (DEFAULT_SCHEMA_TYPE === 'SCHEMA_BASIC') return <StockItemsBasic />;
+
+    return <StockItems />;
   }
 
   render() {
@@ -50,7 +57,7 @@ export class TicketsPage extends React.Component {
         </Row2>
         <Row2>
           <Column>
-            <StockItems />
+            {this.getStockItemsComponent()}
           </Column>
           <Column w={this.props.ticketPaymentsVisibility ? '300px' : '25px'}>
             <TicketPayments />

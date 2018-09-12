@@ -21,7 +21,7 @@ function* closeTicket(action) {
   try {
     const { ticket, options } = action;
     const { state, relatesTo, asVoucher, asGift } = options;
-    const finalTicket = { ...ticket, state };
+    const finalTicket = { ...ticket, state, created_at: new Date().getTime() };
     let response = {};
     console.log(finalTicket);
 
@@ -36,7 +36,7 @@ function* closeTicket(action) {
       case TICKET_SOLD_STATE:
         response = yield call(
           (...args) => Tickets().sell(...args),
-          finalTicket
+          { ...finalTicket, printed: compileTicket(options.settings, { ...finalTicket, asGift }) }
         );
         // @todo DANGEROUS: as we are using select effect. this saga get coupled
         // with the state shape so if for any reason in the future the state changes
@@ -56,6 +56,7 @@ function* closeTicket(action) {
           type: REFRESH_STOCK_ACTION,
         });
         // END DANGEROUS
+
         yield put({
           content: compileTicket(options.settings, { ...response._data, asGift }),
           printerName: options.settings.printerName,
@@ -67,7 +68,7 @@ function* closeTicket(action) {
 
         response = yield call(
           (...args) => Tickets().sellBack(...args),
-          { ...finalTicket, relatesTo }
+          { ...finalTicket, relatesTo, printed: compileTicket(options.settings, { ...finalTicket, asVoucher }) }
         );
         yield put({
           limit: yield select((store) => store.stock.limit),

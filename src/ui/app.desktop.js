@@ -12,7 +12,7 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { applyRouterMiddleware, Router, browserHistory, hashHistory } from 'react-router';
+import { applyRouterMiddleware, Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
 import 'sanitize.css/sanitize.css';
@@ -36,7 +36,7 @@ import ThemeProvider from 'ui/containers/ThemeProvider';
 // import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
-import configureStore from './store';
+import configureStore from './store.desktop';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
@@ -52,7 +52,7 @@ import createRoutes from './routes';
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
-const routerHistory = process.env && process.env.NODE_ENV === 'desktop-production' ? hashHistory : browserHistory;
+const routerHistory = hashHistory;
 const store = configureStore(initialState, routerHistory);
 
 // Sync history and store, as the react-router-redux reducer
@@ -89,14 +89,6 @@ const render = (messages) => {
   );
 };
 
-// Hot reloadable translation json files
-// if (process.env && process.env.NODE_ENV !== 'desktop-production' && module.hot) {
-//   // modules.hot.accept does not accept dynamic dependencies,
-//   // have to be constants at compile-time
-//   module.hot.accept('./i18n', () => {
-//     render(translationMessages);
-//   });
-// }
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {

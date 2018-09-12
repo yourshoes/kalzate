@@ -1,11 +1,14 @@
 const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
+// IPC communication
+const ipc = electron.ipcMain;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-
 const path = require('path');
 const url = require('url');
+const fs = require('fs');
+const os = require('os');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -15,14 +18,17 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     show: false,
-    frame: false,
+    frame: true,
     height: 600,
     width: 800,
     'min-height': 500,
     'min-width': 900,
   });
-  mainWindow.maximize();
-  mainWindow.show();
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.maximize();
+    mainWindow.show();
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL(
@@ -34,7 +40,7 @@ function createWindow() {
   );
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -64,6 +70,23 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
+  }
+});
+
+ipc.on('print-ticket', (event, text) => {
+  try {
+    const printFile = path.resolve(path.normalize(path.join(os.tmpdir(), 'print.txt')));
+    fs.writeFileSync(printFile, text);
+    const win = new BrowserWindow({ show: false });
+    win.loadURL(`file://${printFile}`);
+    win.webContents.on('did-finish-load', () => {
+      win.webContents.print({ silent: true });
+      setTimeout(() => {
+        win.close();
+      }, 1000);
+    });
+  } catch (error) {
+    console.error(error);
   }
 });
 

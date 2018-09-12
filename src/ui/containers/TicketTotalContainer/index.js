@@ -9,10 +9,11 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import TicketTotal from 'ui/containers/TicketTotal';
-import { makeSelectTicketTotalVisibility } from 'ui/containers/TicketTotalContainer/selectors';
-import { toggleTicketTotalVisibility } from './actions';
+import TicketRawTotal from 'ui/containers/TicketRawTotal';
+import { makeSelectTicketTotalVisibility, makeSelectRawTicketTotalVisibility } from 'ui/containers/TicketTotalContainer/selectors';
+import { toggleTicketTotalVisibility, toggleRawTicketVisibility } from './actions';
 import messages from './messages';
-import { Container, ContainerSwitcher, FirstSection } from './wrappers';
+import { Container, ContainerSwitcher, TicketTemplateViewerSwitcher, FirstSection } from './wrappers';
 
 export function TicketTotalContainer(props) {
   // eslint-disable-line react/prefer-stateless-function
@@ -23,8 +24,13 @@ export function TicketTotalContainer(props) {
         title="Expand/Collapse Ticket Total"
         onClick={() => props.toggleTicketTotalVisibility()}
       />
+      <TicketTemplateViewerSwitcher
+        expanded={!props.rawTicketTotalVisibility}
+        title="Show/Hide Ticket"
+        onClick={() => props.toggleRawTicketVisibility()}
+      />
       <FirstSection title={<FormattedMessage {...messages.title} />}>
-        <TicketTotal />
+        {props.rawTicketTotalVisibility ? <TicketRawTotal /> : <TicketTotal />}
       </FirstSection>
     </Container>
   );
@@ -33,15 +39,19 @@ export function TicketTotalContainer(props) {
 TicketTotalContainer.propTypes = {
   toggleTicketTotalVisibility: PropTypes.func.isRequired,
   ticketTotalVisibility: PropTypes.bool,
+  toggleRawTicketVisibility: PropTypes.func.isRequired,
+  rawTicketTotalVisibility: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
   ticketTotalVisibility: makeSelectTicketTotalVisibility(),
+  rawTicketTotalVisibility: makeSelectRawTicketTotalVisibility(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     toggleTicketTotalVisibility: () => dispatch(toggleTicketTotalVisibility()),
+    toggleRawTicketVisibility: () => dispatch(toggleRawTicketVisibility()),
   };
 }
 

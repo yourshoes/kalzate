@@ -55,6 +55,30 @@ export const ContainerSwitcher = styled.span`
     top: 3px;
   }
 `;
+// content: ${(props) => (props.expanded ? '"\\F04E"' : '"\\F105"')};
+export const TicketTemplateViewerSwitcher = styled.span`
+  position: absolute;
+  display: inline-block;
+  top: 4px;
+  right: ${(props) => (props.expanded ? '6' : '3')}px;
+  cursor: pointer;
+  z-index: 99;
+  color: ${(props) =>
+    props.theme && props.theme.app.switchPanelIconColor ? props.theme.app.switchPanelIconColor : 'rgba(255, 255, 255, 0.4)'};
+  &:before {
+    transform: translate(8px, 8px);
+    content: ${(props) => (props.expanded ? '"\\F011"' : '"\\F051"')};
+    font-family: 'octicons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    top: 3px;
+    right: 20px;
+  }
+`;
 // export const ContainerSwitcher = styled.span`
 //   position: absolute;
 //   background: rgba(163, 168, 174, 0.1);

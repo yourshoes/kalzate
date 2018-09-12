@@ -9,6 +9,7 @@ import styled from 'styled-components';
 export const Section = styled.section`
   min-height: 100%;
   height: 100%;
+  width: 100%;
   min-width: 100%;
   margin: 0 auto;
   display: flex;

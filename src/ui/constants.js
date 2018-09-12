@@ -14,8 +14,9 @@ export const DEFAULT_PRINTER_NAME = 'TERMICA';
 export const DEFAULT_BACKUP_FRECUENCY = 'daily';
 // export const DEFAULT_TICKET_TEMPLATE =
 //   '\r\n             SHOES STORE ${info.name}\r\n\r\n Address: ${info.address}\r\n Email: ${info.email}\r\n Phone: ${info.phone}\r\n Date: ${_.dateFormat(ticket.date, "dd/mm/yyyy HH:MM")}\r\n\r\n Ticket: ${ticket.code}\r\n\r\n--------------------------------------------\r\n Item                   U.   PSP    Subtotal\r\n--------------------------------------------\r\n${ticket.items(({description, amount, price, subtotal}) => ` ${description}${amount}${price}${subtotal}`, {padding: {description: 23, amount: 5, price: 7, subtotal: 7}})}\r\n--------------------------------------------\r\n                          TOTAL: ${ticket.total}\r\n                         (TAXES included)\r\n\r\n Method: ${ticket.payment}, Amount: ${ticket.total_input}\r\n\r\n RETURNS ADMITTED BETWEEN ${_.dateFormat(ticket.date, "dd/mm/yyyy")} AND ${_.dateFormat(_.addDays(ticket.date, 15), "dd/mm/yyyy")} \r\n\r\n *** THANKS FOR SHOPPING AT ${info.name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
-
-export const DEFAULT_TICKET_TEMPLATE = `SHOES STORE {{shop name}}
+export const DB_OPTIONS = {};
+export const DEFAULT_SCHEMA_TYPE = 'SCHEMA_BASIC';
+export const DEFAULT_TICKET_TEMPLATE = `MY STORE {{shop name}}
 
   Address: {{shop address}}
   Email: {{shop email}}

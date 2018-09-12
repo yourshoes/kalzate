@@ -81,21 +81,9 @@ export class SettingsPage extends React.Component {
           <Column>
             <Panel><Title><FormattedMessage {...messages.ticketSettings} /></Title>
               <FormWrapper>
-                <Grid>
-                  <Row2>
-                    <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerNameField })} value={this.props.settings.printerName} onBlur={(printerName) => this.props.update(Constants.PRINTER_NAME_SETTING, printerName)} />}
-                    </Column>
-                    <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerIPField })} value={this.props.settings.printerIP} onBlur={(printerIP) => this.props.update(Constants.PRINTER_IP_SETTING, printerIP)} />}
-                    </Column>
-                  </Row2>
-                  <Row2>
-                    <Column>
-                      {this.props.settings && <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} value={this.props.settings.ticketTemplate} onBlur={(ticketTemplate) => this.props.update(Constants.TICKET_TEMPLATE_SETTING, ticketTemplate)} noValue={Constants.DEFAULT_TICKET_TEMPLATE} />}
-                    </Column>
-                  </Row2>
-                </Grid>
+                <Column>
+                  {this.props.settings && <AreaField placeholder={this.props.intl.formatMessage({ ...messages.ticketTemplateField })} value={this.props.settings.ticketTemplate} onBlur={(ticketTemplate) => this.props.update(Constants.TICKET_TEMPLATE_SETTING, ticketTemplate)} noValue={Constants.DEFAULT_TICKET_TEMPLATE} />}
+                </Column>
               </FormWrapper>
             </Panel>
           </Column>
@@ -114,7 +102,10 @@ export class SettingsPage extends React.Component {
                   </Row2>
                   <Row2>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.analyticsServerField })} value={this.props.settings.analyticsServer} onBlur={(analyticsServer) => this.props.update(Constants.ANALYTICS_SERVER_SETTING, analyticsServer)} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerNameField })} value={this.props.settings.printerName} onBlur={(printerName) => this.props.update(Constants.PRINTER_NAME_SETTING, printerName)} />}
+                    </Column>
+                    <Column>
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerIPField })} value={this.props.settings.printerIP} onBlur={(printerIP) => this.props.update(Constants.PRINTER_IP_SETTING, printerIP)} />}
                     </Column>
                   </Row2>
                 </Grid>

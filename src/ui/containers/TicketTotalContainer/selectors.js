@@ -18,5 +18,10 @@ const makeSelectTicketTotalVisibility = () =>
     substate.total
   );
 
+const makeSelectRawTicketTotalVisibility = () =>
+  createSelector(selectTicketTotalDomain(), (substate) =>
+    substate.raw
+  );
+
 export default makeSelectTicketTotalVisibility;
-export { selectTicketTotalDomain, makeSelectTicketTotalVisibility };
+export { selectTicketTotalDomain, makeSelectTicketTotalVisibility, makeSelectRawTicketTotalVisibility };

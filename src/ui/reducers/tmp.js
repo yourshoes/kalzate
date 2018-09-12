@@ -23,7 +23,7 @@ import {
   UPDATE_STOCK_TICKET_DATA_ACTION,
   GET_MATCHES_TICKETS_SUCCESS_ACTION,
 } from 'ui/containers/TicketItems/constants';
-import { TOGGLE_TICKET_TOTAL_VISIBILITY } from 'ui/containers/TicketTotalContainer/constants';
+import { TOGGLE_TICKET_TOTAL_VISIBILITY, TOGGLE_RAW_TICKET_VISIBILITY } from 'ui/containers/TicketTotalContainer/constants';
 import { TOGGLE_TICKET_PAYMENTS_VISIBILITY } from 'ui/containers/TicketPaymentsContainer/constants';
 
 // The initial state of the App
@@ -40,7 +40,7 @@ const initialState = {
     tickets: { created_at: [] },
   },
   modal: { removeStock: false, archiveStock: false },
-  visibility: { tickets: { payments: true, total: true } },
+  visibility: { tickets: { payments: true, total: true, raw: false } },
 };
 
 function appReducer(state = initialState, action) {
@@ -76,6 +76,8 @@ function appReducer(state = initialState, action) {
       return { ...state, matches: { ...state.matches, tickets: { ...state.matches.tickets, [action.field]: action.items || [] } } };
     case UPDATE_STOCK_MODAL_OPTION_ACTION:
       return { ...state, modal: { ...state.modal, [action.option]: action.value } };
+    case TOGGLE_RAW_TICKET_VISIBILITY:
+      return { ...state, visibility: { ...state.visibility, tickets: { ...state.visibility.tickets, raw: !state.visibility.tickets.raw } } };
     case TOGGLE_TICKET_TOTAL_VISIBILITY:
       return { ...state, visibility: { ...state.visibility, tickets: { ...state.visibility.tickets, total: !state.visibility.tickets.total } } };
     case TOGGLE_TICKET_PAYMENTS_VISIBILITY:

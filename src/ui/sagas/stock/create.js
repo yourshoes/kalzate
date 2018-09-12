@@ -21,6 +21,7 @@ function* createStock(action) {
       skip: 0,
     });
   } catch (e) {
+    console.error(e);
     // @todo print notification if batch mode
     yield put({ type: CREATE_STOCK_ERROR_ACTION, message: e.message });
   }

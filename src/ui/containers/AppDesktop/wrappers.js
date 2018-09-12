@@ -13,6 +13,7 @@ export const Section = styled.section`
   min-height: 100%;
   height: 100%;
   min-width: 100%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   overflow: hidden;
@@ -85,17 +86,18 @@ const ToolbarIconContainer = styled.span`
   -webkit-align-items: center;
   -webkit-box-align: center;
   align-items: center;
-  transition: all 0.5s ease-in-out;
+  &:hover {
+    background-color: ${(props) =>
+    props.theme && props.theme.app.color ? props.theme.app.color : 'rgba(187, 183, 183, 0.6)'};
+    color:  ${(props) =>
+    props.theme && props.theme.app.bgColor ? props.theme.app.bgColor : 'transparent'};
+  }
 `;
 
 const ToolbarIcon = styled.span`
 -webkit-app-region: no-drag;
   padding: 0 10px;
   cursor: pointer;
-  &:hover {
-    color: ${(props) =>
-    props.theme && props.theme.app.color ? props.theme.app.color : ' rgba(187, 183, 183, 0.6)'};
-  }
 `;
 
 export const Toolbar = () => (
@@ -104,9 +106,13 @@ export const Toolbar = () => (
       <ToolbarIcon
         onClick={() => remote.getCurrentWindow().minimize()}
       ><Octicon name="dash" /></ToolbarIcon>
+    </ToolbarIconContainer>
+    <ToolbarIconContainer>
       <ToolbarIcon
         onClick={() => remote.getCurrentWindow().isMaximized() ? remote.getCurrentWindow().unmaximize() : remote.getCurrentWindow().maximize()}
       ><Octicon name="primitive-square" /></ToolbarIcon>
+    </ToolbarIconContainer>
+    <ToolbarIconContainer>
       <ToolbarIcon
         onClick={() => remote.getCurrentWindow().close()}
       ><Octicon name="x" /></ToolbarIcon>

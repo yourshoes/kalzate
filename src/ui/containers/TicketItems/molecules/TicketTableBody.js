@@ -5,7 +5,7 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
-import { formatDescription } from 'ui/utils/helper';
+import { formatDescription } from 'ui/utils/ticket';
 import TicketTableBodyContainer from '../atoms/TicketTableBodyContainer';
 import HeightAdapterContainer from '../atoms/HeightAdapterContainer';
 import TicketTableRowContainer from '../atoms/TicketTableRowContainer';
