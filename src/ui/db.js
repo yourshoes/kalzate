@@ -1,8 +1,16 @@
 import kalzateDB from 'kalzate-db';
 import { merge } from 'lodash';
 import { DEFAULT_SETTINGS, DEFAULT_STOCK_ITEMS_LIMIT, DEFAULT_TICKET_ITEMS_LIMIT, DB_OPTIONS, DEFAULT_SCHEMA_TYPE } from 'ui/constants';
+import * as themes from 'ui/containers/ThemeProvider/themes';
+import { DEFAULT_THEME } from 'ui/containers/ThemeProvider/constants';
+import {
+  DEFAULT_LOCALE,
+} from 'ui/containers/App/constants'; // eslint-disable-line
+import { getQueryParams } from 'ui/utils/url';
 
 let db;
+
+const { theme } = getQueryParams(window.location.search);
 
 export const STATE_LOADING_START = 'ui/STATE_LOADING_START';
 export const STATE_LOADING_DONE = 'ui/STATE_LOADING_DONE';
@@ -48,6 +56,16 @@ const loadStoreFromDatabase = (store) =>
       stock: await db.stock.get({ limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0 }),
       charts: await db.charts.init(),
     };
+
+    state.theme = {
+      theme: theme && themes[theme] ? themes[theme] : themes[state.settings.theme] || themes[DEFAULT_THEME],
+      name: theme || state.settings.theme || DEFAULT_THEME,
+    };
+
+    state.language = {
+      locale: state.settings.lang || DEFAULT_LOCALE,
+    };
+
     const currentState = store.getState();
     resolve({ ...currentState, ...state });
   });

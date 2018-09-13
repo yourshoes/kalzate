@@ -7,8 +7,9 @@
 import { getQueryParams } from 'ui/utils/url';
 import * as themes from 'ui/containers/ThemeProvider/themes';
 import { DEFAULT_THEME, CHANGE_THEME } from 'ui/containers/ThemeProvider/constants';
+// import { CHANGE_THEME } from 'ui/containers/ThemeProvider/constants';
 
-// Check 'theme' query param to use as default theme
+// // Check 'theme' query param to use as default theme
 const { theme } = getQueryParams(window.location.search);
 
 const initialState = {

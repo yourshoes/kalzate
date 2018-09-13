@@ -36,7 +36,7 @@ export class SettingsPage extends React.Component {
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.countryField })} value={this.props.settings.country} onBlur={(country) => this.props.update(Constants.COUNTRY_SETTING, country)} />}
                     </Column>
                     <Column>
-                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} value={this.props.settings.lang} onBlur={(lang) => this.props.update(Constants.LANG_SETTING, lang)} />}
+                      {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} value={this.props.settings.lang} onBlur={(lang) => this.props.update(Constants.LANG_SETTING, lang.toLowerCase())} />}
                     </Column>
                   </Row2>
                   <Row2>

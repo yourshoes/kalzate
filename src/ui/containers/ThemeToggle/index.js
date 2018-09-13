@@ -8,15 +8,17 @@ import React from 'react';
 import { mouseTrap } from 'react-mousetrap';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { FormattedMessage } from 'react-intl';
-import Octicon from 'react-octicon';
+// import { FormattedMessage } from 'react-intl';
+// import Octicon from 'react-octicon';
+import * as Constants from 'ui/constants';
 import HotKeys from 'ui/utils/hotkeys';
 import PubSub from 'ui/utils/pubsub';
 import { getThemeItems } from 'ui/containers/ThemeProvider/utils';
 import { makeSelectThemeName } from 'ui/containers/ThemeProvider/selectors';
-import { changeTheme } from 'ui/containers/ThemeProvider/actions';
+// import { changeTheme } from 'ui/containers/ThemeProvider/actions';
+import { updateSetting } from 'ui/containers/SettingsPage/actions';
 import { Span } from './wrappers';
-import messages from './messages';
+// import messages from './messages';
 
 class ThemeToggle extends React.Component {
   componentWillMount() {
@@ -76,7 +78,7 @@ const mapStateToProps = createSelector(makeSelectThemeName(), (theme) => ({
 }));
 
 const mapDispatchToProps = (dispatch) => ({
-  onThemeToggle: (theme) => dispatch(changeTheme(theme)),
+  onThemeToggle: (theme) => dispatch(updateSetting(Constants.THEME_SETTING, theme)),
   dispatch,
 });
 
