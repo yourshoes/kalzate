@@ -1,6 +1,6 @@
 import kalzateDB from 'kalzate-db';
 import { merge } from 'lodash';
-import { DEFAULT_SETTINGS, DEFAULT_STOCK_ITEMS_LIMIT, DEFAULT_TICKET_ITEMS_LIMIT, DB_OPTIONS, DEFAULT_SCHEMA_TYPE } from 'ui/constants';
+import { DEFAULT_SETTINGS, DEFAULT_STOCK_ITEMS_LIMIT, DEFAULT_TICKET_ITEMS_LIMIT, DB_OPTIONS, DEFAULT_SCHEMA_TYPE, STATE_LOADING_START, STATE_LOADING_DONE, STATE_LOADING_FAILED } from 'ui/constants';
 import * as themes from 'ui/containers/ThemeProvider/themes';
 import { DEFAULT_THEME } from 'ui/containers/ThemeProvider/constants';
 import {
@@ -11,10 +11,6 @@ import { getQueryParams } from 'ui/utils/url';
 let db;
 
 const { theme } = getQueryParams(window.location.search);
-
-export const STATE_LOADING_START = 'ui/STATE_LOADING_START';
-export const STATE_LOADING_DONE = 'ui/STATE_LOADING_DONE';
-export const STATE_LOADING_FAILED = 'ui/STATE_LOADING_FAILED';
 
 export const ResetDatabase = async () => {
   db.db.remove();

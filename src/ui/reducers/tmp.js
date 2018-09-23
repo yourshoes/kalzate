@@ -50,7 +50,7 @@ function appReducer(state = initialState, action) {
     case UPDATE_STOCK_TICKET_DATA_ACTION:
       return {
         ...state,
-        ticket: merge({}, state.ticket, { [action.item.reference]: { amount: null } }),
+        ticket: merge({}, state.ticket, { [action.item.reference]: { amount: null, discount: null } }),
       };
     case UPDATE_TMP_TICKET_DATA_ACTION:
       return {

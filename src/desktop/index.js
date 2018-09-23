@@ -9,6 +9,7 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const os = require('os');
+// const Printer = require('electron-printer');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -73,22 +74,87 @@ app.on('activate', () => {
   }
 });
 
-ipc.on('print-ticket', (event, text) => {
+
+// function print(text, options) {
+//   const toBytes = (str) => Array.from(str).map((c) => c.charCodeAt(0));
+
+//   const printData = toBytes(text).concat([0x1B, 0x69, 0x1B, 0x70, 0x00, 0x09, 0x09]);
+
+//   require('kalzate-printer').print({
+//     text: new Buffer(printData),
+//     printer: 'termica',
+//   });
+// }
+
+/**
+ * This method relies on a native approach, but it limited as it will
+ * not work using codes (to open cash drawer or cut the paper) and also
+ * it has to be tweak for each printer. It also requires to set the
+ * receipt printer as the default printer
+ * @param {*} text the ticket to print
+ */
+function printNative(text) {
+  const printFile = path.resolve(path.normalize(path.join(os.tmpdir(), 'print.html')));
+
+  fs.writeFileSync(printFile, `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+    @media print {
+      @page {
+        margin: 0;
+      }
+      body * {
+        visibility: hidden;
+      }
+      #printer-content, #printer-content * {
+        visibility: visible;
+      }
+      #printer-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 71mm
+        min-width: 71mm;
+        max-width: 71mm;
+        font-size: 10px;
+        font-family: monospace, "Courier New", Courier !IMPORTANT;
+        font-weight: 600;
+      }
+    }
+    </style>
+  </head>
+  <body><pre id="printer-content">${text}</pre></body>
+  </html>
+  `);
+
+  const win = new BrowserWindow({ show: false });
+
+  win.loadURL(
+    url.format({
+      pathname: printFile,
+      protocol: 'file:',
+      slashes: true,
+    })
+  );
+
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.print({ silent: true });
+    setTimeout(() => {
+      win.close();
+    }, 1000);
+  });
+}
+
+
+ipc.on('print-ticket', (event, text, options) => {
   try {
-    const printFile = path.resolve(path.normalize(path.join(os.tmpdir(), 'print.txt')));
-    fs.writeFileSync(printFile, text);
-    const win = new BrowserWindow({ show: false });
-    win.loadURL(`file://${printFile}`);
-    win.webContents.on('did-finish-load', () => {
-      win.webContents.print({ silent: true });
-      setTimeout(() => {
-        win.close();
-      }, 1000);
-    });
+    // print(text, options);
+    printNative(text, options);
   } catch (error) {
     console.error(error);
+    // printNative(text, options);
   }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

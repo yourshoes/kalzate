@@ -22,6 +22,14 @@ export default defineMessages({
     id: 'kz.containers.StockItems.modal.desc',
     defaultMessage: 'Use a csv, json or yaml file extension',
   },
+  modalItems: {
+    id: 'kz.containers.StockItems.modal.items',
+    defaultMessage: '{items} items found',
+  },
+  modalNoItems: {
+    id: 'kz.containers.StockItems.modal.noItems',
+    defaultMessage: 'No items found',
+  },
   modalHelp: {
     id: 'kz.containers.StockItems.modal.help',
     defaultMessage: 'Need Help ? Download a stock file sample here',

@@ -96,3 +96,12 @@ export const TICKET_SAVE_STATE = 'TICKET_SAVE_STATE';
 export const TICKET_SOLD_STATE = 'TICKET_SOLD_STATE';
 export const TICKET_RETURN_STATE = 'TICKET_RETURN_STATE';
 export const DEFAULT_TICKET_ITEMS_LIMIT = 50;
+
+/** ****************************************************************************/
+/*                                                                             */
+/*    LOADING CONSTANTS                                                        */
+/*                                                                             */
+/** ****************************************************************************/
+export const STATE_LOADING_START = 'ui/STATE_LOADING_START';
+export const STATE_LOADING_DONE = 'ui/STATE_LOADING_DONE';
+export const STATE_LOADING_FAILED = 'ui/STATE_LOADING_FAILED';

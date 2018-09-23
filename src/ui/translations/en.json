@@ -55,6 +55,8 @@
   "kz.containers.TicketTotalContainer.title": "Payment Summary",
   "kz.containers.StockItems.modal.title": "Drop stock file here",
   "kz.containers.StockItems.modal.desc": "Use a csv, json or yaml file extension",
+  "kz.containers.StockItems.modal.items": "{items} items found",
+  "kz.containers.StockItems.modal.noItems": "No items found",
   "kz.containers.StockItems.modal.help": "Need Help ? Download a stock file sample here",
   "kz.containers.StockItems.modal.loading": "Please wait, I'm on it",
   "kz.containers.StockItems.modal.option.remove": "Remove Current Stock",

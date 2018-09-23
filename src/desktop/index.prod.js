@@ -13,6 +13,7 @@ const os = require('os');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let splashWindow;
 
 function createWindow() {
   // Create the browser window.
@@ -26,9 +27,17 @@ function createWindow() {
   });
 
   mainWindow.once('ready-to-show', () => {
+    splashWindow.destroy();
     mainWindow.maximize();
     mainWindow.show();
   });
+
+  splashWindow = new BrowserWindow({ width: 300, height: 300, transparent: true, frame: false, alwaysOnTop: true });
+  splashWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'index-splash-loading.html'),
+    protocol: 'file:',
+    slashes: true,
+  }));
 
 
   // and load the index.html of the app.

@@ -199,8 +199,8 @@ export class ModalDropZone extends React.Component {
               }}
             >
               {this.state.items.length
-                ? `${this.state.items.length} items found`
-                : 'No items found'}
+                ? <FormattedMessage {...messages.modalItems} values={{ items: this.state.items.length }} />
+                : <FormattedMessage {...messages.modalNoItems} />}
             </p>
           )}
           {this.state.loading && (

@@ -100,7 +100,7 @@ function updateTicketTotal(state) {
   if (state.items.length <= 0) {
     return { ...state, totalAmount: '0.00', givenAmount: '0.00', returnAmount: '0.00', method: null };
   }
-  const subtotal = state.items.map((item) => item.amount * item.price);
+  const subtotal = state.items.map((item) => (item.amount * item.price) - (item.discount || 0));
   const subtotalTaxesFree = subtotal.reduce((a, b) => a + b, 0);
   const subtotalWithDiscount = state.discount ? subtotalTaxesFree - (subtotalTaxesFree * state.discount) : subtotalTaxesFree;
   const subtotalWithTaxes = state.tax ? subtotalWithDiscount + (subtotalWithDiscount * state.tax) : subtotalWithDiscount;

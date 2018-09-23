@@ -6,10 +6,10 @@ import {
 } from 'ui/containers/TicketItems/constants';
 import { ipcRenderer } from 'electron';
 
-
-function print(text) {
+function print(text, options) {
   try {
-    ipcRenderer.send('print-ticket', text);
+    console.log(text, options);
+    ipcRenderer.send('print-ticket', text, options);
   } catch (error) {
     console.error(error);
   }
@@ -22,7 +22,7 @@ function* printTicket(action) {
     console.log('ticket content', content);
     // console.log('ticket content'. content, printerName, printerIP);
 
-    print(content);
+    print(content, { printerName, printerIP });
 
     yield put({
       ...action,

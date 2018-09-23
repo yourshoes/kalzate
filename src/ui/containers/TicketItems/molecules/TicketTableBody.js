@@ -44,7 +44,27 @@ export class TicketTableBody extends React.Component {
                   }
                 }}
               />
-              <TicketTableField placeholder={(item.price * item.amount).toFixed(2)} readonly />
+              <TicketTableAmountField
+                placeholder={item.discount || '0'}
+                value={
+                  this.props.tmp[item.reference] && Number.isFinite(this.props.tmp[item.reference].discount)
+                    ? this.props.tmp[item.reference].discount
+                    : ''
+                }
+                onChange={(discount) =>
+                  this.props.updateTmpData(item.reference, {
+                    discount: parseInt(discount, 10),
+                  })
+                }
+                onBlur={(e) => {
+                  if (this.props.tmp[item.reference] && Number.isFinite(this.props.tmp[item.reference].discount)) {
+                    this.props.updateTicketData(item, {
+                      discount: this.props.tmp[item.reference].discount,
+                    });
+                  }
+                }}
+              />
+              <TicketTableField placeholder={((item.price * item.amount) - (item.discount || 0)).toFixed(2)} readonly />
               <TicketTableButton primary icon="remove-close" onClick={() => this.props.removeStockFromTicket(item, i)} />
             </TicketTableRowContainer>
           ))}

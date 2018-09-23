@@ -13,11 +13,13 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { mouseTrap } from 'react-mousetrap';
 import mouseTrapCore from 'mousetrap';
-
+import { createStructuredSelector } from 'reselect';
 /* Components imports */
+import { STATE_LOADING_DONE, STATE_LOADING_START } from 'ui/constants';
 import { ResetDatabase } from 'ui/db';
 import Modal from 'ui/components/Modal';
 import SidebarMenu from 'ui/containers/SidebarMenu';
@@ -27,6 +29,7 @@ import FuzzyFinder from 'ui/containers/FuzzyFinder';
 import HotKeys from 'ui/utils/hotkeys';
 import PubSub from 'ui/utils/pubsub';
 import StockModal from 'ui/containers/StockItems/molecules/StockModal';
+import { makeSelectLoading } from './selectors';
 import { Section, Article } from './wrappers';
 import messages from './messages';
 
@@ -130,7 +133,8 @@ class App extends React.Component {
             },
           ]}
         />
-        <Section blur={this.state.blur}>
+        {/** this.props.loading === STATE_LOADING_START && <p> Loading </p> **/}
+        {this.props.loading === STATE_LOADING_DONE && <Section blur={this.state.blur}>
           <Article>
             <SidebarMenu />
             {React.Children.toArray(this.props.children)}
@@ -138,7 +142,7 @@ class App extends React.Component {
           <Footer />
           <FuzzyFinder />
           <HelperTour />
-        </Section>
+        </Section>}
         <Modal
           onOpen={() => this.setState({ blur: true })}
           onClose={() => this.setState({ blur: false })}
@@ -150,7 +154,14 @@ class App extends React.Component {
 
 App.propTypes = {
   children: PropTypes.node,
+  loading: PropTypes.string,
   bindShortcut: PropTypes.func,
 };
 
-export default mouseTrap(App);
+const mapStateToProps = createStructuredSelector({ loading: makeSelectLoading() });
+
+function mapDispatchToProps(dispatch) {
+  return { dispatch };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(mouseTrap(App));
