@@ -11,7 +11,10 @@ import React from 'react';
 export const Panel = styled.section`
   width: calc(100% - 30px);
   height: calc(100% - 30px);
-  background-color: rgba(10, 10, 10, 0.2);
+  background-color: ${(props) =>
+    props.theme && props.theme.discover.panelBgColor
+      ? props.theme.discover.panelBgColor
+      : 'rgba(10, 10, 10, 0.2)'};
   margin: 15px;
 `;
 export const FormWrapper = styled.section`
@@ -31,7 +34,7 @@ letter-spacing: 0.15em;
 font-weight: ${(props) => (props.highlight ? '100' : '100')};
 -webkit-font-smoothing: antialiased;
 font-variant: all-petite-caps;
-text-align: center;
+text-align: left;
 padding: 15px;
 margin: 0;
 `;

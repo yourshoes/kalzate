@@ -9,12 +9,14 @@ import { mouseTrap } from 'react-mousetrap';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import Octicon from 'react-octicon';
+import * as Constants from 'ui/constants';
 import HotKeys from 'ui/utils/hotkeys';
 import PubSub from 'ui/utils/pubsub';
 import { appLocalesMessages } from 'ui/i18n';
 import { getLangItems } from 'ui/utils/helper';
 import { makeSelectLocale } from 'ui/containers/LanguageProvider/selectors';
-import { changeLocale } from 'ui/containers/LanguageProvider/actions';
+// import { changeLocale } from 'ui/containers/LanguageProvider/actions';
+import { updateSetting } from 'ui/containers/SettingsPage/actions';
 import { Span } from './wrappers';
 
 class LocaleToggle extends React.Component {
@@ -76,7 +78,7 @@ const mapStateToProps = createSelector(makeSelectLocale(), (locale) => ({
 }));
 
 const mapDispatchToProps = (dispatch) => ({
-  onLocaleToggle: (lang) => dispatch(changeLocale(lang)),
+  onLocaleToggle: (lang) => dispatch(updateSetting(Constants.LANG_SETTING, lang)),
   dispatch,
 });
 

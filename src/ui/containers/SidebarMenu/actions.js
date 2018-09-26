@@ -1,7 +1,7 @@
 import {
-  CHANGE_RESOURCE_SELECTED,
-  ADD_RESOURCE,
-} from 'ui/containers/App/constants';
+  LOAD_TICKET_ACTION,
+  SEARCH_TICKETS_ACTION,
+} from 'ui/containers/TicketItems/constants';
 
 /**
  * Changes the input field of the form
@@ -10,23 +10,19 @@ import {
  *
  * @return {object}    An action object with a type of CHANGE_USERNAME
  */
-export function changeResourceSelected(resource) {
+export function loadTicket(ticket, options = {}) {
   return {
-    type: CHANGE_RESOURCE_SELECTED,
-    resource,
+    type: LOAD_TICKET_ACTION,
+    ticket,
+    options,
   };
 }
 
-/**
- * Changes the input field of the form
- *
- * @param  {name} name The new text of the input field
- *
- * @return {object}    An action object with a type of CHANGE_USERNAME
- */
-export function addTreeResource(resource) {
+export function searchTickets(field, value, operator) {
   return {
-    type: ADD_RESOURCE,
-    resource,
+    type: SEARCH_TICKETS_ACTION,
+    field,
+    value,
+    operator,
   };
 }

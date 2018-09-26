@@ -18,6 +18,14 @@ export default defineMessages({
     id: 'kz.containers.App.actions.importStock',
     defaultMessage: 'Import Stock',
   },
+  exportStock: {
+    id: 'kz.containers.App.actions.exportStock',
+    defaultMessage: 'Export Stock',
+  },
+  resetDB: {
+    id: 'kz.containers.App.actions.resetDB',
+    defaultMessage: 'Reset Database',
+  },
   englishLang: {
     id: 'kz.containers.LanguageProvider.en',
     defaultMessage: 'English',

@@ -16,6 +16,6 @@ export default defineMessages({
   },
   subheader: {
     id: 'kz.components.HomePage.subheader',
-    defaultMessage: 'A Point Of Sale For Humans"',
+    defaultMessage: 'A Point Of Sale For Humans',
   },
 });

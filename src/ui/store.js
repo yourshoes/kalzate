@@ -3,7 +3,6 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import databaseMiddleware from './db';
@@ -30,14 +29,14 @@ export default function configureStore(initialState = {}, history) {
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers =
     process.env.NODE_ENV !== 'production' &&
+      process.env.NODE_ENV !== 'desktop-production' &&
       typeof window === 'object' &&
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
-  /* eslint-enable */
 
   const store = createStore(
     createReducer(),
-    fromJS(initialState),
+    initialState,
     composeEnhancers(...enhancers)
   );
 

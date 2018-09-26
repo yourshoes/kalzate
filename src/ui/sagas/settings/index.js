@@ -6,14 +6,22 @@ import {
   UPDATE_SETTING_ERROR_ACTION,
   UPDATE_SETTING_SUCCESS_ACTION,
 } from 'ui/containers/SettingsPage/constants';
+import { changeTheme } from 'ui/containers/ThemeProvider/actions';
+import { changeLocale } from 'ui/containers/LanguageProvider/actions';
 
 function* updateSetting(action) {
   try {
     const { key, value } = action;
     switch (key) {
-      case Constants.COUNTRY_SETTING:
-      case Constants.LANG_SETTING:
       case Constants.THEME_SETTING:
+        yield call((setting) => Settings().collection.upsert(setting), { key, value });
+        yield put(changeTheme(value));
+        break;
+      case Constants.LANG_SETTING:
+        yield call((setting) => Settings().collection.upsert(setting), { key, value });
+        yield put(changeLocale(value));
+        break;
+      case Constants.COUNTRY_SETTING:
       case Constants.TIMEZONE_SETTING:
       case Constants.NAME_SETTING:
       case Constants.ADDRESS_SETTING:
@@ -26,11 +34,12 @@ function* updateSetting(action) {
       case Constants.BACKUP_LOCATION_SETTING:
       case Constants.ANALYTICS_SERVER_SETTING:
         yield call((setting) => Settings().collection.upsert(setting), { key, value });
-        yield put({ type: UPDATE_SETTING_SUCCESS_ACTION, key, value });
         break;
       default:
         return;
     }
+
+    yield put({ type: UPDATE_SETTING_SUCCESS_ACTION, key, value });
   } catch (e) {
     yield put({ type: UPDATE_SETTING_ERROR_ACTION, message: e.message });
   }

@@ -7,7 +7,7 @@ import {
   // CREATE_STOCK_SUCCESS_ACTION,
   REFRESH_STOCK_ACTION,
 } from 'ui/containers/StockItems/constants';
-import { DEFAULT_STOCK_ITEMS_LIMIT } from 'constants';
+import { DEFAULT_STOCK_ITEMS_LIMIT } from 'ui/constants';
 
 function* createStock(action) {
   try {
@@ -21,6 +21,7 @@ function* createStock(action) {
       skip: 0,
     });
   } catch (e) {
+    console.error(e);
     // @todo print notification if batch mode
     yield put({ type: CREATE_STOCK_ERROR_ACTION, message: e.message });
   }

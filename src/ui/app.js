@@ -52,12 +52,13 @@ import createRoutes from './routes';
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
-const store = configureStore(initialState, browserHistory);
+const routerHistory = browserHistory;
+const store = configureStore(initialState, routerHistory);
 
 // Sync history and store, as the react-router-redux reducer
 // is under the non-default key ("routing"), selectLocationState
 // must be provided for resolving how to retrieve the "route" in the state
-const history = syncHistoryWithStore(browserHistory, store, {
+const history = syncHistoryWithStore(routerHistory, store, {
   selectLocationState: makeSelectLocationState(),
 });
 

@@ -1,7 +1,8 @@
 import React from 'react';
-// import messages from './messages';
+import { FormattedMessage } from 'react-intl';
 import Button from 'ui/components/Button';
 import PubSub from 'ui/utils/pubsub';
+import messages from './messages';
 import OverlapLayer from './atoms/OverlapLayer';
 import Container from './atoms/Container';
 // import BackgroundContainer from './atoms/BackgroundContainer';
@@ -70,10 +71,10 @@ export class Modal extends React.Component {
             </ModalContent>
             <Divider />
             <ModalActions>
-              <Button onClick={() => this.cancel()} title={'Cancel'} />
+              <Button onClick={() => this.cancel()} title={<FormattedMessage {...messages.cancel} />} />
               <Button
                 secundary
-                title={'ok'}
+                title={<FormattedMessage {...messages.ok} />}
                 disable={this.state.disableOkButton}
                 onClick={() => {
                   if (this.onApproved()) {

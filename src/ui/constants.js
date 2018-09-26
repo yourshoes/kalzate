@@ -1,3 +1,8 @@
+/** ****************************************************************************/
+/*                                                                             */
+/*    SETTINGS CONSTANTS                                                       */
+/*                                                                             */
+/** ****************************************************************************/
 export const DEFAULT_COUNTRY = 'spain';
 export const DEFAULT_LOCALE = 'en';
 export const DEFAULT_TIMEZONE = 'Europe/Madrid';
@@ -7,9 +12,38 @@ export const DEFAULT_EMAIL = 'zurisadai.pabon@gmail.com';
 export const DEFAULT_PHONE = '+34610601389';
 export const DEFAULT_PRINTER_NAME = 'TERMICA';
 export const DEFAULT_BACKUP_FRECUENCY = 'daily';
-export const DEFAULT_TICKET_TEMPLATE = '\r\n             SHOES STORE ${name}\r\n\r\n Address: ${address}\r\n Email: ${email}  Phone: ${phone}\r\n Ticket: ${code}  Date: ${date}\r\n\r\n------------------------------------------\r\n Item                   U.  PSP  Subtotal\r\n------------------------------------------\r\n${items}\r\n------------------------------------------\r\n                          TOTAL: ${total}\r\n                         (TAXES included)\r\n\r\n Method: ${payment}, Amount: ${payment_in}\r\n\r\n RETURNS ADMITTED BETWEEN ${date} AND ${date_return} \r\n\r\n *** THANKS FOR SHOPPING AT ${name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
+// export const DEFAULT_TICKET_TEMPLATE =
+//   '\r\n             SHOES STORE ${info.name}\r\n\r\n Address: ${info.address}\r\n Email: ${info.email}\r\n Phone: ${info.phone}\r\n Date: ${_.dateFormat(ticket.date, "dd/mm/yyyy HH:MM")}\r\n\r\n Ticket: ${ticket.code}\r\n\r\n--------------------------------------------\r\n Item                   U.   PSP    Subtotal\r\n--------------------------------------------\r\n${ticket.items(({description, amount, price, subtotal}) => ` ${description}${amount}${price}${subtotal}`, {padding: {description: 23, amount: 5, price: 7, subtotal: 7}})}\r\n--------------------------------------------\r\n                          TOTAL: ${ticket.total}\r\n                         (TAXES included)\r\n\r\n Method: ${ticket.payment}, Amount: ${ticket.total_input}\r\n\r\n RETURNS ADMITTED BETWEEN ${_.dateFormat(ticket.date, "dd/mm/yyyy")} AND ${_.dateFormat(_.addDays(ticket.date, 15), "dd/mm/yyyy")} \r\n\r\n *** THANKS FOR SHOPPING AT ${info.name} ***\r\n\r\n-   -   -   -   -   -   -   -   -   -   -';
+export const DB_OPTIONS = {};
+export const DEFAULT_SCHEMA_TYPE = 'SCHEMA_BASIC';
+export const DEFAULT_TICKET_TEMPLATE = `MY STORE {{shop name}}
 
-export const DEFAULT_STOCK_ITEMS_LIMIT = 5;
+  Address: {{shop address}}
+  Email: {{shop email}}
+  Phone: {{shop phone}}
+  Date: {{ticket date "dd/mm/yyyy HH:MM"}}
+ 
+  Ticket: {{ticket code}}
+  Category: {{ticket category}}
+ 
+ --------------------------------------------
+  Item                   U.   PSP    Subtotal
+ --------------------------------------------
+ {{ticket items ["description", "amount", "price", "subtotal"] [23, 5, 7, 7] [1, 0]}}
+ --------------------------------------------
+                           TOTAL: {{ticket total}}
+ 
+  Method: {{ticket payment}}, 
+  Amount: {{ticket given}},
+  Return: {{ticket return}}
+ 
+  RETURNS ADMITTED BETWEEN {{ticket date "dd/mm/yyyy"}} AND {{ticket return_date 15 "dd/mm/yyyy"}} 
+ 
+  *** THANKS FOR SHOPPING AT {{shop name}} ***
+ 
+ -   -   -   -   -   -   -   -   -   -   -`;
+
+export const DEFAULT_STOCK_ITEMS_LIMIT = 50;
 
 export const COUNTRY_SETTING = 'country';
 export const LANG_SETTING = 'lang';
@@ -42,3 +76,32 @@ export const DEFAULT_SETTINGS = {
   [BACKUP_LOCATION_SETTING]: '',
   [ANALYTICS_SERVER_SETTING]: '',
 };
+
+/** ****************************************************************************/
+/*                                                                             */
+/*    PAYMENT CONSTANTS                                                        */
+/*                                                                             */
+/** ****************************************************************************/
+export const PAYMENT_METHOD_CREDIT_CARD = 'payment_method_credit_card';
+export const PAYMENT_METHOD_PHONE = 'payment_method_phone';
+export const PAYMENT_METHOD_CASH = 'payment_method_cash';
+export const PAYMENT_METHOD_TICKET = 'payment_method_ticket';
+
+/** ****************************************************************************/
+/*                                                                             */
+/*    TICKETS CONSTANTS                                                        */
+/*                                                                             */
+/** ****************************************************************************/
+export const TICKET_SAVE_STATE = 'TICKET_SAVE_STATE';
+export const TICKET_SOLD_STATE = 'TICKET_SOLD_STATE';
+export const TICKET_RETURN_STATE = 'TICKET_RETURN_STATE';
+export const DEFAULT_TICKET_ITEMS_LIMIT = 50;
+
+/** ****************************************************************************/
+/*                                                                             */
+/*    LOADING CONSTANTS                                                        */
+/*                                                                             */
+/** ****************************************************************************/
+export const STATE_LOADING_START = 'ui/STATE_LOADING_START';
+export const STATE_LOADING_DONE = 'ui/STATE_LOADING_DONE';
+export const STATE_LOADING_FAILED = 'ui/STATE_LOADING_FAILED';

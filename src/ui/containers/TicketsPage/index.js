@@ -10,17 +10,35 @@ import Helmet from 'react-helmet';
 // import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import TicketItems from 'ui/containers/TicketItems';
+import TicketReturnItems from 'ui/containers/TicketReturnItems';
+import TicketSoldItems from 'ui/containers/TicketSoldItems';
 import TicketTotal from 'ui/containers/TicketTotalContainer';
 import TicketPayments from 'ui/containers/TicketPaymentsContainer';
 import StockItems from 'ui/containers/StockItems';
+import StockItemsBasic from 'ui/containers/StockItemsBasic';
 import { Grid, Row2, Column } from 'ui/components/Grid';
 import {
   makeSelectTicketTotalVisibility,
   makeSelectTicketPaymentsVisibility,
+  makeSelectTicketState,
 } from 'ui/containers/TicketsPage/selectors';
+import { TICKET_SOLD_STATE, TICKET_RETURN_STATE, DEFAULT_SCHEMA_TYPE } from 'ui/constants';
 
 export class TicketsPage extends React.Component {
-  componentDidMount() {}
+  componentDidMount() { }
+
+  getItemsComponent() {
+    if (this.props.ticketState === TICKET_SOLD_STATE) return <TicketSoldItems />;
+    if (this.props.ticketState === TICKET_RETURN_STATE) return <TicketReturnItems />;
+
+    return <TicketItems />;
+  }
+  getStockItemsComponent() {
+    if (DEFAULT_SCHEMA_TYPE === 'SCHEMA_SHOES') return <StockItems />;
+    if (DEFAULT_SCHEMA_TYPE === 'SCHEMA_BASIC') return <StockItemsBasic />;
+
+    return <StockItems />;
+  }
 
   render() {
     return (
@@ -31,7 +49,7 @@ export class TicketsPage extends React.Component {
         />
         <Row2>
           <Column>
-            <TicketItems />
+            {this.getItemsComponent()}
           </Column>
           <Column w={this.props.ticketTotalVisibility ? '300px' : '25px'}>
             <TicketTotal />
@@ -39,7 +57,7 @@ export class TicketsPage extends React.Component {
         </Row2>
         <Row2>
           <Column>
-            <StockItems />
+            {this.getStockItemsComponent()}
           </Column>
           <Column w={this.props.ticketPaymentsVisibility ? '300px' : '25px'}>
             <TicketPayments />
@@ -53,11 +71,13 @@ export class TicketsPage extends React.Component {
 TicketsPage.propTypes = {
   ticketTotalVisibility: PropTypes.bool,
   ticketPaymentsVisibility: PropTypes.bool,
+  ticketState: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   ticketTotalVisibility: makeSelectTicketTotalVisibility(),
   ticketPaymentsVisibility: makeSelectTicketPaymentsVisibility(),
+  ticketState: makeSelectTicketState(),
 });
 
 export default connect(mapStateToProps)(TicketsPage);

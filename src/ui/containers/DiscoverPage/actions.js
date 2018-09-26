@@ -5,11 +5,16 @@
  */
 
 import {
-  DEFAULT_ACTION,
+  LOAD_CHART_DATA_ACTION,
+  // SALES_CHART,
+  // TICKETS_CHART,
+  // STOCK_CHART,
+  // ALERT_CHART,
 } from './constants';
 
-export function defaultAction() {
+export function loadChartsData({ charts } = {}) {
   return {
-    type: DEFAULT_ACTION,
+    type: LOAD_CHART_DATA_ACTION,
+    charts,
   };
 }

@@ -38,9 +38,9 @@ class Tip extends React.Component {
         right={this.props.right}
         bottom={this.props.bottom}
       >
-        <Animate>
-          <Octicon name="unverified" />
-        </Animate>
+        {this.props.animated ? (<Animate>
+          <Octicon name={this.props.icon || 'unverified'} />
+        </Animate>) : <Octicon name={this.props.icon || 'unverified'} />}
         <ToolTip direction={this.props.direction} visible={this.state.visible}>
           <FormattedMessage {...this.props.message} />
         </ToolTip>
@@ -59,6 +59,8 @@ Tip.propTypes = {
   top: React.PropTypes.string,
   right: React.PropTypes.string,
   bottom: React.PropTypes.string,
+  icon: React.PropTypes.string,
+  animated: React.PropTypes.boolean,
 };
 
 export default Tip;

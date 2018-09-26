@@ -3,23 +3,16 @@
  * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
 
-import { combineReducers } from 'redux-immutable';
-import { fromJS } from 'immutable';
-import { LOCATION_CHANGE } from 'react-router-redux';
-
-import globalReducer from 'ui/containers/App/reducer';
+import { combineReducers } from 'redux';
 import settingsReducer from 'ui/reducers/settings';
+import routeReducer from 'ui/reducers/router';
 import ticketsReducer from 'ui/reducers/tickets';
 import ticketReducer from 'ui/reducers/ticket';
 import stockReducer from 'ui/reducers/stock';
-import languageProviderReducer from 'ui/containers/LanguageProvider/reducer';
 import tmpReducer from 'ui/reducers/tmp';
-import themeProviderReducer from 'ui/containers/ThemeProvider/reducer';
-import ticketItemsReducer from 'ui/containers/TicketItems/reducer';
-import ticketTotalReducer from 'ui/containers/TicketTotalContainer/reducer';
-import ticketPaymentsReducer from 'ui/containers/TicketPaymentsContainer/reducer';
-import stockItemsReducer from 'ui/containers/StockItems/reducer';
-import cashDrawerReducer from 'ui/containers/CashDrawer/reducer';
+import chartsReducer from 'ui/reducers/charts';
+import languageProviderReducer from 'ui/reducers/language';
+import themeProviderReducer from 'ui/reducers/theme';
 
 import { databaseAsyncReducer } from './db';
 /*
@@ -29,26 +22,6 @@ import { databaseAsyncReducer } from './db';
  * The change is necessitated by moving to react-router-redux@4
  *
  */
-
-// Initial routing state
-const routeInitialState = fromJS({
-  locationBeforeTransitions: null,
-});
-
-/**
- * Merge route into the global application state
- */
-function routeReducer(state = routeInitialState, action) {
-  switch (action.type) {
-    /* istanbul ignore next */
-    case LOCATION_CHANGE:
-      return state.merge({
-        locationBeforeTransitions: action.payload,
-      });
-    default:
-      return state;
-  }
-}
 
 /**
  * Creates the main reducer with the asynchronously loaded ones
@@ -63,13 +36,8 @@ export default function createReducer(asyncReducers) {
     route: routeReducer,
     language: languageProviderReducer,
     tmp: tmpReducer,
+    charts: chartsReducer,
 
-    global: globalReducer,
-    cashDrawer: cashDrawerReducer,
-    ticketItems: ticketItemsReducer,
-    ticketTotal: ticketTotalReducer,
-    ticketPayments: ticketPaymentsReducer,
-    stockItems: stockItemsReducer,
     ...asyncReducers,
   }));
 }

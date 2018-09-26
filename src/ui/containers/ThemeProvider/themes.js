@@ -4,6 +4,11 @@ export const dark = {
     color: '#a3a8ae',
     border: '1px solid #111314', // 1px solid #27292c
     padding: '5px',
+    switchPanelIconColor: 'rgba(255, 255, 255, 0.4)',
+    scrollThumbInactiveBgColor: 'rgba(100, 100, 100, 0.4)',
+    scrollThumbBgColor: 'rgba(100, 100, 100, 0.8)',
+    scrollTrackShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.3)',
+    // scroll props below are possibly not used
     scrollThumb: 'rgb(60, 60, 60)',
     scrollThumbInactive: 'rgb(60, 60, 60)',
     scrollCorner: 'rgb(60, 60, 60)',
@@ -21,9 +26,32 @@ export const dark = {
     border: '1px solid #27292c',
     hoverColor: 'rgba(163, 168, 174, 0.8)',
     selected: 'rgba(100, 100, 100, 0.1)',
+    placeholderColor: 'rgba(163, 168, 174, 0.9)',
+  },
+  settings: {
+    panelBgColor: 'rgba(10, 10, 10, 0.2)',
+  },
+  discover: {
+    panelBgColor: 'rgba(10, 10, 10, 0.2)',
+    helpBgColor: 'rgba(51,51,51, .9)',
+    helpColor: 'rgba(151,151,151,1)',
+    tooltipColor: 'rgba(115, 201, 144, .6)',
+  },
+  charts: {
+    axis: '#FFF',
+  },
+  tables: {
+    color: 'white',
+    colorEven: 'rgba(187, 183, 183, 1)',
+    bgColorEven: 'rgba(163, 168, 174, 0.2)',
+    bgColor: 'rgba(163, 168, 174, 0.1)',
+    highlightBgColor: 'rgba(226, 192, 141, .25)',
+  },
+  tooltips: {
+    bgColor: 'rgba(39, 41, 44, 0.9)',
   },
   home: {
-    color: 'rgba(255, 255, 255, 0.35)',
+    color: 'rgba(163, 168, 174, 0.3)',
     titleColor: 'rgba(163, 168, 174, 0.3)',
     svgColor: 'rgba(163, 168, 174, 0.1)',
     tryButtonHoverColor: 'rgba(255, 255, 255, 0.6)',
@@ -64,6 +92,12 @@ export const dark = {
     shadow: '0 .15em .23em 0 rgba(0, 0, 0, 0.5)',
     image: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15))',
   },
+  tickets: {
+    placeholderColor: 'rgba(163, 168, 174, 0.9)',
+    searchColor: 'rgba(163, 168, 174, 0.5)',
+    searchMastchesListBgColor: 'rgba(100, 100, 100, 1)',
+    searchMastchesListColor: 'white',
+  },
 };
 export const monokai = {
   app: {
@@ -71,6 +105,11 @@ export const monokai = {
     color: '#bbb7b7',
     border: '1px solid rgba(163,168,174,0.1)',
     padding: '5px',
+    switchPanelIconColor: 'rgba(255, 255, 255, 0.4)',
+    scrollThumbInactiveBgColor: 'rgba(100, 100, 100, 0.4)',
+    scrollThumbBgColor: 'rgba(100, 100, 100, 0.8)',
+    scrollTrackShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.3)',
+    // scroll props below are possibly not used
     scrollThumb: '#979797',
     scrollThumbInactive: '#979797',
     scrollCorner: '#979797',
@@ -88,12 +127,35 @@ export const monokai = {
     border: '1px solid rgba(163,168,174,0.1)',
     hoverColor: '#d7d7d7',
     selected: '#373636',
+    placeholderColor: 'rgba(163, 168, 174, 0.9)',
   },
   home: {
-    color: 'rgba(255, 255, 255, 0.35)',
+    color: 'rgba(163, 168, 174, 0.3)',
     titleColor: 'rgba(163, 168, 174, 0.3)',
     svgColor: 'rgba(163, 168, 174, 0.1)',
     tryButtonHoverColor: 'rgba(255, 255, 255, 0.6)',
+  },
+  settings: {
+    panelBgColor: 'rgba(10, 10, 10, 0.2)',
+  },
+  discover: {
+    panelBgColor: 'rgba(10, 10, 10, 0.2)',
+    helpBgColor: 'rgba(51,51,51, .9)',
+    helpColor: 'rgba(151,151,151,1)',
+    tooltipColor: 'rgba(115, 201, 144, .6)',
+  },
+  charts: {
+    axis: '#FFF',
+  },
+  tables: {
+    color: 'white',
+    colorEven: 'rgba(187, 183, 183, 1)',
+    bgColorEven: 'rgba(163,168,174,0.2)',
+    bgColor: 'rgba(163,168,174,0.1)',
+    highlightBgColor: 'rgba(226, 192, 141, .25)',
+  },
+  tooltips: {
+    bgColor: 'rgba(39, 41, 44, 0.9)',
   },
   blog: {
     bgColor: '#2d2c2c',
@@ -131,6 +193,12 @@ export const monokai = {
     shadow: '0 .15em .23em 0 rgba(0, 0, 0, 0.5)',
     image: 'linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15))',
   },
+  tickets: {
+    placeholderColor: 'rgba(163, 168, 174, 0.9)',
+    searchColor: 'rgba(163, 168, 174, 0.5)',
+    searchMastchesListBgColor: 'rgba(100, 100, 100, 1)',
+    searchMastchesListColor: 'white',
+  },
 };
 export const light = {
   app: {
@@ -138,6 +206,11 @@ export const light = {
     color: '#9b9b9b',
     border: '1px solid rgba(163,168,174,0.2)',
     padding: '5px',
+    switchPanelIconColor: 'rgba(110, 110, 110, 0.4)',
+    scrollThumbInactiveBgColor: 'rgba(100, 100, 100, 0.1)',
+    scrollThumbBgColor: 'rgba(100, 100, 100, 0.2)',
+    scrollTrackShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.1)',
+    // scroll props below are possibly not used
     scrollThumb: '#bebebe',
     scrollThumbInactive: 'transparent',
     scrollTrack: 'transparent',
@@ -153,14 +226,38 @@ export const light = {
     bgColor: '#f5f5f5',
     color: '#979797',
     border: '1px solid rgba(163,168,174,0.2)',
-    hoverColor: '#d7d7d7',
+    hoverColor: '#000',
     selected: '#ececec',
+    placeholderColor: '#000',
   },
   home: {
-    color: '#979797',
-    titleColor: '#cecbcb',
+    color: '#b3b3b3',
+    titleColor: '#b3b3b3',
     svgColor: 'rgba(163, 168, 174, 0.8)',
     tryButtonHoverColor: 'rgba(100, 100, 100, 0.6)',
+  },
+  settings: {
+    panelBgColor: 'rgba(183, 181, 181, 0.2)',
+  },
+  discover: {
+    panelBgColor: 'rgba(183, 181, 181, 0.2)',
+    axis: '#000',
+    helpBgColor: 'rgba(205, 201, 201, 1)',
+    helpColor: 'rgba(100,100,100,1)',
+    tooltipColor: '#000',
+  },
+  charts: {
+    axis: '#b3b3b3',
+  },
+  tables: {
+    color: '#000',
+    colorEven: '#000',
+    bgColorEven: 'rgba(163,168,174,0.2)',
+    bgColor: 'rgba(163,168,174,0.1)',
+    highlightBgColor: 'rgba(226, 192, 141, .25)',
+  },
+  tooltips: {
+    bgColor: 'rgba(29, 29, 29, 0.2)',
   },
   blog: {
     bgColor: '#f5f5f5',
@@ -197,6 +294,12 @@ export const light = {
     shadow: 'none',
     textShadow: 'none',
     image: 'none',
+  },
+  tickets: {
+    placeholderColor: '#000',
+    searchColor: 'rgba(163, 168, 174, 0.8)',
+    searchMastchesListBgColor: 'rgba(163,168,174,0.1)',
+    searchMastchesListColor: '#000',
   },
 };
 

@@ -1,18 +1,32 @@
-/**
- * The global state selectors
- */
 import { createSelector } from 'reselect';
 
-const selectGlobal = () => (state) => state.get('global');
+/**
+ * Direct selector to the ticketPayments state domain
+ */
+const selectTickets = () => (state) => state.tickets;
+const selectTicket = () => (state) => state.ticket;
 
-const selectResources = () =>
-  createSelector(selectGlobal(), (globalState) =>
-    globalState.get('resources').toJSON()
-  );
 
-const selectResource = () =>
-  createSelector(selectGlobal(), (globalState) =>
-    globalState.getIn(['app', 'resource'])
-  );
+/**
+ * Other specific selectors
+ */
 
-export { selectResources, selectResource };
+/**
+ * Default selector used by TicketPayments
+ */
+
+const makeSelectTicketItems = () =>
+  createSelector(selectTickets(), (substate) =>
+    substate.items);
+
+const makeSelectTicketID = () =>
+  createSelector(selectTicket(), (substate) =>
+    substate.id);
+
+
+export default selectTickets;
+export {
+  selectTickets,
+  makeSelectTicketItems,
+  makeSelectTicketID,
+};

@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Octicon from 'react-octicon';
 import { Link } from 'react-router';
-
+import { TICKET_SAVE_STATE, TICKET_SOLD_STATE, TICKET_RETURN_STATE } from 'ui/constants';
 export const Container = styled.div`
   display: flex;
   background-color: ${(props) =>
@@ -42,6 +42,13 @@ export const Container = styled.div`
 export const MenuGroup = styled.ul`
   list-style: none;
   padding: 0;
+  height: ${(props) => props.static ? '88px' : 'calc(100% - 110px)'};
+  overflow: hidden;
+`;
+
+export const MenuTicketListContainer = styled.div`
+  height: calc(100% - 24px);
+  overflow: auto;
 `;
 
 const Footer = styled.div`
@@ -66,7 +73,7 @@ const EM = styled.em`
   margin-left: 10px;
   font-style: normal;
 `;
-const FooterContent = styled(Link) `
+const FooterContent = styled(Link)`
   display: table-cell;
   vertical-align: middle;
   cursor: pointer;
@@ -91,7 +98,7 @@ export function MenuFooter(props) {
   return (
     <Footer>
       <FooterContent to={props.to}>
-        <Octicon name={props.icon} /> <EM>{props.title}</EM>
+        <Octicon name={props.icon} /> <EM>{props.children}</EM>
       </FooterContent>
     </Footer>
   );
@@ -123,33 +130,61 @@ const SearchInput = styled.input`
 
   &::-webkit-input-placeholder {
     /* WebKit, Blink, Edge */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.sidebar.placeholderColor
+  ? props.theme.sidebar.placeholderColor : 'rgba(163, 168, 174, 0.3)'}
   }
   &:-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.sidebar.placeholderColor
+  ? props.theme.sidebar.placeholderColor : 'rgba(163, 168, 174, 0.3)'}
     opacity: 1;
   }
   &::-moz-placeholder {
     /* Mozilla Firefox 19+ */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.sidebar.placeholderColor
+  ? props.theme.sidebar.placeholderColor : 'rgba(163, 168, 174, 0.3)'}
     opacity: 1;
   }
   &:-ms-input-placeholder {
     /* Internet Explorer 10-11 */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.sidebar.placeholderColor
+  ? props.theme.sidebar.placeholderColor : 'rgba(163, 168, 174, 0.3)'}
   }
   &::-ms-input-placeholder {
     /* Microsoft Edge */
-    color: rgba(163, 168, 174, 0.9);
+    color: ${(props) => props.theme && props.theme.sidebar.placeholderColor
+  ? props.theme.sidebar.placeholderColor : 'rgba(163, 168, 174, 0.3)'}
   }
 `;
 
 export function Search(props) {
+  const stopPropagation = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
+  };
   return (
     <SearchContainer>
       <Octicon name="search" />
-      <SearchInput type="text" placeholder="Search Tickets" />
+      <SearchInput
+        type="text"
+        placeholder="Search Tickets"
+        onKeyDown={(event) => {
+          const { target, key } = event;
+          switch (key) {
+            case 'Enter':
+              props.onChange
+                ? props.onChange(target.value)
+                : null;
+              return stopPropagation(event);
+
+            case 'Escape':
+              return stopPropagation(event);
+            default:
+          }
+          return true;
+        }}
+      />
     </SearchContainer>
   );
 }
@@ -157,7 +192,7 @@ export function Search(props) {
 
 export function MenuSearch(props) {
   return (
-    <Search />
+    <Search onChange={(value) => props.onChange ? props.onChange(...value.split(' ').map((v) => v.trim())) : null} />
   );
 }
 
@@ -175,7 +210,7 @@ export const Menu = styled.div`
   flex: 1;
   width: 100%;
   height: calc(100% - 70px);
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 `;
 
@@ -192,6 +227,8 @@ const route = `
   border-left: 5px solid #73c990;
   background-color: rgba(163, 168, 174, 0.1);
 `;
+
+const selected = (isSelected, color) => isSelected ? color : 'inherit';
 
 const Item = styled.li`
   color: ${(props) =>
@@ -216,6 +253,9 @@ const P = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: ${(props) => props.noroute ? '0' : '4px'};
+  padding-bottom: ${(props) => props.noroute ? '4px' : '0'};
+  color: ${(props) => selected(props.selected, props.theme.sidebar.hoverColor)};
 `;
 const actived = (props) => `
     color: ${props.theme && props.theme.sidebar.hoverColor
@@ -227,7 +267,7 @@ const notActived = (props) => `
     ? props.theme.sidebar.color
     : 'rgba(163, 168, 174, 0.5)'};
 `;
-const Route = styled(Link) `
+const Route = styled(Link)`
   transition: color .5s ease-in-out;
   text-decoration:none;
   ${(props) => (props.actived ? actived(props) : notActived(props))};
@@ -240,6 +280,38 @@ const Route = styled(Link) `
       : 'rgba(163, 168, 174, 0.8)'};
   }
 `;
+
+const TicketStateSpan = styled.span`
+  display: inline-block;
+  border-radius: 50%;
+  width: .5em;
+  height: .5em;
+  margin-left: 8px;
+  margin-bottom: 1px;
+`;
+// const TicketSaveStateSpan = styled(TicketStateSpan) `
+//   background-color: rgba(163, 168, 174, 0.6);
+// `;
+const TicketSaveStateSpan = styled(TicketStateSpan)`
+  background-color: rgba(115, 201, 144, 1);
+`;
+const TicketSoldStateSpan = styled(TicketStateSpan)`
+  background-color: rgba(100, 148, 237, 1);
+`;
+const TicketReturnStateSpan = styled(TicketStateSpan)`
+  background-color: rgba(226, 192, 141, 1);
+`;
+const getTicketState = (state) => {
+  if (state === TICKET_SAVE_STATE) {
+    return (<TicketSaveStateSpan title={'saved'} />);
+  }
+  if (state === TICKET_SOLD_STATE) {
+    return (<TicketSoldStateSpan title={'sold'} />);
+  }
+  if (state === TICKET_RETURN_STATE) {
+    return (<TicketReturnStateSpan title={'return'} />);
+  }
+};
 export function MenuItem(props) {
   return (
     <Item
@@ -247,25 +319,29 @@ export function MenuItem(props) {
       cursor={props.cursor}
       highlight={props.highlight}
       actived={props.actived}
+      onClick={(event) => props.onClick ? props.onClick(event) : null}
     >
       {props.to
         ? <Route to={props.to} actived={props.actived}>
-          <P>
-            {props.title.toUpperCase()}
+          <P selected={props.selected}>
+            {props.children}
+            {!!props.state && getTicketState(props.state)}
           </P>
         </Route>
-        : <P>
-          {props.title.toUpperCase()}
+        : <P selected={props.selected} noroute={props.noroute}>
+          {props.children}
+          {!!props.state && getTicketState(props.state)}
         </P>}
     </Item>
   );
 }
 
 MenuItem.propTypes = {
-  title: React.PropTypes.string.isRequired,
   small: React.PropTypes.bool,
   highlight: React.PropTypes.bool,
   cursor: React.PropTypes.bool,
   actived: React.PropTypes.bool,
+  selected: React.PropTypes.bool,
   to: React.PropTypes.string,
+  onClick: React.PropTypes.func,
 };

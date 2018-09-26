@@ -36,7 +36,8 @@ top: 4px;
 left: ${(props) => (props.expanded ? '6' : '3')}px;
 cursor: pointer;
 z-index: 99;
-color: rgba(255, 255, 255, 0.4);
+color: ${(props) =>
+  props.theme && props.theme.app.switchPanelIconColor ? props.theme.app.switchPanelIconColor : 'rgba(255, 255, 255, 0.4)'};
 &:before {
   transform: translate(8px, 8px);
   content: ${(props) => (props.expanded ? '"\\F078"' : '"\\F0A4"')};

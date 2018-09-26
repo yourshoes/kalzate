@@ -4,5 +4,6 @@ npm-debug.log
 .npmrc
 coverage
 dist
+release
 build
 .nyc_output
