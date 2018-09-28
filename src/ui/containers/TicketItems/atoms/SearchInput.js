@@ -10,7 +10,8 @@ export const SearchInput = styled.input`
   outline: none;
   font-size: 1.2em;
   margin-left: 5px;
-  width: 150px;
+  width: 100%;
+  max-width: 150px;
   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
     Cantarell, Arial, sans-serif;
   font-weight: 100;
