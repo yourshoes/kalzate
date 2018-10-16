@@ -19,12 +19,22 @@ import TicketDiscountField from './TicketDiscountField';
 import TicketVatField from './TicketVatField';
 import messages from '../messages';
 
+const section50StylesLeftCont = `
+@media (max-width: 1080px) {
+  width: 35%;
+}`;
+
+const section50StylesRightCont = `
+@media (max-width: 1080px) {
+  width: 65%;
+}`;
+
 export class TicketFooter extends React.Component {
 
   render() {
     return (
       <TicketSectionContainer>
-        <Section50>
+        <Section50 includeStyles={section50StylesLeftCont}>
           <SectionLeft>
             <TicketVatField
               tax={this.props.ticket.tax}
@@ -38,7 +48,7 @@ export class TicketFooter extends React.Component {
             />
           </SectionLeft>
         </Section50>
-        <Section50>
+        <Section50 includeStyles={section50StylesRightCont}>
           <SectionRight>
             <Button inactive={isEmpty(this.props.ticket.items)} icon="cloud-download" title={<FormattedMessage {...messages.saveTicket} />} onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SAVE_STATE })} />
             <Button inactive={isEmpty(this.props.ticket.items)} icon="trashcan" title={<FormattedMessage {...messages.newTicket} />} onClick={() => this.props.removeTicket()} />
