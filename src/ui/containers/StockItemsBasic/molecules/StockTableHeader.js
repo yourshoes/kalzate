@@ -19,6 +19,8 @@ const isRealNumeric = function (input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
 };
 
+const requiredFields = ['reference', 'price', 'amount'];
+
 export class StockTableHeader extends React.Component {
   constructor() {
     super();
@@ -90,13 +92,12 @@ export class StockTableHeader extends React.Component {
     );
   }
   validateStockForm(fieldsValue) {
-    const unValid = !this.requiredFields(fieldsValue)
+    const unValid = !this.requiredFields(fieldsValue);
     this.setState({unValid});
     return !unValid;
   }
   requiredFields(fieldsValue) {
-    const { reference, price, amount } = fieldsValue;
-    return reference && price && amount;
+    return requiredFields.every((field) => fieldsValue[field]);
   }
 
   render() {
@@ -127,7 +128,7 @@ export class StockTableHeader extends React.Component {
         )}
         <StockTableHeaderContainer content unValid={this.state.unValid}>
           <InteractiveStockField
-            required
+            required={ requiredFields.indexOf('reference') !== -1 }
             placeholder={this.props.intl.formatMessage(messages.reference)}
             value={this.state.reference}
             onChange={(reference) =>
@@ -172,7 +173,7 @@ export class StockTableHeader extends React.Component {
             size="30"
           />
           <StockField
-            required
+            required={ requiredFields.indexOf('price') !== -1 }
             placeholder={this.props.intl.formatMessage(messages.price)}
             value={this.state.price}
             onChange={(price) =>
@@ -184,7 +185,7 @@ export class StockTableHeader extends React.Component {
             }
           />
           <StockField
-            required
+            required={ requiredFields.indexOf('amount') !== -1 }
             placeholder={this.props.intl.formatMessage(messages.amount)}
             value={this.state.amount}
             onChange={(amount) =>
