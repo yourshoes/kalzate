@@ -19,10 +19,13 @@ const isRealNumeric = function (input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
 };
 
+const requiredFields = ['reference', 'price', 'amount'];
+
 export class StockTableHeader extends React.Component {
   constructor() {
     super();
     this.state = {
+      unValid: false,
       reference: '',
       brand: '',
       desc: '',
@@ -31,6 +34,8 @@ export class StockTableHeader extends React.Component {
       matchIndex: 0,
       matchesVisible: false,
     };
+    this.validateStockForm = this.validateStockForm.bind(this);
+    this.requiredFields = this.requiredFields.bind(this);
   }
   // @todo optimize by moving regex outside function to reuse
   search() {
@@ -86,8 +91,23 @@ export class StockTableHeader extends React.Component {
       )
     );
   }
+  validateStockForm(fieldsValue) {
+    const unValid = !this.requiredFields(fieldsValue);
+    this.setState({unValid});
+    return !unValid;
+  }
+  requiredFields(fieldsValue) {
+    return requiredFields.every((field) => fieldsValue[field]);
+  }
 
   render() {
+    const fieldsValue = {
+      reference: this.state.reference,
+      brand: this.state.brand,
+      price: parseFloat(this.state.price),
+      amount: this.state.amount,
+      desc: this.state.desc,
+    };
     return (
       <section>
         {this.shouldDisplayMatches() && (
@@ -106,8 +126,9 @@ export class StockTableHeader extends React.Component {
             </MatchesList>
           </MatchesListContainer>
         )}
-        <StockTableHeaderContainer content>
+        <StockTableHeaderContainer content unValid={this.state.unValid}>
           <InteractiveStockField
+            required={ requiredFields.indexOf('reference') !== -1 }
             placeholder={this.props.intl.formatMessage(messages.reference)}
             value={this.state.reference}
             onChange={(reference) =>
@@ -152,6 +173,7 @@ export class StockTableHeader extends React.Component {
             size="30"
           />
           <StockField
+            required={ requiredFields.indexOf('price') !== -1 }
             placeholder={this.props.intl.formatMessage(messages.price)}
             value={this.state.price}
             onChange={(price) =>
@@ -163,6 +185,7 @@ export class StockTableHeader extends React.Component {
             }
           />
           <StockField
+            required={ requiredFields.indexOf('amount') !== -1 }
             placeholder={this.props.intl.formatMessage(messages.amount)}
             value={this.state.amount}
             onChange={(amount) =>
@@ -177,14 +200,8 @@ export class StockTableHeader extends React.Component {
           <StockButton
             primary
             icon="plus"
-            onClick={() =>
-              this.props.createStock({
-                reference: this.state.reference,
-                brand: this.state.brand,
-                price: parseFloat(this.state.price),
-                amount: this.state.amount,
-                desc: this.state.desc,
-              })
+            onClick={() => this.validateStockForm(fieldsValue) &&
+              this.props.createStock(fieldsValue)
             }
           />
           <StockButton
