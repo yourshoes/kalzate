@@ -91,25 +91,37 @@ function setTicketGivenAmount(state, action) {
 
 function updateGivenAmount(state, totalAmount) {
   if (state.state === TICKET_SOLD_STATE) {
-    return state.givenAmount;
+    return '0.00';
   }
   return state.method !== PAYMENT_METHOD_CASH ? totalAmount : parseFloat(state.givenAmount);
+}
+
+function updateReturnAmount(state, givenAmount, totalAmount) {
+  // const returnAmount = (Math.abs(givenAmount) - Math.abs(totalAmount)).toFixed(2);
+  const returnAmount = (givenAmount - totalAmount).toFixed(2);
+  if (state.state === TICKET_SOLD_STATE) {
+    return returnAmount;
+  }
+  return givenAmount > 0 ? returnAmount : '0.00';
 }
 
 function updateTicketTotal(state) {
   if (state.items.length <= 0) {
     return { ...state, totalAmount: '0.00', givenAmount: '0.00', returnAmount: '0.00', method: null };
   }
-  const subtotal = state.items.map((item) => (item.amount * item.price) - (item.discount || 0));
-  const subtotalTaxesFree = subtotal.reduce((a, b) => a + b, 0);
+  const subtotalToAdd = state.items.filter((item) => item.added).map((item) => (item.amount * item.price) - (item.discount || 0)).reduce((a, b) => a + b, 0);
+  const subtotalToReturn = state.items.filter((item) => item.toReturn).map((item) => (item.amount_return * item.price) - (item.discount || 0)).reduce((a, b) => a + b, 0);
+  console.log(state, subtotalToAdd, subtotalToReturn)
+  const subtotalTaxesFree = subtotalToAdd - subtotalToReturn;
   const subtotalWithDiscount = state.discount ? subtotalTaxesFree - (subtotalTaxesFree * state.discount) : subtotalTaxesFree;
   const subtotalWithTaxes = state.tax ? subtotalWithDiscount + (subtotalWithDiscount * state.tax) : subtotalWithDiscount;
   const totalAmount = subtotalWithTaxes.toFixed(2);
   const givenAmount = updateGivenAmount(state, totalAmount);
-  const returnAmount = (Math.abs(givenAmount) - Math.abs(totalAmount)).toFixed(2);
+  const returnAmount = updateReturnAmount(state, givenAmount, totalAmount);
   // console.log('total is', subtotalTaxesFree, subtotalWithDiscount, subtotalWithTaxes, totalAmount);
-  return { ...state, totalAmount, givenAmount, returnAmount: givenAmount > 0 ? returnAmount : '0.00' };
+  return { ...state, totalAmount, givenAmount, returnAmount };
 }
+
 
 function updateTicketData(state, action) {
   return { ...state, items: state.items.map((item) => item.reference === action.item.reference ? ({ ...item, ...action.data }) : item) };
@@ -134,7 +146,7 @@ function addStockToTicket(state, action) {
     return { ...state, items };
   }
   return {
-    ...state, items: state.state === TICKET_SOLD_STATE ? state.items.concat([{ ...action.item, amount: 1, added: true }]) : state.items.concat([{ ...action.item, amount: 1 }]),
+    ...state, items: state.state === TICKET_SOLD_STATE ? state.items.concat([{ ...action.item, amount: 1, added: true }]) : state.items.concat([{ ...action.item, amount: 1, added: true }]),
   };
 }
 
@@ -149,7 +161,7 @@ function removeStockFromTicket(state, action) {
 }
 
 function returnStockFromTicket(state, action) {
-  const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount_return: item.amount, amount: 0 }) : item);
+  const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount_return: item.amount, amount: 0, toReturn: true }) : ({...item, added: true}));
   return {
     ...state,
     items,
@@ -157,7 +169,7 @@ function returnStockFromTicket(state, action) {
 }
 
 function undoReturnStockFromTicket(state, action) {
-  const items = state.items.map((item) => item.reference === action.item.reference ? (omit({ ...item, amount: item.amount_return }, 'amount_return')) : item);
+  const items = state.items.map((item) => item.reference === action.item.reference ? (omit({ ...item, amount: item.amount_return }, ['amount_return', 'toReturn'])) : omit(item, 'added'));
   return {
     ...state,
     items,

@@ -33,6 +33,7 @@ export class InteractiveStockField extends React.Component {
         <FloatLabel>
           {!this.props.readonly && (
             <StockInput
+              required={this.props.required}
               type="text"
               placeholder={this.props.placeholder}
               onChange={({ target }) =>
