@@ -16,6 +16,7 @@ import {
   makeSelectStockLimit,
   makeSelectStockOffset,
   makeSelectStockCount,
+  makeSelectStockLoading,
   makeSelectStockSearch,
   makeSelectStockTmpData,
   makeSelectStockReferenceMatches,
@@ -34,13 +35,18 @@ import Container from './atoms/Container';
 import StockTableHeader from './molecules/StockTableHeader';
 import StockTableBody from './molecules/StockTableBody';
 import StockPagination from './molecules/StockPagination';
+import {SpinnerContainer} from "./atoms/SpinnerContainer";
 
-export function StockItemsPage(props) {
+export function StockItemsPage({loading, ...props}) {
   return (
     <Container>
-      <StockTableHeader {...props} />
-      <StockTableBody {...props} />
-      <StockPagination {...props} />
+      {loading ? <SpinnerContainer/>
+        :
+        <div>
+          <StockTableHeader {...props} />
+          <StockTableBody {...props} />
+          <StockPagination {...props} />
+        </div>}
     </Container>
   );
 }
@@ -66,6 +72,7 @@ const mapStateToProps = createStructuredSelector({
   limit: makeSelectStockLimit(),
   skip: makeSelectStockOffset(),
   total: makeSelectStockCount(),
+  loading: makeSelectStockLoading(),
   search: makeSelectStockSearch(),
   matches: makeSelectStockReferenceMatches(),
   tmp: makeSelectStockTmpData(),

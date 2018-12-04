@@ -46,10 +46,14 @@ const loadStoreFromDatabase = (store) =>
   new Promise(async (resolve) => {
     // Get initialState({settings, tickets, stock, ticket, insights})
     db = await kalzateDB(DB_OPTIONS, DEFAULT_SCHEMA_TYPE);
+    const currentState = store.getState();
     const state = {
       settings: merge({}, DEFAULT_SETTINGS, await db.settings.init()),
       tickets: await db.tickets.query(db.tickets.queries.dailyTickets(DEFAULT_TICKET_ITEMS_LIMIT, 0)),
-      stock: await db.stock.get({ limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0 }),
+      stock: {
+        ...await db.stock.get({limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0}),
+        loading: currentState.stock.loading,
+      },
       charts: await db.charts.init(),
     };
 
@@ -61,8 +65,6 @@ const loadStoreFromDatabase = (store) =>
     state.language = {
       locale: state.settings.lang || DEFAULT_LOCALE,
     };
-
-    const currentState = store.getState();
     resolve({ ...currentState, ...state });
   });
 

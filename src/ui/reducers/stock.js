@@ -14,6 +14,7 @@ import { DEFAULT_STOCK_ITEMS_LIMIT } from 'ui/constants';
 import {
   REFRESH_STOCK_SUCCESS_ACTION,
   UPDATE_STOCK_SUCCESS_ACTION,
+  START_STOCK_CHANGE_ACTION,
 } from 'ui/containers/StockItems/constants';
 
 // The initial state of the App
@@ -22,6 +23,7 @@ const initialState = {
   total: 0,
   limit: DEFAULT_STOCK_ITEMS_LIMIT,
   skip: 0,
+  loading: false,
 };
 
 function updateStock(state, action) {
@@ -35,11 +37,13 @@ function updateStock(state, action) {
 }
 
 function refreshStock(state, action) {
-  return action.stock;
+  return { ...action.stock, loading: false };
 }
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case START_STOCK_CHANGE_ACTION:
+      return {...state, loading: true};
     case UPDATE_STOCK_SUCCESS_ACTION:
       return updateStock(state, action);
     case REFRESH_STOCK_SUCCESS_ACTION:

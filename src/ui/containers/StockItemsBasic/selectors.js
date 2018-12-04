@@ -26,6 +26,9 @@ const makeSelectStockOffset = () =>
 const makeSelectStockCount = () =>
   createSelector(selectStockItemsDomain(), (substate) => substate.total);
 
+const makeSelectStockLoading = () =>
+  createSelector(selectStockItemsDomain(), (substate) => substate.loading);
+
 const makeSelectSearch = () =>
   createSelector(selectTmpData(), (substate) => substate.search);
 
@@ -63,6 +66,7 @@ export {
   makeSelectStockLimit,
   makeSelectStockOffset,
   makeSelectStockCount,
+  makeSelectStockLoading,
   makeSelectStockSearch,
   makeSelectStockTmpData,
   makeSelectStockModalOptions,
