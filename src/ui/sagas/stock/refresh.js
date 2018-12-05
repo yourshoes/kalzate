@@ -6,12 +6,14 @@ import {
   REFRESH_STOCK_ERROR_ACTION,
   REFRESH_STOCK_SUCCESS_ACTION,
 } from 'ui/containers/StockItems/constants';
+import { DEFAULT_STOCK_ITEMS_LIMIT } from 'ui/constants';
+
 
 function* refreshStock(action) {
   try {
     const { limit, skip, search: match } = action;
     const stock = yield call((...args) => Stock().get(...args), {
-      limit,
+      limit: limit || DEFAULT_STOCK_ITEMS_LIMIT,
       skip,
       match,
     });
