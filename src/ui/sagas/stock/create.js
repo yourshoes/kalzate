@@ -4,6 +4,7 @@ import { Stock } from 'ui/db';
 import {
   CREATE_STOCK_ACTION,
   CREATE_STOCK_ERROR_ACTION,
+  START_STOCK_CHANGE_ACTION,
   // CREATE_STOCK_SUCCESS_ACTION,
   REFRESH_STOCK_ACTION,
 } from 'ui/containers/StockItems/constants';
@@ -12,6 +13,7 @@ import { DEFAULT_STOCK_ITEMS_LIMIT } from 'ui/constants';
 function* createStock(action) {
   try {
     const { stock: stockItem, options } = action;
+    yield put({type: START_STOCK_CHANGE_ACTION});
     yield call((...args) => Stock().create(...args), stockItem, options);
     // yield put({ type: CREATE_STOCK_SUCCESS_ACTION, stock: stockItem });
     // @todo print notification if batch mode
