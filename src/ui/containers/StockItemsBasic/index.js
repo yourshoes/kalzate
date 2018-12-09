@@ -37,16 +37,15 @@ import StockTableBody from './molecules/StockTableBody';
 import StockPagination from './molecules/StockPagination';
 import {SpinnerContainer} from "./atoms/SpinnerContainer";
 
+
 export function StockItemsPage({loading, ...props}) {
+  // @odo: use Fragment to group !loading options
   return (
     <Container>
-      {loading ? <SpinnerContainer/>
-        :
-        <div>
-          <StockTableHeader {...props} />
-          <StockTableBody {...props} />
-          <StockPagination {...props} />
-        </div>}
+      {loading && <SpinnerContainer/>}
+      {!loading && <StockTableHeader {...props} />}
+      {!loading && <StockTableBody {...props} />}
+      {!loading && <StockPagination {...props} />}
     </Container>
   );
 }
