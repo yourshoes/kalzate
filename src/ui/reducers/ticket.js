@@ -145,9 +145,15 @@ function addStockToTicket(state, action) {
     const items = state.items.map((item) => item.reference === action.item.reference ? ({ ...item, amount: item.amount + 1 }) : item);
     return { ...state, items };
   }
-  return {
-    ...state, items: state.state === TICKET_SOLD_STATE ? state.items.concat([{ ...action.item, amount: 1, added: true }]) : state.items.concat([{ ...action.item, amount: 1, added: true }]),
-  };
+
+  return {...state, items: state.items.concat([{ ...action.item, amount: 1, added: true }])};
+  // if(state.state === TICKET_SOLD_STATE){
+  //   return {...state, items: state.items.concat([{ ...action.item, amount: 1, added: true }])}
+  // }
+
+  // return {
+  //   ...state, items:state.items.concat([{ ...action.item, amount: 1 }]),
+  // };
 }
 
 function removeStockFromTicket(state, action) {
