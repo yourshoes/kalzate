@@ -103,6 +103,7 @@
   "kz.containers.TicketSoldItems.table.subtotal": "Subtotal",
   "kz.containers.TicketSoldItems.table.price": "Precio",
   "kz.containers.TicketSoldItems.table.amount": "Cantidad",
+  "kz.containers.TicketSoldItems.table.return": "Devolver",
   "kz.containers.TicketSoldItems.search": "Código Ticket",
   "kz.containers.TicketReturnItems.notFound": "Ticket vacío",
   "kz.containers.TicketReturnItems.notFoundHelp": "Este ticket ha sido eliminado del sistema",

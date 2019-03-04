@@ -62,4 +62,8 @@ export default defineMessages({
     id: 'kz.containers.TicketSoldItems.table.amount',
     defaultMessage: 'Amount',
   },
+  return: {
+    id: 'kz.containers.TicketSoldItems.table.return',
+    defaultMessage: 'Return',
+  },
 });

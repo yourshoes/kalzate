@@ -23,6 +23,7 @@ import {
   returnStockFromTicket,
   undoReturnStockFromTicket,
   returnAllStockFromTicket,
+  removeTicket,
   closeTicket,
   getMatches,
   loadTicket,
@@ -68,11 +69,12 @@ function mapDispatchToProps(dispatch) {
     updateTicketDiscount: (discount) => dispatch(updateTicketDiscount(discount)),
     removeStockFromTicket: (item, positioninList) =>
       dispatch(removeStockFromTicket(item, positioninList)),
-    returnStockFromTicket: (item, positioninList) =>
-      dispatch(returnStockFromTicket(item, positioninList)),
+    returnStockFromTicket: (item, positioninList, value) =>
+      dispatch(returnStockFromTicket(item, positioninList, value)),
     undoReturnStockFromTicket: (item, positioninList) =>
       dispatch(undoReturnStockFromTicket(item, positioninList)),
-    removeTicket: () => dispatch(returnAllStockFromTicket()),
+    returnAllStockFromTicket: () => dispatch(returnAllStockFromTicket()),
+    removeTicket: () => dispatch(removeTicket()),
     getMatches: (field, value) => dispatch(getMatches(field, value)),
     loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
     closeTicket: (ticket, state) => dispatch(closeTicket(ticket, state)),

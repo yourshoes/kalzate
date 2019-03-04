@@ -62,12 +62,13 @@ export function removeStockFromTicket(item, positionInList) {
     positionInList,
   };
 }
-export function returnStockFromTicket(item, positionInList) {
+export function returnStockFromTicket(item, positionInList, value) {
   return {
     type: UPDATE_TICKET_ACTION,
     put: RETURN_STOCK_FROM_TICKET_ACTION,
     item,
     positionInList,
+    value,
   };
 }
 

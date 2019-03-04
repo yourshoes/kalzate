@@ -188,9 +188,19 @@ function removeStockFromTicket(state, action) {
 }
 
 function returnStockFromTicket(state, action) {
+  const getAmountToReturn = (item) => {
+    let amountToReturn = action.value;
+    if (action.value < 0) amountToReturn = 0;
+    if (action.value > item.amount) amountToReturn = item.amount;
+    return amountToReturn;
+  };
   const items = state.items.map((item) =>
     item.reference === action.item.reference
-      ? { ...item, amount_return: item.amount, amount: -item.amount, toReturn: true }
+      ? {
+          ...item,
+          amount_return: getAmountToReturn(item),
+          toReturn: true,
+        }
       : { ...item, added: true }
   );
   return {
@@ -201,9 +211,7 @@ function returnStockFromTicket(state, action) {
 
 function returnAllStockFromTicket(state) {
   const items = state.items.map((item) =>
-    !item.toReturn && !item.added
-      ? { ...item, amount_return: item.amount, amount: -item.amount, toReturn: true }
-      : item
+    !item.toReturn && !item.added ? { ...item, amount_return: item.amount, toReturn: true } : item
   );
   return {
     ...state,
