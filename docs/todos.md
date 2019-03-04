@@ -1,0 +1,1 @@
+* packages `db` cannot use absolute imports when importing it from `app` package. Reason is app will try to look for absolute imports in db taken as root the app folder insted the db folder

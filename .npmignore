@@ -1,9 +1,0 @@
-node_modules
-npm-debug.log
-.gitconfig
-.npmrc
-coverage
-dist
-release
-build
-.nyc_output
