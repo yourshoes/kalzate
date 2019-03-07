@@ -202,7 +202,6 @@ class Charts {
         this.stock.queries.topEmptyStock()
       );
 
-      console.log(topSoldStockItems, topNotSoldStockItems, topEmptyStockItems);
       if (!size(topSoldStockItems) && !size(topNotSoldStockItems) && !size(topEmptyStockItems))
         return [];
       return zipWith(

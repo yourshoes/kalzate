@@ -50,13 +50,16 @@ class Tickets {
       limit,
       skip,
     }),
-    weeklyTickets: (limit = Number.MAX_SAFE_INTEGER, skip) => {
+    weeklyTickets: (limit = -1, skip = 0) => {
       const today = new Date();
       today.setDate(today.getDate() - today.getDay());
       return {
         match: {
           created_at: {
             $gte: today.setHours(0, 0, 0, 0),
+          },
+          state: {
+            $eq: 'TICKET_SOLD_STATE',
           },
         },
         sort: 'created_at',

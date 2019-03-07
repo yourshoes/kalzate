@@ -11,12 +11,8 @@ function* loadChartDataSaga(action = {}) {
 
     if (!Charts()) return;
 
-    const chartData = yield ((!chart) ? call(
-      () => Charts().init()
-    ) : call(
-      () => Charts()[chart]()
-    ));
-
+    const chartData = yield !chart ? call(() => Charts().init()) : call(() => Charts()[chart]());
+    console.log('char data', chartData);
     yield put({
       type: LOAD_CHART_DATA_SUCCESS_ACTION,
       // data: [
