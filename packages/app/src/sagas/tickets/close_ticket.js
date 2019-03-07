@@ -6,7 +6,7 @@ import {
   CLOSE_TICKET_ERROR_ACTION,
   REMOVE_TICKET_ACTION,
   PRINT_TICKET_ACTION,
-} from 'containers/TicketItems/constants';
+} from 'containers/TicketSellingPage/constants';
 import { TICKET_SAVE_STATE, TICKET_SOLD_STATE, TICKET_RETURN_STATE } from 'config';
 import { REFRESH_STOCK_ACTION } from 'containers/StockItems/constants';
 import { compileTicket } from 'utils/ticket';
@@ -14,7 +14,7 @@ import { compileTicket } from 'utils/ticket';
 function* closeTicket(action) {
   try {
     const { ticket, options } = action;
-    const { state, relatesTo, asVoucher, asGift } = options;
+    const { state, asVoucher, asGift } = options;
     const finalTicket = { created_at: new Date().getTime(), ...ticket, state };
     let response = {};
     console.log(finalTicket);
@@ -57,7 +57,6 @@ function* closeTicket(action) {
       case TICKET_RETURN_STATE:
         response = yield call((...args) => Tickets().sellBack(...args), {
           ...finalTicket,
-          relatesTo,
           printed: compileTicket(options.settings, { ...finalTicket, asVoucher }),
         });
         yield put({

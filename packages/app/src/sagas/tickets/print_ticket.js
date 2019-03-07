@@ -3,7 +3,7 @@ import {
   PRINT_TICKET_ACTION,
   PRINT_TICKET_SUCCESS_ACTION,
   PRINT_TICKET_ERROR_ACTION,
-} from 'containers/TicketItems/constants';
+} from 'containers/TicketSellingPage/constants';
 
 function* printTicket(action) {
   try {

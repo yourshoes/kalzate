@@ -27,12 +27,12 @@ import {
   UPDATE_TICKET_SUCCESS_ACTION,
   UPDATE_TICKET_TAX_ACTION,
   UPDATE_TICKET_DISCOUNT_ACTION,
-} from 'containers/TicketItems/constants';
+} from 'containers/TicketSellingPage/constants';
 import {
   RETURN_STOCK_FROM_TICKET_ACTION,
   UNDO_RETURN_STOCK_FROM_TICKET_ACTION,
   RETURN_ALL_STOCK_FROM_TICKET_ACTION,
-} from 'containers/TicketSoldItems/constants';
+} from 'containers/TicketReturningPage/constants';
 import { PAYMENT_METHOD_CREDIT_CARD, PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'config';
 import { toFixed } from 'utils/helper';
 // The initial state of the App
@@ -46,7 +46,6 @@ const initialState = {
   currency: '€',
   state: null, // sold, saved, refunded,
   items: [],
-  relatesTo: '',
 };
 
 function increaseTicketGivenAmount(state, action) {
@@ -89,7 +88,7 @@ function setTicketGivenAmount(state, action) {
 }
 
 function updateGivenAmount(state, totalAmount) {
-  if (state.state === TICKET_SOLD_STATE) {
+  if (state.state === TICKET_SOLD_STATE || totalAmount < 0) {
     return '0.00';
   }
   return state.method !== PAYMENT_METHOD_CASH ? totalAmount : parseFloat(state.givenAmount);
@@ -98,7 +97,7 @@ function updateGivenAmount(state, totalAmount) {
 function updateReturnAmount(state, givenAmount, totalAmount) {
   // const returnAmount = (Math.abs(givenAmount) - Math.abs(totalAmount)).toFixed(2);
   const returnAmount = (givenAmount - totalAmount).toFixed(2);
-  if (state.state === TICKET_SOLD_STATE) {
+  if (state.state === TICKET_SOLD_STATE || totalAmount < 0) {
     return returnAmount;
   }
   return givenAmount > 0 ? returnAmount : '0.00';
@@ -133,6 +132,7 @@ function updateTicketTotal(state) {
   const totalAmount = subtotalWithTaxes.toFixed(2);
   const givenAmount = updateGivenAmount(state, totalAmount);
   const returnAmount = updateReturnAmount(state, givenAmount, totalAmount);
+  console.log(totalAmount, givenAmount, returnAmount);
   // console.log('total is', subtotalTaxesFree, subtotalWithDiscount, subtotalWithTaxes, totalAmount);
   return { ...state, totalAmount, givenAmount, returnAmount };
 }
@@ -188,20 +188,14 @@ function removeStockFromTicket(state, action) {
 }
 
 function returnStockFromTicket(state, action) {
-  const getAmountToReturn = (item) => {
-    let amountToReturn = action.value;
-    if (action.value < 0) amountToReturn = 0;
-    if (action.value > item.amount) amountToReturn = item.amount;
-    return amountToReturn;
-  };
   const items = state.items.map((item) =>
     item.reference === action.item.reference
       ? {
           ...item,
-          amount_return: getAmountToReturn(item),
+          amount_return: action.value,
           toReturn: true,
         }
-      : { ...item, added: true }
+      : item
   );
   return {
     ...state,
@@ -236,6 +230,7 @@ function removeTicket() {
 }
 
 function loadTicket(state, action) {
+  console.log(action.ticket.toJSON());
   return action.ticket.toJSON();
 }
 

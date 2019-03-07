@@ -4,7 +4,7 @@ import {
   UPDATE_TICKET_ACTION,
   UPDATE_TICKET_SUCCESS_ACTION,
   UPDATE_TICKET_ERROR_ACTION,
-} from 'containers/TicketItems/constants';
+} from 'containers/TicketSellingPage/constants';
 
 function* updateTicket(action) {
   try {

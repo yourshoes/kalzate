@@ -4,22 +4,23 @@ import {
   LOAD_TICKET_ACTION,
   LOAD_TICKET_ERROR_ACTION,
   LOAD_TICKET_SUCCESS_ACTION,
-} from 'containers/TicketItems/constants';
+} from 'containers/TicketSellingPage/constants';
 
 function* loadTickets(action) {
   try {
     const { options, ticket } = action;
     if (options.fetch) {
       const finalTicket = yield call(
-        (createdAt) => Tickets().get({
-          match: {
-            created_at: {
-              $eq: Number(createdAt),
+        (createdAt) =>
+          Tickets().get({
+            match: {
+              created_at: {
+                $eq: Number(createdAt),
+              },
             },
-          },
-          count: false,
-        }),
-        ticket.created_at,
+            count: false,
+          }),
+        ticket.created_at
       );
       return yield put({
         type: LOAD_TICKET_SUCCESS_ACTION,

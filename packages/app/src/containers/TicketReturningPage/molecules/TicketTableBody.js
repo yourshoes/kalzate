@@ -11,6 +11,7 @@ import HeightAdapterContainer from '../atoms/HeightAdapterContainer';
 import TicketTableRowContainer from '../atoms/TicketTableRowContainer';
 import TicketTableField from './TicketTableField';
 import TicketTableAmountField from './TicketTableAmountField';
+import TicketTableAmountFieldFixed from './TicketTableAmountFieldFixed';
 import TicketTableButton from './TicketTableButton';
 import Section5 from '../atoms/Section5';
 import TicketButton from '../atoms/TicketButton';
@@ -40,17 +41,38 @@ export class TicketTableBody extends React.Component {
     // otherwise (existing item to be returned)
     return (
       <Section5>
+        {/* onClick={() => this.props.returnStockFromTicket(item, i, (item.amount_return || 0) + 1)} */}
         <TicketButton
           primary
           width={50}
           icon="arrow-up"
-          onClick={() => this.props.returnStockFromTicket(item, i, (item.amount_return || 0) + 1)}
+          onClick={() => {
+            let amount_return = (item.amount_return || 0) + 1;
+            if (amount_return + (item.amount_return_prev || 0) > item.amount) {
+              amount_return = item.amount - (item.amount_return_prev || 0);
+            }
+            console.log(amount_return);
+            this.props.returnStockFromTicket(item, i, amount_return);
+            // this.props.updateTicketData(item, {
+            //   amount_return,
+            // });
+          }}
         />
+        {/* onClick={() => this.props.returnStockFromTicket(item, i, (item.amount_return || 0) - 1)} */}
         <TicketButton
           primary
           width={50}
           icon="arrow-down"
-          onClick={() => this.props.returnStockFromTicket(item, i, (item.amount_return || 0) - 1)}
+          onClick={() => {
+            let amount_return = (item.amount_return || 0) - 1;
+            if (amount_return < 0) {
+              amount_return = 0;
+            }
+            this.props.returnStockFromTicket(item, i, amount_return);
+            // this.props.updateTicketData(item, {
+            //   amount_return,
+            // });
+          }}
         />
       </Section5>
     );
@@ -61,7 +83,7 @@ export class TicketTableBody extends React.Component {
       <HeightAdapterContainer>
         <TicketTableBodyContainer>
           {this.props.ticket.items.map((item, i) => (
-            <TicketTableRowContainer key={i} even={(i + 1) % 2} highlight={item.amount_return}>
+            <TicketTableRowContainer key={i} even={(i + 1) % 2} highlight={item.toReturn}>
               <TicketTableField placeholder={item.reference} readonly />
               <TicketTableField placeholder={formatDescription(item)} readonly bigger />
               <TicketTableField placeholder={item.price.toFixed(2)} readonly />
@@ -91,29 +113,20 @@ export class TicketTableBody extends React.Component {
               )}
               {item.added ? (
                 <TicketTableField placeholder="0" readonly />
+              ) : item.amount === item.amount_return_prev ? (
+                <TicketTableField placeholder={item.amount} readonly />
               ) : (
-                <TicketTableAmountField
-                  placeholder={item.amount_return || '0'}
-                  value={
-                    this.props.tmp[item.reference] && this.props.tmp[item.reference].amount_return
-                      ? this.props.tmp[item.reference].amount_return
+                <TicketTableAmountFieldFixed
+                  placeholder={
+                    item.amount_return_prev > 0
+                      ? item.amount_return_prev > 1
+                        ? `${item.amount_return_prev - item.amount_return_prev_last} ( ${
+                            item.amount_return_prev
+                          } )`
+                        : `${item.amount_return_prev - item.amount_return_prev_last}`
                       : ''
                   }
-                  onChange={(amount) =>
-                    this.props.updateTmpData(item.reference, {
-                      amount_return: parseInt(amount, 10),
-                    })
-                  }
-                  onBlur={(e) => {
-                    if (
-                      this.props.tmp[item.reference] &&
-                      this.props.tmp[item.reference].amount_return
-                    ) {
-                      this.props.updateTicketData(item, {
-                        amount: this.props.tmp[item.reference].amount_return,
-                      });
-                    }
-                  }}
+                  value={item.amount_return || '0'}
                 />
               )}
               <TicketTableField

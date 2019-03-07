@@ -1,7 +1,4 @@
-import {
-  LOAD_TICKET_ACTION,
-  SEARCH_TICKETS_ACTION,
-} from 'containers/TicketItems/constants';
+import { LOAD_TICKET_ACTION, SEARCH_TICKETS_ACTION } from 'containers/TicketSellingPage/constants';
 
 /**
  * Changes the input field of the form

@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
+// import { hot } from 'react-hot-loader';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -87,3 +88,5 @@ export default class Main extends React.Component {
     );
   }
 }
+
+// export default (process.env.NODE_ENV === 'development' ? hot(module)(Main) : Main);

@@ -4,17 +4,15 @@
  */
 
 /* System imports */
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { formatDescription } from 'utils/ticket';
 import TicketTableBodyContainer from '../atoms/TicketTableBodyContainer';
 import HeightAdapterContainer from '../atoms/HeightAdapterContainer';
 import TicketTableRowContainer from '../atoms/TicketTableRowContainer';
 import TicketTableField from './TicketTableField';
-import TicketTableAmountField from './TicketTableAmountField';
+import { TICKET_RETURN_STATE } from 'config';
 
 export class TicketTableBody extends React.Component {
-
-
   render() {
     return (
       <HeightAdapterContainer>
@@ -24,26 +22,13 @@ export class TicketTableBody extends React.Component {
               <TicketTableField placeholder={item.reference} readonly />
               <TicketTableField placeholder={formatDescription(item)} readonly bigger />
               <TicketTableField placeholder={item.price.toFixed(2)} readonly />
-              <TicketTableAmountField
-                placeholder={item.amount || '0'}
-                value={
-                  this.props.tmp[item.reference] && this.props.tmp[item.reference].amount
-                    ? this.props.tmp[item.reference].amount
-                    : ''
-                }
-                onChange={(amount) =>
-                  this.props.updateTmpData(item.reference, {
-                    amount: parseInt(amount, 10),
-                  })
-                }
-                onBlur={(e) => {
-                  if (this.props.tmp[item.reference] && this.props.tmp[item.reference].amount) {
-                    this.props.updateTicketData(item, {
-                      amount: this.props.tmp[item.reference].amount,
-                    });
-                  }
-                }}
-              />
+              <TicketTableField placeholder={item.amount || 0} readonly />
+              {this.props.ticket.state === TICKET_RETURN_STATE && (
+                <TicketTableField
+                  placeholder={(item.amount_return_prev || 0) - (item.amount_return_prev_last || 0)}
+                  readonly
+                />
+              )}
               <TicketTableField placeholder={(item.price * item.amount).toFixed(2)} readonly />
             </TicketTableRowContainer>
           ))}

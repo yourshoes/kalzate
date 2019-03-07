@@ -18,7 +18,6 @@ export default {
     },
     items: {
       type: 'array',
-
     },
     // total: {
     //   type: 'number',
@@ -50,8 +49,11 @@ export default {
     method: {
       type: 'string',
     },
-    relatesTo: {
-      type: 'string',
+    next: {
+      type: 'number',
+    },
+    prev: {
+      type: 'number',
     },
     printed: {
       type: 'string',

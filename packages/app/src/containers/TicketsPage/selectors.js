@@ -15,16 +15,35 @@ const selectTicketVisibility = () => (state) => state.tmp.visibility.tickets;
  */
 
 const makeSelectTicketTotalVisibility = () =>
-  createSelector(selectTicketVisibility(), (substate) =>
-    substate.total
+  createSelector(
+    selectTicketVisibility(),
+    (substate) => substate.total
   );
-const makeSelectTicketPaymentsVisibility = () =>
-  createSelector(selectTicketVisibility(), (substate) =>
-    substate.payments
-  );
-const makeSelectTicketState = () =>
-  createSelector(selectTicket(), (substate) =>
-    substate.state
+const makeSelectTicketReadOnly = () =>
+  createSelector(
+    selectTicket(),
+    (substate) =>
+      (substate.next &&
+        substate.created_at &&
+        Number(substate.next) !== Number(substate.created_at)) ||
+      substate.items.every(({ amount, amount_return_prev }) => amount === amount_return_prev)
   );
 
-export { selectTicket, makeSelectTicketTotalVisibility, makeSelectTicketPaymentsVisibility, makeSelectTicketState };
+const makeSelectTicketPaymentsVisibility = () =>
+  createSelector(
+    selectTicketVisibility(),
+    (substate) => substate.payments
+  );
+const makeSelectTicketState = () =>
+  createSelector(
+    selectTicket(),
+    (substate) => substate.state
+  );
+
+export {
+  selectTicket,
+  makeSelectTicketTotalVisibility,
+  makeSelectTicketPaymentsVisibility,
+  makeSelectTicketState,
+  makeSelectTicketReadOnly,
+};

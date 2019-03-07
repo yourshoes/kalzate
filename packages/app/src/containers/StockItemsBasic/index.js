@@ -8,9 +8,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
-import {
-  addStockToTicket,
-} from 'containers/TicketItems/actions';
+import { addStockToTicket } from 'containers/TicketSellingPage/actions';
 import {
   makeSelectStockItems,
   makeSelectStockLimit,
@@ -35,14 +33,13 @@ import Container from './atoms/Container';
 import StockTableHeader from './molecules/StockTableHeader';
 import StockTableBody from './molecules/StockTableBody';
 import StockPagination from './molecules/StockPagination';
-import {SpinnerContainer} from "./atoms/SpinnerContainer";
+import { SpinnerContainer } from './atoms/SpinnerContainer';
 
-
-export function StockItemsPage({loading, ...props}) {
+export function StockItemsPage({ loading, ...props }) {
   // @odo: use Fragment to group !loading options
   return (
     <Container>
-      {loading && <SpinnerContainer/>}
+      {loading && <SpinnerContainer />}
       {!loading && <StockTableHeader {...props} />}
       {!loading && <StockTableBody {...props} />}
       {!loading && <StockPagination {...props} />}
@@ -84,14 +81,14 @@ function mapDispatchToProps(dispatch) {
     refreshStock: (limit, skip) => dispatch(refreshStock(limit, skip)),
     removeStock: (reference) => dispatch(removeStock(reference)),
     exportStock: (decrypt) => dispatch(exportStock(decrypt)),
-    searchStock: (search, limit, skip) =>
-      dispatch(searchStock(search, limit, skip)),
+    searchStock: (search, limit, skip) => dispatch(searchStock(search, limit, skip)),
     getMatches: (field, value) => dispatch(getMatches(field, value)),
-    updateTmpData: (reference, data) =>
-      dispatch(updateTmpData(reference, data)),
-    addStockToTicket: (stockItem) =>
-      dispatch(addStockToTicket(stockItem)),
+    updateTmpData: (reference, data) => dispatch(updateTmpData(reference, data)),
+    addStockToTicket: (stockItem) => dispatch(addStockToTicket(stockItem)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(StockItemsPage));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectIntl(StockItemsPage));

@@ -1,6 +1,3 @@
-/* eslint-disable */
-'use strict';
-
 import { NoStockCreatedError } from '../../../errors/stock';
 import { getStockInstance, isErrorInstanceOf } from './common';
 import { expect } from 'chai';

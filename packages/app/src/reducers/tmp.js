@@ -22,8 +22,11 @@ import {
   UPDATE_TMP_TICKET_DATA_ACTION,
   UPDATE_STOCK_TICKET_DATA_ACTION,
   GET_MATCHES_TICKETS_SUCCESS_ACTION,
-} from 'containers/TicketItems/constants';
-import { TOGGLE_TICKET_TOTAL_VISIBILITY, TOGGLE_RAW_TICKET_VISIBILITY } from 'containers/TicketTotalContainer/constants';
+} from 'containers/TicketSellingPage/constants';
+import {
+  TOGGLE_TICKET_TOTAL_VISIBILITY,
+  TOGGLE_RAW_TICKET_VISIBILITY,
+} from 'containers/TicketTotalContainer/constants';
 import { TOGGLE_TICKET_PAYMENTS_VISIBILITY } from 'containers/TicketPaymentsContainer/constants';
 
 // The initial state of the App
@@ -50,7 +53,9 @@ function appReducer(state = initialState, action) {
     case UPDATE_STOCK_TICKET_DATA_ACTION:
       return {
         ...state,
-        ticket: merge({}, state.ticket, { [action.item.reference]: { amount: null, discount: null } }),
+        ticket: merge({}, state.ticket, {
+          [action.item.reference]: { amount: null, discount: null },
+        }),
       };
     case UPDATE_TMP_TICKET_DATA_ACTION:
       return {
@@ -71,17 +76,47 @@ function appReducer(state = initialState, action) {
     case SEARCH_STOCK_SUCCESS_ACTION:
       return { ...state, search: { ...state.search, stock: action.search || {} } };
     case GET_MATCHES_STOCK_SUCCESS_ACTION:
-      return { ...state, matches: { ...state.matches, stock: { ...state.matches.stock, [action.field]: action.items || [] } } };
+      return {
+        ...state,
+        matches: {
+          ...state.matches,
+          stock: { ...state.matches.stock, [action.field]: action.items || [] },
+        },
+      };
     case GET_MATCHES_TICKETS_SUCCESS_ACTION:
-      return { ...state, matches: { ...state.matches, tickets: { ...state.matches.tickets, [action.field]: action.items || [] } } };
+      return {
+        ...state,
+        matches: {
+          ...state.matches,
+          tickets: { ...state.matches.tickets, [action.field]: action.items || [] },
+        },
+      };
     case UPDATE_STOCK_MODAL_OPTION_ACTION:
       return { ...state, modal: { ...state.modal, [action.option]: action.value } };
     case TOGGLE_RAW_TICKET_VISIBILITY:
-      return { ...state, visibility: { ...state.visibility, tickets: { ...state.visibility.tickets, raw: !state.visibility.tickets.raw } } };
+      return {
+        ...state,
+        visibility: {
+          ...state.visibility,
+          tickets: { ...state.visibility.tickets, raw: !state.visibility.tickets.raw },
+        },
+      };
     case TOGGLE_TICKET_TOTAL_VISIBILITY:
-      return { ...state, visibility: { ...state.visibility, tickets: { ...state.visibility.tickets, total: !state.visibility.tickets.total } } };
+      return {
+        ...state,
+        visibility: {
+          ...state.visibility,
+          tickets: { ...state.visibility.tickets, total: !state.visibility.tickets.total },
+        },
+      };
     case TOGGLE_TICKET_PAYMENTS_VISIBILITY:
-      return { ...state, visibility: { ...state.visibility, tickets: { ...state.visibility.tickets, payments: !state.visibility.tickets.payments } } };
+      return {
+        ...state,
+        visibility: {
+          ...state.visibility,
+          tickets: { ...state.visibility.tickets, payments: !state.visibility.tickets.payments },
+        },
+      };
     default:
       return state;
   }

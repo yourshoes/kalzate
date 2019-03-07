@@ -1,4 +1,5 @@
 const rewireYarnWorkspaces = require('react-app-rewire-yarn-workspaces');
+// const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
@@ -27,6 +28,7 @@ const addBabelPlugin = (plugin) => (config) => {
 };
 
 module.exports = function override(config, env) {
+  // config = rewireReactHotLoader(config, env);
   config = rewireYarnWorkspaces(config, env);
   config = addBabelPlugin('@babel/proposal-export-default-from')(config);
 
