@@ -29,6 +29,8 @@ import {
 } from 'containers/TicketTotalContainer/constants';
 import { TOGGLE_TICKET_PAYMENTS_VISIBILITY } from 'containers/TicketPaymentsContainer/constants';
 
+import { REMOVE_TICKET_ACTION } from 'containers/TicketSellingPage/constants';
+
 // The initial state of the App
 const initialState = {
   stock: {},
@@ -99,6 +101,14 @@ function appReducer(state = initialState, action) {
         visibility: {
           ...state.visibility,
           tickets: { ...state.visibility.tickets, raw: !state.visibility.tickets.raw },
+        },
+      };
+    case REMOVE_TICKET_ACTION:
+      return {
+        ...state,
+        visibility: {
+          ...state.visibility,
+          tickets: { ...state.visibility.tickets, raw: false },
         },
       };
     case TOGGLE_TICKET_TOTAL_VISIBILITY:

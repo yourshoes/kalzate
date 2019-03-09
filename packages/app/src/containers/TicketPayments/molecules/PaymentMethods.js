@@ -35,23 +35,23 @@ export function PaymentMethods({ method, setMethod }) {
       </PaymentMethodsSection>
       <PaymentMethodsSection>
         <PaymentMethodsItem
-          onClick={() => setMethod(PAYMENT_METHOD_TICKET)}
-          selected={method === PAYMENT_METHOD_TICKET}
-        >
-          <Octicon mega name="gift" />{' '}
-          <PaymentMethodsItemTitle>
-            <FormattedMessage {...messages.ticket} />
-          </PaymentMethodsItemTitle>
-        </PaymentMethodsItem>
-      </PaymentMethodsSection>
-      <PaymentMethodsSection>
-        <PaymentMethodsItem
           onClick={() => setMethod(PAYMENT_METHOD_CASH)}
           selected={method === PAYMENT_METHOD_CASH}
         >
           <Octicon mega name="credit-card" />{' '}
           <PaymentMethodsItemTitle>
             <FormattedMessage {...messages.cash} />
+          </PaymentMethodsItemTitle>
+        </PaymentMethodsItem>
+      </PaymentMethodsSection>
+      <PaymentMethodsSection>
+        <PaymentMethodsItem
+          onClick={() => setMethod(PAYMENT_METHOD_TICKET)}
+          selected={method === PAYMENT_METHOD_TICKET}
+        >
+          <Octicon mega name="gift" />{' '}
+          <PaymentMethodsItemTitle>
+            <FormattedMessage {...messages.ticket} />
           </PaymentMethodsItemTitle>
         </PaymentMethodsItem>
       </PaymentMethodsSection>

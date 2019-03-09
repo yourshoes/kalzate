@@ -4,9 +4,16 @@
 	"recommendations": [
 		// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
 		"dbaeumer.vscode-eslint",
-		"TimonVS.reactsnippetsstandard",
 		"msjsdiag.debugger-for-chrome",
-		"timothymclane.react-redux-es6-snippets",
-		"abusaidm.html-snippets"
+		"peterjausovec.vscode-docker",
+		"mikestead.dotenv",
+		"github.vscode-pull-request-github",
+		"eamodio.gitlens",
+		"orta.vscode-jest",
+		"esbenp.prettier-vscode",
+		"sonarsource.sonarlint-vscode",
+		"jpoissonnier.vscode-styled-components",
+		"ryanolsonx.zenburn",
+		"coenraads.bracket-pair-colorizer-2"
 	]
 }

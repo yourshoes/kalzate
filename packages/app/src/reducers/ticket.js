@@ -229,9 +229,16 @@ function removeTicket() {
   return initialState;
 }
 
+function isReadOnly(ticket) {
+  return (
+    (ticket.next && ticket.created_at && Number(ticket.next) !== Number(ticket.created_at)) ||
+    ticket.items.every(({ amount, amount_return_prev }) => amount === amount_return_prev)
+  );
+}
+
 function loadTicket(state, action) {
-  console.log(action.ticket.toJSON());
-  return action.ticket.toJSON();
+  const ticket = action.ticket.toJSON();
+  return isReadOnly(ticket) ? ticket : updateTicketTotal(ticket);
 }
 
 function setTicketPaymentMethod(state, action) {

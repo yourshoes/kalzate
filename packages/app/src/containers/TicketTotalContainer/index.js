@@ -10,10 +10,19 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import TicketTotal from 'containers/TicketTotal';
 import TicketRawTotal from 'containers/TicketRawTotal';
-import { makeSelectTicketTotalVisibility, makeSelectRawTicketTotalVisibility } from 'containers/TicketTotalContainer/selectors';
+import {
+  selectTicketItemsLen,
+  makeSelectTicketTotalVisibility,
+  makeSelectRawTicketTotalVisibility,
+} from 'containers/TicketTotalContainer/selectors';
 import { toggleTicketTotalVisibility, toggleRawTicketVisibility } from './actions';
 import messages from './messages';
-import { Container, ContainerSwitcher, TicketTemplateViewerSwitcher, FirstSection } from './wrappers';
+import {
+  Container,
+  ContainerSwitcher,
+  TicketTemplateViewerSwitcher,
+  FirstSection,
+} from './wrappers';
 
 export function TicketTotalContainer(props) {
   // eslint-disable-line react/prefer-stateless-function
@@ -24,11 +33,13 @@ export function TicketTotalContainer(props) {
         title="Expand/Collapse Ticket Total"
         onClick={() => props.toggleTicketTotalVisibility()}
       />
-      <TicketTemplateViewerSwitcher
-        expanded={!props.rawTicketTotalVisibility}
-        title="Show/Hide Ticket"
-        onClick={() => props.toggleRawTicketVisibility()}
-      />
+      {props.ticketItemsLen && (
+        <TicketTemplateViewerSwitcher
+          expanded={!props.rawTicketTotalVisibility}
+          title="Show/Hide Ticket"
+          onClick={() => props.toggleRawTicketVisibility()}
+        />
+      )}
       <FirstSection title={<FormattedMessage {...messages.title} />}>
         {props.rawTicketTotalVisibility ? <TicketRawTotal /> : <TicketTotal />}
       </FirstSection>
@@ -46,6 +57,7 @@ TicketTotalContainer.propTypes = {
 const mapStateToProps = createStructuredSelector({
   ticketTotalVisibility: makeSelectTicketTotalVisibility(),
   rawTicketTotalVisibility: makeSelectRawTicketTotalVisibility(),
+  ticketItemsLen: selectTicketItemsLen(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -55,6 +67,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  TicketTotalContainer
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TicketTotalContainer);

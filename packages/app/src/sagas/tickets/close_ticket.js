@@ -23,10 +23,11 @@ function* closeTicket(action) {
       case TICKET_SAVE_STATE:
         response = yield call((...args) => Tickets().save(...args), finalTicket);
         break;
-      case TICKET_SOLD_STATE:
+      case TICKET_SOLD_STATE: {
+        const ticketToPrint = compileTicket(options.settings, { ...finalTicket, asGift });
         response = yield call((...args) => Tickets().sell(...args), {
           ...finalTicket,
-          printed: compileTicket(options.settings, { ...finalTicket, asGift }),
+          printed: ticketToPrint,
         });
         // @todo DANGEROUS: as we are using select effect. this saga get coupled
         // with the state shape so if for any reason in the future the state changes
@@ -48,16 +49,19 @@ function* closeTicket(action) {
         // END DANGEROUS
 
         yield put({
-          content: compileTicket(options.settings, { ...response._data, asGift }),
+          content: ticketToPrint,
           printerName: options.settings.printerName,
           printerIP: options.settings.printerIP,
           type: PRINT_TICKET_ACTION,
         });
         break;
-      case TICKET_RETURN_STATE:
+      }
+      case TICKET_RETURN_STATE: {
+        const ticketToPrint = compileTicket(options.settings, { ...finalTicket, asVoucher });
+
         response = yield call((...args) => Tickets().sellBack(...args), {
           ...finalTicket,
-          printed: compileTicket(options.settings, { ...finalTicket, asVoucher }),
+          printed: ticketToPrint,
         });
         yield put({
           limit: yield select((store) => store.stock.limit),
@@ -66,12 +70,13 @@ function* closeTicket(action) {
         });
 
         yield put({
-          content: compileTicket(options.settings, { ...response._data, asVoucher }),
+          content: ticketToPrint,
           printerName: options.settings.printerName,
           printerIP: options.settings.printerIP,
           type: PRINT_TICKET_ACTION,
         });
         break;
+      }
       default:
         throw Error('No ticket state found');
     }

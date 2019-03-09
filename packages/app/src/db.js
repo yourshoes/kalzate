@@ -52,10 +52,7 @@ const initFromDB = (load) => (store) => {
 const loadStoreFromDatabase = (store) =>
   new Promise(async (resolve) => {
     // Get initialState({settings, tickets, stock, ticket, insights})
-    console.log('here');
-    console.log('here', kalzateDB);
     db = await kalzateDB(DB_OPTIONS, DEFAULT_SCHEMA_TYPE);
-    console.log('here2', db);
     const currentState = store.getState();
     const state = {
       settings: merge({}, DEFAULT_SETTINGS, await db.settings.init()),

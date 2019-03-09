@@ -84,10 +84,7 @@ function compileTicketPrintPreprocess(field, value, padding, item, ticket) {
   }
   if (field === 'amount') {
     return String(
-      lodash.padEnd(
-        ticket.state === TICKET_RETURN_STATE && !item.added ? -item.amount_return : item.amount,
-        parseInt(padding, 10)
-      )
+      lodash.padEnd(item.toReturn ? -item.amount_return : item.amount, parseInt(padding, 10))
     );
   }
   return String(lodash.padEnd(value, parseInt(padding, 10)));
@@ -108,7 +105,9 @@ function compileTicketPrintTicketCase(ticket, field, options) {
     }
     case 'items': {
       const [fields, padding, paddingGlobal] = options.map((option) => JSON.parse(option));
+      console.log('util', ticket);
       return ticket.items
+        .filter((item) => item.added || (item.toReturn && item.amount_return > 0))
         .map((item) => {
           const values = fields.map((f, i) =>
             compileTicketPrintPreprocess(f.toLowerCase(), item[f], padding[i], item, ticket)

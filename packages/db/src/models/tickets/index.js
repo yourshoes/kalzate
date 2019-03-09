@@ -128,24 +128,6 @@ class Tickets {
       if (validationError) {
         throw new Error(validationError);
       }
-      ticket.items = ticket.items.map((item) => ({
-        ...item,
-        amount_return_prev_last:
-          item.amount_return > 0 ? item.amount_return_prev || 0 : item.amount_return_prev_last || 0,
-        amount_return_prev: (item.amount_return_prev || 0) + (item.amount_return || 0),
-        amount_return: 0,
-        // toReturn: false,
-      }));
-      console.log('items', ticket.items);
-      const newTicket = await this.createOne(omit(ticket, '_rev'));
-      await this.updateBy(
-        { created_at: { $eq: Number(ticket.created_at) } },
-        { next: Number(newTicket.created_at) }
-      );
-      await this.updateBy(
-        { created_at: { $eq: Number(newTicket.created_at) } },
-        { prev: Number(ticket.created_at) }
-      );
       await Promise.all(
         ticket.items.map((stockItem) => {
           if (stockItem.added) {
@@ -156,6 +138,24 @@ class Tickets {
             return this.stock.increaseAmount({ ...stockItem, amount: stockItem.amount_return });
           }
         })
+      );
+      ticket.items = ticket.items.map((item) => ({
+        ...item,
+        amount_return_prev_last:
+          item.amount_return > 0 ? item.amount_return_prev || 0 : item.amount_return_prev_last || 0,
+        amount_return_prev: (item.amount_return_prev || 0) + (item.amount_return || 0),
+        amount_return: 0,
+        added: false,
+      }));
+      console.log('items', ticket.items);
+      const newTicket = await this.createOne(omit(ticket, '_rev'));
+      await this.updateBy(
+        { created_at: { $eq: Number(ticket.created_at) } },
+        { next: Number(newTicket.created_at) }
+      );
+      await this.updateBy(
+        { created_at: { $eq: Number(newTicket.created_at) } },
+        { prev: Number(ticket.created_at) }
       );
       return newTicket;
     } catch (e) {

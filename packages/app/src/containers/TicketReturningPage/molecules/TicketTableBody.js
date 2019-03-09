@@ -83,7 +83,14 @@ export class TicketTableBody extends React.Component {
       <HeightAdapterContainer>
         <TicketTableBodyContainer>
           {this.props.ticket.items.map((item, i) => (
-            <TicketTableRowContainer key={i} even={(i + 1) % 2} highlight={item.toReturn}>
+            <TicketTableRowContainer
+              key={i}
+              even={(i + 1) % 2}
+              highlight={
+                (item.toReturn && item.amount_return_prev > 0) ||
+                (item.toReturn && item.amount_return > 0)
+              }
+            >
               <TicketTableField placeholder={item.reference} readonly />
               <TicketTableField placeholder={formatDescription(item)} readonly bigger />
               <TicketTableField placeholder={item.price.toFixed(2)} readonly />

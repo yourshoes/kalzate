@@ -139,7 +139,7 @@
   "kz.containers.ThemeProvider.themes.light": "Light",
   "kz.containers.ThemeProvider.themes.monokai": "Monokai",
   "kz.containers.TicketPayments.method.credit_card": "Credit Card",
-  "kz.containers.TicketPayments.method.ticket": "Ticket",
+  "kz.containers.TicketPayments.method.ticket": "Voucher",
   "kz.containers.TicketPayments.method.cash": "Cash",
   "kz.containers.TicketPayments.method.phone": "Smartphone"
 }
