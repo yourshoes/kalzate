@@ -52,7 +52,8 @@ class Tickets {
     }),
     weeklyTickets: (limit = -1, skip = 0) => {
       const today = new Date();
-      today.setDate(today.getDate() - today.getDay());
+      // today.setDate(today.getDate() - today.getDay());
+      today.setDate(today.getDate() - 7);
       return {
         match: {
           created_at: {
@@ -146,6 +147,8 @@ class Tickets {
         amount_return_prev: (item.amount_return_prev || 0) + (item.amount_return || 0),
         amount_return: 0,
         added: false,
+        wasAdded: item.added,
+        wasReturned: item.amount_return,
       }));
       console.log('items', ticket.items);
       const newTicket = await this.createOne(omit(ticket, '_rev'));

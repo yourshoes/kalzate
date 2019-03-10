@@ -238,6 +238,7 @@ function isReadOnly(ticket) {
 
 function loadTicket(state, action) {
   const ticket = action.ticket.toJSON();
+  console.log('ticket', ticket);
   return isReadOnly(ticket) ? ticket : updateTicketTotal(ticket);
 }
 

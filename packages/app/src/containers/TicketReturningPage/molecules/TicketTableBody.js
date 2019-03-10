@@ -137,7 +137,10 @@ export class TicketTableBody extends React.Component {
                 />
               )}
               <TicketTableField
-                placeholder={(item.price * (item.amount - (item.amount_return || 0))).toFixed(2)}
+                placeholder={(item.added
+                  ? item.price * item.amount
+                  : -item.price * (item.amount_return || 0)
+                ).toFixed(2)}
                 readonly
               />
               {this.getTicketItemAction(item, i)}

@@ -80,7 +80,12 @@ function compileTicketPrintPreprocess(field, value, padding, item, ticket) {
   if (field === 'subtotal') {
     return ticket.asGift
       ? lodash.padEnd('0.00', parseInt(padding, 10))
-      : String(lodash.padEnd(item.price * item.amount, parseInt(padding, 10)));
+      : String(
+          lodash.padEnd(
+            item.price * (item.toReturn ? -item.amount_return : item.amount),
+            parseInt(padding, 10)
+          )
+        );
   }
   if (field === 'amount') {
     return String(
