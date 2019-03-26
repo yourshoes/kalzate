@@ -55,13 +55,13 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+
 
 # next.js build output
 .next
 
 # qa modules directory
-/packages/qa
+.DS_Store
 
 # Coverage reports
 lcov-report
