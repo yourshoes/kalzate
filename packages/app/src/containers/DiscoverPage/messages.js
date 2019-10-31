@@ -29,7 +29,8 @@ export default defineMessages({
   },
   ticketsDesc: {
     id: 'kz.containers.Discover.ticketsDesc',
-    defaultMessage: 'The tickets chart renders ticket aggregaation values including the maximum, minimum, third quartile, median and first quartile (y axis) per day (x axis)',
+    defaultMessage:
+      'The tickets chart renders ticket aggregaation values including the maximum, minimum, third quartile, median and first quartile (y axis) per day (x axis)',
   },
   ticketsNoData: {
     id: 'kz.containers.Discover.ticketsNoData',
@@ -39,14 +40,18 @@ export default defineMessages({
     id: 'kz.containers.Discover.ticketsNoDataDesc',
     defaultMessage: 'Please, create some tickets to display it',
   },
-
   stockTitle: {
     id: 'kz.containers.Discover.stockTitle',
     defaultMessage: 'Stock Chart',
   },
+  stockInfo: {
+    id: 'kz.containers.Discover.stockInfo',
+    defaultMessage: 'Stock Info',
+  },
   stockDesc: {
     id: 'kz.containers.Discover.stockDesc',
-    defaultMessage: 'The stock chart renders the relationship between the price (y axis) and the number of items sold (x axis). The radius is the amount of items available',
+    defaultMessage:
+      'The stock chart renders the relationship between the price (y axis) and the number of items sold (x axis). The radius is the amount of items available',
   },
   stockNoData: {
     id: 'kz.containers.Discover.stockNoData',
@@ -63,7 +68,8 @@ export default defineMessages({
   },
   alertDesc: {
     id: 'kz.containers.Discover.alertDesc',
-    defaultMessage: 'The alert chart renders the top stock items more sold, the top stock items less sold and the items with no available stock',
+    defaultMessage:
+      'The alert chart renders the top stock items more sold, the top stock items less sold and the items with no available stock',
   },
   alertNoData: {
     id: 'kz.containers.Discover.alertNoData',

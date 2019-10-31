@@ -50,7 +50,7 @@ class Tickets {
       limit,
       skip,
     }),
-    weeklyTickets: (limit = -1, skip = 0) => {
+    weeklyTickets: (limit = 0, skip = 0) => {
       const today = new Date();
       // today.setDate(today.getDate() - today.getDay());
       today.setDate(today.getDate() - 7);

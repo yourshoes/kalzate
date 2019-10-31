@@ -7,12 +7,11 @@
 import React, { PropTypes } from 'react';
 import { max } from 'lodash';
 import { scaleLinear, scaleBand } from 'd3-scale';
-import Rect from './atoms/Rect';
 import BottomAxis from './molecules/BottomAxis';
 import LeftAxis from './molecules/LeftAxis';
 import { G, Line } from './atoms/Axis';
 
-export class BoxPlot extends React.Component {
+export class LineChart extends React.Component {
   static axisXSize = 30;
   static axisYSize = 30;
 
@@ -26,7 +25,7 @@ export class BoxPlot extends React.Component {
 
   createScales() {
     this.yScale = scaleLinear()
-      .rangeRound([this.props.height - BoxPlot.axisXSize, 0])
+      .rangeRound([this.props.height - LineChart.axisXSize, 0])
       .domain([0, max(this.props.data.map(({ maximum }) => maximum))]);
     this.xScale = scaleBand()
       .rangeRound([0, this.props.width])
@@ -34,65 +33,101 @@ export class BoxPlot extends React.Component {
       .domain(this.props.data.map(({ day }) => day));
   }
 
-  createBoxPlot() {
-    return this.props.data.map(({ maximum, minimum, median, quartile1, quartile3, day }, i) => (
-      // fill={this.props.color || '#fe9922'}
-      <G
-        x={this.xScale(day) + BoxPlot.axisYSize + this.xScale.bandwidth() / 2}
-        y={this.yScale(median)}
-      >
-        <Line
-          color={this.props.color || 'rgb(115, 201, 144)'}
-          x1={0}
-          y1={this.yScale(maximum) - this.yScale(median)}
-          x2={0}
-          y2={this.yScale(minimum) - this.yScale(median)}
-          stroke={'darkgray'}
-          stroke-width={'4px'}
-        />
-        <Line
-          color={this.props.color || 'rgb(115, 201, 144)'}
-          x1={-10}
-          y1={this.yScale(maximum) - this.yScale(median)}
-          x2={10}
-          y2={this.yScale(maximum) - this.yScale(median)}
-          stroke={'darkgray'}
-          stroke-width={'4px'}
-        />
-        <Line
-          color={this.props.color || 'rgb(115, 201, 144)'}
-          x1={-10}
-          y1={this.yScale(minimum) - this.yScale(median)}
-          x2={10}
-          y2={this.yScale(minimum) - this.yScale(median)}
-          stroke={'darkgray'}
-          stroke-width={'4px'}
-        />
-        <Rect
-          key={i}
-          color={this.props.color || 'rgb(115, 201, 144)'}
-          x={-10}
-          y={this.yScale(quartile3) - this.yScale(median)}
-          height={this.yScale(quartile1) - this.yScale(quartile3)}
-          width={20}
-          onMouseOver={() =>
-            this.props.onMouseOver
-              ? this.props.onMouseOver({ maximum, minimum, median, quartile1, quartile3, day })
-              : null
-          }
-          onMouseOut={() => (this.props.onMouseOut ? this.props.onMouseOut() : null)}
-        />
-        <Line
-          color={this.props.color || 'rgb(115, 201, 144)'}
-          x1={-10}
-          y1={0}
-          x2={10}
-          y2={0}
-          stroke={'darkgray'}
-          stroke-width={'4px'}
-        />
+  createLines() {
+    const linePointsMax = [
+      {
+        x1: this.xScale(this.props.data[0].day) + (LineChart.axisXSize - 10),
+        y1: this.yScale(0),
+        x2: this.xScale(this.props.data[0].day) + LineChart.axisXSize + this.xScale.bandwidth() / 2,
+        y2: this.yScale(this.props.data[0].maximum),
+      },
+    ];
+    const linePointsMin = [
+      {
+        x1: this.xScale(this.props.data[0].day) + (LineChart.axisXSize - 10),
+        y1: this.yScale(0),
+        x2: this.xScale(this.props.data[0].day) + LineChart.axisXSize + this.xScale.bandwidth() / 2,
+        y2: this.yScale(this.props.data[0].minimum),
+      },
+    ];
+    const linePointsAvg = [
+      {
+        x1: this.xScale(this.props.data[0].day) + (LineChart.axisXSize - 10),
+        y1: this.yScale(0),
+        x2: this.xScale(this.props.data[0].day) + LineChart.axisXSize + this.xScale.bandwidth() / 2,
+        y2: this.yScale(this.props.data[0].average),
+      },
+    ];
+
+    for (let i = 0; i < this.props.data.length - 1; i++) {
+      const { maximum, minimum, average, day } = this.props.data[i];
+      linePointsMax.push({
+        x1: this.xScale(day) + LineChart.axisXSize + this.xScale.bandwidth() / 2,
+        y1: this.yScale(maximum),
+        x2:
+          this.xScale(this.props.data[i + 1].day) +
+          LineChart.axisXSize +
+          this.xScale.bandwidth() / 2,
+        y2: this.yScale(this.props.data[i + 1].maximum),
+      });
+      linePointsMin.push({
+        x1: this.xScale(day) + LineChart.axisXSize + this.xScale.bandwidth() / 2,
+        y1: this.yScale(minimum),
+        x2:
+          this.xScale(this.props.data[i + 1].day) +
+          LineChart.axisXSize +
+          this.xScale.bandwidth() / 2,
+        y2: this.yScale(this.props.data[i + 1].minimum),
+      });
+      linePointsAvg.push({
+        x1: this.xScale(day) + LineChart.axisXSize + this.xScale.bandwidth() / 2,
+        y1: this.yScale(average),
+        x2:
+          this.xScale(this.props.data[i + 1].day) +
+          LineChart.axisXSize +
+          this.xScale.bandwidth() / 2,
+        y2: this.yScale(this.props.data[i + 1].average),
+      });
+    }
+
+    return (
+      <G>
+        {linePointsMax.map(({ x1, x2, y1, y2 }) => (
+          <Line
+            color={this.props.color || 'rgb(115, 201, 144)'}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke={'darkgray'}
+            strokeWidth={'2px'}
+          />
+        ))}
+        {linePointsMin.map(({ x1, x2, y1, y2 }) => (
+          <Line
+            color={this.props.color || 'rgb(115, 201, 144)'}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke={'darkgray'}
+            strokeWidth={'2px'}
+          />
+        ))}
+        {linePointsAvg.map(({ x1, x2, y1, y2 }) => (
+          <Line
+            color={this.props.color || 'rgb(115, 201, 144)'}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke={'darkgray'}
+            strokeWidth={'2px'}
+            strokeDasharray={'4'}
+          />
+        ))}
       </G>
-    ));
+    );
   }
 
   render() {
@@ -103,12 +138,12 @@ export class BoxPlot extends React.Component {
       >
         <svg width={'100%'} height={'100%'}>
           <G x={0} y={5}>
-            {this.createBoxPlot()}
-            <LeftAxis scale={this.yScale} x={BoxPlot.axisYSize} />
+            {this.createLines()}
+            <LeftAxis scale={this.yScale} x={LineChart.axisYSize} />
             <BottomAxis
               scale={this.xScale}
-              y={this.props.height - BoxPlot.axisXSize}
-              x={BoxPlot.axisYSize}
+              y={this.props.height - LineChart.axisXSize}
+              x={LineChart.axisYSize}
             />
           </G>
         </svg>
@@ -117,7 +152,7 @@ export class BoxPlot extends React.Component {
   }
 }
 
-BoxPlot.propTypes = {
+LineChart.propTypes = {
   width: React.PropTypes.number,
   height: React.PropTypes.number,
   color: React.PropTypes.string,
@@ -126,4 +161,4 @@ BoxPlot.propTypes = {
   onMouseOut: React.PropTypes.func,
 };
 
-export default BoxPlot;
+export default LineChart;
