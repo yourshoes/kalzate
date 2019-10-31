@@ -34,8 +34,18 @@ module.exports = function override(config, env) {
 
   if (env === 'production') {
     config = Object.assign(config, {
-      plugins: [new BundleAnalyzerPlugin(), new WebpackBar({ profile: true })],
+      // plugins: [new BundleAnalyzerPlugin(), new WebpackBar({ profile: true })],
       externals: { esprima: 'esprima' },
+    });
+  }
+
+  if (env === 'desktop') {
+    config = Object.assign(config, {
+      target: 'electron-main',
+      externals: { esprima: 'esprima' },
+      output: {
+        filename: 'bundle.js',
+      },
     });
   }
 

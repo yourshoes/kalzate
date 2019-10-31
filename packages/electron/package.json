@@ -1,5 +1,5 @@
 {
-  "name": "@kalzate/desktop",
+  "name": "@kalzate/electron",
   "private": true,
   "version": "0.0.1",
   "description": "Serverless Point Of Sale App For Humans",
@@ -13,5 +13,56 @@
   "bugs": {
     "url": "https://github.com/kalzate/kalzate/issues"
   },
-  "homepage": "https://github.com/kalzate/kalzate#readme"
+  "scripts": {
+    "build": "electron-builder",
+    "prebuild": "cross-env NODE_ENV=desktop yarn --cwd ../app build && mv ../app/build build && cp desktop/* build",
+    "postbuild": "rm -rf build"
+  },
+  "devDependencies": {
+    "cross-env": "5.2.0",
+    "electron": "^2.0.8",
+    "electron-builder": "^20.28.2"
+  },
+  "homepage": "https://github.com/kalzate/kalzate#readme",
+  "build": {
+    "appId": "com.kalzate",
+    "productName": "Kalzate",
+    "copyright": "Copyright © 2018 ${author}",
+    "win": {
+      "target": [
+        {
+          "target": "portable"
+        }
+      ],
+      "icon": "build/kalzate-icon.ico",
+      "legalTrademarks": "Github"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "deb"
+        },
+        {
+          "target": "zip"
+        }
+      ],
+      "icon": "build/kalzate-icon.ico",
+      "category": "Development"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg"
+        },
+        {
+          "target": "zip"
+        }
+      ],
+      "icon": "build/kalzate-icon.bk.ico"
+    },
+    "directories": {
+      "output": "release",
+      "app": "build"
+    }
+  }
 }
