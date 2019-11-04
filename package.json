@@ -57,7 +57,7 @@
     "invariant": "2.2.2",
     "js-yaml": "^3.11.0",
     "kalzate-db": "../kalzate-db",
-    "lodash": "4.17.2",
+    "lodash": "4.17.13",
     "mousetrap": "^1.6.1",
     "pubsub-js": "^1.5.7",
     "react": "15.4.1",
