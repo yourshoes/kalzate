@@ -1,0 +1,16 @@
+{
+  "name": "@kalzate/config",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Project config params",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalzate/kalzate.git"
+  },
+  "author": "Zuri Pabon <zurisadai.pabon@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kalzate/kalzate/issues"
+  }
+}
