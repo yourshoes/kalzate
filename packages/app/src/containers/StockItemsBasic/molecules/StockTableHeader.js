@@ -1,6 +1,15 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import PubSub from 'utils/pubsub';
+import {
+  CY_STOCK_FORM_CONTAINER,
+  CY_STOCK_REF,
+  CY_STOCK_BRAND,
+  CY_STOCK_DESC,
+  CY_STOCK_PRICE,
+  CY_STOCK_AMOUNT,
+  CY_STOCK_PLUS
+} from '../../../cy-selectors';
 import StockField from './StockField';
 import InteractiveStockField from './InteractiveStockField';
 import StockButton from './StockButton';
@@ -126,7 +135,7 @@ export class StockTableHeader extends React.Component {
             </MatchesList>
           </MatchesListContainer>
         )}
-        <StockTableHeaderContainer content unValid={this.state.unValid}>
+        <StockTableHeaderContainer data-cy={CY_STOCK_FORM_CONTAINER} content unValid={this.state.unValid}>
           <InteractiveStockField
             required={ requiredFields.indexOf('reference') !== -1 }
             placeholder={this.props.intl.formatMessage(messages.reference)}
@@ -160,17 +169,20 @@ export class StockTableHeader extends React.Component {
                   : this.state.reference,
               })
             }
+             data-cy={CY_STOCK_REF}
           />
           <StockField
             placeholder={this.props.intl.formatMessage(messages.brand)}
             value={this.state.brand}
             onChange={(brand) => this.setState({ brand })}
+             data-cy={CY_STOCK_BRAND}
           />
           <StockField
             placeholder={this.props.intl.formatMessage(messages.desc)}
             value={this.state.desc}
             onChange={(desc) => this.setState({ desc })}
             size="30"
+             data-cy={CY_STOCK_DESC}
           />
           <StockField
             required={ requiredFields.indexOf('price') !== -1 }
@@ -183,6 +195,7 @@ export class StockTableHeader extends React.Component {
                   : price ? this.state.price : '',
               })
             }
+             data-cy={CY_STOCK_PRICE}
           />
           <StockField
             required={ requiredFields.indexOf('amount') !== -1 }
@@ -195,6 +208,7 @@ export class StockTableHeader extends React.Component {
                   : amount ? this.state.amount : '',
               })
             }
+             data-cy={CY_STOCK_AMOUNT}
           />
           <StockButton primary icon="search" onClick={() => this.search()} />
           <StockButton
@@ -208,6 +222,7 @@ export class StockTableHeader extends React.Component {
             primary
             icon="cloud-upload"
             onClick={() => this.openModal()}
+            data-cy={CY_STOCK_PLUS}
           />
         </StockTableHeaderContainer>
       </section>

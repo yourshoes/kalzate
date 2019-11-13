@@ -20,7 +20,7 @@ export function StockTableRows(props) {
   return (
     <StockTableContainer>
       {props.items.map(({ _data }, i) => (
-        <StockTableHeaderContainer key={i} even={(i + 1) % 2}>
+        <StockTableHeaderContainer key={i} even={(i + 1) % 2} data-cy={props['data-cy']}>
           <StockField placeholder={_data.reference || this.props.intl.formatMessage(messages.reference)} readonly />
           <StockField
             placeholder={_data.brand || this.props.intl.formatMessage(messages.brand)}

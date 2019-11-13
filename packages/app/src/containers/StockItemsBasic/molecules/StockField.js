@@ -37,6 +37,7 @@ export class StockField extends React.Component {
                 )
               }
               value={this.state.value}
+              data-cy={this.props["data-cy"]}
             />
           )}
           <StockLabel readonly={this.props.readonly}>
