@@ -1,4 +1,4 @@
-import { CY_STOCK_LIST_ITEM } from "../../../../app/src/cy-selectors";
+import { CY_STOCK_LIST_ITEM } from "@kalzate/config/cy-selectors";
 
 const RESULT_LIST = `[data-cy="${CY_STOCK_LIST_ITEM}"]`;
 

@@ -1,6 +1,5 @@
 {
   "name": "@kalzate/config",
-  "private": true,
   "version": "0.0.1",
   "description": "Project config params",
   "main": "index.js",

@@ -7,7 +7,7 @@ import StockTableBodyContainer from '../atoms/StockTableBodyContainer';
 import Title from '../atoms/Title';
 import Subtitle from '../atoms/Subtitle';
 import messages from '../messages';
-import { CY_STOCK_LIST_CONTAINER, CY_STOCK_LIST_ITEM } from 'cy-selectors';
+import { CY_STOCK_LIST_CONTAINER, CY_STOCK_LIST_ITEM } from '@kalzate/config/cy-selectors';
 
 export function StockTableBody(props) {
   return (

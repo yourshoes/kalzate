@@ -9,7 +9,7 @@ import {
   CY_STOCK_PRICE,
   CY_STOCK_AMOUNT,
   CY_STOCK_PLUS
-} from '../../../cy-selectors';
+} from '@kalzate/config/cy-selectors';
 import StockField from './StockField';
 import InteractiveStockField from './InteractiveStockField';
 import StockButton from './StockButton';
