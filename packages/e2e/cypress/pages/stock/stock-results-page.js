@@ -7,7 +7,7 @@ class StockResultsPage {
         cy.getCy(stock.ITEMS_LIST)
           .its('length')
           .then((length) => {
-            expect(length).to.be(1);
+            expect(length).to.be.equal(1);
           });
       },
     };

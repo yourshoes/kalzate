@@ -28,53 +28,41 @@ export class InteractiveStockField extends React.Component {
   }
 
   render() {
-    const {
-      readonly,
-      required,
-      placeholder,
-      onEnter,
-      onMoveUp,
-      onMoveDown,
-      onEscape,
-      onChange,
-      ...other
-    } = this.props;
-
     return (
       <Section10>
         <FloatLabel>
-          {!readonly && (
+          {!this.props.readonly && (
             <StockInput
-              required={required}
+              required={this.props.required}
               type="text"
-              placeholder={placeholder}
+              placeholder={this.props.placeholder}
               onChange={({ target }) =>
-                this.setState({ value: target.value }, () => onChange(target.value))
+                this.setState({ value: target.value }, () => this.props.onChange(target.value))
               }
               onKeyDown={(event) => {
                 const { target, key } = event;
                 switch (key) {
                   case 'Enter':
-                    onEnter && onEnter(target.value);
+                    this.props.onEnter && this.props.onEnter(target.value);
                     return this.stopPropagation(event);
                   case 'ArrowUp':
-                    onMoveUp && onMoveUp(target.value);
+                    this.props.onMoveUp && this.props.onMoveUp(target.value);
                     return this.stopPropagation(event);
                   case 'ArrowDown':
-                    onMoveDown && onMoveDown(target.value);
+                    this.props.onMoveDown && this.props.onMoveDown(target.value);
                     return this.stopPropagation(event);
                   case 'Escape':
-                    onEscape && onEscape(target.value);
+                    this.props.onEscape && this.props.onEscape(target.value);
                     return this.stopPropagation(event);
                   default:
                 }
                 return true;
               }}
               value={this.state.value}
-              {...other}
+              data-cy={this.props['data-cy']}
             />
           )}
-          <StockLabel readonly={readonly}>{placeholder}</StockLabel>
+          <StockLabel readonly={this.props.readonly}>{this.props.placeholder}</StockLabel>
         </FloatLabel>
       </Section10>
     );

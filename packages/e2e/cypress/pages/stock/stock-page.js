@@ -14,23 +14,23 @@ class StockPage {
   }
 
   static typeRef(value) {
-    this.type(value, stock.INPUT_FIELD_REFERENCE);
+    this.type(value, stock.FIELD_REFERENCE);
   }
 
   static typeBrand(value) {
-    this.type(value, stock.INPUT_FIELD_BRAND);
+    this.type(value, stock.FIELD_BRAND);
   }
 
   static typeDesc(value) {
-    this.type(value, stock.INPUT_FIELD_DESCRIPTION);
+    this.type(value, stock.FIELD_DESCRIPTION);
   }
 
   static typePrice(value) {
-    this.type(value, stock.INPUT_FIELD_PRICE);
+    this.type(value, stock.FIELD_PRICE);
   }
 
   static typeAmount(value) {
-    this.type(value, stock.INPUT_FIELD_AMOUNT);
+    this.type(value, stock.FIELD_AMOUNT);
   }
 
   static type(query, selector) {
@@ -38,9 +38,7 @@ class StockPage {
   }
 
   static addNewItem() {
-    cy.getCy(stock.BUTTON_ADD_ITEM)
-      .find('[icon="plus"]')
-      .click();
+    cy.getCy(stock.ADD_ITEM).click({ force: true });
   }
 }
 

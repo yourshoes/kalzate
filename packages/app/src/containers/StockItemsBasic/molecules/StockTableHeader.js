@@ -110,7 +110,7 @@ export class StockTableHeader extends React.Component {
             </MatchesList>
           </MatchesListContainer>
         )}
-        <StockTableHeaderContainer data-cy={stock.ADD_ITEM} content unValid={this.state.unValid}>
+        <StockTableHeaderContainer data-cy={stock.CONTAINER} content unValid={this.state.unValid}>
           <InteractiveStockField
             required={requiredFields.indexOf('reference') !== -1}
             placeholder={this.props.intl.formatMessage(messages.reference)}
@@ -182,16 +182,12 @@ export class StockTableHeader extends React.Component {
           <StockButton
             primary
             icon="plus"
+            data-cy={stock.ADD_ITEM}
             onClick={() =>
               this.validateStockForm(fieldsValue) && this.props.createStock(fieldsValue)
             }
           />
-          <StockButton
-            primary
-            icon="cloud-upload"
-            onClick={() => this.openModal()}
-            data-cy={stock.ADD_ITEM}
-          />
+          <StockButton primary icon="cloud-upload" onClick={() => this.openModal()} />
         </StockTableHeaderContainer>
       </section>
     );
