@@ -1,30 +1,17 @@
 import React from 'react';
 import { isEmpty } from 'lodash';
 import PubSub from 'utils/pubsub';
-import {
-  CY_STOCK_FORM_CONTAINER,
-  CY_STOCK_REF,
-  CY_STOCK_BRAND,
-  CY_STOCK_DESC,
-  CY_STOCK_PRICE,
-  CY_STOCK_AMOUNT,
-  CY_STOCK_PLUS
-} from '@kalzate/config/cy-selectors';
 import StockField from './StockField';
 import InteractiveStockField from './InteractiveStockField';
 import StockButton from './StockButton';
 import StockModal from './StockModal';
 import StockTableHeaderContainer from '../atoms/StockTableHeaderContainer';
 import messages from '../messages';
-import {
-  MatchesListContainer,
-  MatchesList,
-  MatchesListItem,
-} from '../atoms/MatchesListContainer';
-
+import { MatchesListContainer, MatchesList, MatchesListItem } from '../atoms/MatchesListContainer';
+import { stock } from '@kalzate/cy';
 
 const isNumeric = (number) => /^[1-9][0-9]*$/.test(number);
-const isRealNumeric = function (input) {
+const isRealNumeric = function(input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
 };
 
@@ -49,11 +36,7 @@ export class StockTableHeader extends React.Component {
   // @todo optimize by moving regex outside function to reuse
   search() {
     const $or = [
-      [
-        'reference',
-        this.state.reference,
-        (v) => ({ $regex: new RegExp(v, 'gi') }),
-      ],
+      ['reference', this.state.reference, (v) => ({ $regex: new RegExp(v, 'gi') })],
       ['brand', this.state.brand, (v) => ({ $eq: v })],
       [
         'price',
@@ -70,11 +53,7 @@ export class StockTableHeader extends React.Component {
       .filter((x) => !isEmpty(x[1]))
       .map((x) => ({ [x[0]]: x[2](x[1]) }));
 
-    this.props.searchStock(
-      $or.length ? { $or } : {},
-      this.props.limit,
-      this.props.skip
-    );
+    this.props.searchStock($or.length ? { $or } : {}, this.props.limit, this.props.skip);
   }
 
   openModal() {
@@ -94,15 +73,13 @@ export class StockTableHeader extends React.Component {
       this.props.matches &&
       this.props.matches.length > 1 &&
       this.props.matches.every(
-        (match) =>
-          match.startsWith(this.state.reference) &&
-          match !== this.state.reference
+        (match) => match.startsWith(this.state.reference) && match !== this.state.reference
       )
     );
   }
   validateStockForm(fieldsValue) {
     const unValid = !this.requiredFields(fieldsValue);
-    this.setState({unValid});
+    this.setState({ unValid });
     return !unValid;
   }
   requiredFields(fieldsValue) {
@@ -124,9 +101,7 @@ export class StockTableHeader extends React.Component {
             <MatchesList>
               {this.props.matches.map((match, i) => (
                 <MatchesListItem
-                  onClick={() =>
-                    this.setState({ reference: match, matchIndex: 0 })
-                  }
+                  onClick={() => this.setState({ reference: match, matchIndex: 0 })}
                   selected={this.state.matchIndex === i}
                 >
                   {match}
@@ -135,15 +110,14 @@ export class StockTableHeader extends React.Component {
             </MatchesList>
           </MatchesListContainer>
         )}
-        <StockTableHeaderContainer data-cy={CY_STOCK_FORM_CONTAINER} content unValid={this.state.unValid}>
+        <StockTableHeaderContainer data-cy={stock.ADD_ITEM} content unValid={this.state.unValid}>
           <InteractiveStockField
-            required={ requiredFields.indexOf('reference') !== -1 }
+            required={requiredFields.indexOf('reference') !== -1}
             placeholder={this.props.intl.formatMessage(messages.reference)}
             value={this.state.reference}
             onChange={(reference) =>
-              this.setState(
-                { reference, matchIndex: 0, matchesVisible: true },
-                () => this.getMatches(reference)
+              this.setState({ reference, matchIndex: 0, matchesVisible: true }, () =>
+                this.getMatches(reference)
               )
             }
             onMoveUp={() =>
@@ -151,14 +125,12 @@ export class StockTableHeader extends React.Component {
                 matchIndex:
                   (this.state.matchIndex > 0
                     ? this.state.matchIndex - 1
-                    : this.props.matches.length - 1) %
-                  this.props.matches.length,
+                    : this.props.matches.length - 1) % this.props.matches.length,
               })
             }
             onMoveDown={() =>
               this.setState({
-                matchIndex:
-                  (this.state.matchIndex + 1) % this.props.matches.length,
+                matchIndex: (this.state.matchIndex + 1) % this.props.matches.length,
               })
             }
             onEscape={() => this.setState({ matchesVisible: false })}
@@ -169,60 +141,56 @@ export class StockTableHeader extends React.Component {
                   : this.state.reference,
               })
             }
-             data-cy={CY_STOCK_REF}
+            data-cy={stock.FIELD_REFERENCE}
           />
           <StockField
             placeholder={this.props.intl.formatMessage(messages.brand)}
             value={this.state.brand}
             onChange={(brand) => this.setState({ brand })}
-             data-cy={CY_STOCK_BRAND}
+            data-cy={stock.FIELD_BRAND}
           />
           <StockField
             placeholder={this.props.intl.formatMessage(messages.desc)}
             value={this.state.desc}
             onChange={(desc) => this.setState({ desc })}
             size="30"
-             data-cy={CY_STOCK_DESC}
+            data-cy={stock.FIELD_DESCRIPTION}
           />
           <StockField
-            required={ requiredFields.indexOf('price') !== -1 }
+            required={requiredFields.indexOf('price') !== -1}
             placeholder={this.props.intl.formatMessage(messages.price)}
             value={this.state.price}
             onChange={(price) =>
               this.setState({
-                price: isRealNumeric(price)
-                  ? price
-                  : price ? this.state.price : '',
+                price: isRealNumeric(price) ? price : price ? this.state.price : '',
               })
             }
-             data-cy={CY_STOCK_PRICE}
+            data-cy={stock.FIELD_PRICE}
           />
           <StockField
-            required={ requiredFields.indexOf('amount') !== -1 }
+            required={requiredFields.indexOf('amount') !== -1}
             placeholder={this.props.intl.formatMessage(messages.amount)}
             value={this.state.amount}
             onChange={(amount) =>
               this.setState({
-                amount: isNumeric(amount)
-                  ? parseInt(amount, 10)
-                  : amount ? this.state.amount : '',
+                amount: isNumeric(amount) ? parseInt(amount, 10) : amount ? this.state.amount : '',
               })
             }
-             data-cy={CY_STOCK_AMOUNT}
+            data-cy={stock.FIELD_AMOUNT}
           />
           <StockButton primary icon="search" onClick={() => this.search()} />
           <StockButton
             primary
             icon="plus"
-            onClick={() => this.validateStockForm(fieldsValue) &&
-              this.props.createStock(fieldsValue)
+            onClick={() =>
+              this.validateStockForm(fieldsValue) && this.props.createStock(fieldsValue)
             }
           />
           <StockButton
             primary
             icon="cloud-upload"
             onClick={() => this.openModal()}
-            data-cy={CY_STOCK_PLUS}
+            data-cy={stock.ADD_ITEM}
           />
         </StockTableHeaderContainer>
       </section>

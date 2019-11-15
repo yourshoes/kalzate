@@ -7,11 +7,11 @@ import StockTableBodyContainer from '../atoms/StockTableBodyContainer';
 import Title from '../atoms/Title';
 import Subtitle from '../atoms/Subtitle';
 import messages from '../messages';
-import { CY_STOCK_LIST_CONTAINER, CY_STOCK_LIST_ITEM } from '@kalzate/config/cy-selectors';
+import { stock } from '@kalzate/cy';
 
 export function StockTableBody(props) {
   return (
-    <StockTableBodyContainer data-cy={CY_STOCK_LIST_CONTAINER} content>
+    <StockTableBodyContainer data-cy={stock.ITEMS_LIST_CONTAINER} content>
       {!props.total && (
         <Center>
           <NotFound icon="thumbsdown">
@@ -35,7 +35,7 @@ export function StockTableBody(props) {
           tmp={props.tmp}
           updateTmpData={props.updateTmpData}
           addStockToTicket={props.addStockToTicket}
-          data-cy={CY_STOCK_LIST_ITEM}
+          data-cy={stock.ITEMS_LIST}
         />
       )}
     </StockTableBodyContainer>

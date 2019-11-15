@@ -22,27 +22,25 @@ export class StockField extends React.Component {
     this.setState({ value: props.value });
   }
   render() {
-    const Section = this.props.size ? Section30 : Section10;
+    const { size, readonly, required, placeholder, onChange, ...other } = this.props;
+
+    const Section = size ? Section30 : Section10;
     return (
       <Section>
         <FloatLabel>
-          {!this.props.readonly && (
+          {!readonly && (
             <StockInput
-              required={this.props.required}
+              required={required}
               type="text"
-              placeholder={this.props.placeholder}
+              placeholder={placeholder}
               onChange={({ target }) =>
-                this.setState({ value: target.value }, () =>
-                  this.props.onChange(target.value)
-                )
+                this.setState({ value: target.value }, () => onChange(target.value))
               }
               value={this.state.value}
-              data-cy={this.props["data-cy"]}
+              {...other}
             />
           )}
-          <StockLabel readonly={this.props.readonly}>
-            {this.props.placeholder}
-          </StockLabel>
+          <StockLabel readonly={readonly}>{placeholder}</StockLabel>
         </FloatLabel>
       </Section>
     );
