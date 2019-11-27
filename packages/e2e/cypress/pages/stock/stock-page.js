@@ -34,7 +34,9 @@ class StockPage {
   }
 
   static type(query, selector) {
-    cy.getCy(selector).filter('input').type(query);
+    cy.getCy(selector)
+      .filter('input')
+      .type(query);
   }
 
   static addNewItem() {
@@ -50,6 +52,23 @@ class StockPage {
       amount: amount || 5,
     });
     this.addNewItem();
+  }
+
+  static async clearStock() {
+    let windowInstance;
+    return cy
+      .window()
+      .then((window) => {
+        windowInstance = window;
+        return window.indexedDB.databases();
+      })
+      .then((databases) => databases.map(({ name }) => name))
+      .then((databasesName) =>
+        Promise.all(
+          databasesName.map((databaseName) => windowInstance.indexedDB.deleteDatabase(databaseName))
+        )
+      )
+      .then(() => this.visit());
   }
 }
 
