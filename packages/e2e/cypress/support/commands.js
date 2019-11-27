@@ -10,7 +10,7 @@
 //
 //
 // -- This is a parent command --
-Cypress.Commands.add('getCy', (cySelector) => cy.get(`[data-cy="${cySelector}"]`));
+Cypress.Commands.add('getCy', cySelector => cy.get(`[data-cy="${cySelector}"]`));
 //
 //
 // -- This is a child command --

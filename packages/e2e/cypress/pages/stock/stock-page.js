@@ -34,7 +34,7 @@ class StockPage {
   }
 
   static type(query, selector) {
-    cy.getCy(selector).type(query);
+    cy.getCy(selector).filter('input').type(query);
   }
 
   static addNewItem() {
