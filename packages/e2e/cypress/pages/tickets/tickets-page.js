@@ -1,11 +1,11 @@
 import { stock } from '../../common/selectors';
 
-class StockPage {
+class TicketsPage {
   static visit() {
     cy.visit('/tickets');
   }
 
-  static typeNewItem({ ref, brand, desc, price, amount }) {
+  static createNewItem({ ref, brand, desc, price, amount }) {
     this.typeRef(ref);
     this.typeBrand(brand);
     this.typeDesc(desc);
@@ -40,17 +40,6 @@ class StockPage {
   static addNewItem() {
     cy.getCy(stock.ADD_ITEM).click({ force: true });
   }
-
-  static createNewItem({ ref, brand, desc, price, amount } = {}) {
-    this.typeNewItem({
-      ref: ref || new Date().getTime(),
-      brand: brand || 'brand',
-      desc: desc || 'desc',
-      price: price || '25',
-      amount: amount || 5,
-    });
-    this.addNewItem();
-  }
 }
 
-export default StockPage;
+export default TicketsPage;

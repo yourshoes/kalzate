@@ -7,7 +7,7 @@ Given(/^I visit the tickets page$/, () => {
 });
 
 And(/^I create a new item$/, () => {
-  StockPage.createNewItem({
+  StockPage.typeNewItem({
     ref: '9029834',
     brand: 'sdfasdfdsf',
     desc: 'erwerwe',
