@@ -10,6 +10,7 @@ import StockTableHeaderContainer from '../atoms/StockTableHeaderContainer';
 import StockButton from './StockButton';
 import StockField from './StockField';
 import messages from '../messages';
+import { stock } from '@kalzate/cy';
 
 const isRealNumeric = function (input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
@@ -21,7 +22,10 @@ export function StockTableRows(props) {
     <StockTableContainer>
       {props.items.map(({ _data }, i) => (
         <StockTableHeaderContainer key={i} even={(i + 1) % 2} data-cy={props['data-cy']}>
-          <StockField placeholder={_data.reference || this.props.intl.formatMessage(messages.reference)} readonly />
+          <StockField 
+          placeholder={_data.reference || this.props.intl.formatMessage(messages.reference)} 
+          data-cy={stock.FIELD_REFERENCE}
+          readonly />
           <StockField
             placeholder={_data.brand || this.props.intl.formatMessage(messages.brand)}
             value={
