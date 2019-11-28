@@ -34,7 +34,7 @@ class StockPage {
   }
 
   static type(query, selector) {
-    cy.getCy(selector)
+    query && cy.getCy(selector)
       .filter('input')
       .type(query);
   }
@@ -45,11 +45,11 @@ class StockPage {
 
   static createNewItem({ ref, brand, desc, price, amount } = {}) {
     this.typeNewItem({
-      ref: ref || new Date().getTime(),
-      brand: brand || 'brand',
-      desc: desc || 'desc',
-      price: price || '25',
-      amount: amount || 5,
+      ref,
+      brand,
+      desc,
+      price,
+      amount,
     });
     this.addNewItem();
   }
