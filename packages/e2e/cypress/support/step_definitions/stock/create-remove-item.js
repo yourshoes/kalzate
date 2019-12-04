@@ -14,10 +14,10 @@ And(/^I have no items in the stock$/, () => {
 And(/^I create a new item$/, () => {
   StockPage.createNewItem({
     ref: 'reference',
-    brand: 'brand',
-    desc: 'desc',
     price: '10',
     amount: '10',
+    brand: 'brand',
+    desc: 'desc',
   });
 });
 
