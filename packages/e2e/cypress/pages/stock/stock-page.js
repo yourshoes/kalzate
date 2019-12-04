@@ -43,6 +43,10 @@ class StockPage {
     cy.getCy(stock.ADD_ITEM).click({ force: true });
   }
 
+  static removeItem(ref) {
+    cy.getCy(stock.ITEMS_LIST_CONTAINER).contains(ref);
+  }
+
   static createNewItem({ ref, brand, desc, price, amount } = {}) {
     this.typeNewItem({
       ref,

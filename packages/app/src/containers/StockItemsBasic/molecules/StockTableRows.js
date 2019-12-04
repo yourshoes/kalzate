@@ -93,6 +93,7 @@ export function StockTableRows(props) {
           <StockButton
             primary
             icon="remove-close"
+            data-cy={stock.REMOVE_ITEM}
             onClick={() => props.onRemove(_data)}
           />
           <StockButton primary icon="link-external" onClick={() => props.addStockToTicket(_data)} />

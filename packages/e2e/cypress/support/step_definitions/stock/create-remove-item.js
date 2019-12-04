@@ -24,3 +24,7 @@ And(/^I create a new item$/, () => {
 Then(/^a new line is added to the items list$/, () => {
   StockResultsPage.expect().haveItem.withRef('reference', 'exist');
 });
+
+And(/^I remove the new item$/, () => {
+  StockPage.removeItem('reference');
+});
