@@ -1,6 +1,6 @@
-Feature: Create/Remove item in store
+Feature: Create/Remove item in stock
   @critical
-  Scenario: add new item to store
+  Scenario: add new item to stock and remove it
     Given I visit the tickets page
     And I have no items in the stock
     And I create a new item

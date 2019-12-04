@@ -34,9 +34,11 @@ class StockPage {
   }
 
   static type(query, selector) {
-    query && cy.getCy(selector)
-      .filter('input')
-      .type(query);
+    query &&
+      cy
+        .getCy(selector)
+        .filter('input')
+        .type(query);
   }
 
   static addNewItem() {
@@ -44,7 +46,11 @@ class StockPage {
   }
 
   static removeItem(ref) {
-    cy.getCy(stock.ITEMS_LIST_CONTAINER).contains(ref);
+    cy.getCy(stock.ITEMS_LIST_CONTAINER)
+      .contains(ref)
+      .closest(`[data-cy="${stock.ITEMS_LIST}"]`)
+      .find(`[data-cy="${stock.REMOVE_ITEM}"]`)
+      .click({ force: true });
   }
 
   static createNewItem({ ref, brand, desc, price, amount } = {}) {
