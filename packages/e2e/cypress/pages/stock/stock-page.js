@@ -46,9 +46,9 @@ class StockPage {
   }
 
   static removeItem(ref) {
-    cy.getCy(stock.ITEMS_LIST_CONTAINER)
+    cy.getCy(stock.ITEMS_LIST)
       .contains(ref)
-      .closest(`[data-cy="${stock.ITEMS_LIST}"]`)
+      .closest(`[data-cy="${stock.ITEM}"]`)
       .find(`[data-cy="${stock.REMOVE_ITEM}"]`)
       .click({ force: true });
   }
@@ -62,23 +62,6 @@ class StockPage {
       amount,
     });
     this.addNewItem();
-  }
-
-  static async clearStock() {
-    let windowInstance;
-    return cy
-      .window()
-      .then((window) => {
-        windowInstance = window;
-        return window.indexedDB.databases();
-      })
-      .then((databases) => databases.map(({ name }) => name))
-      .then((databasesName) =>
-        Promise.all(
-          databasesName.map((databaseName) => windowInstance.indexedDB.deleteDatabase(databaseName))
-        )
-      )
-      .then(() => this.visit());
   }
 }
 

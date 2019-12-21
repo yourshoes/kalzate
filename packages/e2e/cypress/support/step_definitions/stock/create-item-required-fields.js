@@ -1,10 +1,11 @@
 import { Given, Then, And } from 'cypress-cucumber-preprocessor/steps';
+import CommonPage from '../../../pages/common/common-page';
 import StockPage from '../../../pages/stock/stock-page';
 import StockResultsPage from '../../../pages/stock/stock-results-page';
 
 Given(/^I visit the tickets page$/, () => {
+  CommonPage.clearDB();
   StockPage.visit();
-  StockPage.clearStock();
 });
 
 And(/^I have no items in the stock$/, () => {

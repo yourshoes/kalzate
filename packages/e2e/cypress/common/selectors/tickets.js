@@ -1,0 +1,13 @@
+export const PAYMENT_METHOD_CREDIT_CARD = 'tickets.paymentMethodCreditCard';
+export const PAYMENT_METHOD_CASH = 'tickets.paymentMethodCash';
+export const PAYMENT_METHOD_VOUCHER = 'tickets.paymentMethodVoucher';
+export const PAYMENT_METHOD_PHONE = 'tickets.paymentMethodPhone';
+export const PAYMENT_INPUT = 'tickets.paymentInput';
+export const SELL_CHECKOUT_BUTTON = 'tickets.sellCheckoutButton';
+export const SELL_SAVE_BUTTON = 'tickets.sellSaveButton';
+export const NEW_TICKET_BUTTON = 'tickets.newTicketButton';
+export const RETURN_VOUCHER_BUTTON = 'tickets.returnVoucherButton';
+export const TICKETS_LIST = 'tickets.ticketsList';
+export const RETURN_ITEMS_LIST = 'tickets.returnItemsList';
+export const RETURN_ITEM_ROW = 'tickets.returnItemRow';
+export const INCREASE_RETURN_ITEM_BUTTON = 'tickets.increaseReturnItemButton';

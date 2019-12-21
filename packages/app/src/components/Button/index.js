@@ -16,9 +16,10 @@ const getColor = (props) => {
 };
 
 function Button(props) {
+  const { title, ...other } = props;
   return (
-    <StyledButton color={getColor(props)} {...props}>
-      {props.icon && <Octicon name={props.icon} />} {props.title}
+    <StyledButton color={getColor(props)} {...other}>
+      {props.icon && <Octicon name={props.icon} />} {title}
     </StyledButton>
   );
 }

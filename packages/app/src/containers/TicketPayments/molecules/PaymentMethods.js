@@ -18,12 +18,14 @@ import PaymentMethodsSection from '../atoms/PaymentMethodsSection';
 import PaymentMethodsItem from '../atoms/PaymentMethodsItem';
 import PaymentMethodsItemTitle from '../atoms/PaymentMethodsItemTitle';
 import messages from '../messages';
+import { tickets as ticketsSelectors } from '@kalzate/cy';
 
 export function PaymentMethods({ method, setMethod }) {
   return (
     <PaymentSectionContainer>
       <PaymentMethodsSection>
         <PaymentMethodsItem
+          data-cy={ticketsSelectors.PAYMENT_METHOD_CREDIT_CARD}
           onClick={() => setMethod(PAYMENT_METHOD_CREDIT_CARD)}
           selected={method === PAYMENT_METHOD_CREDIT_CARD}
         >
@@ -35,6 +37,7 @@ export function PaymentMethods({ method, setMethod }) {
       </PaymentMethodsSection>
       <PaymentMethodsSection>
         <PaymentMethodsItem
+          data-cy={ticketsSelectors.PAYMENT_METHOD_CASH}
           onClick={() => setMethod(PAYMENT_METHOD_CASH)}
           selected={method === PAYMENT_METHOD_CASH}
         >
@@ -46,6 +49,7 @@ export function PaymentMethods({ method, setMethod }) {
       </PaymentMethodsSection>
       <PaymentMethodsSection>
         <PaymentMethodsItem
+          data-cy={ticketsSelectors.PAYMENT_METHOD_VOUCHER}
           onClick={() => setMethod(PAYMENT_METHOD_TICKET)}
           selected={method === PAYMENT_METHOD_TICKET}
         >
@@ -57,6 +61,7 @@ export function PaymentMethods({ method, setMethod }) {
       </PaymentMethodsSection>
       <PaymentMethodsSection>
         <PaymentMethodsItem
+          data-cy={ticketsSelectors.PAYMENT_METHOD_PHONE}
           onClick={() => setMethod(PAYMENT_METHOD_PHONE)}
           selected={method === PAYMENT_METHOD_PHONE}
         >

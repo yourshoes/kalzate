@@ -11,7 +11,7 @@ class StockResultsPage {
           });
       },
       toNotHaveItems: () => {
-        cy.getCy(stock.ITEMS_LIST_CONTAINER).contains("Hey, Looks as there's no Items!");
+        cy.getCy(stock.ITEMS_LIST).contains("Hey, Looks as there's no Items!");
       },
       haveItem: {
         withRef: (ref, expectation) => {

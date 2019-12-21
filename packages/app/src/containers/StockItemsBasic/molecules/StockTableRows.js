@@ -10,7 +10,7 @@ import StockTableHeaderContainer from '../atoms/StockTableHeaderContainer';
 import StockButton from './StockButton';
 import StockField from './StockField';
 import messages from '../messages';
-import { stock } from '@kalzate/cy';
+import { stock as stockSelectors } from '@kalzate/cy';
 
 const isRealNumeric = function(input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
@@ -24,7 +24,7 @@ export function StockTableRows(props) {
         <StockTableHeaderContainer key={i} even={(i + 1) % 2} data-cy={props['data-cy']}>
           <StockField
             placeholder={_data.reference || props.intl.formatMessage(messages.reference)}
-            data-cy={stock.FIELD_REFERENCE}
+            data-cy={stockSelectors.FIELD_REFERENCE}
             readonly
           />
           <StockField
@@ -94,10 +94,15 @@ export function StockTableRows(props) {
           <StockButton
             primary
             icon="remove-close"
-            data-cy={stock.REMOVE_ITEM}
+            data-cy={stockSelectors.REMOVE_ITEM}
             onClick={() => props.onRemove(_data)}
           />
-          <StockButton primary icon="link-external" onClick={() => props.addStockToTicket(_data)} />
+          <StockButton
+            primary
+            icon="link-external"
+            data-cy={stockSelectors.ADD_ITEM_TO_TICKET}
+            onClick={() => props.addStockToTicket(_data)}
+          />
         </StockTableHeaderContainer>
       ))}
     </StockTableContainer>

@@ -4,7 +4,7 @@
   "description": "An example for Cypress and Cucumber usage",
   "module": "./cypress/common/selectors",
   "scripts": {
-    "open": "cypress open --config-file cypress/config/localhost.json",
+    "test": "cypress open --config-file cypress/config/localhost.json",
     "ci": "cypress run --config-file cypress/config/localhost.json"
   },
   "author": "",
