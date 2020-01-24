@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import { register as registerServiceWorker } from 'lib/serviceWorker';
-import { unregister as registerServiceWorker } from 'lib/serviceWorker';
+import { unregister as unregisterServiceWorker } from 'lib/serviceWorker';
 import App from './app';
 import { translationMessages } from './i18n';
 
@@ -37,7 +37,7 @@ function initApplication() {
     render(translationMessages);
   }
 
-  registerServiceWorker();
+  unregisterServiceWorker();
 }
 
 initApplication();
