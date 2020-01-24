@@ -31,6 +31,7 @@ module.exports = function override(config, env) {
   // config = rewireReactHotLoader(config, env);
   config = rewireYarnWorkspaces(config, env);
   config = addBabelPlugin('@babel/proposal-export-default-from')(config);
+  config = addBabelPlugin('@babel/plugin-proposal-export-namespace-from')(config);
 
   if (env === 'production') {
     config = Object.assign(config, {

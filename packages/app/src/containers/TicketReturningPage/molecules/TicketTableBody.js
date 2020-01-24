@@ -15,6 +15,7 @@ import TicketTableAmountFieldFixed from './TicketTableAmountFieldFixed';
 import TicketTableButton from './TicketTableButton';
 import Section5 from '../atoms/Section5';
 import TicketButton from '../atoms/TicketButton';
+import { tickets as ticketsSelectors } from '@kalzate/cy';
 
 export class TicketTableBody extends React.Component {
   getTicketItemAction(item, i) {
@@ -43,6 +44,7 @@ export class TicketTableBody extends React.Component {
       <Section5>
         {/* onClick={() => this.props.returnStockFromTicket(item, i, (item.amount_return || 0) + 1)} */}
         <TicketButton
+          data-cy={ticketsSelectors.INCREASE_RETURN_ITEM_BUTTON}
           primary
           width={50}
           icon="arrow-up"
@@ -81,9 +83,10 @@ export class TicketTableBody extends React.Component {
   render() {
     return (
       <HeightAdapterContainer>
-        <TicketTableBodyContainer>
+        <TicketTableBodyContainer data-cy={ticketsSelectors.RETURN_ITEMS_LIST}>
           {this.props.ticket.items.map((item, i) => (
             <TicketTableRowContainer
+              data-cy={ticketsSelectors.RETURN_ITEM_ROW}
               key={i}
               even={(i + 1) % 2}
               highlight={

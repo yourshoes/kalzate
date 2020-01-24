@@ -41,6 +41,7 @@ export const MenuGroup = styled.ul`
   overflow: hidden;
 `;
 
+//@todo convert to ul element
 export const MenuTicketListContainer = styled.div`
   height: calc(100% - 24px);
   overflow: auto;

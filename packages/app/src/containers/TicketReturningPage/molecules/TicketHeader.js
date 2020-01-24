@@ -15,6 +15,7 @@ import SectionLeft from '../atoms/SectionLeft';
 import SectionRight from '../atoms/SectionRight';
 import TicketSearchField from './TicketSearchField';
 import messages from '../messages';
+import { tickets as ticketsSelectors } from '@kalzate/cy';
 
 export class TicketHeader extends React.Component {
   render() {
@@ -34,6 +35,7 @@ export class TicketHeader extends React.Component {
         <Section50>
           <SectionRight>
             <Button
+              data-cy={ticketsSelectors.RETURN_VOUCHER_BUTTON}
               inactive={
                 isEmpty(this.props.ticket.items) ||
                 this.props.ticket.items.every((item) => !item.amount_return)

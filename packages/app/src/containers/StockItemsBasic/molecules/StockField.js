@@ -32,14 +32,15 @@ export class StockField extends React.Component {
               type="text"
               placeholder={this.props.placeholder}
               onChange={({ target }) =>
-                this.setState({ value: target.value }, () =>
-                  this.props.onChange(target.value)
-                )
+                this.setState({ value: target.value }, () => this.props.onChange(target.value))
               }
               value={this.state.value}
+              data-cy={this.props['data-cy']}
             />
           )}
-          <StockLabel readonly={this.props.readonly}>
+          <StockLabel 
+          readonly={this.props.readonly} 
+          data-cy={this.props.readonly && this.props['data-cy']}>
             {this.props.placeholder}
           </StockLabel>
         </FloatLabel>

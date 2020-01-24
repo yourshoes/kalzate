@@ -10,11 +10,11 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
+Cypress.Commands.add('getCy', cySelector => cy.get(`[data-cy="${cySelector}"]`));
 //
 //
 // -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
+//
 //
 //
 // -- This is a dual command --

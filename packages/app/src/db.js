@@ -1,4 +1,5 @@
 import kalzateDB from '@kalzate/db/src';
+
 import { merge } from 'lodash';
 import {
   DEFAULT_SETTINGS,

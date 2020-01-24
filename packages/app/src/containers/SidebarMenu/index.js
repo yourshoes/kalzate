@@ -4,10 +4,7 @@ import { withRouter } from 'react-router';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import {
-  makeSelectTicketItems,
-  makeSelectTicketID,
-} from './selectors';
+import { makeSelectTicketItems, makeSelectTicketID } from './selectors';
 // import { mouseTrap } from 'react-mousetrap';
 // import { createStructuredSelector } from 'reselect';
 // import { push } from 'react-router-redux';
@@ -16,7 +13,16 @@ import {
 import { loadTicket, searchTickets } from './actions';
 // import { selectResources, selectResource } from './selectors';
 import messages from './messages';
-import { Container, Menu, MenuFooter, MenuSearch, MenuGroup, MenuItem, MenuTicketListContainer } from './wrappers';
+import {
+  Container,
+  Menu,
+  MenuFooter,
+  MenuSearch,
+  MenuGroup,
+  MenuItem,
+  MenuTicketListContainer,
+} from './wrappers';
+import { tickets as ticketsSelectors } from '@kalzate/cy';
 
 function SidebarMenu(props) {
   const routeName = props.routes[props.routes.length - 1].name;
@@ -24,28 +30,13 @@ function SidebarMenu(props) {
     <Container>
       <Menu>
         <MenuGroup static>
-          <MenuItem
-            actived={routeName === 'home'}
-            to="/"
-            highlight
-            cursor
-          >
+          <MenuItem actived={routeName === 'home'} to="/" highlight cursor>
             <FormattedMessage {...messages.home} />
           </MenuItem>
-          <MenuItem
-          actived={routeName === 'settings'}
-          to="/settings"
-          highlight
-          cursor
-          >
+          <MenuItem actived={routeName === 'settings'} to="/settings" highlight cursor>
             <FormattedMessage {...messages.settings} />
           </MenuItem>
-          <MenuItem
-          actived={routeName === 'discover'}
-          to="/discover"
-          highlight
-          cursor
-          >
+          <MenuItem actived={routeName === 'discover'} to="/discover" highlight cursor>
             <FormattedMessage {...messages.discover} />
           </MenuItem>
         </MenuGroup>
@@ -53,15 +44,15 @@ function SidebarMenu(props) {
           <MenuItem actived={routeName === 'tickets'} noroute>
             <FormattedMessage {...messages.tickets} />
           </MenuItem>
-          
+
           {/**
             <MenuItem title="10001" small highlight cursor />
             <MenuItem title="10002" small highlight cursor />
             <MenuItem title="100013" small highlight cursor />
           **/}
-          <MenuTicketListContainer>
-            {props.tickets.map((ticket) =>
-              (<MenuItem
+          <MenuTicketListContainer data-cy={ticketsSelectors.TICKETS_LIST}>
+            {props.tickets.map((ticket) => (
+              <MenuItem
                 key={ticket.created_at}
                 selected={ticket.id === props.ticketID}
                 onClick={() => {
@@ -70,15 +61,19 @@ function SidebarMenu(props) {
                   props.router.push('/tickets');
                 }}
                 state={ticket.state}
-                small highlight cursor
+                small
+                highlight
+                cursor
               >
                 {String(ticket.created_at)}
               </MenuItem>
-              ))}
+            ))}
           </MenuTicketListContainer>
         </MenuGroup>
       </Menu>
-      <MenuSearch onChange={(field, value, operator = '$eq') => props.searchTickets(field, value, operator)} />
+      <MenuSearch
+        onChange={(field, value, operator = '$eq') => props.searchTickets(field, value, operator)}
+      />
       <MenuFooter to="/tickets" icon="inbox">
         <FormattedMessage {...messages.cashDrawer} />
       </MenuFooter>
@@ -106,4 +101,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SidebarMenu));
-

@@ -29,13 +29,16 @@ export class TicketsPage extends React.Component {
   componentDidMount() {}
 
   getItemsComponent() {
-    if (this.props.isReadOnly) return <TicketReadOnlyPage />;
+    if (this.props.isReadOnly) {
+      return <TicketReadOnlyPage />;
+    }
 
     if (
       this.props.ticketState === TICKET_SOLD_STATE ||
       this.props.ticketState === TICKET_RETURN_STATE
-    )
+    ) {
       return <TicketReturningPage />;
+    }
 
     return <TicketSellingPage />;
   }

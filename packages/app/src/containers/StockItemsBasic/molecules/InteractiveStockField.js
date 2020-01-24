@@ -59,6 +59,7 @@ export class InteractiveStockField extends React.Component {
                 return true;
               }}
               value={this.state.value}
+              data-cy={this.props['data-cy']}
             />
           )}
           <StockLabel readonly={this.props.readonly}>{this.props.placeholder}</StockLabel>
