@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "electron-builder",
-    "prebuild": "cross-env NODE_ENV=desktop yarn --cwd ../app build && mv ../app/build build && cp desktop/* build",
+    "prebuild": "mv ../app/build build && cp desktop/* build",
     "postbuild": "rm -rf build"
   },
   "devDependencies": {
