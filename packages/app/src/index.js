@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { register as registerServiceWorker } from 'lib/serviceWorker';
+// import { register as registerServiceWorker } from 'lib/serviceWorker';
+import { unregister as registerServiceWorker } from 'lib/serviceWorker';
 import App from './app';
 import { translationMessages } from './i18n';
 

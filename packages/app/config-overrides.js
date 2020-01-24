@@ -33,27 +33,13 @@ module.exports = function override(config, env) {
   config = rewireYarnWorkspaces(config, env);
   config = addBabelPlugin('@babel/proposal-export-default-from')(config);
 
-  console.log('env is', env);
-
-  delete config.node;
-  config.target = 'electron-main';
-  // if (env === 'production') {
-  //   config = Object.assign(config, {
-  //     // plugins: [new BundleAnalyzerPlugin(), new WebpackBar({ profile: true })],
-  //     externals: { esprima: 'esprima' },
-  //   });
-  // }
-
-  // if (env === 'desktop') {
-  // config = Object.assign(config, {
-  //   target: 'electron-main',
-  //   externals: { esprima: 'esprima' },
-  //   output: {
-  //     path: path.resolve(process.cwd(), 'build'),
-  //     filename: 'bundle',
-  //   },
-  // });
-  // }
+  // delete config.node;
+  if (env === 'production') {
+    config = Object.assign(config, {
+      // plugins: [new BundleAnalyzerPlugin(), new WebpackBar({ profile: true })],
+      externals: { esprima: 'esprima' },
+    });
+  }
 
   return config;
 };

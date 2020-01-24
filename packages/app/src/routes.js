@@ -3,6 +3,11 @@
 // See http://blog.mxstbr.com/2016/01/react-apps-with-pages for more information
 // about the code splitting business
 import { getAsyncInjectors } from 'utils/asyncInjectors';
+import HomePage from 'containers/HomePage';
+import SettingsPage from 'containers/SettingsPage';
+import DiscoverPage from 'containers/DiscoverPage';
+import TicketsPage from 'containers/TicketsPage';
+import NotFoundPage from 'containers/NotFoundPage';
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -21,69 +26,72 @@ export default function createRoutes(store) {
       path: '/',
       name: 'home',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([import('containers/HomePage')]);
+        // const importModules = Promise.all([import('containers/HomePage')]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([component]) => {
-          renderRoute(component);
-        });
+        // importModules.then(([component]) => {
+          renderRoute(HomePage);
+        // });
 
-        importModules.catch(errorLoading);
+        // importModules.catch(errorLoading);
       },
     },
     {
       path: '/settings',
       name: 'settings',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([import('containers/SettingsPage')]);
+        // const importModules = Promise.all([import('containers/SettingsPage')]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([component]) => {
-          renderRoute(component);
-        });
+        // importModules.then(([component]) => {
+          renderRoute(SettingsPage);
+        // });
 
-        importModules.catch(errorLoading);
+        // importModules.catch(errorLoading);
       },
     },
     {
       path: '/discover',
       name: 'discover',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([import('containers/DiscoverPage')]);
+        // const importModules = Promise.all([import('containers/DiscoverPage')]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([component]) => {
-          renderRoute(component);
-        });
+        // importModules.then(([component]) => {
+          renderRoute(DiscoverPage);
+        // });
 
-        importModules.catch(errorLoading);
+        // importModules.catch(errorLoading);
       },
     },
     {
       path: '/tickets(/:id)',
       name: 'tickets',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([import('containers/TicketsPage')]);
+        // const importModules = Promise.all([import('containers/TicketsPage')]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([component]) => {
-          renderRoute(component);
-        });
+        // importModules.then(([component]) => {
+          renderRoute(TicketsPage);
+        // });
 
-        importModules.catch(errorLoading);
+        // importModules.catch(errorLoading);
       },
     },
     {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
-        import('containers/NotFoundPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
+        const renderRoute = loadModule(cb);
+
+        renderRoute(NotFoundPage)
+        // import('containers/NotFoundPage')
+        //   .then(loadModule(cb))
+        //   .catch(errorLoading);
       },
     },
   ];
