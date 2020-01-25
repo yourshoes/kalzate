@@ -81,8 +81,7 @@ export default function createRoutes(store) {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
-        // import('containers/NotFoundPage')
-        import('containers/HomePage') // to make desktop load homepage by default
+        import('containers/NotFoundPage')
           .then(loadModule(cb))
           .catch(errorLoading);
       },

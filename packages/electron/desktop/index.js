@@ -24,6 +24,10 @@ function createWindow() {
     width: 800,
     'min-height': 500,
     'min-width': 900,
+    webPreferences: {
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
 
   mainWindow.once('ready-to-show', () => {
