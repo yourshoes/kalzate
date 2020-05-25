@@ -180,7 +180,7 @@ export class ModalDropZone extends React.Component {
             <FormattedMessage {...messages.modalDesc} />
             {/* <Tooltip animated color="inherit" right="62" top="135" direction="down" onClick={(event) => this.downloadSample(event)}>*/}
             {/* <Tooltip animated color="inherit" right="100" top="100" direction="down" onClick={(event) => this.downloadSample(event)}>*/}
-            <Tooltip animated color="inherit" right="65" top="5" direction="down" onClick={(event) => this.downloadSample(event)}>
+            <Tooltip animated color="inherit" right="40" top="5" direction="down" onClick={(event) => this.downloadSample(event)}>
               <ImportStockInfoTooltip onClick={(event) => this.downloadSample(event)}>
                 <FormattedMessage {...messages.modalHelp} />
               </ImportStockInfoTooltip>

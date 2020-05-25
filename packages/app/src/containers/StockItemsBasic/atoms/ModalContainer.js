@@ -20,7 +20,7 @@ export const ModalContainer = styled.section`
 `;
 
 export const DottedContainer = styled.div`
-  width: 500px;
+  width: 550px;
   margin: auto;
   border: 2px dotted rgba(163, 168, 174, 0.6);
   height: 250px;
@@ -32,7 +32,7 @@ export const DottedContainer = styled.div`
 `;
 
 export const OptionsContainer = styled.div`
-  width: 500px;
+  width: 550px;
   margin: 10px auto;
 `;
 
