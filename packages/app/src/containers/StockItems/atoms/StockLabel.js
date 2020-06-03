@@ -18,6 +18,10 @@ export const StockLabel = styled.label`
   margin-left: 10px;
   font-size: ${(props) => (props.readonly ? '1.7em' : '14px')};
   user-select: none;
+  width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export default StockLabel;

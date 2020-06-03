@@ -18,9 +18,9 @@ export const Row2 = styled.section`
   flex: 1 1 auto;
   flex-direction: row;
   min-width: 100%;
-  height: 50%;
-  max-height: 50%;
-  min-height: 50%;
+  ${(props) => (props.flat ? 'height: auto' : 'height: calc(50vh - 16px)')};
+  ${(props) => (props.flat ? 'max-height: auto' : 'max-height: calc(50vh - 16px)')};
+  ${(props) => (props.flat ? 'min-height: auto' : 'min-height: calc(50vh - 16px)')};
 `;
 
 const width = (w) => `width: ${w}; min-width: ${w}; max-width: ${w};`;

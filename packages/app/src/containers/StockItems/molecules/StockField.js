@@ -36,7 +36,7 @@ export class StockField extends React.Component {
               value={this.state.value}
             />
           )}
-          <StockLabel readonly={this.props.readonly}>
+          <StockLabel readonly={this.props.readonly} title={this.props.placeholder}>
             {this.props.placeholder}
           </StockLabel>
         </FloatLabel>

@@ -38,9 +38,10 @@ export class StockField extends React.Component {
               data-cy={this.props['data-cy']}
             />
           )}
-          <StockLabel 
-          readonly={this.props.readonly} 
-          data-cy={this.props.readonly && this.props['data-cy']}>
+          <StockLabel
+            readonly={this.props.readonly}
+            data-cy={this.props.readonly && this.props['data-cy']}
+            title={this.props.placeholder} >
             {this.props.placeholder}
           </StockLabel>
         </FloatLabel>

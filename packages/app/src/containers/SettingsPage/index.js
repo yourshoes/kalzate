@@ -31,7 +31,7 @@ export class SettingsPage extends React.Component {
               <Title><FormattedMessage {...messages.userSettings} /></Title>
               <FormWrapper>
                 <Grid>
-                  <Row2>
+                  <Row2 flat>
                     <Column>
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.countryField })} value={this.props.settings.country} onBlur={(country) => this.props.update(Constants.COUNTRY_SETTING, country)} />}
                     </Column>
@@ -39,7 +39,7 @@ export class SettingsPage extends React.Component {
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.langField })} value={this.props.settings.lang} onBlur={(lang) => this.props.update(Constants.LANG_SETTING, lang.toLowerCase())} />}
                     </Column>
                   </Row2>
-                  <Row2>
+                  <Row2 flat>
                     <Column>
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.themeField })} value={this.props.settings.theme} onBlur={(theme) => this.props.update(Constants.THEME_SETTING, theme)} />}
                     </Column>
@@ -56,7 +56,7 @@ export class SettingsPage extends React.Component {
               <Title><FormattedMessage {...messages.companySettings} /></Title>
               <FormWrapper>
                 <Grid>
-                  <Row2>
+                  <Row2 flat>
                     <Column>
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.nameField })} value={this.props.settings.name} onBlur={(name) => this.props.update(Constants.NAME_SETTING, name)} />}
                     </Column>
@@ -64,7 +64,7 @@ export class SettingsPage extends React.Component {
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.addressField })} value={this.props.settings.address} onBlur={(address) => this.props.update(Constants.ADDRESS_SETTING, address)} />}
                     </Column>
                   </Row2>
-                  <Row2>
+                  <Row2 flat>
                     <Column>
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.emailField })} value={this.props.settings.email} onBlur={(email) => this.props.update(Constants.EMAIL_SETTING, email)} />}
                     </Column>
@@ -91,7 +91,7 @@ export class SettingsPage extends React.Component {
             <Panel><Title><FormattedMessage {...messages.storageSettings} /></Title>
               <FormWrapper>
                 <Grid>
-                  <Row2>
+                  <Row2 flat>
                     {/* Web mode the UI notifies you to remember you about making the backup, i.e. "Hey, last time you made a backup was ..., it is recommended to make a new backup. Click here to back data up", However in desktop mode it makes the backup and then notifies you about the backup as made*/}
                     <Column>
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupPeriodField })} value={this.props.settings.backupFrecuency} onBlur={(backupFrecuency) => this.props.update(Constants.BACKUP_FRECUENCY_SETTING, backupFrecuency)} />}
@@ -100,7 +100,7 @@ export class SettingsPage extends React.Component {
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.backupLocationField })} value={this.props.settings.backupLocation} onBlur={(backupLocation) => this.props.update(Constants.BACKUP_LOCATION_SETTING, backupLocation)} />}
                     </Column>
                   </Row2>
-                  <Row2>
+                  <Row2 flat>
                     <Column>
                       {this.props.settings && <TextField placeholder={this.props.intl.formatMessage({ ...messages.printerNameField })} value={this.props.settings.printerName} onBlur={(printerName) => this.props.update(Constants.PRINTER_NAME_SETTING, printerName)} />}
                     </Column>
