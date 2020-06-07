@@ -2,6 +2,7 @@ const rewireYarnWorkspaces = require('react-app-rewire-yarn-workspaces');
 // const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
+const path = require('path');
 
 const getBabelLoader = (config) => {
   const babelLoaderFilter = (rule) =>
@@ -33,20 +34,11 @@ module.exports = function override(config, env) {
   config = addBabelPlugin('@babel/proposal-export-default-from')(config);
   config = addBabelPlugin('@babel/plugin-proposal-export-namespace-from')(config);
 
+  // delete config.node;
   if (env === 'production') {
     config = Object.assign(config, {
       // plugins: [new BundleAnalyzerPlugin(), new WebpackBar({ profile: true })],
       externals: { esprima: 'esprima' },
-    });
-  }
-
-  if (env === 'desktop') {
-    config = Object.assign(config, {
-      target: 'electron-main',
-      externals: { esprima: 'esprima' },
-      output: {
-        filename: 'bundle.js',
-      },
     });
   }
 

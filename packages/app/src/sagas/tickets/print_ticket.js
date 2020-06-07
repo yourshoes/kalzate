@@ -5,11 +5,24 @@ import {
   PRINT_TICKET_ERROR_ACTION,
 } from 'containers/TicketSellingPage/constants';
 
+function print(text, options) {
+  try {
+    console.log(text, options);
+    window.ipcRenderer.send('print-ticket', text, options);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function* printTicket(action) {
   try {
     const { content, printerName, printerIP } = action;
 
     console.log(content, printerName, printerIP);
+    if(window.isElectron){
+      print(content, { printerName, printerIP });
+    }
+    
     yield put({
       ...action,
       type: PRINT_TICKET_SUCCESS_ACTION,

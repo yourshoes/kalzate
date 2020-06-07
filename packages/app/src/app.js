@@ -19,6 +19,7 @@ import 'sanitize.css/sanitize.css';
 
 // Import root app
 import App from 'containers/App';
+// import App from 'containers/AppDesktop';
 
 // Import selector for `syncHistoryWithStore`
 import { makeSelectLocationState } from 'containers/App/selectors';
@@ -37,6 +38,7 @@ import ThemeProvider from 'containers/ThemeProvider';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import configureStore from './store';
+// import configureStore from './store.desktop';
 
 // Import CSS reset and Global Styles
 import './global-styles';

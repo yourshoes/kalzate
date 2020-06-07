@@ -4,6 +4,8 @@
  */
 
 /* System imports */
+import React from 'react';
+import Octicon from 'react-octicon';
 import styled from 'styled-components';
 
 export const Section = styled.section`
@@ -52,3 +54,69 @@ export const Article = styled.article`
   min-width: 0;
   position: relative;
 `;
+
+
+const ToolbarContainer = styled.article`
+-webkit-app-region: drag;
+  background-color: ${(props) =>
+    props.theme && props.theme.app.bgColor
+      ? props.theme.app.bgColor
+      : '#161719'};
+  color: ${(props) =>
+    props.theme && props.theme.app.color ? props.theme.app.color : ' #a3a8ae'};
+  font-size: 15px;
+  width: 100%;
+  height: 35px;
+  border-bottom: ${(props) =>
+    props.theme && props.theme.app.border
+      ? props.theme.app.border
+      : '1px solid #27292c'};
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+
+const ToolbarIconContainer = styled.span`
+-webkit-app-region: no-drag;
+  height: 35px;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  align-items: center;
+  &:hover {
+    background-color: ${(props) =>
+    props.theme && props.theme.app.color ? props.theme.app.color : 'rgba(187, 183, 183, 0.6)'};
+    color:  ${(props) =>
+    props.theme && props.theme.app.bgColor ? props.theme.app.bgColor : 'transparent'};
+  }
+`;
+
+const ToolbarIcon = styled.span`
+-webkit-app-region: no-drag;
+  padding: 0 10px;
+  cursor: pointer;
+`;
+
+export const Toolbar = () => (
+  <ToolbarContainer>
+    <ToolbarIconContainer>
+      <ToolbarIcon
+        onClick={() => window.remote.getCurrentWindow().minimize()}
+      ><Octicon name="dash" /></ToolbarIcon>
+    </ToolbarIconContainer>
+    <ToolbarIconContainer>
+      <ToolbarIcon
+        onClick={() => window.remote.getCurrentWindow().isMaximized() ? window.remote.getCurrentWindow().unmaximize() : window.remote.getCurrentWindow().maximize()}
+      ><Octicon name="primitive-square" /></ToolbarIcon>
+    </ToolbarIconContainer>
+    <ToolbarIconContainer>
+      <ToolbarIcon
+        onClick={() => window.remote.getCurrentWindow().close()}
+      ><Octicon name="x" /></ToolbarIcon>
+    </ToolbarIconContainer>
+  </ToolbarContainer>);
+
+
