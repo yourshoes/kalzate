@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { mouseTrap } from 'react-mousetrap';
 import mouseTrapCore from 'mousetrap';
+import { withRouter } from 'react-router';
 import { createStructuredSelector } from 'reselect';
 /* Components imports */
 import { STATE_LOADING_DONE, STATE_LOADING_START } from 'config';
@@ -30,13 +31,20 @@ import HotKeys from 'utils/hotkeys';
 import PubSub from 'utils/pubsub';
 import StockModal from 'containers/StockItems/molecules/StockModal';
 import { makeSelectLoading } from './selectors';
-import { Section, Article } from './wrappers';
+import { Section, Article, Toolbar } from './wrappers';
 import messages from './messages';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { blur: false };
+  }
+
+  componentDidMount(){
+    // Electron requires this becuase it goes by default to not found route
+    if(window.isElectron){
+      this.props.router.push('/');
+    }
   }
 
   componentWillMount() {
@@ -127,6 +135,7 @@ class App extends React.Component {
         {/** this.props.loading === STATE_LOADING_START && <p> Loading </p> **/}
         {this.props.loading === STATE_LOADING_DONE && (
           <Section blur={this.state.blur}>
+            {window.isElectron && <Toolbar />}
             <Article>
               <SidebarMenu />
               {React.Children.toArray(this.props.children)}
@@ -160,4 +169,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(mouseTrap(App));
+)(mouseTrap(withRouter(App)));

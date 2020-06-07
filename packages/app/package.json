@@ -2,6 +2,7 @@
   "name": "@kalzate/app",
   "version": "1.0.0",
   "private": true,
+  "homepage": "./",
   "author": "Zuri Pabon <zurisadai.pabon@gmail.com> (http://zuri.rocks/)",
   "description": "Kalzate",
   "license": "MIT",
