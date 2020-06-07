@@ -91,28 +91,12 @@ Note: The taxes is a global setting which is applie automatically to prices when
 
 E2E cases would at least contain:
 
- - Scenario 1: 
- 
- Employee creates a new ticket with 2 stock items A,B and amounts 1,2
- Then user return stock items A,B with amounts 1,2 as a voucher
-
- - Scenario 2:
-
- Employee creates a new ticket with 2 stock items A,B and amounts 1,2 and multi payment
- Then user return stock item A with amounts 1 as a voucher
- Then user return stock item B with amount 2 as a voucher
-
- - Scenario 3:
+ - Scenario 1:
 
  Employee creates a new ticket with 2 stock items A,B and amounts 1,2 and 10% discount 
  Then user return stock items A,B with amounts 1,2 as a voucher according to discount applied
 
- - Scenario 4:
-
- Employee creates a new ticket with 2 stock items A,B and amounts 1,2
- Then user return stock items B with amount 1 and buys stock item C with amount 2 (total amount is positive)
-
- - Scenario 5:
+ - Scenario 2:
 
  prices(A is 10, B is 10, C is 30)
  
