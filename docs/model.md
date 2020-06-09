@@ -11,6 +11,7 @@ The `Ticket` entity properties are:
 - isChecked : Boolean - Whether the ticket has been checked out or not
 - isGift: Boolean - Whether the ticket is a gift or not
 - isVoucher: Boolean - Whether the ticket is a voucher or not
+- balance: Enum - ticket balance (POSITIVE, NEGATIVE), it is merely presentational (i.e. use to identify by color)
 - prevNode: String - An id pointing to the parent Ticket
 - nextNode: String - An id pointing to the child Ticket
 - payments: [Object] - Metadata for payment details 
@@ -89,7 +90,7 @@ Displayed when the ticket has been checked and when ticket has not been modified
 
 Note: The taxes is a global setting which is applie automatically to prices when dumping the stock items into the stock store.
 
-E2E cases would at least contain:
+* E2E cases would at least contain:
 
  - Scenario 1:
 
@@ -115,6 +116,22 @@ E2E cases would at least contain:
 
  assert user has a voucher of 30 at the end (column 1) or 40 (column 2)
 
+* Ticket menu items colors:
+
+grey: its a draft ticket
+orange: its a negative ticket, totalAmount < 0
+green: its a positive ticket, totalAmount >= 0
+blue: its a gift ticket (optional)
+
+* Workflow 
+
+1. Application read list of ticket ids and display them in menu
+2. User creates a ticket, call db to create ticket, it returns ticket id (required) and optional metadata as the balance (optional)
+    - 2.A. The write operation can be sync, it calls db, write it and return the ticket id as response
+    - 2.B. The write operation cab be async, it calls db, write the operation into a queue or event store table and return the ticket id as response. At some point a process will read from the event store and will create the ticket, removing the event from the event store
+3. Ticket id is added to menu state to display the new ticket and new ticket screen is displayed
+4. User clicks on ticket id in menu, ticket screen display loader while it read ticket from db
+5. Ticket is displayed
 
 ### A: Creating a new ticket 
 

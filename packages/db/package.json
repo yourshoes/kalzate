@@ -15,9 +15,7 @@
   },
   "dependencies": {
     "pouchdb-adapter-idb": "^6.4.3",
-    "pouchdb-adapter-localstorage": "^6.4.3",
     "pouchdb-adapter-memory": "^6.2.0",
-    "pouchdb-adapter-websql": "^6.4.3",
     "rxdb": "^8.0.5",
     "uuid": "^3.2.1"
   },

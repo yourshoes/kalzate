@@ -26,6 +26,7 @@ export const isErrorInstanceOf = async (fn, ErrorType) => {
   try {
     data = await fn();
   } catch (e) {
+    console.error(e)
     error = e;
   }
   const { title, code } = new ErrorType();

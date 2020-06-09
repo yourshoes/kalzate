@@ -40,6 +40,17 @@ import { TicketNoSavedError, TicketsNotFoundError } from '../../errors/tickets';
 class Tickets {
   defaults = { limit: DEFAULT_LIMIT_AMOUNT, skip: 0 };
   queries = {
+    dailyTicketIds: () => ({
+      match: {
+        created_at: {
+          $gte: new Date().setHours(0, 0, 0, 0),
+        },
+      },
+      sort: 'created_at',
+      fields: ({ id, balance }) => ({ id, balance }),
+      limit: null, // no limit
+      skip: 0
+    }),
     dailyTickets: (limit, skip) => ({
       match: {
         created_at: {
@@ -48,7 +59,7 @@ class Tickets {
       },
       sort: 'created_at',
       limit,
-      skip,
+      skip
     }),
     weeklyTickets: (limit = 0, skip = 0) => {
       const today = new Date();
@@ -180,6 +191,32 @@ class Tickets {
   }
 
   /**
+   * @method getDailyTicketIds
+   * Get the list of daily created ticket ids
+   * @return { items, total, limit, skip }
+   */
+  async getDailyTicketIds() {
+    try {
+
+      const { match, limit, skip, sort, fields } = this.queries.dailyTicketIds();
+
+      const tickets = await this.collection
+        .find(match)
+        .limit(limit)
+        .skip(skip)
+        .sort(sort)
+        .exec();
+
+      const items = tickets.map(ticket => fields(ticket.toJSON()));
+      const total = items.length;
+
+      return { items, total };
+    } catch (error) {
+      throw new TicketsNotFoundError(error);
+    }
+  }
+
+  /**
    * @method get
    * This fetches the ticket items given a filter
    * @param {object} {match, limit, skip, count, sort}
@@ -189,6 +226,7 @@ class Tickets {
     limit = this.defaults.limit,
     skip = this.defaults.skip,
     count = true,
+    fields = null,
     sort = { created_at: 'asc' },
   } = {}) {
     const foundTickets = this.collection
@@ -238,13 +276,13 @@ class Tickets {
     try {
       const timestamp = new Date().getTime();
       const newTicket = {
-        ...ticket,
         id: uuidv1(),
         created_at: timestamp,
         next: timestamp,
         prev: timestamp,
+        ...ticket,
       };
-      console.log(ticket, newTicket);
+      // console.log(ticket, newTicket);
 
       return this.upsert(newTicket);
     } catch (e) {
@@ -291,14 +329,14 @@ class Tickets {
   }
 }
 
-export default async function(db, stockInstance) {
+export default async function (db, stockInstance) {
   // Create or Retrieve collection first
   const collection = db.collections.tickets
     ? db.collections.tickets
     : await db.collection({
-        name: 'tickets',
-        schema,
-      });
+      name: 'tickets',
+      schema,
+    });
   // Return an Tickets instance
   return new Tickets(db, collection, stockInstance);
 }

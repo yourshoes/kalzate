@@ -6,12 +6,8 @@ import Tickets from '../models/tickets';
 import Settings from '../models/settings';
 import Charts from '../models/charts';
 import PouchdbAdapterIdb from 'pouchdb-adapter-idb';
-// import PouchdbAdapterWebSQL from 'pouchdb-adapter-websql';
-// import PouchdbAdapterLocalstorage from 'pouchdb-adapter-localstorage';
 
 RxDB.plugin(PouchdbAdapterIdb);
-// RxDB.plugin(PouchdbAdapterWebSQL);
-// RxDB.plugin(PouchdbAdapterLocalstorage);
 
 const defaultOptions = {
   name: 'kalzatedb',
@@ -28,7 +24,7 @@ function stockInstance(db, schema) {
   }
 }
 
-export default async function(dbOptions = {}, schema = SCHEMA_SHOES) {
+export default async function (dbOptions = {}, schema = SCHEMA_SHOES) {
   const options = { ...defaultOptions, ...dbOptions };
   const db = await RxDB.create(options);
   const stock = await stockInstance(db, schema);
