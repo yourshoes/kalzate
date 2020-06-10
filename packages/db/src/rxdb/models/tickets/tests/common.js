@@ -20,13 +20,15 @@ export const getTicketsInstance = async (
   }
 ) => Tickets(await create(dbOptions));
 
-export const isErrorInstanceOf = async (fn, ErrorType) => {
+export const isErrorInstanceOf = async (fn, ErrorType, debug = false) => {
   let error = {};
   let data;
   try {
     data = await fn();
   } catch (e) {
-    console.error(e)
+    if (debug) {
+      console.error(e)
+    }
     error = e;
   }
   const { title, code } = new ErrorType();

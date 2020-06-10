@@ -1,51 +1,54 @@
 export const validTicketDocument = {
-  method: 'cash',
-  totalAmount: '23.75',
-  givenAmount: '25.00',
-  returnAmount: '1.25',
-  discount: 0, // from 0 to 1, i.e. 50% == 0.5
-  tax: 0.21, // from 0 to 1, i.e. 50% == 0.5
-  currency: '€',
-  state: 'SAVED', // sold, saved, refunded,
-  items: [{
+  isChecked: true,
+  isGift: false,
+  isVoucher: false,
+  balance: 'positive',
+  prevNode: undefined,
+  nextNode: undefined,
+  payments: [{
+    amount: 25,
+    method: 'cash',
+    concept: '',
+  }],
+  operations: [{
+    operation: 'add',
     reference: 'reference',
     brand: 'brand',
-    size: 30,
+    description: 'description',
     amount: 1,
-    price: 23.75,
-    gender: 'man',
-    colors: ['white'],
+    price: 23.75
   }],
 };
 
-export const noItemsTicketDocument = {
-  method: 'cash',
-  totalAmount: '0.00',
-  givenAmount: '0.00',
-  returnAmount: '0.00',
-  discount: 0, // from 0 to 1, i.e. 50% == 0.5
-  tax: 0, // from 0 to 1, i.e. 50% == 0.5
-  currency: '€',
-  state: 'SAVED', // sold, saved, refunded,
-  items: null,
+export const noOperationsTicketDocument = {
+  isChecked: true,
+  isGift: false,
+  isVoucher: false,
+  balance: 'positive',
+  prevNode: undefined,
+  nextNode: undefined,
+  payments: [{
+    amount: 25,
+    method: 'cash',
+    concept: '',
+  }],
+  operations: null,
 };
 
-export const noMethodTicketDocument = {
-  method: null,
-  totalAmount: '0.00',
-  givenAmount: '0.00',
-  returnAmount: '0.00',
-  discount: 0, // from 0 to 1, i.e. 50% == 0.5
-  tax: 0, // from 0 to 1, i.e. 50% == 0.5
-  currency: '€',
-  state: 'SAVED', // sold, saved, refunded,
-  items: [{
+export const noPaymentsTicketDocument = {
+  isChecked: true,
+  isGift: false,
+  isVoucher: false,
+  balance: 'positive',
+  prevNode: undefined,
+  nextNode: undefined,
+  payments: null,
+  operations: [{
+    operation: 'add',
     reference: 'reference',
     brand: 'brand',
-    size: 30,
-    amount: 10,
-    price: 39.99,
-    gender: 'man',
-    colors: ['white'],
+    description: 'description',
+    amount: 1,
+    price: 23.75
   }],
 };

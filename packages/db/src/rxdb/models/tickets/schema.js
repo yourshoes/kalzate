@@ -13,51 +13,33 @@ export default {
       primary: true,
       final: true,
     },
-    state: {
+    isChecked: {
+      type: 'boolean',
+      default: false,
+    },
+    isGift: {
+      type: 'boolean',
+      default: false,
+    },
+    isVoucher: {
+      type: 'boolean',
+      default: false,
+    },
+    balance: {
       type: 'string',
     },
-    items: {
+    prevNode: {
+      type: 'string',
+    },
+    nextNode: {
+      type: 'string',
+    },
+    payments: {
       type: 'array',
     },
-    // total: {
-    //   type: 'number',
-    // },
-    // totalIn: {
-    //   type: 'number',
-    // },
-    // totalOut: {
-    //   type: 'number',
-    // },
-    totalAmount: {
-      type: 'string',
-    },
-    givenAmount: {
-      type: 'string',
-    },
-    returnAmount: {
-      type: 'string',
-    },
-    discount: {
-      type: 'number',
-    },
-    tax: {
-      type: 'number',
-    },
-    currency: {
-      type: 'string',
-    },
-    method: {
-      type: 'string',
-    },
-    next: {
-      type: 'number',
-    },
-    prev: {
-      type: 'number',
-    },
-    printed: {
-      type: 'string',
-    },
+    operations: {
+      type: 'array',
+    }
   },
-  required: ['items', 'id', 'totalAmount', 'givenAmount', 'returnAmount', 'method'],
+  required: ['created_at', 'id', 'payments', 'operations'],
 };

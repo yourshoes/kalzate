@@ -34,7 +34,7 @@ import { isRxCollection, isRxDatabase } from 'rxdb';
 import schema from './schema';
 import uuidv1 from 'uuid/v1';
 import { isEmpty, first, omit } from 'lodash';
-import { DEFAULT_LIMIT_AMOUNT } from './config';
+import { DEFAULT_LIMIT_AMOUNT, ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION } from './config';
 import { TicketNoSavedError, TicketsNotFoundError } from '../../errors/tickets';
 
 class Tickets {
@@ -47,7 +47,7 @@ class Tickets {
         },
       },
       sort: 'created_at',
-      fields: ({ id, balance }) => ({ id, balance }),
+      fields: ({ id, created_at, balance }) => ({ id, created_at, balance }),
       limit: null, // no limit
       skip: 0
     }),
@@ -191,9 +191,55 @@ class Tickets {
   }
 
   /**
+   * @method create
+   * Creates a new ticket in db
+   * @return {String} ticket id
+   */
+  async create(ticket) {
+    try {
+      const validationError = this.validateTicket(ticket);
+      if (validationError) {
+        throw new Error(validationError);
+      }
+      // Create ticket
+      const { id } = await this.createOne(ticket);
+
+      // Update parent ticket to point/reference to this new one
+      if (ticket.prevNode) {
+        await this.updateBy({
+          id: {
+            $eq: ticket.prevNode,
+          }
+        }, { nextNode: id })
+      }
+
+      // Update Stock
+      await Promise.all(
+        ticket.operations.map(({ operation, id, amount }) => {
+
+          if (!id) {
+            return Promise.resolve();
+          }
+
+          if (operation === ADD_ITEM_OPERATION) {
+            return this.stock.decreaseAmount({ id, amount });
+          }
+
+          if (operation === RETURN_ITEM_OPERATION) {
+            return this.stock.increaseAmount({ id, amount });
+          }
+        })
+      );
+      return id;
+    } catch (error) {
+      throw new TicketNoSavedError(error, ticket);
+    }
+  }
+
+  /**
    * @method getDailyTicketIds
    * Get the list of daily created ticket ids
-   * @return { items, total, limit, skip }
+   * @return { items, total }
    */
   async getDailyTicketIds() {
     try {
@@ -226,7 +272,6 @@ class Tickets {
     limit = this.defaults.limit,
     skip = this.defaults.skip,
     count = true,
-    fields = null,
     sort = { created_at: 'asc' },
   } = {}) {
     const foundTickets = this.collection
@@ -276,13 +321,11 @@ class Tickets {
     try {
       const timestamp = new Date().getTime();
       const newTicket = {
-        id: uuidv1(),
         created_at: timestamp,
-        next: timestamp,
-        prev: timestamp,
+        isChecked: true,
         ...ticket,
+        id: uuidv1(),
       };
-      // console.log(ticket, newTicket);
 
       return this.upsert(newTicket);
     } catch (e) {
@@ -292,13 +335,14 @@ class Tickets {
 
   /**
    * @method updateBy
-   * Cretes a new ticket document in db
+   * updates a ticket document in db
    * @param {array|object} ticket/s item/s
    * @param {string} state
    */
   async updateBy(criteria, data) {
     try {
-      const ticketFound = first(await this.collection.find(criteria).exec());
+      console.log(criteria)
+      const ticketFound = await this.collection.findOne(criteria).exec();
       if (!ticketFound) {
         throw new TicketsNotFoundError(null, criteria, data);
       }
@@ -313,9 +357,8 @@ class Tickets {
   }
 
   validateTicket(ticket) {
-    if (isEmpty(ticket.items)) return 'Ticket items cannot be empty';
-    if (ticket.totalAmount <= 0) return 'Ticket total amount must be positive number';
-    if (ticket.givenAmount <= 0) return 'Ticket given amount by customer must be positive number';
+    if (isEmpty(ticket.operations)) return 'Ticket operations cannot be empty';
+    if (isEmpty(ticket.payments)) return 'Ticket payments cannot be empty';
     return false;
   }
   validateTicketSold(ticket) {

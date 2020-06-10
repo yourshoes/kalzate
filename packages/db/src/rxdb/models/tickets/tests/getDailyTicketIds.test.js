@@ -25,7 +25,7 @@ describe('getDailyTicketIds ticket method', function () {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const case1 = await isErrorInstanceOf(
-      () => ticketInstance.save({ ...validTicketDocument, created_at: yesterday.getTime() }),
+      () => ticketInstance.create({ ...validTicketDocument, created_at: yesterday.getTime() }),
       TicketNoSavedError
     );
     expect(case1.result).toBe(false);
@@ -40,7 +40,7 @@ describe('getDailyTicketIds ticket method', function () {
 
   it('should return all ticket ids created today', async function () {
     const case1 = await isErrorInstanceOf(
-      () => ticketInstance.save(validTicketDocument),
+      () => ticketInstance.create(validTicketDocument),
       TicketNoSavedError
     );
     expect(case1.result).toBe(false);
