@@ -51,6 +51,22 @@ class Tickets {
       limit: null, // no limit
       skip: 0
     }),
+    ticketById: (ticketId) => ({
+      match: {
+        id: {
+          $eq: ticketId,
+        },
+      },
+      fields: (ticket) => ticket,
+    }),
+    ticketByCreationDate: (ticketId) => ({
+      match: {
+        created_at: {
+          $eq: ticketId,
+        },
+      },
+      fields: (ticket) => ticket,
+    }),
     dailyTickets: (limit, skip) => ({
       match: {
         created_at: {
@@ -194,6 +210,11 @@ class Tickets {
    * @method create
    * Creates a new ticket in db
    * @return {String} ticket id
+   * It return the ticket id as successful operation
+   * but it could return a boolean also.
+   * This does not return the whole ticket.
+   * To retrieve the whole ticket document, 
+   * you need to call read operation
    */
   async create(ticket) {
     try {
@@ -233,6 +254,66 @@ class Tickets {
       return id;
     } catch (error) {
       throw new TicketNoSavedError(error, ticket);
+    }
+  }
+
+  /**
+   * @method open
+   * Read a ticket from db
+   * @param {String} field the field to look the ticket for (id or creation_date)
+   * @param {String} value the field to look the ticket for value
+   * @return {Object} Ticket Document
+   */
+  async open({ field = 'id', value } = {}) {
+
+    const getQuery = (field, value) => {
+
+      switch (field) {
+        case 'id':
+          return this.queries.ticketById(value);
+        case 'creationDate':
+          return this.queries.ticketByCreationDate(value);
+        default:
+          throw new Error(`no look up field "${field}" supported. Use id or creationDate fields`)
+
+      }
+    }
+
+    try {
+
+      // Read curren ticket
+      const ticket = await this.findOne(getQuery(field, value));
+
+      // Create history with all previous operations
+      // In case of a readonly ticket (it has nextNode)
+      // the history will no include current operations
+      // otherwise current operations will be empty []
+      // and historical operations will include all
+      // previous operations plus current operations
+      let parentTicketId = ticket.prevNode;
+      const history = ticket.nextNode ? [] : ticket.operations;
+
+      while (parentTicketId) {
+
+        const parentTicket = await this.findOne(getQuery('id', parentTicketId));
+
+        history.push(parentTicket.operations);
+
+        parentTicketId = parentTicket.prevNode;
+
+      }
+
+      // if we have nextNode it's a readonly ticket so we pass 
+      // in the current operations and payments info for displaying it
+      // otherwise no operations a no payments are given since
+      // they will be created as part of the new ticket
+      const payments = ticket.nextNode ? ticket.payments : [];
+      const operations = ticket.nextNode ? ticket.operations : [];
+
+      return { ...ticket, history, operations, payments };
+
+    } catch (error) {
+      throw new TicketsNotFoundError(error);
     }
   }
 
@@ -341,7 +422,6 @@ class Tickets {
    */
   async updateBy(criteria, data) {
     try {
-      console.log(criteria)
       const ticketFound = await this.collection.findOne(criteria).exec();
       if (!ticketFound) {
         throw new TicketsNotFoundError(null, criteria, data);
@@ -354,6 +434,15 @@ class Tickets {
 
   async upsert(ticket) {
     return this.collection.atomicUpsert(ticket);
+  }
+
+  async findOne({ match, fields }) {
+
+    const ticket = await this.collection
+      .findOne(match)
+      .exec();
+
+    return fields(ticket.toJSON());
   }
 
   validateTicket(ticket) {

@@ -32,5 +32,5 @@ export const isErrorInstanceOf = async (fn, ErrorType, debug = false) => {
     error = e;
   }
   const { title, code } = new ErrorType();
-  return { data, result: error.title === title && error.code === code, error };
+  return { data, hasError: error.title === title && error.code === code, error };
 };

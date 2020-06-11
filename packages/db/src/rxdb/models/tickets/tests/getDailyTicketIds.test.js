@@ -16,7 +16,7 @@ describe('getDailyTicketIds ticket method', function () {
       () => ticketInstance.getDailyTicketIds(),
       TicketNoSavedError
     );
-    expect(case1.result).toBe(false);
+    expect(case1.hasError).toBe(false);
     expect(case1.data.total).toBe(0);
     expect(case1.data.items.length).toBe(0);
   });
@@ -28,12 +28,12 @@ describe('getDailyTicketIds ticket method', function () {
       () => ticketInstance.create({ ...validTicketDocument, created_at: yesterday.getTime() }),
       TicketNoSavedError
     );
-    expect(case1.result).toBe(false);
+    expect(case1.hasError).toBe(false);
     const case2 = await isErrorInstanceOf(
       () => ticketInstance.getDailyTicketIds(),
       TicketNoSavedError
     );
-    expect(case2.result).toBe(false)
+    expect(case2.hasError).toBe(false)
     expect(case2.data.total).toBe(0)
     expect(case2.data.items.length).toBe(0)
   });
@@ -43,12 +43,12 @@ describe('getDailyTicketIds ticket method', function () {
       () => ticketInstance.create(validTicketDocument),
       TicketNoSavedError
     );
-    expect(case1.result).toBe(false);
+    expect(case1.hasError).toBe(false);
     const case2 = await isErrorInstanceOf(
-      async () => await ticketInstance.getDailyTicketIds(),
+      () => ticketInstance.getDailyTicketIds(),
       TicketNoSavedError
     );
-    expect(case2.result).toBe(false);
+    expect(case2.hasError).toBe(false);
     expect(case2.data.total).toBe(1);
     expect(case2.data.items.length).toBe(1)
     expect(case2.data.items[0]).toHaveProperty('id');
