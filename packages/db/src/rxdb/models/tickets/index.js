@@ -271,7 +271,7 @@ class Tickets {
       switch (field) {
         case 'id':
           return this.queries.ticketById(value);
-        case 'creationDate':
+        case 'createdAt':
           return this.queries.ticketByCreationDate(value);
         default:
           throw new Error(`no look up field "${field}" supported. Use id or creationDate fields`)

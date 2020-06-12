@@ -2,7 +2,7 @@ import { TicketNoSavedError, TicketsNotFoundError } from '../../../errors/ticket
 import { getTicketsInstance, isErrorInstanceOf } from './common';
 import { validTicketDocument, noOperationsTicketDocument, noPaymentsTicketDocument } from './fixtures';
 
-describe('save ticket method', function () {
+describe('create ticket method', function () {
   let ticketInstance;
   beforeAll(async () => {
     ticketInstance = await getTicketsInstance();
