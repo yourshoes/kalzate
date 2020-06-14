@@ -56,7 +56,7 @@ class Charts {
    */
   async salesData(options = { range: 'week' }) {
     try {
-      const weeklyTickets = await this.ticket.query(this.ticket.queries.weeklyTickets());
+      const weeklyTickets = await this.ticket.query('weeklyTickets');
       return toPairs(
         groupBy(weeklyTickets.items, (ticket) => new Date(ticket.created_at).toLocaleDateString())
       ).map(([day, tickets]) => ({
@@ -88,7 +88,7 @@ class Charts {
    */
   async ticketsData(options = { range: 'week' }) {
     try {
-      const weeklyTickets = await this.ticket.query(this.ticket.queries.weeklyTickets());
+      const weeklyTickets = await this.ticket.query('weeklyTickets');
       const groupByTickets = toPairs(
         groupBy(weeklyTickets.items, (ticket) => new Date(ticket.created_at).toLocaleDateString())
       );
@@ -233,7 +233,7 @@ class Charts {
   }
 }
 
-export default async function(db, stockInstance, ticketInstance) {
+export default async function (db, stockInstance, ticketInstance) {
   // Create or Retrieve collection first
   // const stockInstance = await Stock(db, schema);
   // const ticketInstance = await Ticket(db, schema);

@@ -1,23 +1,6 @@
 /**
  * Use mongo as model
  */
-
-// class Ticket {
-//   constructor(db) {
-//     this._db = db;
-//   }
-//   async create(item) {}
-//   async update(id, item) {}
-//   async remove(id) {}
-//   async query() {}
-//   async import() {}
-//   async export() {}
-// }
-
-// export default async function (db) {
-//   // Create collection
-//   return new Ticket(db);
-// }
 /**
  * Use mongo as model
  */
@@ -33,10 +16,10 @@
 import { isRxCollection, isRxDatabase } from 'rxdb';
 import schema from './schema';
 import uuidv1 from 'uuid/v1';
-import { isEmpty } from 'lodash';
+import { isEmpty, isString } from 'lodash';
 import { ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION } from './config';
 import { TicketNoSavedError, TicketsNotFoundError } from '../../errors/tickets';
-import { ticketById, ticketByCreationDate } from './queries';
+import Queries from './queries';
 
 class Tickets {
 
@@ -203,9 +186,9 @@ class Tickets {
 
       switch (field) {
         case 'id':
-          return ticketById(value);
+          return Queries.ticketById(value);
         case 'createdAt':
-          return ticketByCreationDate(value);
+          return Queries.ticketByCreationDate(value);
         default:
           throw new Error(`no look up field "${field}" supported. Use id or creationDate fields`)
       }
@@ -252,11 +235,13 @@ class Tickets {
   /**
  * @method query
  * Get the list of tickets filtered by a given query
- * @param {object} mangoQueryObject a mango compilant query object
+ * @param {String | Object} mangoQuery a mango compilant query object
+ * or a query name
  */
-  async query(mangoQueryObject) {
+  async query(mangoQuery) {
     try {
-      return await this.get(mangoQueryObject);
+      const query = isString(mangoQuery) ? Queries[mangoQuery] : mangoQuery;
+      return await this.get(query);
     } catch (e) {
       throw new TicketsNotFoundError(e);
     }

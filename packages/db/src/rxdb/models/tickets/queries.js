@@ -63,3 +63,11 @@ export const weeklyTickets = (limit = 0, skip = 0) => {
     };
 };
 
+export default {
+    dailyTicketIds,
+    ticketById,
+    ticketByCreationDate,
+    ticketMatches,
+    dailyTickets,
+    weeklyTickets
+}
