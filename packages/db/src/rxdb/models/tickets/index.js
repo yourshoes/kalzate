@@ -33,69 +33,12 @@
 import { isRxCollection, isRxDatabase } from 'rxdb';
 import schema from './schema';
 import uuidv1 from 'uuid/v1';
-import { isEmpty, first, omit } from 'lodash';
-import { DEFAULT_LIMIT_AMOUNT, ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION } from './config';
+import { isEmpty } from 'lodash';
+import { ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION } from './config';
 import { TicketNoSavedError, TicketsNotFoundError } from '../../errors/tickets';
+import { ticketById, ticketByCreationDate } from './queries';
 
 class Tickets {
-  defaults = { limit: DEFAULT_LIMIT_AMOUNT, skip: 0 };
-  queries = {
-    dailyTicketIds: () => ({
-      match: {
-        created_at: {
-          $gte: new Date().setHours(0, 0, 0, 0),
-        },
-      },
-      sort: 'created_at',
-      fields: ({ id, created_at, balance }) => ({ id, created_at, balance }),
-      limit: null, // no limit
-      skip: 0
-    }),
-    ticketById: (ticketId) => ({
-      match: {
-        id: {
-          $eq: ticketId,
-        },
-      },
-      fields: (ticket) => ticket,
-    }),
-    ticketByCreationDate: (ticketId) => ({
-      match: {
-        created_at: {
-          $eq: ticketId,
-        },
-      },
-      fields: (ticket) => ticket,
-    }),
-    dailyTickets: (limit, skip) => ({
-      match: {
-        created_at: {
-          $gte: new Date().setHours(0, 0, 0, 0),
-        },
-      },
-      sort: 'created_at',
-      limit,
-      skip
-    }),
-    weeklyTickets: (limit = 0, skip = 0) => {
-      const today = new Date();
-      // today.setDate(today.getDate() - today.getDay());
-      today.setDate(today.getDate() - 7);
-      return {
-        match: {
-          created_at: {
-            $gte: today.setHours(0, 0, 0, 0),
-          },
-          state: {
-            $eq: 'TICKET_SOLD_STATE',
-          },
-        },
-        sort: 'created_at',
-        limit,
-        skip,
-      };
-    },
-  };
 
   constructor(db, collection, stock) {
     if (!isRxDatabase(db)) {
@@ -109,102 +52,92 @@ class Tickets {
     this.stock = stock;
   }
 
-  /**
-   * @method save
-   * Saves a new ticket document
-   * @param {array|object} ticket/s item/s
-   */
-  async save(ticket) {
-    try {
-      const validationError = this.validateTicket(ticket);
-      if (validationError) {
-        throw new Error(validationError);
-      }
-      return await this.createOne(ticket);
-    } catch (e) {
-      throw new TicketNoSavedError(e, ticket);
-    }
-  }
+  // /**
+  //  * * @ MARK TO REMOVE
+  //  * @method save
+  //  * Saves a new ticket document
+  //  * @param {array|object} ticket/s item/s
+  //  */
+  // async save(ticket) {
+  //   try {
+  //     const validationError = this.validateTicket(ticket);
+  //     if (validationError) {
+  //       throw new Error(validationError);
+  //     }
+  //     return await this.createOne(ticket);
+  //   } catch (e) {
+  //     throw new TicketNoSavedError(e, ticket);
+  //   }
+  // }
 
-  /**
-   * @method sell
-   * Saves a new ticket document
-   * @param {array|object} ticket/s item/s
-   */
-  async sell(ticket) {
-    try {
-      const validationError = this.validateTicket(ticket);
-      if (validationError) {
-        throw new Error(validationError);
-      }
-      await Promise.all(ticket.items.map((stockItem) => this.stock.decreaseAmount(stockItem)));
-      ticket.items = ticket.items.map((stockItem) => omit(stockItem, 'added'));
-      return await this.createOne(ticket);
-    } catch (e) {
-      throw new TicketNoSavedError(e, ticket);
-    }
-  }
+  // /**
+  //  * @ MARK TO REMOVE
+  //  * @method sell
+  //  * Saves a new ticket document
+  //  * @param {array|object} ticket/s item/s
+  //  */
+  // async sell(ticket) {
+  //   try {
+  //     const validationError = this.validateTicket(ticket);
+  //     if (validationError) {
+  //       throw new Error(validationError);
+  //     }
+  //     await Promise.all(ticket.items.map((stockItem) => this.stock.decreaseAmount(stockItem)));
+  //     ticket.items = ticket.items.map((stockItem) => omit(stockItem, 'added'));
+  //     return await this.createOne(ticket);
+  //   } catch (e) {
+  //     throw new TicketNoSavedError(e, ticket);
+  //   }
+  // }
 
-  /**
-   * @method sellBack
-   * It returns an existing ticket document by creating a new one
-   * @param {array|object} ticket/s item/s
-   */
-  async sellBack(ticket) {
-    try {
-      const validationError = this.validateTicketReturn(ticket);
-      if (validationError) {
-        throw new Error(validationError);
-      }
-      await Promise.all(
-        ticket.items.map((stockItem) => {
-          if (stockItem.added) {
-            return this.stock.decreaseAmount({ ...stockItem, amount: stockItem.amount });
-          }
+  // /**
+  //  * * @ MARK TO REMOVE
+  //  * @method sellBack
+  //  * It returns an existing ticket document by creating a new one
+  //  * @param {array|object} ticket/s item/s
+  //  */
+  // async sellBack(ticket) {
+  //   try {
+  //     const validationError = this.validateTicketReturn(ticket);
+  //     if (validationError) {
+  //       throw new Error(validationError);
+  //     }
+  //     await Promise.all(
+  //       ticket.items.map((stockItem) => {
+  //         if (stockItem.added) {
+  //           return this.stock.decreaseAmount({ ...stockItem, amount: stockItem.amount });
+  //         }
 
-          if (stockItem.toReturn) {
-            return this.stock.increaseAmount({ ...stockItem, amount: stockItem.amount_return });
-          }
-        })
-      );
-      ticket.items = ticket.items.map((item) => ({
-        ...item,
-        amount_return_prev_last:
-          item.amount_return > 0 ? item.amount_return_prev || 0 : item.amount_return_prev_last || 0,
-        amount_return_prev: (item.amount_return_prev || 0) + (item.amount_return || 0),
-        amount_return: 0,
-        added: false,
-        wasAdded: item.added,
-        wasReturned: item.amount_return,
-      }));
-      console.log('items', ticket.items);
-      const newTicket = await this.createOne(omit(ticket, '_rev'));
-      await this.updateBy(
-        { created_at: { $eq: Number(ticket.created_at) } },
-        { next: Number(newTicket.created_at) }
-      );
-      await this.updateBy(
-        { created_at: { $eq: Number(newTicket.created_at) } },
-        { prev: Number(ticket.created_at) }
-      );
-      return newTicket;
-    } catch (e) {
-      throw new TicketNoSavedError(e, ticket);
-    }
-  }
-
-  /**
-   * @method query
-   * Get the list of tickets filtered by a given query
-   * @param {object} tickets query
-   */
-  async query(query = this.queries.dailyTickets()) {
-    try {
-      return await this.get(query);
-    } catch (e) {
-      throw new TicketsNotFoundError(e);
-    }
-  }
+  //         if (stockItem.toReturn) {
+  //           return this.stock.increaseAmount({ ...stockItem, amount: stockItem.amount_return });
+  //         }
+  //       })
+  //     );
+  //     ticket.items = ticket.items.map((item) => ({
+  //       ...item,
+  //       amount_return_prev_last:
+  //         item.amount_return > 0 ? item.amount_return_prev || 0 : item.amount_return_prev_last || 0,
+  //       amount_return_prev: (item.amount_return_prev || 0) + (item.amount_return || 0),
+  //       amount_return: 0,
+  //       added: false,
+  //       wasAdded: item.added,
+  //       wasReturned: item.amount_return,
+  //     }));
+  //     console.log('items', ticket.items);
+  //     const newTicket = await this.createOne(omit(ticket, '_rev'));
+  //     await this.updateBy(
+  //       { created_at: { $eq: Number(ticket.created_at) } },
+  //       { next: Number(newTicket.created_at) }
+  //     );
+  //     await this.updateBy(
+  //       { created_at: { $eq: Number(newTicket.created_at) } },
+  //       { prev: Number(ticket.created_at) }
+  //     );
+  //     return newTicket;
+  //   } catch (e) {
+  //     throw new TicketNoSavedError(e, ticket);
+  //   }
+  // }
 
   /**
    * @method create
@@ -270,12 +203,11 @@ class Tickets {
 
       switch (field) {
         case 'id':
-          return this.queries.ticketById(value);
+          return ticketById(value);
         case 'createdAt':
-          return this.queries.ticketByCreationDate(value);
+          return ticketByCreationDate(value);
         default:
           throw new Error(`no look up field "${field}" supported. Use id or creationDate fields`)
-
       }
     }
 
@@ -318,73 +250,15 @@ class Tickets {
   }
 
   /**
-   * @method getDailyTicketIds
-   * Get the list of daily created ticket ids
-   * @return { items, total }
-   */
-  async getDailyTicketIds() {
+ * @method query
+ * Get the list of tickets filtered by a given query
+ * @param {object} mangoQueryObject a mango compilant query object
+ */
+  async query(mangoQueryObject) {
     try {
-
-      const { match, limit, skip, sort, fields } = this.queries.dailyTicketIds();
-
-      const tickets = await this.collection
-        .find(match)
-        .limit(limit)
-        .skip(skip)
-        .sort(sort)
-        .exec();
-
-      const items = tickets.map(ticket => fields(ticket.toJSON()));
-      const total = items.length;
-
-      return { items, total };
-    } catch (error) {
-      throw new TicketsNotFoundError(error);
-    }
-  }
-
-  /**
-   * @method get
-   * This fetches the ticket items given a filter
-   * @param {object} {match, limit, skip, count, sort}
-   */
-  async get({
-    match,
-    limit = this.defaults.limit,
-    skip = this.defaults.skip,
-    count = true,
-    sort = { created_at: 'asc' },
-  } = {}) {
-    const foundTickets = this.collection
-      .find(match)
-      .limit(limit)
-      .skip(skip)
-      .sort(sort)
-      .exec();
-    if (!count) return foundTickets;
-    const totalAmount = new Promise(async (resolve) => {
-      const allTickets = await this.collection.find(match).exec();
-      resolve(allTickets.length);
-    });
-    const [items, total] = await Promise.all([foundTickets, totalAmount]);
-    return { items, total, limit, skip };
-  }
-
-  /**
-   * @method matches
-   * This looks for a all tickets items maching the field and value given
-   * @param {string} field
-   * @param {string} value
-   */
-  async matches(field, value) {
-    try {
-      if (!value) return { value, items: [] };
-      const matches = await this.get({
-        match: { [field]: { $regex: new RegExp(`^${value}`) } },
-      });
-      return { value, items: matches.items.map((i) => i[field]) };
+      return await this.get(mangoQueryObject);
     } catch (e) {
-      throw new TicketsNotFoundError(e, field, value);
+      throw new TicketsNotFoundError(e);
     }
   }
 
@@ -415,6 +289,44 @@ class Tickets {
   }
 
   /**
+ * @method get
+ * This fetches the ticket items given a filter
+ * @param {object} {match, limit, skip, count, sort}
+ */
+  async get({
+    match,
+    fields,
+    limit = 0,
+    skip = 0,
+    count = false,
+    sort = { created_at: 'asc' },
+  } = {}) {
+
+    const tickets = await this.collection
+      .find(match)
+      .limit(limit)
+      .skip(skip)
+      .sort(sort)
+      .exec();
+
+    const mapTicketFields = ticket => {
+      const rawTicket = ticket.toJSON();
+      return fields ? fields(rawTicket) : rawTicket
+    };
+    const items = tickets.map(mapTicketFields);
+
+    if (!count) {
+      return { items, total: items.length };
+    }
+
+    const ticketsCount = await this.collection
+      .find(match)
+      .exec();
+
+    return { items, total: ticketsCount.length };
+  }
+
+  /**
    * @method updateBy
    * updates a ticket document in db
    * @param {array|object} ticket/s item/s
@@ -437,7 +349,6 @@ class Tickets {
   }
 
   async findOne({ match, fields }) {
-
     const ticket = await this.collection
       .findOne(match)
       .exec();
@@ -450,15 +361,15 @@ class Tickets {
     if (isEmpty(ticket.payments)) return 'Ticket payments cannot be empty';
     return false;
   }
-  validateTicketSold(ticket) {
-    if (isEmpty(ticket.items)) return 'Ticket items cannot be empty';
-    if (ticket.givenAmount <= 0) return 'Ticket given amount by customer must be positive number';
-    return false;
-  }
-  validateTicketReturn(ticket) {
-    if (isEmpty(ticket.items)) return 'Ticket items cannot be empty';
-    return false;
-  }
+  // validateTicketSold(ticket) {
+  //   if (isEmpty(ticket.items)) return 'Ticket items cannot be empty';
+  //   if (ticket.givenAmount <= 0) return 'Ticket given amount by customer must be positive number';
+  //   return false;
+  // }
+  // validateTicketReturn(ticket) {
+  //   if (isEmpty(ticket.items)) return 'Ticket items cannot be empty';
+  //   return false;
+  // }
 }
 
 export default async function (db, stockInstance) {

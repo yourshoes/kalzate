@@ -7,7 +7,7 @@ The data model is the heart and esence of the application. The data model is mad
 The `Ticket` entity properties are:
 
 - id: String - A unique id
-- date: String - The creation date
+- created_at: String - The creation date
 - isChecked : Boolean - Whether the ticket has been checked out or not
 - isGift: Boolean - Whether the ticket is a gift or not
 - isVoucher: Boolean - Whether the ticket is a voucher or not

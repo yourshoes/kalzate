@@ -337,31 +337,31 @@ export class StockBasic {
   }
 }
 
-export default async function(db) {
+export default async function (db) {
   if (!db) throw new NoDatabaseFoundError();
   // Create or Retrieve collection first
   const collection = db.collections.stock
     ? db.collections.stock
     : await db.collection({
-        name: 'stockbasic',
-        schema,
-        // https://github.com/pubkey/rxdb/blob/master/docs-src/data-migration.md
-        // migrationStrategies: {
-        //   // 1 means, this transforms data from version 0 to version 1
-        //   1: function(oldDoc){
-        //     oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
-        //     return oldDoc;
-        //   },
-        //   /**
-        //    * this removes all documents older then 2017-02-12
-        //    * they will not appear in the new collection
-        //    */
-        //   2: function(oldDoc){
-        //     if(oldDoc.time < 1486940585) return null;
-        //     else return oldDoc;
-        //   }
-        // }
-      });
+      name: 'stockbasic',
+      schema,
+      // https://github.com/pubkey/rxdb/blob/master/docs-src/data-migration.md
+      // migrationStrategies: {
+      //   // 1 means, this transforms data from version 0 to version 1
+      //   1: function(oldDoc){
+      //     oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
+      //     return oldDoc;
+      //   },
+      //   /**
+      //    * this removes all documents older then 2017-02-12
+      //    * they will not appear in the new collection
+      //    */
+      //   2: function(oldDoc){
+      //     if(oldDoc.time < 1486940585) return null;
+      //     else return oldDoc;
+      //   }
+      // }
+    });
   // Return an Stock instance
   return new StockBasic(db, collection);
 }

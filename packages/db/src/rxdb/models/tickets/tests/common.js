@@ -13,12 +13,15 @@ export const counter = (function* counter() {
 })();
 
 export const getTicketsInstance = async (
-  dbOptions = {
-    name: `kalzatedb${new Date().getTime()}`,
-    adapter: 'memory',
-    multiInstance: true,
-  }
-) => Tickets(await create(dbOptions));
+  {
+    dbOptions = {
+      name: `kalzatedb${new Date().getTime()}`,
+      adapter: 'memory',
+      multiInstance: true,
+    },
+    stockInstance = null
+  } = {}
+) => Tickets(await create(dbOptions), stockInstance);
 
 export const isErrorInstanceOf = async (fn, ErrorType, debug = false) => {
   let error = {};

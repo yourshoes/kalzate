@@ -1,3 +1,28 @@
+
+import { ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION } from '../config';
+
+export const validStockItem = {
+  reference: 'reference',
+  brand: 'brand',
+  desc: 'description',
+  amount: 10,
+  price: 23.75
+}
+
+export const validAddOperation = {
+  operation: ADD_ITEM_OPERATION,
+  reference: 'reference',
+  brand: 'brand',
+  desc: 'description',
+  amount: 1,
+  price: 23.75,
+}
+
+export const validReturnOperation = {
+  ...validAddOperation,
+  operation: RETURN_ITEM_OPERATION,
+}
+
 export const validTicketDocument = {
   isChecked: true,
   isGift: false,
@@ -10,14 +35,7 @@ export const validTicketDocument = {
     method: 'cash',
     concept: '',
   }],
-  operations: [{
-    operation: 'add',
-    reference: 'reference',
-    brand: 'brand',
-    description: 'description',
-    amount: 1,
-    price: 23.75
-  }],
+  operations: [validAddOperation],
 };
 
 export const noOperationsTicketDocument = {
