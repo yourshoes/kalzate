@@ -20,19 +20,19 @@ export class TicketBody extends React.Component {
   render() {
     return (
       <TicketBodyContainer>
-        {isEmpty(this.props.ticket.items) &&
+        {isEmpty(this.props.ticket.operations) &&
           <Center>
             <NotFound icon="thumbsdown">
               <Title>
-              <FormattedMessage {...messages.notFound} />
-          </Title>
+                <FormattedMessage {...messages.notFound} />
+              </Title>
               <Subtitle>
-              <FormattedMessage {...messages.notFoundHelp} />
-          </Subtitle>
+                <FormattedMessage {...messages.notFoundHelp} />
+              </Subtitle>
             </NotFound>
           </Center>}
 
-        {!isEmpty(this.props.ticket.items) && (
+        {!isEmpty(this.props.ticket.operations) && (
           <TicketTable {...this.props} />
         )}
       </TicketBodyContainer>

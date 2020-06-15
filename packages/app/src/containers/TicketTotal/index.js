@@ -8,10 +8,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
+import { ticketTotalAmount, ticketProvidedAmount, ticketExchangeAmount } from 'selectors/tickets';
 import {
-  makeSelectTotalAmount,
-  makeSelectGivenAmount,
-  makeSelectReturnAmount,
   makeSelectCurrency,
   makeSelectMethod,
   makeSelectCreationDate,
@@ -38,9 +36,9 @@ const mapStateToProps = createStructuredSelector({
   method: makeSelectMethod(),
   state: makeSelectState(),
   created_at: makeSelectCreationDate(),
-  totalAmount: makeSelectTotalAmount(),
-  givenAmount: makeSelectGivenAmount(),
-  returnAmount: makeSelectReturnAmount(),
+  totalAmount: ticketTotalAmount,
+  givenAmount: ticketProvidedAmount,
+  returnAmount: ticketExchangeAmount,
   currency: makeSelectCurrency(),
 });
 

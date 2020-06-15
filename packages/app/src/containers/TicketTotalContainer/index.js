@@ -8,10 +8,10 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
+import { isEmptyTicket } from 'selectors/tickets';
 import TicketTotal from 'containers/TicketTotal';
 import TicketRawTotal from 'containers/TicketRawTotal';
 import {
-  selectTicketItemsLen,
   makeSelectTicketTotalVisibility,
   makeSelectRawTicketTotalVisibility,
 } from 'containers/TicketTotalContainer/selectors';
@@ -33,7 +33,7 @@ export function TicketTotalContainer(props) {
         title="Expand/Collapse Ticket Total"
         onClick={() => props.toggleTicketTotalVisibility()}
       />
-      {props.ticketItemsLen && (
+      {!props.isEmptyTicket && (
         <TicketTemplateViewerSwitcher
           expanded={!props.rawTicketTotalVisibility}
           title="Show/Hide Ticket"
@@ -57,7 +57,7 @@ TicketTotalContainer.propTypes = {
 const mapStateToProps = createStructuredSelector({
   ticketTotalVisibility: makeSelectTicketTotalVisibility(),
   rawTicketTotalVisibility: makeSelectRawTicketTotalVisibility(),
-  ticketItemsLen: selectTicketItemsLen(),
+  isEmptyTicket,
 });
 
 function mapDispatchToProps(dispatch) {

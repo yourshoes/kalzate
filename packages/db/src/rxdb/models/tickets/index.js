@@ -238,9 +238,9 @@ class Tickets {
  * @param {String | Object} mangoQuery a mango compilant query object
  * or a query name
  */
-  async query(mangoQuery) {
+  async query(mangoQuery, ...args) {
     try {
-      const query = isString(mangoQuery) ? Queries[mangoQuery] : mangoQuery;
+      const query = isString(mangoQuery) ? Queries[mangoQuery](...args) : mangoQuery;
       return await this.get(query);
     } catch (e) {
       throw new TicketsNotFoundError(e);

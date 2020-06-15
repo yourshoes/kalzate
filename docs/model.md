@@ -157,7 +157,6 @@ blue: its a gift ticket (optional)
         ...
         ticket: {
             isChecked : false,
-            isDraft: false,
             isGift: false,
             isVoucher: false,
             prevNode: null,
@@ -181,7 +180,6 @@ blue: its a gift ticket (optional)
         ...
         ticket: {
             isChecked : false,
-            isDraft: false,
             isGift: false,
             isVoucher: false,
             prevNode: null,
@@ -211,7 +209,6 @@ blue: its a gift ticket (optional)
         ...
         ticket: {
             isChecked : false,
-            isDraft: false,
             isGift: false,
             isVoucher: false,
             prevNode: null,
@@ -251,7 +248,6 @@ total with discount: 36
         ...
         ticket: {
             isChecked : false,
-            isDraft: false,
             isGift: false,
             isVoucher: false,
             prevNode: null,

@@ -19,11 +19,6 @@ import { tickets as ticketsSelectors } from '@kalzate/cy';
 
 export class TicketHeader extends React.Component {
   render() {
-    console.log(
-      this.props.ticket.givenAmount,
-      this.props.ticket.totalAmount,
-      this.props.ticket.givenAmount < this.props.ticket.totalAmount
-    );
     return (
       <TicketSectionContainer>
         <Section50>
@@ -40,7 +35,7 @@ export class TicketHeader extends React.Component {
         <Section50>
           <SectionRight>
             <Button
-              inactive={isEmpty(this.props.ticket.items)}
+              inactive={isEmpty(this.props.ticket.operations)}
               primary
               icon="gift"
               //@todo title has a conflict with html native title attribute, this prop should be a children and html title prop for html attribute
@@ -48,7 +43,7 @@ export class TicketHeader extends React.Component {
               onClick={() =>
                 this.props.closeTicket(this.props.ticket, {
                   state: TICKET_SOLD_STATE,
-                  asGift: true,
+                  isGift: true,
                   settings: this.props.settings,
                 })
               }
@@ -56,8 +51,7 @@ export class TicketHeader extends React.Component {
             <Button
               data-cy={ticketsSelectors.SELL_CHECKOUT_BUTTON}
               inactive={
-                isEmpty(this.props.ticket.items) ||
-                Number(this.props.ticket.givenAmount) < Number(this.props.ticket.totalAmount)
+                this.props.isTicketCheckoutDisabled
               }
               primary
               icon="check"
@@ -65,7 +59,6 @@ export class TicketHeader extends React.Component {
               onClick={() =>
                 this.props.closeTicket(this.props.ticket, {
                   state: TICKET_SOLD_STATE,
-                  asGift: false,
                   settings: this.props.settings,
                 })
               }

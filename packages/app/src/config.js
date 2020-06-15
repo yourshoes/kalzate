@@ -95,6 +95,9 @@ export const PAYMENT_METHOD_TICKET = 'payment_method_ticket';
 export const TICKET_SAVE_STATE = 'TICKET_SAVE_STATE';
 export const TICKET_SOLD_STATE = 'TICKET_SOLD_STATE';
 export const TICKET_RETURN_STATE = 'TICKET_RETURN_STATE';
+
+export const TICKET_POSITIVE_BALANCE = 'positive';
+export const TICKET_NEGATIVE_BALANCE = 'negative';
 export const DEFAULT_TICKET_ITEMS_LIMIT = 50;
 
 /** ****************************************************************************/

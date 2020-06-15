@@ -14,7 +14,7 @@ export function PaymentReturn({
   return (
     <PaymentSection>
       <ReturnAmount>
-        {returnAmount} {currency}
+        {returnAmount.toFixed(2)} {currency}
       </ReturnAmount>
     </PaymentSection>
   );

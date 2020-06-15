@@ -57,10 +57,10 @@ function SidebarMenu(props) {
                 selected={ticket.id === props.ticketID}
                 onClick={() => {
                   // @todo move to a saga
-                  props.loadTicket(ticket);
+                  props.loadTicket(ticket.id);
                   props.router.push('/tickets');
                 }}
-                state={ticket.state}
+                state={ticket.balance}
                 small
                 highlight
                 cursor

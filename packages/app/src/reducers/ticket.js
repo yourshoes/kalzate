@@ -37,15 +37,25 @@ import { PAYMENT_METHOD_CREDIT_CARD, PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } fr
 import { toFixed } from 'utils/helper';
 // The initial state of the App
 const initialState = {
-  method: PAYMENT_METHOD_CREDIT_CARD,
-  totalAmount: '0.00',
-  givenAmount: '0.00',
-  returnAmount: '0.00',
-  discount: 0, // from 0 to 1, i.e. 50% == 0.5
-  tax: 0, // from 0 to 1, i.e. 50% == 0.5
-  currency: '€',
-  state: null, // sold, saved, refunded,
-  items: [],
+
+  isChecked: false,
+  isGift: false,
+  isVoucher: false,
+  balance: null,
+  prevNode: undefined,
+  nextNode: undefined,
+  payments: [],
+  operations: [],
+
+  // method: PAYMENT_METHOD_CREDIT_CARD,
+  // totalAmount: '0.00',
+  // givenAmount: '0.00',
+  // returnAmount: '0.00',
+  // discount: 0, // from 0 to 1, i.e. 50% == 0.5
+  // tax: 0, // from 0 to 1, i.e. 50% == 0.5
+  // currency: '€',
+  // state: null, // sold, saved, refunded,
+  // items: [],
 };
 
 function increaseTicketGivenAmount(state, action) {
@@ -191,10 +201,10 @@ function returnStockFromTicket(state, action) {
   const items = state.items.map((item) =>
     item.reference === action.item.reference
       ? {
-          ...item,
-          amount_return: action.value,
-          toReturn: true,
-        }
+        ...item,
+        amount_return: action.value,
+        toReturn: true,
+      }
       : item
   );
   return {

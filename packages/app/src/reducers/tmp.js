@@ -46,6 +46,7 @@ const initialState = {
   },
   modal: { removeStock: false, archiveStock: false },
   visibility: { tickets: { payments: true, total: true, raw: false } },
+  loading: { tickets: false }
 };
 
 function appReducer(state = initialState, action) {

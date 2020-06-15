@@ -8,6 +8,8 @@ import React, { PropTypes } from 'react';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { ticket, isTicketCheckoutDisabled } from 'selectors/tickets';
+
 import {
   selectTicketDomain,
   makeSelectTicketTmpData,
@@ -52,10 +54,11 @@ TicketItems.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  ticket: selectTicketDomain(),
+  ticket,
   tmp: makeSelectTicketTmpData(),
   matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),
+  isTicketCheckoutDisabled
 });
 
 function mapDispatchToProps(dispatch) {
