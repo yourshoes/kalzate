@@ -37,36 +37,36 @@ export class TicketTableBody extends React.Component {
                     amount: parseInt(amount, 10),
                   })
                 }
-                onBlur={(e) => {
+                onBlur={() => {
                   if (this.props.tmp[operation.reference] && this.props.tmp[operation.reference].amount) {
-                    this.props.updateTicketData(operation, {
+                    this.props.updateTicketOperation(operation.reference, {
                       amount: this.props.tmp[operation.reference].amount,
                     });
                   }
                 }}
               />
               <TicketTableAmountField
-                placeholder={operation.discount || '0'}
+                placeholder={operation.discountValue || '0'}
                 value={
-                  this.props.tmp[operation.reference] && Number.isFinite(this.props.tmp[operation.reference].discount)
-                    ? this.props.tmp[operation.reference].discount
+                  this.props.tmp[operation.reference] && Number.isFinite(this.props.tmp[operation.reference].discountValue)
+                    ? this.props.tmp[operation.reference].discountValue
                     : ''
                 }
-                onChange={(discount) =>
+                onChange={(discountValue) =>
                   this.props.updateTmpData(operation.reference, {
-                    discount: parseInt(discount, 10),
+                    discountValue: parseInt(discountValue, 10),
                   })
                 }
-                onBlur={(e) => {
-                  if (this.props.tmp[operation.reference] && Number.isFinite(this.props.tmp[operation.reference].discount)) {
-                    this.props.updateTicketData(operation, {
-                      discount: this.props.tmp[operation.reference].discount,
+                onBlur={() => {
+                  if (this.props.tmp[operation.reference] && Number.isFinite(this.props.tmp[operation.reference].discountValue)) {
+                    this.props.updateTicketOperation(operation.reference, {
+                      discountValue: this.props.tmp[operation.reference].discountValue,
                     });
                   }
                 }}
               />
               <TicketTableField placeholder={calculateSubtotal(operation).toFixed(2)} readonly />
-              <TicketTableButton primary icon="remove-close" onClick={() => this.props.removeStockFromTicket(operation, i)} />
+              <TicketTableButton primary icon="remove-close" onClick={() => this.props.removeStockFromTicket(i)} />
             </TicketTableRowContainer>
           ))}
         </TicketTableBodyContainer>

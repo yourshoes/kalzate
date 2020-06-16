@@ -11,7 +11,6 @@ import { createStructuredSelector } from 'reselect';
 import { ticket, isTicketCheckoutDisabled } from 'selectors/tickets';
 
 import {
-  selectTicketDomain,
   makeSelectTicketTmpData,
   makeSelectTicketCreatedAtMatches,
   selectSettingsData,
@@ -21,12 +20,15 @@ import {
   updateTicketData,
   updateTicketTax,
   updateTicketDiscount,
-  removeStockFromTicket,
   removeTicket,
   closeTicket,
   getMatches,
   loadTicket,
 } from './actions';
+import {
+  removeStockFromTicket,
+  updateTicketOperation
+} from 'actions/tickets';
 import Container from './atoms/Container';
 import TicketHeader from './molecules/TicketHeader';
 import TicketBody from './molecules/TicketBody';
@@ -67,12 +69,14 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateTmpData(reference, data)),
     updateTicketData: (item, data) =>
       dispatch(updateTicketData(item, data)),
+    updateTicketOperation: (reference, data) =>
+      dispatch(updateTicketOperation(reference, data)),
     updateTicketTax: (vat) =>
       dispatch(updateTicketTax(vat)),
     updateTicketDiscount: (discount) =>
       dispatch(updateTicketDiscount(discount)),
-    removeStockFromTicket: (item, positioninList) =>
-      dispatch(removeStockFromTicket(item, positioninList)),
+    removeStockFromTicket: (operationIndexPosition) =>
+      dispatch(removeStockFromTicket(operationIndexPosition)),
     removeTicket: () =>
       dispatch(removeTicket()),
     getMatches: (field, value) => dispatch(getMatches(field, value)),

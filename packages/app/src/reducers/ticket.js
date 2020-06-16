@@ -20,10 +20,8 @@ import {
 } from 'containers/TicketTotal/constants';
 import {
   UPDATE_STOCK_TICKET_DATA_ACTION,
-  REMOVE_STOCK_FROM_TICKET_ACTION,
   REMOVE_TICKET_ACTION,
   LOAD_TICKET_SUCCESS_ACTION,
-  ADD_STOCK_TO_TICKET_ACTION,
   UPDATE_TICKET_SUCCESS_ACTION,
   UPDATE_TICKET_TAX_ACTION,
   UPDATE_TICKET_DISCOUNT_ACTION,
@@ -35,6 +33,7 @@ import {
 } from 'containers/TicketReturningPage/constants';
 import { PAYMENT_METHOD_CREDIT_CARD, PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'config';
 import { toFixed } from 'utils/helper';
+import { ADD_STOCK_TO_TICKET_ACTION, UPDATE_TICKET_OPERATION_ACTION, REMOVE_STOCK_FROM_TICKET_ACTION } from 'actions/tickets/types';
 // The initial state of the App
 const initialState = {
 
@@ -164,35 +163,42 @@ function updateTicketDiscount(state, action) {
   return { ...state, discount: action.discount / 100 };
 }
 
+// amount field contains the amount of stock units that stock has 
+// and is used later when checking out to update the stock, note
+// this will not work if the database is updated outside from the kalzate application
+// unless the client is refreshed/synced
 function addStockToTicket(state, action) {
-  const itemFound = state.items.find((item) => item.reference === action.item.reference);
-  if (itemFound) {
-    // totalAmount field contains the total amount of stock units that item has
-    // and is used later when checking out to update the stock, note
-    // this will not work if the database is updated outside from the kalzate application
-    // unless the client is synced
-    const items = state.items.map((item) =>
-      item.reference === action.item.reference ? { ...item, amount: item.amount + 1 } : item
+  const existingOperation = state.operations.find(({ operation, reference }) =>
+    reference === action.reference && operation === action.operation);
+
+  if (existingOperation) {
+    const operations = state.operations.map((operation) =>
+      operation.reference === action.reference && operation.operation === action.operation ?
+        { ...operation, amount: operation.amount + 1 } : operation
     );
-    return { ...state, items };
+    return { ...state, operations };
   }
 
-  return { ...state, items: state.items.concat([{ ...action.item, amount: 1, added: true }]) };
-  // if(state.state === TICKET_SOLD_STATE){
-  //   return {...state, items: state.items.concat([{ ...action.item, amount: 1, added: true }])}
-  // }
+  return { ...state, operations: [action, ...state.operations] };
+}
 
-  // return {
-  //   ...state, items:state.items.concat([{ ...action.item, amount: 1 }]),
-  // };
+function updateTicketOperation(state, action) {
+
+  const operations = state.operations.map((operation) =>
+    operation.reference === action.reference ?
+      { ...operation, ...action } : operation
+  );
+
+  return { ...state, operations };
+
 }
 
 function removeStockFromTicket(state, action) {
   return {
     ...state,
-    items: [
-      ...state.items.slice(0, action.positionInList),
-      ...state.items.slice(action.positionInList + 1),
+    operations: [
+      ...state.operations.slice(0, action.operationIndexPosition),
+      ...state.operations.slice(action.operationIndexPosition + 1),
     ],
   };
 }
@@ -275,6 +281,15 @@ function setTicketPaymentMethod(state, action) {
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case ADD_STOCK_TO_TICKET_ACTION:
+      return addStockToTicket(state, action.data);
+    case UPDATE_TICKET_OPERATION_ACTION:
+      return updateTicketOperation(state, action.data);
+    case REMOVE_STOCK_FROM_TICKET_ACTION:
+      return removeStockFromTicket(state, action.data);
+
+
+
     case UPDATE_TICKET_SUCCESS_ACTION:
       return updateTicketTotal(state, action);
     case UPDATE_STOCK_TICKET_DATA_ACTION:
@@ -283,12 +298,6 @@ function appReducer(state = initialState, action) {
       return updateTicketTax(state, action);
     case UPDATE_TICKET_DISCOUNT_ACTION:
       return updateTicketDiscount(state, action);
-    case ADD_STOCK_TO_TICKET_ACTION:
-      // uncomment line below to remove sagas/tickets
-      // return updateTicketTotal(addStockToTicket(state, action));
-      return addStockToTicket(state, action);
-    case REMOVE_STOCK_FROM_TICKET_ACTION:
-      return removeStockFromTicket(state, action);
     case RETURN_ALL_STOCK_FROM_TICKET_ACTION:
       return returnAllStockFromTicket(state, action);
     case RETURN_STOCK_FROM_TICKET_ACTION:

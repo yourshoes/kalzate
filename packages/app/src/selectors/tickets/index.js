@@ -16,7 +16,7 @@ export const calculateSubtotal = ({ amount, price, discountType, discountValue }
         subtotal -= discountValue;
     }
 
-    if (subtotal >= (amount * price) || subtotal <= 0) {
+    if (subtotal > (amount * price) || subtotal <= 0) {
         return 0;
     }
 
@@ -47,17 +47,17 @@ export const isEmptyTicket =
     );
 
 export const ticketTotalAmount =
-    createSelector(ticket, (ticket) =>
-        ticket.operations
-            .reduce((acc, { operation, price, amount, discountType, discountValue }) => {
-                const subtotal = calculateSubtotal({ amount, price, discountType, discountValue });
+    createSelector(ticket, (ticket) => ticket.operations
+        .reduce((acc, { operation, price, amount, discountType, discountValue }) => {
+            const subtotal = calculateSubtotal({ amount, price, discountType, discountValue });
 
-                if (operation === ADD_ITEM_OPERATION) { return acc + subtotal }
-                if (operation === RETURN_ITEM_OPERATION) { return acc - subtotal }
+            if (operation === ADD_ITEM_OPERATION) { return acc + subtotal }
+            if (operation === RETURN_ITEM_OPERATION) { return acc - subtotal }
 
-                throw new Error(`operation type "${operation}" unknown, use "${ADD_ITEM_OPERATION}" or "${RETURN_ITEM_OPERATION}"`)
+            throw new Error(`operation type "${operation}" unknown, use "${ADD_ITEM_OPERATION}" or "${RETURN_ITEM_OPERATION}"`)
 
-            }, 0)
+        }, 0)
+
     );
 
 export const ticketProvidedAmount =

@@ -19,6 +19,7 @@ import { setTicketGivenAmount, increaseGivenAmount, decreaseGivenAmount } from '
 import PaymentSummary from './molecules/PaymentSummary';
 
 function TicketTotal(props) {
+  console.log(props)
   return (
     <PaymentSummary {...props} />
   );

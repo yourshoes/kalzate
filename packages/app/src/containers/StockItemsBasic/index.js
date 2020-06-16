@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
-import { addStockToTicket } from 'containers/TicketSellingPage/actions';
+import { addStockToTicket } from 'actions/tickets';
 import {
   makeSelectStockItems,
   makeSelectStockLimit,
