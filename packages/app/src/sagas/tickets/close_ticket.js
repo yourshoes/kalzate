@@ -9,7 +9,7 @@ import {
 } from 'containers/TicketSellingPage/constants';
 import { TICKET_SAVE_STATE, TICKET_SOLD_STATE, TICKET_RETURN_STATE } from 'config';
 import { REFRESH_STOCK_ACTION } from 'containers/StockItems/constants';
-import { compileTicket } from 'utils/ticket';
+import { compileTicket } from 'utils/receipt';
 
 function* closeTicket(action) {
   try {

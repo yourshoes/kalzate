@@ -6,6 +6,7 @@
 export const DEFAULT_COUNTRY = 'spain';
 export const DEFAULT_LOCALE = 'en';
 export const DEFAULT_TIMEZONE = 'Europe/Madrid';
+export const DEFAULT_CURRENCY = '€';
 export const DEFAULT_NAME = 'Kalzate';
 export const DEFAULT_THEME = 'monokai';
 export const DEFAULT_EMAIL = 'zurisadai.pabon@gmail.com';
@@ -33,7 +34,8 @@ export const DEFAULT_TICKET_TEMPLATE = `MY STORE {{shop name}}
  --------------------------------------------
                            TOTAL: {{ticket total}}
  
-  Method: {{ticket payment}}, 
+  Payment Methods: 
+  {{ticket payment}}, 
   Amount: {{ticket given}},
   Return: {{ticket return}}
  
@@ -44,8 +46,10 @@ export const DEFAULT_TICKET_TEMPLATE = `MY STORE {{shop name}}
  -   -   -   -   -   -   -   -   -   -   -`;
 
 export const DEFAULT_STOCK_ITEMS_LIMIT = 50;
-
+export const DEFAULT_DECIMAL_PLACES = 2;
+export const DEFAULT_RETURN_TICKET_DAYS_ALLOWED = 15;
 export const COUNTRY_SETTING = 'country';
+export const CURRENCY_SETTING = 'currency';
 export const LANG_SETTING = 'lang';
 export const THEME_SETTING = 'theme';
 export const TIMEZONE_SETTING = 'timezone';
@@ -62,6 +66,7 @@ export const ANALYTICS_SERVER_SETTING = 'analyticsServer';
 
 export const DEFAULT_SETTINGS = {
   [COUNTRY_SETTING]: DEFAULT_COUNTRY,
+  [CURRENCY_SETTING]: DEFAULT_CURRENCY,
   [LANG_SETTING]: DEFAULT_LOCALE,
   [THEME_SETTING]: DEFAULT_THEME,
   [TIMEZONE_SETTING]: DEFAULT_TIMEZONE,
@@ -99,6 +104,11 @@ export const TICKET_RETURN_STATE = 'TICKET_RETURN_STATE';
 export const TICKET_POSITIVE_BALANCE = 'positive';
 export const TICKET_NEGATIVE_BALANCE = 'negative';
 export const DEFAULT_TICKET_ITEMS_LIMIT = 50;
+
+export const ADD_ITEM_OPERATION = 'add';
+export const RETURN_ITEM_OPERATION = 'return';
+export const DISCOUNT_PERCENTAGE_TYPE = 'percentage';
+export const DISCOUNT_FIXED_TYPE = 'fixed';
 
 /** ****************************************************************************/
 /*                                                                             */

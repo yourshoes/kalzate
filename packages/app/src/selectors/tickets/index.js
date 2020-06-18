@@ -1,27 +1,7 @@
 import { createSelector } from 'reselect';
 import { isEmpty } from 'lodash';
 
-const ADD_ITEM_OPERATION = 'add';
-const RETURN_ITEM_OPERATION = 'return';
-const DISCOUNT_PERCENTAGE_TYPE = 'percentage';
-const DISCOUNT_FIXED_TYPE = 'fixed';
-
-export const calculateSubtotal = ({ amount, price, discountType, discountValue }) => {
-    let subtotal = amount * price;
-
-    if (discountType === DISCOUNT_PERCENTAGE_TYPE) {
-        subtotal *= (1 - discountValue / 100);
-    }
-    else if (discountType === DISCOUNT_FIXED_TYPE) {
-        subtotal -= discountValue;
-    }
-
-    if (subtotal > (amount * price) || subtotal <= 0) {
-        return 0;
-    }
-
-    return subtotal;
-}
+import { getSubtotal } from 'utils/ticket';
 
 export const ticket = (state) => state.ticket;
 
@@ -46,31 +26,42 @@ export const isEmptyTicket =
         (ticket) => ticket.operations.length === 0
     );
 
+/**
+ * the ticket total amount
+ * it can be positive or negative, including zero
+ * A positive value means the customer has to pay that amount for the items purchased
+ * A negative value means the customer has to get back thath amount either as a voucher or in cash/credit card/...etc
+ * A value of zero means the customer does not have to pay anything
+ */
 export const ticketTotalAmount =
     createSelector(ticket, (ticket) => ticket.operations
-        .reduce((acc, { operation, price, amount, discountType, discountValue }) => {
-            const subtotal = calculateSubtotal({ amount, price, discountType, discountValue });
-
-            if (operation === ADD_ITEM_OPERATION) { return acc + subtotal }
-            if (operation === RETURN_ITEM_OPERATION) { return acc - subtotal }
-
-            throw new Error(`operation type "${operation}" unknown, use "${ADD_ITEM_OPERATION}" or "${RETURN_ITEM_OPERATION}"`)
-
-        }, 0)
-
+        .reduce((acc, operation) => acc + getSubtotal(operation), 0)
     );
 
+/**
+ * the ticket provided amount
+ * it can only be positive or zero
+ * A positive value means the customer has given that amount in order to make the order
+ * A value of zero means the customer does not have to pay anything
+ */
 export const ticketProvidedAmount =
     createSelector(ticket, (ticket) =>
         ticket.payments
             .reduce((acc, { amount }) => acc + amount, 0)
     );
 
+/**
+ * the ticket exchange amount
+ * it can be positive or negative, including zero
+ * A positive value means the customer has to receive that amount either as a voucher or in cash
+ * A negative value means the customer has to pay that amount to make the order
+ * A value of zero means the customer does not have to pay anything
+ */
 export const ticketExchangeAmount =
     createSelector(
         ticketTotalAmount,
         ticketProvidedAmount,
-        (totalAmount, providedAmount) => totalAmount - providedAmount
+        (totalAmount, providedAmount) => providedAmount - totalAmount
     );
 
 

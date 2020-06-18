@@ -8,7 +8,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { selectTicketDomain, selectSettingsData, makeSelectTicketReadOnly } from './selectors';
+import { selectSettingsData } from './selectors';
+import {
+  ticket
+} from 'selectors/tickets';
 import { setTicketGivenAmount, increaseGivenAmount, decreaseGivenAmount } from './actions';
 import PaymentTicket from './molecules/PaymentTicket';
 
@@ -19,8 +22,7 @@ function TicketTotal(props) {
 TicketTotal.propTypes = {};
 
 const mapStateToProps = createStructuredSelector({
-  ticket: selectTicketDomain(),
-  isReadOnly: makeSelectTicketReadOnly(),
+  ticket,
   settings: selectSettingsData(),
 });
 
