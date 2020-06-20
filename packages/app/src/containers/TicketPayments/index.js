@@ -6,6 +6,7 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectMethod } from './selectors';
 import { PaymentMethods } from './molecules/PaymentMethods';
@@ -37,4 +38,4 @@ const mapStateToProps = createStructuredSelector({
   method: makeSelectMethod(),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TicketPayments);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(TicketPayments));

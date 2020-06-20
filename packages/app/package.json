@@ -19,6 +19,7 @@
   "dependencies": {
     "@kalzate/cy": "^1.0.0",
     "@kalzate/db": "^1.0.0",
+    "@kalzate/ui": "^1.0.0",
     "csvtojson": "^1.1.9",
     "d3-scale": "^2.1.0",
     "d3-shape": "^1.2.0",

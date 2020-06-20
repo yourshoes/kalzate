@@ -19,21 +19,19 @@ import PaymentMethodsItem from '../atoms/PaymentMethodsItem';
 import PaymentMethodsItemTitle from '../atoms/PaymentMethodsItemTitle';
 import messages from '../messages';
 import { tickets as ticketsSelectors } from '@kalzate/cy';
+import PaymentMethod from '@kalzate/ui';
 
-export function PaymentMethods({ method, setMethod }) {
+export function PaymentMethods({ method, setMethod, intl }) {
   return (
     <PaymentSectionContainer>
       <PaymentMethodsSection>
-        <PaymentMethodsItem
-          data-cy={ticketsSelectors.PAYMENT_METHOD_CREDIT_CARD}
+        <PaymentMethod data-cy={ticketsSelectors.PAYMENT_METHOD_CREDIT_CARD}
           onClick={() => setMethod(PAYMENT_METHOD_CREDIT_CARD)}
           selected={method === PAYMENT_METHOD_CREDIT_CARD}
-        >
-          <Octicon mega name="credit-card" />{' '}
-          <PaymentMethodsItemTitle>
-            <FormattedMessage {...messages.creditcard} />
-          </PaymentMethodsItemTitle>
-        </PaymentMethodsItem>
+          placeholder={intl.formatMessage(messages.creditcard)}
+          icon={<Octicon mega name="credit-card" />} >
+          <FormattedMessage {...messages.creditcard} />
+        </PaymentMethod>
       </PaymentMethodsSection>
       <PaymentMethodsSection>
         <PaymentMethodsItem
