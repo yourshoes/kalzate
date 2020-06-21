@@ -2,13 +2,11 @@ import React from 'react';
 
 import * as S from './styles';
 
-export default function PaymentMethod({ icon, onChange, placeholder, value, ...rest }) {
+export default function PaymentMethod({ icon, placeholder, ...rest }) {
     return <S.Container>
         <S.Input
             type="text"
             placeholder={placeholder}
-            onChange={onChange}
-            value={value}
             {...rest}
         />
         <S.Label title={placeholder}>

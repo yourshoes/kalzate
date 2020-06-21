@@ -9,7 +9,7 @@ export const Container = styled.div`
     justify-content: center;
 
     & > span {
-    align-self: flex-end;
+        align-self: flex-end;
     }
 `;
 
@@ -47,6 +47,12 @@ export const BaseInput = styled.input`
     /* Microsoft Edge */
     color: rgba(163, 168, 174, 0.9);
   }
+  &::placeholder {
+    /* WebKit, Blink, Edge */
+    color: rgba(163, 168, 174, 0.9);
+    opacity: 1;
+  }
+  
 `;
 export const Input = BaseInput.extend`
   width: 100%;
@@ -57,43 +63,20 @@ export const Input = BaseInput.extend`
   font-size: 2rem;
   color: rgb(115, 201, 144);
   order: 2;
-  &::-webkit-input-placeholder {
+
+  &:placeholder {
     opacity: 1;
-    -webkit-transition: all 0.2s;
     transition: all 0.2s;
   }
-  &::-moz-placeholder {
-    opacity: 1;
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
-  }
-  &:-ms-input-placeholder {
-    opacity: 1;
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
-  }
-  &::placeholder {
-    opacity: 1;
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
-  }
-  &:placeholder-shown:not(:focus)::-webkit-input-placeholder {
-    opacity: 0;
-  }
-  &:placeholder-shown:not(:focus)::-moz-placeholder {
-    opacity: 0;
-  }
-  &:placeholder-shown:not(:focus):-ms-input-placeholder {
-    opacity: 0;
-  }
+
   &:placeholder-shown:not(:focus)::placeholder {
     opacity: 0;
   }
+
   &:placeholder-shown:not(:focus) + * {
     opacity: 1;
     margin-left: 55px;
     top: 8px;
-    color: rgb(100, 148, 237);
     font-size: 1.8em;
     font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
       Cantarell, Arial, sans-serif;
@@ -101,16 +84,28 @@ export const Input = BaseInput.extend`
     -webkit-font-smoothing: antialiased;
     font-variant: all-petite-caps;
     font-style: normal;
+    color: ${(props) => (props.disabled ? 'rgba(163, 168, 174, 0.6)' : 'rgb(100, 148, 237)')};
   }
+
   &:placeholder-shown:focus ~ * {
     color: rgb(115, 201, 144);
   }
+
   &:focus {
     outline: none;
     border-color: rgba(0, 0, 0, 0.5);
   }
+
   &:not(:placeholder-shown) ~ * {
     color: rgb(115, 201, 144);
+  }
+
+  &:disabled {
+      color: rgba(163, 168, 174, 0.6);
+  }
+
+  &:disabled ~ * {
+      color: rgba(163, 168, 174, 0.6);
   }
 `;
 
@@ -122,7 +117,6 @@ export const Label = styled.label`
   top: 35px;
   color: rgb(115, 201, 144);
   order: 3;
-  cursor: text;
   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
     Cantarell, Arial, sans-serif;
   font-weight: 100;
@@ -130,7 +124,6 @@ export const Label = styled.label`
   font-variant: all-petite-caps;
   font-style: normal;
   opacity: ${(props) => (props.readonly ? '.5' : '1')};
-  -webkit-transition: all 0.2s;
   transition: all 0.2s;
   margin-left: 10px;
   font-size: ${(props) => (props.readonly ? '1.7em' : '14px')};

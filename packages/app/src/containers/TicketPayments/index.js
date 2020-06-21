@@ -11,6 +11,7 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectMethod } from './selectors';
 import { PaymentMethods } from './molecules/PaymentMethods';
 import { setMethod } from './actions';
+import { ticketTotalAmount } from 'selectors/tickets';
 
 export class TicketPayments extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -35,6 +36,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
+  totalAmount: ticketTotalAmount,
   method: makeSelectMethod(),
 });
 
