@@ -2,14 +2,15 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+    position:relative;  
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 
-  & > span {
+    & > span {
     align-self: flex-end;
-  }
+    }
 `;
 
 export const BaseInput = styled.input`
@@ -90,10 +91,16 @@ export const Input = BaseInput.extend`
   }
   &:placeholder-shown:not(:focus) + * {
     opacity: 1;
-    left: 80px;
-    top: 65px;
-    font-size: 1em;
+    margin-left: 55px;
+    top: 8px;
     color: rgb(100, 148, 237);
+    font-size: 1.8em;
+    font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu,
+      Cantarell, Arial, sans-serif;
+    font-weight: 100;
+    -webkit-font-smoothing: antialiased;
+    font-variant: all-petite-caps;
+    font-style: normal;
   }
   &:placeholder-shown:focus ~ * {
     color: rgb(115, 201, 144);
@@ -111,8 +118,8 @@ export const Input = BaseInput.extend`
 export const Label = styled.label`
   position: absolute;
   pointer-events: none; // makes the input ot get focus having the label on top of it
-  left: 35px;
-  top: 90px;
+  left: -10px;
+  top: 35px;
   color: rgb(115, 201, 144);
   order: 3;
   cursor: text;
