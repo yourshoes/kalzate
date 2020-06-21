@@ -1,7 +1,13 @@
 import { createSelector } from 'reselect';
 import { isEmpty } from 'lodash';
 
-import { getSubtotal } from 'utils/ticket';
+import {
+    getSubtotal,
+    getCreditCardPaymentAmount,
+    getCashPaymentAmount,
+    getVoucherPaymentAmount
+} from 'utils/ticket';
+
 
 export const ticket = (state) => state.ticket;
 
@@ -79,4 +85,29 @@ export const isTicketCheckoutDisabled =
 
             return false;
         }
+    );
+
+
+export const ticketPayments =
+    createSelector(
+        ticket,
+        ({ payments }) => payments
+    );
+
+export const ticketCreditCardPaymentAmount =
+    createSelector(
+        ticketPayments,
+        (payments) => getCreditCardPaymentAmount(payments)
+    );
+
+export const ticketCashPaymentAmount =
+    createSelector(
+        ticketPayments,
+        (payments) => getCashPaymentAmount(payments)
+    );
+
+export const ticketVoucherPaymentAmount =
+    createSelector(
+        ticketPayments,
+        (payments) => getVoucherPaymentAmount(payments)
     );

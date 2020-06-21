@@ -1,5 +1,3 @@
-
-
 import {
   DEFAULT_DECIMAL_PLACES,
   ADD_ITEM_OPERATION,
@@ -7,6 +5,9 @@ import {
   DISCOUNT_PERCENTAGE_TYPE,
   DISCOUNT_FIXED_TYPE,
   DEFAULT_SCHEMA_TYPE,
+  PAYMENT_METHOD_CREDIT_CARD,
+  PAYMENT_METHOD_CASH,
+  PAYMENT_METHOD_VOUCHER
 } from 'config';
 
 export const formatDecimalPlaces = (number, decimals = DEFAULT_DECIMAL_PLACES) => number.toFixed(decimals);
@@ -67,3 +68,22 @@ export const getSubtotal = ({ operation, amount, price, discountType, discountVa
 
   throw new Error(`operation type "${operation}" unknown, use "${ADD_ITEM_OPERATION}" or "${RETURN_ITEM_OPERATION}"`)
 }
+
+const getPaymentAmount = (payments, paymentMethod) => {
+  const payment = payments.find(({ method }) => method === paymentMethod);
+  if (payment) {
+    return payment.amount;
+  }
+  return null;
+}
+
+export const getCreditCardPaymentAmount = (payments) =>
+  getPaymentAmount(payments, PAYMENT_METHOD_CREDIT_CARD);
+
+export const getCashPaymentAmount = (payments) =>
+  getPaymentAmount(payments, PAYMENT_METHOD_CASH);
+
+export const getVoucherPaymentAmount = (payments) =>
+  getPaymentAmount(payments, PAYMENT_METHOD_VOUCHER);
+
+
