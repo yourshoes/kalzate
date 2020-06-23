@@ -7,6 +7,7 @@
 import React, { PropTypes } from 'react';
 import PaymentSection from '../atoms/PaymentSection';
 import GivenAmount from '../atoms/GivenAmount';
+import { formatPrice } from "utils/ticket";
 
 export function PaymentGiven({
   currency,
@@ -14,7 +15,7 @@ export function PaymentGiven({
   return (
     <PaymentSection>
       <GivenAmount>
-        {givenAmount.toFixed(2)} {currency}
+        {formatPrice(givenAmount)} {currency}
       </GivenAmount>
     </PaymentSection>
   );

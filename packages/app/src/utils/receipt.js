@@ -3,24 +3,19 @@
 import dateFormat from 'dateformat';
 import lodash from 'lodash';
 import { ticketProvidedAmount, ticketTotalAmount, ticketExchangeAmount } from 'selectors/tickets';
-import { formatDecimalPlaces, formatDescription, getSubtotal, getAmount } from 'utils/ticket';
+import { formatDecimalPlaces, formatPrice, formatDescription, getSubtotal, getAmount } from 'utils/ticket';
 import {
   PAYMENT_METHOD_CREDIT_CARD,
   PAYMENT_METHOD_PHONE,
   PAYMENT_METHOD_CASH,
   PAYMENT_METHOD_TICKET,
   DEFAULT_RETURN_TICKET_DAYS_ALLOWED,
-  DEFAULT_CURRENCY
 } from 'config';
 
 const compileTicketTemplateRegex = /{{([^{}]+)}}/g;
 // const compileTicketParamsRegex = /\[([^[]+)\]|"([^"]+)"|([^ ]+)/g;
 const compileTicketParamsRegex = /\[([^[]+)]|"((?:\\.|[^"\\])*)"|([^ ]+)/g;
 const removeQuotesRegex = /"/g;
-
-function formatPrice(amount, currency = DEFAULT_CURRENCY) {
-  return `${formatDecimalPlaces(amount)}${currency}`;
-}
 
 function removeQuotes(str) {
   return str.replace(removeQuotesRegex, '');

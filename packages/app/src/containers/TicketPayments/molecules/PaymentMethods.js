@@ -21,31 +21,36 @@ export function PaymentMethods({
   creditCardPaymentAmount,
   cashPaymentAmount,
   voucherPaymentAmount,
-  setMethod,
+  updateTicketPayment,
   totalAmount,
   intl }) {
 
   const isPaymentMethodDisabled = totalAmount <= 0;
-
+  console.log(creditCardPaymentAmount, '<<<<<');
   return (
     <PaymentSectionContainer>
       <PaymentMethod
         data-cy={ticketsSelectors.PAYMENT_METHOD_CREDIT_CARD}
-        onClick={() => setMethod(PAYMENT_METHOD_CREDIT_CARD)}
+        onChange={(value) => updateTicketPayment({
+          method: PAYMENT_METHOD_CREDIT_CARD,
+          amount: value
+        })}
+        onEnter={() => updateTicketPayment({
+          method: PAYMENT_METHOD_CREDIT_CARD,
+          amount: totalAmount
+        })}
         placeholder={intl.formatMessage(messages.creditcard)}
         disabled={isPaymentMethodDisabled}
         value={creditCardPaymentAmount}
         icon={<Octicon mega name="credit-card" verticalAlign='middle' />} />
       <PaymentMethod
         data-cy={ticketsSelectors.PAYMENT_METHOD_CASH}
-        onClick={() => setMethod(PAYMENT_METHOD_CASH)}
         disabled={isPaymentMethodDisabled}
         placeholder={intl.formatMessage(messages.cash)}
         value={cashPaymentAmount}
         icon={<Octicon mega name="tag" verticalAlign='middle' />} />
       <PaymentMethod
         data-cy={ticketsSelectors.PAYMENT_METHOD_VOUCHER}
-        onClick={() => setMethod(PAYMENT_METHOD_TICKET)}
         disabled={isPaymentMethodDisabled}
         placeholder={intl.formatMessage(messages.ticket)}
         value={voucherPaymentAmount}

@@ -31,9 +31,15 @@ import {
   UNDO_RETURN_STOCK_FROM_TICKET_ACTION,
   RETURN_ALL_STOCK_FROM_TICKET_ACTION,
 } from 'containers/TicketReturningPage/constants';
-import { PAYMENT_METHOD_CREDIT_CARD, PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'config';
+import { PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'config';
 import { toFixed } from 'utils/helper';
-import { ADD_STOCK_TO_TICKET_ACTION, UPDATE_TICKET_OPERATION_ACTION, REMOVE_STOCK_FROM_TICKET_ACTION } from 'actions/tickets/types';
+import {
+  ADD_STOCK_TO_TICKET_ACTION,
+  UPDATE_TICKET_OPERATION_ACTION,
+  REMOVE_STOCK_FROM_TICKET_ACTION,
+  UPDATE_TICKET_PAYMENT_ACTION
+} from 'actions/tickets/types';
+
 // The initial state of the App
 const initialState = {
 
@@ -163,6 +169,9 @@ function updateTicketDiscount(state, action) {
   return { ...state, discount: action.discount / 100 };
 }
 
+
+
+
 // amount field contains the amount of stock units that stock has 
 // and is used later when checking out to update the stock, note
 // this will not work if the database is updated outside from the kalzate application
@@ -202,6 +211,27 @@ function removeStockFromTicket(state, action) {
     ],
   };
 }
+
+function updateTicketPayment(state, action) {
+
+  const payment = state.payments.find(({ method }) => method === action.method);
+
+  if (payment) {
+    const payments = state.payments.map(
+      payment => payment.method === action.method ? ({ ...payment, ...action }) : payment);
+    return { ...state, payments };
+  }
+
+  return {
+    ...state,
+    payments: [...state.payments, action]
+  };
+}
+
+
+
+
+
 
 function returnStockFromTicket(state, action) {
   const items = state.items.map((item) =>
@@ -287,6 +317,8 @@ function appReducer(state = initialState, action) {
       return updateTicketOperation(state, action.data);
     case REMOVE_STOCK_FROM_TICKET_ACTION:
       return removeStockFromTicket(state, action.data);
+    case UPDATE_TICKET_PAYMENT_ACTION:
+      return updateTicketPayment(state, action.data);
 
 
 

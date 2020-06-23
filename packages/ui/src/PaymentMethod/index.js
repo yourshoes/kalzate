@@ -1,10 +1,10 @@
 import React from 'react';
-
+import Input from './Input';
 import * as S from './styles';
 
 export default function PaymentMethod({ icon, placeholder, ...rest }) {
     return <S.Container>
-        <S.Input
+        <Input
             type="text"
             placeholder={placeholder}
             {...rest}

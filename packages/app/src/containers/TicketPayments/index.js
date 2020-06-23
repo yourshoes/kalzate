@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { PaymentMethods } from './molecules/PaymentMethods';
-import { setMethod } from './actions';
+import { updateTicketPayment } from 'actions/tickets';
 import {
   ticketTotalAmount,
   ticketCreditCardPaymentAmount,
@@ -30,12 +30,12 @@ export class TicketPayments extends React.Component {
 
 TicketPayments.propTypes = {
   method: PropTypes.string,
-  setMethod: PropTypes.func.isRequired,
+  updateTicketPayment: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    setMethod: (method) => dispatch(setMethod(method)),
+    updateTicketPayment: (payment) => dispatch(updateTicketPayment(payment)),
   };
 }
 

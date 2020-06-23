@@ -7,10 +7,15 @@ import {
   DEFAULT_SCHEMA_TYPE,
   PAYMENT_METHOD_CREDIT_CARD,
   PAYMENT_METHOD_CASH,
-  PAYMENT_METHOD_VOUCHER
+  PAYMENT_METHOD_VOUCHER,
+  DEFAULT_CURRENCY
 } from 'config';
 
 export const formatDecimalPlaces = (number, decimals = DEFAULT_DECIMAL_PLACES) => number.toFixed(decimals);
+
+export function formatPrice(amount, currency = DEFAULT_CURRENCY) {
+  return `${formatDecimalPlaces(amount)}${currency}`;
+}
 
 function abbrv(type, value) {
   switch (type) {
