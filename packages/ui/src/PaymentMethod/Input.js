@@ -9,7 +9,7 @@ export class Input extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: props.value || '',
+            value: this.parseValue(props.value),
             cursorStart: 0,
             cursorEnd: 0,
             loading: false
@@ -18,11 +18,26 @@ export class Input extends React.Component {
         this.increaseNoShiftValues = [1, 0.01];
     }
 
-    componentWillReceiveProps({ value }) {
-        if (value === 0) {
-            return this.setState({ value: '0.00', loading: false });
+    parseValue(value) {
+        try {
+
+            if (typeof value !== 'number') {
+                return '';
+            }
+
+            if (value <= 0) {
+                return '0.00';
+            }
+
+            return `${value.toFixed(2)}`;
         }
-        this.setState({ value: value ? `${value.toFixed(2)}` : '', loading: false });
+        catch (e) {
+            return '';
+        }
+    }
+
+    componentWillReceiveProps({ value }) {
+        this.setState({ value: this.parseValue(value), loading: false });
     }
 
     componentDidUpdate() {
