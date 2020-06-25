@@ -12,6 +12,7 @@ import { PaymentMethods } from './molecules/PaymentMethods';
 import { updateTicketPayment } from 'actions/tickets';
 import {
   ticketTotalAmount,
+  ticketRemainingAmount,
   ticketCreditCardPaymentAmount,
   ticketCashPaymentAmount,
   ticketVoucherPaymentAmount
@@ -41,6 +42,7 @@ function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = createStructuredSelector({
   totalAmount: ticketTotalAmount,
+  remainingAmount: ticketRemainingAmount,
   creditCardPaymentAmount: ticketCreditCardPaymentAmount,
   cashPaymentAmount: ticketCashPaymentAmount,
   voucherPaymentAmount: ticketVoucherPaymentAmount

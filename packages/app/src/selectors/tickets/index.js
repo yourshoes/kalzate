@@ -53,7 +53,8 @@ export const ticketTotalAmount =
 export const ticketProvidedAmount =
     createSelector(ticket, (ticket) =>
         ticket.payments
-            .reduce((acc, { amount }) => acc + amount, 0)
+            .reduce((acc, { amount }) =>
+                amount ? acc + amount : acc, 0)
     );
 
 /**
@@ -70,6 +71,14 @@ export const ticketExchangeAmount =
         (totalAmount, providedAmount) => providedAmount - totalAmount
     );
 
+/**
+ * the ticket remaining amount
+ * it can be positive or zero
+ * This is the result of the total minus the provided amount
+ */
+export const ticketRemainingAmount =
+    createSelector(ticketExchangeAmount,
+        (exchangeAmount) => exchangeAmount >= 0 ? 0 : Math.round((Math.abs(exchangeAmount) + Number.EPSILON) * 100) / 100);
 
 export const isTicketCheckoutDisabled =
     createSelector(

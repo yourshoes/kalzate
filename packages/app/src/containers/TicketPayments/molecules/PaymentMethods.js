@@ -8,9 +8,8 @@ import React, { PropTypes } from 'react';
 import Octicon from 'react-octicon';
 import {
   PAYMENT_METHOD_CREDIT_CARD,
-  PAYMENT_METHOD_PHONE,
   PAYMENT_METHOD_CASH,
-  PAYMENT_METHOD_TICKET,
+  PAYMENT_METHOD_VOUCHER,
 } from 'config';
 import PaymentSectionContainer from '../atoms/PaymentSectionContainer';
 import messages from '../messages';
@@ -23,10 +22,10 @@ export function PaymentMethods({
   voucherPaymentAmount,
   updateTicketPayment,
   totalAmount,
+  remainingAmount,
   intl }) {
 
   const isPaymentMethodDisabled = totalAmount <= 0;
-  console.log(creditCardPaymentAmount, '<<<<<');
   return (
     <PaymentSectionContainer>
       <PaymentMethod
@@ -37,7 +36,7 @@ export function PaymentMethods({
         })}
         onEnter={() => updateTicketPayment({
           method: PAYMENT_METHOD_CREDIT_CARD,
-          amount: totalAmount
+          amount: remainingAmount + creditCardPaymentAmount
         })}
         placeholder={intl.formatMessage(messages.creditcard)}
         disabled={isPaymentMethodDisabled}
@@ -45,14 +44,28 @@ export function PaymentMethods({
         icon={<Octicon mega name="credit-card" verticalAlign='middle' />} />
       <PaymentMethod
         data-cy={ticketsSelectors.PAYMENT_METHOD_CASH}
-        disabled={isPaymentMethodDisabled}
+        onChange={(value) => updateTicketPayment({
+          method: PAYMENT_METHOD_CASH,
+          amount: value
+        })}
+        onEnter={() => updateTicketPayment({
+          method: PAYMENT_METHOD_CASH,
+          amount: remainingAmount + cashPaymentAmount
+        })
+        }
         placeholder={intl.formatMessage(messages.cash)}
+        disabled={isPaymentMethodDisabled}
         value={cashPaymentAmount}
         icon={<Octicon mega name="tag" verticalAlign='middle' />} />
       <PaymentMethod
         data-cy={ticketsSelectors.PAYMENT_METHOD_VOUCHER}
-        disabled={isPaymentMethodDisabled}
+        onChange={(value) => updateTicketPayment({
+          method: PAYMENT_METHOD_VOUCHER,
+          concept: value
+        })}
+        onEnter={() => null}
         placeholder={intl.formatMessage(messages.ticket)}
+        disabled={isPaymentMethodDisabled}
         value={voucherPaymentAmount}
         icon={<Octicon mega name="gift" verticalAlign='middle' />} />
       <PaymentMethod

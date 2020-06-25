@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './styles';
 
 function isRealNumeric(input) {
-    return /^[0-9]{1,6}(\.[0-9]{0,2})?$/.test(input);
+    return /^(?:[1-9]\d{0,4}|0)(?:\.\d{1,3})?$/.test(input);
 }
 
 export class Input extends React.Component {
@@ -19,7 +19,10 @@ export class Input extends React.Component {
     }
 
     componentWillReceiveProps({ value }) {
-        this.setState({ value: value ? `${value}` : '', loading: false });
+        if (value === 0) {
+            return this.setState({ value: '0.00', loading: false });
+        }
+        this.setState({ value: value ? `${value.toFixed(2)}` : '', loading: false });
     }
 
     componentDidUpdate() {
@@ -36,54 +39,49 @@ export class Input extends React.Component {
 
     setValue(value, { selectionStart, selectionEnd }) {
 
-        if (!value) {
+        if (!value || value.startsWith('.')) {
             this.setState(
-                { cursorStart: selectionStart, cursorEnd: selectionEnd }
+                { value: '', cursorStart: selectionStart, cursorEnd: selectionEnd }
             );
             return this.props.onChange(null)
         }
 
-        if (value && !value.includes('.') && this.state.value.includes('.')) {
-            this.setState(
-                { cursorStart: selectionStart - 1, cursorEnd: selectionEnd - 1 }
-            );
-            return this.props.onChange(
-                Number(`${value.substr(0, this.state.value.indexOf('.') - 1)}.${value.substr(
-                    this.state.value.indexOf('.') + 1
-                )}`)
-            )
-        }
-
-        console.log('value', value)
-
-        if (value && value.endsWith('.')) {
+        // console.log(value, this.state.value, selectionStart, selectionEnd)
+        // For next cases, | is the mouse cursor
+        // Case 1: 12|.45 -> 12.|45
+        if (value[selectionStart - 1] === '.' && value[selectionStart] === '.') {
             return this.setState(
-                { value, cursorStart: selectionStart, cursorEnd: selectionEnd }
-            );
-        }
-
-        if (value && value.endsWith(',')) {
-            return this.setState(
-                { value: value.replace(',', '.'), cursorStart: selectionStart, cursorEnd: selectionEnd }
-            );
-        }
-
-        if (value && value.includes(',.')) {
-            this.setState(
                 { cursorStart: selectionStart, cursorEnd: selectionEnd }
             );
-            return this.props.onChange(Number(value.replace(',.', '.')))
         }
 
-        if (value && !isRealNumeric(value)) {
-            this.setState(
-                { cursorStart: selectionStart - 1, cursorEnd: selectionEnd - 1 }
+        // Case 1: 12.|45 -> 12|.45
+        if (this.state.value.replace('.', '') === value) {
+            return this.setState(
+                { cursorStart: selectionStart, cursorEnd: selectionEnd }
             );
-            return this.props.onChange(Number(this.state.value))
         }
 
+
+        if (!isRealNumeric(value)) {
+            return this.setState(
+                { value: this.state.value, cursorStart: selectionStart - 1, cursorEnd: selectionEnd - 1 }
+            );
+        }
+
+
+        if (value.includes('.') && selectionStart > value.indexOf('.')) {
+            const amount = value.substr(0, value.indexOf('.') + 3);
+            console.log(amount)
+            this.setState(
+                { value: amount, cursorStart: selectionStart, cursorEnd: selectionEnd }
+            );
+            return this.props.onChange(Number(amount))
+        }
+
+        console.log('here', value)
         this.setState(
-            { cursorStart: selectionStart, cursorEnd: selectionEnd }
+            { value, cursorStart: selectionStart, cursorEnd: selectionEnd }
         );
         this.props.onChange(Number(value))
     }
@@ -108,6 +106,12 @@ export class Input extends React.Component {
     onChange(event) {
         const value = event.target.value.trim();
         return this.setValue(value, event.target);
+    }
+
+    onBlur(event) {
+        if (this.state.value) {
+            this.setState({ value: Number(this.state.value).toFixed(2) })
+        }
     }
 
     getAmountPosition(target, isShift, isDecreasing) {
@@ -137,6 +141,7 @@ export class Input extends React.Component {
                 type="text"
                 innerRef={(input) => (this.input = input)}
                 onClick={(e) => this.onClick(e, onClick)}
+                onBlur={(e) => this.onBlur(e, onClick)}
                 onKeyDown={(event) => {
                     const { target, key } = event;
                     const isShift = !!event.shiftKey;

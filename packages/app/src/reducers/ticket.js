@@ -224,7 +224,7 @@ function updateTicketPayment(state, action) {
 
   return {
     ...state,
-    payments: [...state.payments, action]
+    payments: [...state.payments, { concept: null, amount: null, ...action }]
   };
 }
 
