@@ -5,11 +5,15 @@ function isRealNumeric(input) {
     return /^(?:[1-9]\d{0,4}|0)(?:\.\d{1,3})?$/.test(input);
 }
 
+function isNumeric(input) {
+    return /^\d{1,15}$/.test(input);
+}
+
 export class Input extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: this.parseValue(props.value),
+            value: this.parseValue(props.value, props.pattern),
             cursorStart: 0,
             cursorEnd: 0,
             loading: false
@@ -18,26 +22,42 @@ export class Input extends React.Component {
         this.increaseNoShiftValues = [1, 0.01];
     }
 
-    parseValue(value) {
+    parseValue(value, pattern) {
         try {
 
-            if (typeof value !== 'number') {
-                return '';
+            if (pattern === 'id') {
+                return this.parseValueId(value);
             }
 
-            if (value <= 0) {
-                return '0.00';
-            }
-
-            return `${value.toFixed(2)}`;
+            return this.parseValuePrice(value);
         }
         catch (e) {
             return '';
         }
     }
 
-    componentWillReceiveProps({ value }) {
-        this.setState({ value: this.parseValue(value), loading: false });
+    parseValuePrice(value) {
+        if (typeof value !== 'number') {
+            return '';
+        }
+
+        if (value <= 0) {
+            return '0.00';
+        }
+
+        return `${value.toFixed(2)}`;
+    }
+
+    parseValueId(value) {
+        if (typeof value !== 'number' || value <= 0) {
+            return '';
+        }
+
+        return `${value}`;
+    }
+
+    componentWillReceiveProps({ value, pattern }) {
+        this.setState({ value: this.parseValue(value, pattern), loading: false });
     }
 
     componentDidUpdate() {
@@ -52,7 +72,31 @@ export class Input extends React.Component {
         this.input.setSelectionRange(start, end);
     }
 
+    setValueId(value, { selectionStart, selectionEnd }) {
+        if (!value) {
+            this.setState(
+                { value: '', cursorStart: selectionStart, cursorEnd: selectionEnd }
+            );
+            return this.props.onChange(null)
+        }
+
+        if (!isNumeric(value)) {
+            return this.setState(
+                { value: this.state.value, cursorStart: selectionStart - 1, cursorEnd: selectionEnd - 1 }
+            );
+        }
+
+        this.setState(
+            { value, cursorStart: selectionStart, cursorEnd: selectionEnd }
+        );
+        this.props.onChange(Number(value))
+    }
+
     setValue(value, { selectionStart, selectionEnd }) {
+
+        if (this.props.pattern === 'id') {
+            return this.setValueId(value, { selectionStart, selectionEnd })
+        }
 
         if (!value || value.startsWith('.')) {
             this.setState(
@@ -130,6 +174,7 @@ export class Input extends React.Component {
     }
 
     getAmountPosition(target, isShift, isDecreasing) {
+        if (this.props.pattern !== 'price') { return; }
         const increaseValues = isShift ? this.increaseShiftValues : this.increaseNoShiftValues;
         const isDecimalIncrementation = this.state.value.indexOf('.') !== -1 && target.selectionStart > this.state.value.indexOf('.');
         const absoluteIncrement = isDecimalIncrementation
@@ -162,7 +207,6 @@ export class Input extends React.Component {
                     const isShift = !!event.shiftKey;
                     switch (key) {
                         case 'Enter':
-                            this.setState({ loading: true });
                             onEnter(Number(this.state.value));
                             return this.stopPropagation(event);
                         case 'ArrowUp':

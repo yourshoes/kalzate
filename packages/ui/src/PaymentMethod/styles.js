@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     position:relative;  
-    display: flex;
+    display: ${(props) => (props.visible ? 'flex' : 'none')};
     flex-direction: row;
     align-items: center;
     justify-content: center;

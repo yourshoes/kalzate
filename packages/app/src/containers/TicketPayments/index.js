@@ -15,7 +15,8 @@ import {
   ticketRemainingAmount,
   ticketCreditCardPaymentAmount,
   ticketCashPaymentAmount,
-  ticketVoucherPaymentAmount
+  ticketVoucherPaymentAmount,
+  ticketVoucherPaymentConcept
 } from 'selectors/tickets';
 
 export class TicketPayments extends React.Component {
@@ -45,7 +46,8 @@ const mapStateToProps = createStructuredSelector({
   remainingAmount: ticketRemainingAmount,
   creditCardPaymentAmount: ticketCreditCardPaymentAmount,
   cashPaymentAmount: ticketCashPaymentAmount,
-  voucherPaymentAmount: ticketVoucherPaymentAmount
+  voucherPaymentAmount: ticketVoucherPaymentAmount,
+  voucherPaymentConcept: ticketVoucherPaymentConcept
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(TicketPayments));

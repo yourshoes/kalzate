@@ -9,21 +9,22 @@ import Octicon from 'react-octicon';
 import {
   PAYMENT_METHOD_CREDIT_CARD,
   PAYMENT_METHOD_CASH,
-  PAYMENT_METHOD_VOUCHER,
 } from 'config';
 import PaymentSectionContainer from '../atoms/PaymentSectionContainer';
+import Voucher from './Voucher';
 import messages from '../messages';
 import { tickets as ticketsSelectors } from '@kalzate/cy';
 import PaymentMethod from '@kalzate/ui';
 
-export function PaymentMethods({
-  creditCardPaymentAmount,
-  cashPaymentAmount,
-  voucherPaymentAmount,
-  updateTicketPayment,
-  totalAmount,
-  remainingAmount,
-  intl }) {
+export function PaymentMethods(props) {
+
+  const {
+    creditCardPaymentAmount,
+    cashPaymentAmount,
+    updateTicketPayment,
+    totalAmount,
+    remainingAmount,
+    intl } = props;
 
   const isPaymentMethodDisabled = totalAmount <= 0;
   return (
@@ -57,17 +58,7 @@ export function PaymentMethods({
         disabled={isPaymentMethodDisabled}
         value={cashPaymentAmount}
         icon={<Octicon mega name="tag" verticalAlign='middle' />} />
-      <PaymentMethod
-        data-cy={ticketsSelectors.PAYMENT_METHOD_VOUCHER}
-        onChange={(value) => updateTicketPayment({
-          method: PAYMENT_METHOD_VOUCHER,
-          concept: value
-        })}
-        onEnter={() => null}
-        placeholder={intl.formatMessage(messages.ticket)}
-        disabled={isPaymentMethodDisabled}
-        value={voucherPaymentAmount}
-        icon={<Octicon mega name="gift" verticalAlign='middle' />} />
+      <Voucher {...props} />
       <PaymentMethod
         data-cy={ticketsSelectors.PAYMENT_METHOD_PHONE}
         disabled={true}

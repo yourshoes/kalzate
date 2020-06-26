@@ -74,10 +74,10 @@ export const getSubtotal = ({ operation, amount, price, discountType, discountVa
   throw new Error(`operation type "${operation}" unknown, use "${ADD_ITEM_OPERATION}" or "${RETURN_ITEM_OPERATION}"`)
 }
 
-const getPaymentAmount = (payments, paymentMethod) => {
+const getPaymentAmount = (payments, paymentMethod, field = 'amount') => {
   const payment = payments.find(({ method }) => method === paymentMethod);
   if (payment) {
-    return payment.amount;
+    return payment[field];
   }
   return null;
 }
@@ -90,5 +90,8 @@ export const getCashPaymentAmount = (payments) =>
 
 export const getVoucherPaymentAmount = (payments) =>
   getPaymentAmount(payments, PAYMENT_METHOD_VOUCHER);
+
+export const getVoucherPaymentConcept = (payments) =>
+  getPaymentAmount(payments, PAYMENT_METHOD_VOUCHER, 'concept');
 
 

@@ -5,7 +5,8 @@ import {
     getSubtotal,
     getCreditCardPaymentAmount,
     getCashPaymentAmount,
-    getVoucherPaymentAmount
+    getVoucherPaymentAmount,
+    getVoucherPaymentConcept
 } from 'utils/ticket';
 
 
@@ -119,4 +120,10 @@ export const ticketVoucherPaymentAmount =
     createSelector(
         ticketPayments,
         (payments) => getVoucherPaymentAmount(payments)
+    );
+
+export const ticketVoucherPaymentConcept =
+    createSelector(
+        ticketPayments,
+        (payments) => getVoucherPaymentConcept(payments)
     );
