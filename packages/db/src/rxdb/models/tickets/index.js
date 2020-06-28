@@ -17,7 +17,7 @@ import { isRxCollection, isRxDatabase } from 'rxdb';
 import schema from './schema';
 import uuidv1 from 'uuid/v1';
 import { isEmpty, isString } from 'lodash';
-import { ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION } from './config';
+import { ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION, PAYMENT_METHOD_VOUCHER } from './config';
 import { TicketNoSavedError, TicketsNotFoundError } from '../../errors/tickets';
 import Queries from './queries';
 
@@ -167,6 +167,17 @@ class Tickets {
           }
         })
       );
+
+      // Update Voucher (set to expired)
+      const voucher = ticker.payments.find(({ method }) => method === PAYMENT_METHOD_VOUCHER);
+      if (voucher) {
+        await this.updateBy({
+          id: {
+            $eq: voucher.concept,
+          }
+        }, { hasVoucherExpired: true })
+      }
+
       return id;
     } catch (error) {
       throw new TicketNoSavedError(error, ticket);

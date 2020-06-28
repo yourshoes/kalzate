@@ -35,10 +35,19 @@ export function PaymentMethods(props) {
           method: PAYMENT_METHOD_CREDIT_CARD,
           amount: value
         })}
-        onEnter={() => updateTicketPayment({
-          method: PAYMENT_METHOD_CREDIT_CARD,
-          amount: remainingAmount + creditCardPaymentAmount
-        })}
+        onEnter={() => {
+          const amount = remainingAmount + creditCardPaymentAmount;
+
+          if (amount <= 0) {
+            return;
+          }
+
+          updateTicketPayment({
+            method: PAYMENT_METHOD_CREDIT_CARD,
+            amount
+          });
+
+        }}
         placeholder={intl.formatMessage(messages.creditcard)}
         disabled={isPaymentMethodDisabled}
         value={creditCardPaymentAmount}
@@ -49,10 +58,20 @@ export function PaymentMethods(props) {
           method: PAYMENT_METHOD_CASH,
           amount: value
         })}
-        onEnter={() => updateTicketPayment({
-          method: PAYMENT_METHOD_CASH,
-          amount: remainingAmount + cashPaymentAmount
-        })
+        onEnter={
+          () => {
+            const amount = remainingAmount + cashPaymentAmount;
+
+            if (amount <= 0) {
+              return;
+            }
+
+            updateTicketPayment({
+              method: PAYMENT_METHOD_CASH,
+              amount
+            });
+
+          }
         }
         placeholder={intl.formatMessage(messages.cash)}
         disabled={isPaymentMethodDisabled}

@@ -31,13 +31,15 @@ import {
   UNDO_RETURN_STOCK_FROM_TICKET_ACTION,
   RETURN_ALL_STOCK_FROM_TICKET_ACTION,
 } from 'containers/TicketReturningPage/constants';
-import { PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'config';
+import { PAYMENT_METHOD_CASH, TICKET_SOLD_STATE, PAYMENT_METHOD_VOUCHER } from 'config';
 import { toFixed } from 'utils/helper';
 import {
   ADD_STOCK_TO_TICKET_ACTION,
-  UPDATE_TICKET_OPERATION_ACTION,
   REMOVE_STOCK_FROM_TICKET_ACTION,
-  UPDATE_TICKET_PAYMENT_ACTION
+  UPDATE_TICKET_OPERATION_ACTION,
+  UPDATE_TICKET_PAYMENT_ACTION,
+  ADD_VOUCHER_PAYMENT_AMOUNT_SUCCESS_ACTION,
+  REMOVE_VOUCHER_PAYMENT_AMOUNT_ACTION
 } from 'actions/tickets/types';
 
 // The initial state of the App
@@ -46,6 +48,7 @@ const initialState = {
   isChecked: false,
   isGift: false,
   isVoucher: false,
+  hasVoucherExpired: false,
   balance: null,
   prevNode: undefined,
   nextNode: undefined,
@@ -172,6 +175,11 @@ function updateTicketDiscount(state, action) {
 
 
 
+
+
+
+
+
 // amount field contains the amount of stock units that stock has 
 // and is used later when checking out to update the stock, note
 // this will not work if the database is updated outside from the kalzate application
@@ -191,6 +199,17 @@ function addStockToTicket(state, action) {
   return { ...state, operations: [action, ...state.operations] };
 }
 
+function removeStockFromTicket(state, action) {
+  return {
+    ...state,
+    operations: [
+      ...state.operations.slice(0, action.operationIndexPosition),
+      ...state.operations.slice(action.operationIndexPosition + 1),
+    ],
+  };
+}
+
+
 function updateTicketOperation(state, action) {
 
   const operations = state.operations.map((operation) =>
@@ -200,16 +219,6 @@ function updateTicketOperation(state, action) {
 
   return { ...state, operations };
 
-}
-
-function removeStockFromTicket(state, action) {
-  return {
-    ...state,
-    operations: [
-      ...state.operations.slice(0, action.operationIndexPosition),
-      ...state.operations.slice(action.operationIndexPosition + 1),
-    ],
-  };
 }
 
 function updateTicketPayment(state, action) {
@@ -227,6 +236,37 @@ function updateTicketPayment(state, action) {
     payments: [...state.payments, { concept: null, amount: null, ...action }]
   };
 }
+
+function addVoucherPaymentAmount(state, action) {
+
+  const payment = state.payments.find(({ method }) => method === PAYMENT_METHOD_VOUCHER);
+
+  if (payment) {
+    const payments = state.payments.map(
+      payment => payment.method === PAYMENT_METHOD_VOUCHER ? ({ ...payment, amount: action }) : payment);
+    return { ...state, payments };
+  }
+
+  return state;
+}
+
+function removeVoucherPaymentAmount(state) {
+
+  const payment = state.payments.find(({ method }) => method === PAYMENT_METHOD_VOUCHER);
+
+  if (payment) {
+    const payments = state.payments.map(
+      payment => payment.method === PAYMENT_METHOD_VOUCHER ? ({ ...payment, amount: null }) : payment);
+    return { ...state, payments };
+  }
+
+  return state;
+}
+
+
+
+
+
 
 
 
@@ -313,12 +353,16 @@ function appReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_STOCK_TO_TICKET_ACTION:
       return addStockToTicket(state, action.data);
-    case UPDATE_TICKET_OPERATION_ACTION:
-      return updateTicketOperation(state, action.data);
     case REMOVE_STOCK_FROM_TICKET_ACTION:
       return removeStockFromTicket(state, action.data);
+    case UPDATE_TICKET_OPERATION_ACTION:
+      return updateTicketOperation(state, action.data);
     case UPDATE_TICKET_PAYMENT_ACTION:
       return updateTicketPayment(state, action.data);
+    case ADD_VOUCHER_PAYMENT_AMOUNT_SUCCESS_ACTION:
+      return addVoucherPaymentAmount(state, action.data);
+    case REMOVE_VOUCHER_PAYMENT_AMOUNT_ACTION:
+      return removeVoucherPaymentAmount(state, action.data);
 
 
 

@@ -21,6 +21,8 @@ export class Voucher extends React.Component {
       voucherPaymentAmount,
       voucherPaymentConcept,
       updateTicketPayment,
+      addVoucherPaymentAmount,
+      removeVoucherPaymentAmount,
       totalAmount,
       intl } = this.props;
 
@@ -39,7 +41,7 @@ export class Voucher extends React.Component {
           })}
           onEnter={() => {
             this.setState({ loading: true });
-            // redeemVoucher(voucherPaymentConcept);
+            addVoucherPaymentAmount(voucherPaymentConcept);
           }}
           placeholder={intl.formatMessage(messages.ticket)}
           disabled={isPaymentMethodDisabled}
@@ -51,7 +53,10 @@ export class Voucher extends React.Component {
           placeholder={intl.formatMessage(messages.ticket)}
           readonly={true}
           value={voucherPaymentAmount}
-          icon={<Octicon mega name="gift" verticalAlign='middle' />} />
+          icon={<Octicon mega name="x" verticalAlign='middle' style={{ cursor: 'pointer' }} onClick={() => {
+            this.setState({ loading: false });
+            removeVoucherPaymentAmount();
+          }} />} />
       </div>
     );
   }

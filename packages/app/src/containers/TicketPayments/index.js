@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { PaymentMethods } from './molecules/PaymentMethods';
-import { updateTicketPayment } from 'actions/tickets';
+import { updateTicketPayment, addVoucherPaymentAmount, removeVoucherPaymentAmount } from 'actions/tickets';
 import {
   ticketTotalAmount,
   ticketRemainingAmount,
@@ -38,6 +38,8 @@ TicketPayments.propTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     updateTicketPayment: (payment) => dispatch(updateTicketPayment(payment)),
+    addVoucherPaymentAmount: (voucherId) => dispatch(addVoucherPaymentAmount(voucherId)),
+    removeVoucherPaymentAmount: () => dispatch(removeVoucherPaymentAmount()),
   };
 }
 

@@ -63,6 +63,7 @@ export const Input = BaseInput.extend`
   font-size: 2rem;
   color: rgb(115, 201, 144);
   order: 2;
+  pointer-events: ${(props) => (props.readonly ? 'none' : 'auto')};
 
   &:placeholder {
     opacity: 1;

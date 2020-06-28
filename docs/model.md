@@ -11,6 +11,7 @@ The `Ticket` entity properties are:
 - isChecked : Boolean - Whether the ticket has been checked out or not
 - isGift: Boolean - Whether the ticket is a gift or not
 - isVoucher: Boolean - Whether the ticket is a voucher or not
+- hasVoucherExpired: Boolean - Whether the voucher as expired or not (valid or not)
 - balance: Enum - ticket balance (POSITIVE, NEGATIVE), it is merely presentational (i.e. use to identify by color)
 - prevNode: String - An id pointing to the parent Ticket
 - nextNode: String - An id pointing to the child Ticket
@@ -277,3 +278,9 @@ total with discount: 36
             ] 
         }
     }
+
+## Voucher
+
+When returning an item stock, if the total amount is lower than 0, then a voucher ticket can be created. In that case, the ticket is created with the `isVoucher` field set to true and the `hasVoucherExpired` field set to false. The voucher amount is the exchange amount which is always positive. The voucher id is the ticket id/created_at integer.
+
+Then, when creating a ticket, a payment method available is the voucher. If a ticket is paid with a voucher, then the original voucher `hasVoucherExpired` field is set to true no matter what value is worth the voucher. In case the total ticket amount is lower than the voucher amount used to paid the ticket, a new voucher can be created with the remaining amount.

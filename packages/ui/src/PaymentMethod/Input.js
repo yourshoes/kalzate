@@ -146,6 +146,9 @@ export class Input extends React.Component {
     }
 
     onClick(event, onClick) {
+        if (this.props.readonly) {
+            return;
+        }
 
         if (event.target.selectionStart >= this.state.value.length) {
             return this.setState({
@@ -163,17 +166,26 @@ export class Input extends React.Component {
 
 
     onChange(event) {
+        if (this.props.readonly) {
+            return;
+        }
         const value = event.target.value.trim();
         return this.setValue(value, event.target);
     }
 
     onBlur(event) {
+        if (this.props.readonly || this.props.pattern !== 'price') {
+            return;
+        }
         if (this.state.value) {
             this.setState({ value: Number(this.state.value).toFixed(2) })
         }
     }
 
     getAmountPosition(target, isShift, isDecreasing) {
+        if (this.props.readonly) {
+            return;
+        }
         if (this.props.pattern !== 'price') { return; }
         const increaseValues = isShift ? this.increaseShiftValues : this.increaseNoShiftValues;
         const isDecimalIncrementation = this.state.value.indexOf('.') !== -1 && target.selectionStart > this.state.value.indexOf('.');

@@ -25,6 +25,10 @@ export default {
       type: 'boolean',
       default: false,
     },
+    hasVoucherExpired: {
+      type: 'boolean',
+      default: false,
+    },
     balance: {
       type: 'string',
     },
