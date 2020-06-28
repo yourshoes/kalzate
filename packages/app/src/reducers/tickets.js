@@ -15,18 +15,19 @@ import {
   SEARCH_TICKETS_SUCCESS_ACTION,
 } from 'containers/TicketSellingPage/constants';
 
+import {
+  CREATE_TICKET_SUCCESS_ACTION
+} from 'actions/tickets/types';
+
 // The initial state of the App
 const initialState = { total: 0, items: [] };
 
 function addTicketToState(state, action) {
-  if (state.items.find(({ id }) => id === action.ticket.id)) {
-    return {
-      ...state,
-      items: state.items.map((ticket) => (ticket.id === action.ticket.id ? action.ticket : ticket)),
-      total: state.total + 1,
-    };
+  const ticketItem = state.items.find(({ id }) => id === action.id);
+  if (ticketItem) {
+    return state;
   }
-  return { ...state, items: state.items.concat([action.ticket]), total: state.total + 1 };
+  return { ...state, items: state.items.concat([action]), total: state.total + 1 };
 }
 
 function searchTickets(state, action) {
@@ -36,8 +37,8 @@ function searchTickets(state, action) {
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case CLOSE_TICKET_SUCCESS_ACTION:
-      return addTicketToState(state, action);
+    case CREATE_TICKET_SUCCESS_ACTION:
+      return addTicketToState(state, action.data);
     case SEARCH_TICKETS_SUCCESS_ACTION:
       return searchTickets(state, action);
     default:

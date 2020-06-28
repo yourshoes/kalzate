@@ -132,14 +132,14 @@ class Tickets {
    * To retrieve the whole ticket document, 
    * you need to call read operation
    */
-  async create(ticket) {
+  async create(ticket, verbose) {
     try {
       const validationError = this.validateTicket(ticket);
       if (validationError) {
         throw new Error(validationError);
       }
       // Create ticket
-      const { id } = await this.createOne(ticket);
+      const { id, created_at, balance } = await this.createOne(ticket);
 
       // Update parent ticket to point/reference to this new one
       if (ticket.prevNode) {
@@ -169,7 +169,7 @@ class Tickets {
       );
 
       // Update Voucher (set to expired)
-      const voucher = ticker.payments.find(({ method }) => method === PAYMENT_METHOD_VOUCHER);
+      const voucher = ticket.payments.find(({ method }) => method === PAYMENT_METHOD_VOUCHER);
       if (voucher) {
         await this.updateBy({
           id: {
@@ -178,7 +178,7 @@ class Tickets {
         }, { hasVoucherExpired: true })
       }
 
-      return id;
+      return verbose ? { id, created_at, balance } : id;
     } catch (error) {
       throw new TicketNoSavedError(error, ticket);
     }

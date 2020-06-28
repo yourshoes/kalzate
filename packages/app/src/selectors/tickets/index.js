@@ -12,6 +12,8 @@ import {
 
 export const ticket = (state) => state.ticket;
 
+export const ticketList = (state) => state.tickets;
+
 export const isTicketReadOnly =
     createSelector(
         ticket,
@@ -70,6 +72,11 @@ export const ticketExchangeAmount =
         ticketTotalAmount,
         ticketProvidedAmount,
         (totalAmount, providedAmount) => providedAmount - totalAmount
+    );
+
+export const ticketBalance =
+    createSelector(ticketTotalAmount,
+        (totalAmount) => totalAmount >= 0 ? 'positive' : 'negative'
     );
 
 /**

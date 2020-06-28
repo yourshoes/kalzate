@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { ticketList } from 'selectors/tickets';
 import { makeSelectTicketItems, makeSelectTicketID } from './selectors';
 // import { mouseTrap } from 'react-mousetrap';
 // import { createStructuredSelector } from 'reselect';
@@ -51,7 +52,7 @@ function SidebarMenu(props) {
             <MenuItem title="100013" small highlight cursor />
           **/}
           <MenuTicketListContainer data-cy={ticketsSelectors.TICKETS_LIST}>
-            {props.tickets.map((ticket) => (
+            {props.ticketList.items.map((ticket) => (
               <MenuItem
                 key={ticket.created_at}
                 selected={ticket.id === props.ticketID}
@@ -89,7 +90,7 @@ SidebarMenu.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  tickets: makeSelectTicketItems(),
+  ticketList,
   ticketID: makeSelectTicketID(),
 });
 

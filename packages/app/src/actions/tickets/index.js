@@ -65,3 +65,17 @@ export function removeVoucherPaymentAmount() {
         type: ActionTypes.REMOVE_VOUCHER_PAYMENT_AMOUNT_ACTION
     };
 }
+
+export function createTicket(ticket, settings) {
+    return {
+        type: ActionTypes.CREATE_TICKET_ACTION,
+        data: { ticket, settings }
+    };
+}
+
+export function createTicketSuccess(ticket) {
+    return {
+        type: ActionTypes.CREATE_TICKET_SUCCESS_ACTION,
+        data: ticket
+    };
+}

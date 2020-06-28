@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { ticket, isTicketCheckoutDisabled } from 'selectors/tickets';
+import { ticket, ticketBalance, isTicketCheckoutDisabled } from 'selectors/tickets';
 
 import {
   makeSelectTicketTmpData,
@@ -27,7 +27,8 @@ import {
 } from './actions';
 import {
   removeStockFromTicket,
-  updateTicketOperation
+  updateTicketOperation,
+  createTicket
 } from 'actions/tickets';
 import Container from './atoms/Container';
 import TicketHeader from './molecules/TicketHeader';
@@ -60,6 +61,7 @@ const mapStateToProps = createStructuredSelector({
   tmp: makeSelectTicketTmpData(),
   matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),
+  ticketBalance,
   isTicketCheckoutDisabled
 });
 
@@ -81,8 +83,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(removeTicket()),
     getMatches: (field, value) => dispatch(getMatches(field, value)),
     loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
-    closeTicket: (ticket, state) =>
-      dispatch(closeTicket(ticket, state)),
+    createTicket: (ticket, settings) =>
+      dispatch(createTicket(ticket, settings)),
   };
 }
 

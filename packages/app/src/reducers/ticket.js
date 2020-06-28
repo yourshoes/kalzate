@@ -39,7 +39,8 @@ import {
   UPDATE_TICKET_OPERATION_ACTION,
   UPDATE_TICKET_PAYMENT_ACTION,
   ADD_VOUCHER_PAYMENT_AMOUNT_SUCCESS_ACTION,
-  REMOVE_VOUCHER_PAYMENT_AMOUNT_ACTION
+  REMOVE_VOUCHER_PAYMENT_AMOUNT_ACTION,
+  CREATE_TICKET_SUCCESS_ACTION
 } from 'actions/tickets/types';
 
 // The initial state of the App
@@ -363,6 +364,8 @@ function appReducer(state = initialState, action) {
       return addVoucherPaymentAmount(state, action.data);
     case REMOVE_VOUCHER_PAYMENT_AMOUNT_ACTION:
       return removeVoucherPaymentAmount(state, action.data);
+    case CREATE_TICKET_SUCCESS_ACTION:
+      return removeTicket(state, action.data);
 
 
 

@@ -131,7 +131,7 @@ function compileTicketPrintTicketCase(settings, ticket, field, options) {
         .join('\r\n ');
 
     case 'code':
-      return '1111111111111';
+      return ticket.created_at || ticket.id || '1111111111111';
     case 'id':
       return ticket.id;
     case 'given':
