@@ -79,3 +79,17 @@ export function createTicketSuccess(ticket) {
         data: ticket
     };
 }
+
+export function loadTicket(ticketId) {
+    return {
+        type: ActionTypes.LOAD_TICKET_ACTION,
+        data: ticketId
+    };
+}
+
+export function loadTicketSuccess(ticket) {
+    return {
+        type: ActionTypes.LOAD_TICKET_SUCCESS_ACTION,
+        data: ticket
+    };
+}

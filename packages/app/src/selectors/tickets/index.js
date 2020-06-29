@@ -19,7 +19,7 @@ export const isTicketReadOnly =
         ticket,
         (ticket) =>
             (ticket.isChecked === true &&
-                ticket.nextNode !== null)
+                ticket.nextNode)
     );
 
 

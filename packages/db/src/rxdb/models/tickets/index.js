@@ -273,8 +273,8 @@ class Tickets {
       const timestamp = new Date().getTime();
       const newTicket = {
         created_at: timestamp,
-        isChecked: true,
         ...ticket,
+        isChecked: true,
         id: uuidv1(),
       };
 

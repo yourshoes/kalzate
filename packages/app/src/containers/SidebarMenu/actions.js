@@ -7,11 +7,13 @@ import { LOAD_TICKET_ACTION, SEARCH_TICKETS_ACTION } from 'containers/TicketSell
  *
  * @return {object}    An action object with a type of CHANGE_USERNAME
  */
-export function loadTicket(ticket, options = {}) {
+export function loadTicket(ticketId, options = {}) {
   return {
     type: LOAD_TICKET_ACTION,
-    ticket,
-    options,
+    data: {
+      ticketId,
+      options
+    },
   };
 }
 

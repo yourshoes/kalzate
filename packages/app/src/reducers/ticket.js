@@ -21,7 +21,6 @@ import {
 import {
   UPDATE_STOCK_TICKET_DATA_ACTION,
   REMOVE_TICKET_ACTION,
-  LOAD_TICKET_SUCCESS_ACTION,
   UPDATE_TICKET_SUCCESS_ACTION,
   UPDATE_TICKET_TAX_ACTION,
   UPDATE_TICKET_DISCOUNT_ACTION,
@@ -40,7 +39,8 @@ import {
   UPDATE_TICKET_PAYMENT_ACTION,
   ADD_VOUCHER_PAYMENT_AMOUNT_SUCCESS_ACTION,
   REMOVE_VOUCHER_PAYMENT_AMOUNT_ACTION,
-  CREATE_TICKET_SUCCESS_ACTION
+  CREATE_TICKET_SUCCESS_ACTION,
+  LOAD_TICKET_SUCCESS_ACTION
 } from 'actions/tickets/types';
 
 // The initial state of the App
@@ -264,6 +264,11 @@ function removeVoucherPaymentAmount(state) {
   return state;
 }
 
+function loadTicket(state, action) {
+  console.log('ticket reducer', action)
+  return action;
+}
+
 
 
 
@@ -323,11 +328,11 @@ function isReadOnly(ticket) {
   );
 }
 
-function loadTicket(state, action) {
-  const ticket = action.ticket.toJSON();
-  console.log('ticket', ticket);
-  return isReadOnly(ticket) ? ticket : updateTicketTotal(ticket);
-}
+// function loadTicket(state, action) {
+//   const ticket = action.ticket.toJSON();
+//   console.log('ticket', ticket);
+//   return isReadOnly(ticket) ? ticket : updateTicketTotal(ticket);
+// }
 
 function setTicketPaymentMethod(state, action) {
   if (state.state === TICKET_SOLD_STATE) {
@@ -366,6 +371,8 @@ function appReducer(state = initialState, action) {
       return removeVoucherPaymentAmount(state, action.data);
     case CREATE_TICKET_SUCCESS_ACTION:
       return removeTicket(state, action.data);
+    case LOAD_TICKET_SUCCESS_ACTION:
+      return loadTicket(state, action.data);
 
 
 
@@ -385,8 +392,8 @@ function appReducer(state = initialState, action) {
       return undoReturnStockFromTicket(state, action);
     case REMOVE_TICKET_ACTION:
       return removeTicket(state, action);
-    case LOAD_TICKET_SUCCESS_ACTION:
-      return loadTicket(state, action);
+    // case LOAD_TICKET_SUCCESS_ACTION:
+    //   return loadTicket(state, action);
     case SET_METHOD_TICKET_PAYMENTS_ACTION:
       return setTicketPaymentMethod(state, action);
     case SET_TICKET_GIVEN_AMOUNT_ACTION:

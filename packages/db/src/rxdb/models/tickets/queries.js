@@ -1,3 +1,5 @@
+import omit from 'lodash/omit';
+
 export const dailyTicketIds = () => ({
     match: {
         created_at: {
@@ -16,7 +18,7 @@ export const ticketById = (ticketId) => ({
             $eq: ticketId,
         },
     },
-    fields: (ticket) => ticket,
+    fields: (ticket) => omit(ticket, '_rev'),
 });
 
 export const ticketByCreationDate = (ticketId) => ({
@@ -25,7 +27,7 @@ export const ticketByCreationDate = (ticketId) => ({
             $eq: ticketId,
         },
     },
-    fields: (ticket) => ticket,
+    fields: (ticket) => omit(ticket, '_rev'),
 });
 
 export const ticketMatches = (field, value) => ({

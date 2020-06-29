@@ -11,7 +11,8 @@ import { makeSelectTicketItems, makeSelectTicketID } from './selectors';
 // import { push } from 'react-router-redux';
 // import HotKeys from 'utils/hotkeys';
 // import PubSub from 'utils/pubsub';
-import { loadTicket, searchTickets } from './actions';
+import { searchTickets } from './actions';
+import { loadTicket } from 'actions/tickets';
 // import { selectResources, selectResource } from './selectors';
 import messages from './messages';
 import {
