@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { ticket, ticketBalance, isTicketCheckoutDisabled } from 'selectors/tickets';
+import { ticket, ticketBalance, ticketOperations, isEmptyTicket, isTicketCheckoutDisabled } from 'selectors/tickets';
 
 import {
   makeSelectTicketTmpData,
@@ -61,7 +61,9 @@ const mapStateToProps = createStructuredSelector({
   tmp: makeSelectTicketTmpData(),
   matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),
+  ticketOperations,
   ticketBalance,
+  isEmptyTicket,
   isTicketCheckoutDisabled
 });
 

@@ -94,4 +94,74 @@ export const getVoucherPaymentAmount = (payments) =>
 export const getVoucherPaymentConcept = (payments) =>
   getPaymentAmount(payments, PAYMENT_METHOD_VOUCHER, 'concept');
 
+export const parseOperations = (history, operations) => {
 
+  // Merge all history operations as an object 
+  // composing previousAddedAmount & previousRemovedAmount fields
+  // which contains all previous sold and returned amounts so far
+  const mergedOperations = history.reduce((acc, op) => {
+    const operation = acc[op.reference];
+    if (operation) {
+      return {
+        ...acc,
+        [op.reference]: {
+          ...operation,
+          ...(op.operation === ADD_ITEM_OPERATION && {
+            previousAddedAmount: op.amount + operation.previousAddedAmount
+          }),
+          ...(op.operation === RETURN_ITEM_OPERATION && {
+            previousRemovedAmount: op.amount + operation.previousRemovedAmount
+          })
+        }
+      };
+    }
+
+    return {
+      ...acc,
+      [op.reference]: {
+        ...op,
+        amount: undefined,
+        addedAmount: 0,
+        removedAmount: 0,
+        previousAddedAmount: 0,
+        previousRemovedAmount: 0,
+        ...(op.operation === ADD_ITEM_OPERATION && { previousAddedAmount: op.amount }),
+        ...(op.operation === RETURN_ITEM_OPERATION && {
+          previousRemovedAmount: op.amount
+        })
+      }
+    };
+  }, {});
+
+  // Add the current amount and return fields with the info
+  // about current s
+  for (let op of operations) {
+    const currentOperation = mergedOperations[op.reference];
+
+    if (currentOperation) {
+      mergedOperations[op.reference] = {
+        ...currentOperation,
+        amount: undefined,
+        ...(op.operation === ADD_ITEM_OPERATION && { addedAmount: op.amount + currentOperation.addedAmount }),
+        ...(op.operation === RETURN_ITEM_OPERATION && {
+          removedAmount: op.amount + currentOperation.removedAmount
+        })
+      };
+    } else {
+      mergedOperations[op.reference] = {
+        ...op,
+        amount: undefined,
+        addedAmount: 0,
+        removedAmount: 0,
+        ...(op.operation === ADD_ITEM_OPERATION && { addedAmount: op.amount }),
+        ...(op.operation === RETURN_ITEM_OPERATION && {
+          removedAmount: op.amount
+        }),
+        previousAddedAmount: 0,
+        previousRemovedAmount: 0
+      };
+    }
+  }
+
+  return Object.values(mergedOperations);
+}

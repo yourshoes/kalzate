@@ -50,7 +50,7 @@ export class TicketFooter extends React.Component {
           <SectionRight>
             <Button
               data-cy={ticketsSelectors.SELL_SAVE_BUTTON}
-              inactive={isEmpty(this.props.ticket.operations)}
+              inactive={this.props.isEmptyTicket}
               icon="cloud-download"
               title={<FormattedMessage {...messages.saveTicket} />}
               onClick={() =>
@@ -59,7 +59,7 @@ export class TicketFooter extends React.Component {
             />
             <Button
               data-cy={ticketsSelectors.NEW_TICKET_BUTTON}
-              inactive={isEmpty(this.props.ticket.operations)}
+              inactive={this.props.isEmptyTicket}
               icon="trashcan"
               title={<FormattedMessage {...messages.newTicket} />}
               onClick={() => this.props.removeTicket()}

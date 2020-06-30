@@ -6,7 +6,8 @@ import {
     getCreditCardPaymentAmount,
     getCashPaymentAmount,
     getVoucherPaymentAmount,
-    getVoucherPaymentConcept
+    getVoucherPaymentConcept,
+    parseOperations
 } from 'utils/ticket';
 
 
@@ -133,4 +134,18 @@ export const ticketVoucherPaymentConcept =
     createSelector(
         ticketPayments,
         (payments) => getVoucherPaymentConcept(payments)
+    );
+
+
+export const ticketOperations =
+    createSelector(
+        ticket,
+        ({ operations = [], history = [] }) => {
+
+            if (!history.length) {
+                return operations;
+            }
+
+            return parseOperations(history, operations);
+        }
     );

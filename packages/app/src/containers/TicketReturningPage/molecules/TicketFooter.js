@@ -26,16 +26,16 @@ export class TicketFooter extends React.Component {
       <TicketSectionContainer>
         <Section50>
           <SectionLeft>
-            <TicketVatField
+            {/* <TicketVatField
               tax={this.props.ticket.tax}
               updateTax={(tax) => this.props.updateTicketTax(tax)}
-            />
+            /> */}
           </SectionLeft>
           <SectionLeft>
-            <TicketDiscountField
+            {/* <TicketDiscountField
               discount={this.props.ticket.discount}
               updateDiscount={(discount) => this.props.updateTicketDiscount(discount)}
-            />
+            /> */}
           </SectionLeft>
         </Section50>
         <Section50>

@@ -20,7 +20,7 @@ export class TicketTableBody extends React.Component {
     return (
       <HeightAdapterContainer>
         <TicketTableBodyContainer>
-          {this.props.ticket.operations.map((operation, i) => (
+          {this.props.ticketOperations.map((operation, i) => (
             <TicketTableRowContainer key={i} even={(i + 1) % 2}>
               <TicketTableField placeholder={operation.reference} readonly />
               <TicketTableField placeholder={formatDescription(operation)} readonly bigger />

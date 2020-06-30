@@ -35,7 +35,7 @@ export class TicketHeader extends React.Component {
         <Section50>
           <SectionRight>
             <Button
-              inactive={isEmpty(this.props.ticket.operations)}
+              inactive={this.props.isEmptyTicket}
               primary
               icon="gift"
               //@todo title has a conflict with html native title attribute, this prop should be a children and html title prop for html attribute

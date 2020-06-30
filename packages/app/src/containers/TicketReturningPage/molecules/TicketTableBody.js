@@ -84,7 +84,7 @@ export class TicketTableBody extends React.Component {
     return (
       <HeightAdapterContainer>
         <TicketTableBodyContainer data-cy={ticketsSelectors.RETURN_ITEMS_LIST}>
-          {this.props.ticket.items.map((item, i) => (
+          {this.props.ticket.operations.map((item, i) => (
             <TicketTableRowContainer
               data-cy={ticketsSelectors.RETURN_ITEM_ROW}
               key={i}
@@ -119,26 +119,26 @@ export class TicketTableBody extends React.Component {
                   }}
                 />
               ) : (
-                <TicketTableField placeholder={item.amount} readonly />
-              )}
+                  <TicketTableField placeholder={item.amount} readonly />
+                )}
               {item.added ? (
                 <TicketTableField placeholder="0" readonly />
               ) : item.amount === item.amount_return_prev ? (
                 <TicketTableField placeholder={item.amount} readonly />
               ) : (
-                <TicketTableAmountFieldFixed
-                  placeholder={
-                    item.amount_return_prev > 0
-                      ? item.amount_return_prev > 1
-                        ? `${item.amount_return_prev - item.amount_return_prev_last} ( ${
+                    <TicketTableAmountFieldFixed
+                      placeholder={
+                        item.amount_return_prev > 0
+                          ? item.amount_return_prev > 1
+                            ? `${item.amount_return_prev - item.amount_return_prev_last} ( ${
                             item.amount_return_prev
-                          } )`
-                        : `${item.amount_return_prev - item.amount_return_prev_last}`
-                      : ''
-                  }
-                  value={item.amount_return || '0'}
-                />
-              )}
+                            } )`
+                            : `${item.amount_return_prev - item.amount_return_prev_last}`
+                          : ''
+                      }
+                      value={item.amount_return || '0'}
+                    />
+                  )}
               <TicketTableField
                 placeholder={(item.added
                   ? item.price * item.amount
