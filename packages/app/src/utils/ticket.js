@@ -151,6 +151,7 @@ export const parseOperations = (history, operations) => {
       mergedOperations[op.reference] = {
         ...op,
         amount: undefined,
+        isNewEntry: true,
         addedAmount: 0,
         removedAmount: 0,
         ...(op.operation === ADD_ITEM_OPERATION && { addedAmount: op.amount }),

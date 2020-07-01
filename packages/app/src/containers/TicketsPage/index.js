@@ -33,6 +33,7 @@ export class TicketsPage extends React.Component {
 
   getItemsComponent() {
 
+
     if (this.props.isNewTicket) {
       return <TicketBasePage />;
     }

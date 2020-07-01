@@ -12,12 +12,12 @@ import StockField from './StockField';
 import messages from '../messages';
 import { stock as stockSelectors } from '@kalzate/cy';
 
-const isRealNumeric = function(input) {
+const isRealNumeric = function (input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
 };
 
 export function StockTableRows(props) {
-  console.log(props.items);
+  // console.log(props.items);
   return (
     <StockTableContainer>
       {props.items.map(({ _data }, i) => (
@@ -66,8 +66,8 @@ export function StockTableRows(props) {
                 price: isRealNumeric(price)
                   ? price
                   : price && props.tmp[_data.reference]
-                  ? props.tmp[_data.reference].price
-                  : '',
+                    ? props.tmp[_data.reference].price
+                    : '',
               })
             }
           />

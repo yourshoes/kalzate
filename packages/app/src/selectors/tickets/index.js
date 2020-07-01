@@ -30,12 +30,6 @@ export const isNewTicket =
         (ticket) => ticket.isChecked === false
     );
 
-export const isEmptyTicket =
-    createSelector(
-        ticket,
-        (ticket) => ticket.operations.length === 0
-    );
-
 /**
  * the ticket total amount
  * it can be positive or negative, including zero
@@ -92,16 +86,19 @@ export const ticketRemainingAmount =
 export const isTicketCheckoutDisabled =
     createSelector(
         ticket,
-        isNewTicket,
         ticketTotalAmount,
         ticketProvidedAmount,
-        (ticket, isNew, totalAmount, providedAmount) => {
+        (ticket, totalAmount, providedAmount) => {
+            return isEmpty(ticket.operations) || totalAmount > providedAmount || totalAmount === 0;
+        }
+    );
 
-            if (isNew) {
-                return isEmpty(ticket.operations) || totalAmount > providedAmount;
-            }
-
-            return false;
+export const isTicketVoucherCheckoutDisabled =
+    createSelector(
+        ticket,
+        ticketTotalAmount,
+        (ticket, totalAmount) => {
+            return isEmpty(ticket.operations) || totalAmount >= 0;
         }
     );
 
@@ -148,4 +145,10 @@ export const ticketOperations =
 
             return parseOperations(history, operations);
         }
+    );
+
+export const isEmptyTicket =
+    createSelector(
+        ticketOperations,
+        (operations) => operations.length === 0
     );

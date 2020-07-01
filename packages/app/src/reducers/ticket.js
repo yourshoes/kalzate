@@ -35,6 +35,7 @@ import { toFixed } from 'utils/helper';
 import {
   ADD_STOCK_TO_TICKET_ACTION,
   REMOVE_STOCK_FROM_TICKET_ACTION,
+  RETURN_ITEM_FROM_TICKET_ACTION,
   UPDATE_TICKET_OPERATION_ACTION,
   UPDATE_TICKET_PAYMENT_ACTION,
   ADD_VOUCHER_PAYMENT_AMOUNT_SUCCESS_ACTION,
@@ -186,13 +187,44 @@ function updateTicketDiscount(state, action) {
 // this will not work if the database is updated outside from the kalzate application
 // unless the client is refreshed/synced
 function addStockToTicket(state, action) {
+  const { options, stockItem } = action;
+  if (!options.incremental && stockItem.amount === 0) {
+    return removeStockFromTicket(state, { operationReference: stockItem.reference })
+  }
+  const existingOperation = state.operations.find(({ operation, reference }) =>
+    reference === stockItem.reference && operation === options.operationType);
+
+  if (existingOperation) {
+    const operations = state.operations.map((operation) =>
+      operation.reference === stockItem.reference && operation.operation === options.operationType ?
+        { ...operation, amount: options.incremental ? operation.amount + 1 : stockItem.amount } : operation
+    );
+    return { ...state, operations };
+  }
+
+  return {
+    ...state, operations: [{
+      ...stockItem,
+      operation: options.operationType,
+      amount: options.incremental ? 1 : stockItem.amount
+    }, ...state.operations]
+  };
+}
+
+function returnItemFromTicket(state, action) {
+
+  if (action.amount === 0) {
+    return removeStockFromTicket(state, { operationReference: action.reference })
+  }
+
   const existingOperation = state.operations.find(({ operation, reference }) =>
     reference === action.reference && operation === action.operation);
+
 
   if (existingOperation) {
     const operations = state.operations.map((operation) =>
       operation.reference === action.reference && operation.operation === action.operation ?
-        { ...operation, amount: operation.amount + 1 } : operation
+        { ...operation, amount: action.amount } : operation
     );
     return { ...state, operations };
   }
@@ -201,11 +233,17 @@ function addStockToTicket(state, action) {
 }
 
 function removeStockFromTicket(state, action) {
+  const operationIndexPosition = state.operations.findIndex(
+    operation => operation.reference === action.operationReference);
+  if (operationIndexPosition === -1) {
+    return state;
+  }
+
   return {
     ...state,
     operations: [
-      ...state.operations.slice(0, action.operationIndexPosition),
-      ...state.operations.slice(action.operationIndexPosition + 1),
+      ...state.operations.slice(0, operationIndexPosition),
+      ...state.operations.slice(operationIndexPosition + 1),
     ],
   };
 }
@@ -318,7 +356,7 @@ function undoReturnStockFromTicket(state, action) {
 }
 
 function removeTicket() {
-  return initialState;
+  return { ...initialState };
 }
 
 function isReadOnly(ticket) {
@@ -361,6 +399,8 @@ function appReducer(state = initialState, action) {
       return addStockToTicket(state, action.data);
     case REMOVE_STOCK_FROM_TICKET_ACTION:
       return removeStockFromTicket(state, action.data);
+    case RETURN_ITEM_FROM_TICKET_ACTION:
+      return returnItemFromTicket(state, action.data);
     case UPDATE_TICKET_OPERATION_ACTION:
       return updateTicketOperation(state, action.data);
     case UPDATE_TICKET_PAYMENT_ACTION:

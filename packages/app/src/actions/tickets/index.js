@@ -1,23 +1,41 @@
 import * as ActionTypes from './types';
 
-export function addStockToTicket(stockItem) {
+export function addStockToTicket(stockItem, options = {}) {
     return {
         type: ActionTypes.ADD_STOCK_TO_TICKET_ACTION,
         data: {
-            ...stockItem,
-            discountType: 'fixed',
-            discountValue: 0,
-            amount: 1,
-            operation: 'add'
+            stockItem: {
+                ...stockItem,
+                discountType: 'fixed',
+                discountValue: 0,
+            },
+            options: {
+                incremental: true,
+                ...options,
+                operationType: 'add',
+
+            }
         },
     };
 }
 
-export function removeStockFromTicket(operationIndexPosition) {
+export function returnItemFromTicket(item) {
+    return {
+        type: ActionTypes.RETURN_ITEM_FROM_TICKET_ACTION,
+        data: {
+            ...item,
+            operation: 'return',
+            discountType: 'fixed',
+            discountValue: 0,
+        },
+    };
+}
+
+export function removeStockFromTicket(operationReference) {
     return {
         type: ActionTypes.REMOVE_STOCK_FROM_TICKET_ACTION,
         data: {
-            operationIndexPosition
+            operationReference
         }
     };
 }

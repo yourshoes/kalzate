@@ -5,7 +5,7 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
-import { formatDescription } from 'utils/ticket';
+import { getSubtotal, formatDescription, formatDecimalPlaces } from 'utils/ticket';
 import TicketTableBodyContainer from '../atoms/TicketTableBodyContainer';
 import HeightAdapterContainer from '../atoms/HeightAdapterContainer';
 import TicketTableRowContainer from '../atoms/TicketTableRowContainer';
@@ -18,134 +18,160 @@ import TicketButton from '../atoms/TicketButton';
 import { tickets as ticketsSelectors } from '@kalzate/cy';
 
 export class TicketTableBody extends React.Component {
+
+  getTicketItemAddedAmount(item, i) {
+
+    if (item.removedAmount > 0) {
+      return (<TicketTableField placeholder="0" readonly />);
+    }
+
+    if (item.isNewEntry) {
+
+      return (
+        <TicketTableAmountField
+          placeholder={item.addedAmount || '0'}
+          value={
+            this.props.tmp[item.reference] && this.props.tmp[item.reference].amount
+              ? this.props.tmp[item.reference].amount
+              : ''
+          }
+          onChange={(amount) =>
+            this.props.updateTmpData(item.reference, {
+              amount: parseInt(amount, 10),
+            })
+          }
+          onBlur={(e) => {
+            if (this.props.tmp[item.reference] && this.props.tmp[item.reference].amount) {
+              this.props.updateTicketOperation(item.reference, {
+                amount: this.props.tmp[item.reference].amount,
+              });
+            }
+          }}
+        />
+      );
+    }
+
+    return (
+      <TicketTableAmountField
+        placeholder={`${item.addedAmount}` || '0'}
+        value={
+          this.props.tmp[item.reference] && Number.isFinite(this.props.tmp[item.reference].amount)
+            ? this.props.tmp[item.reference].amount
+            : ''
+        }
+        onChange={(amount) =>
+          this.props.updateTmpData(item.reference, {
+            amount: parseInt(amount, 10),
+          })
+        }
+        onBlur={(e) => {
+          if (this.props.tmp[item.reference] && Number.isFinite(this.props.tmp[item.reference].amount)) {
+            this.props.addStockToTicket({ ...item, amount: this.props.tmp[item.reference].amount }, {
+              incremental: false,
+            });
+          }
+        }}
+      />
+    )
+
+  }
+
+  getTicketItemRemovedAmount(item, i) {
+
+    if (item.addedAmount > 0 || item.isNewEntry) {
+      return (<TicketTableField placeholder="0" readonly />);
+    }
+
+    return (
+      <TicketTableAmountField
+        placeholder={item.removedAmount}
+        readonly
+      />
+    )
+
+  }
+
+  getTicketItemSubtotalAmount(item, i) {
+
+    if (item.addedAmount > 0) {
+      return (<TicketTableField
+        placeholder={formatDecimalPlaces(getSubtotal({ ...item, amount: item.addedAmount }))}
+        readonly
+      />)
+    }
+
+    return (<TicketTableField
+      placeholder={formatDecimalPlaces(getSubtotal({ ...item, amount: item.removedAmount }))}
+      readonly
+    />)
+
+  }
+
   getTicketItemAction(item, i) {
-    // if returning item
-    // if (item.amount_return) {
-    //   return (
-    //     <TicketTableButton
-    //       primary
-    //       icon="remove-close"
-    //       onClick={() => this.props.undoReturnStockFromTicket(item, i)}
-    //     />
-    //   );
-    // }
-    // if new ticket item
-    if (item.added) {
+
+    if (item.isNewEntry) {
       return (
         <TicketTableButton
           primary
           icon="remove-close"
-          onClick={() => this.props.removeStockFromTicket(item, i)}
+          onClick={() => this.props.removeStockFromTicket(item.reference)}
         />
       );
     }
-    // otherwise (existing item to be returned)
+
     return (
       <Section5>
-        {/* onClick={() => this.props.returnStockFromTicket(item, i, (item.amount_return || 0) + 1)} */}
         <TicketButton
           data-cy={ticketsSelectors.INCREASE_RETURN_ITEM_BUTTON}
           primary
+          disabled={item.addedAmount > 0 || item.removedAmount === item.previousAddedAmount}
           width={50}
           icon="arrow-up"
-          onClick={() => {
-            let amount_return = (item.amount_return || 0) + 1;
-            if (amount_return + (item.amount_return_prev || 0) > item.amount) {
-              amount_return = item.amount - (item.amount_return_prev || 0);
-            }
-            console.log(amount_return);
-            this.props.returnStockFromTicket(item, i, amount_return);
-            // this.props.updateTicketData(item, {
-            //   amount_return,
-            // });
-          }}
+          onClick={() =>
+            this.props.returnItemFromTicket({
+              ...item,
+              amount: item.removedAmount + 1,
+            })
+          }
         />
-        {/* onClick={() => this.props.returnStockFromTicket(item, i, (item.amount_return || 0) - 1)} */}
         <TicketButton
           primary
+          disabled={item.addedAmount > 0 || item.removedAmount === 0}
           width={50}
           icon="arrow-down"
-          onClick={() => {
-            let amount_return = (item.amount_return || 0) - 1;
-            if (amount_return < 0) {
-              amount_return = 0;
-            }
-            this.props.returnStockFromTicket(item, i, amount_return);
-            // this.props.updateTicketData(item, {
-            //   amount_return,
-            // });
-          }}
+          onClick={() =>
+            this.props.returnItemFromTicket({
+              ...item,
+              amount: item.removedAmount - 1,
+            })
+          }
         />
       </Section5>
     );
   }
 
+
   render() {
+
     return (
       <HeightAdapterContainer>
         <TicketTableBodyContainer data-cy={ticketsSelectors.RETURN_ITEMS_LIST}>
-          {this.props.ticket.operations.map((item, i) => (
+          {this.props.ticketOperations.map((item, i) => (
             <TicketTableRowContainer
               data-cy={ticketsSelectors.RETURN_ITEM_ROW}
               key={i}
               even={(i + 1) % 2}
               highlight={
-                (item.toReturn && item.amount_return_prev > 0) ||
-                (item.toReturn && item.amount_return > 0)
+                (item.removedAmount > 0) ||
+                (item.addedAmount > 0)
               }
             >
               <TicketTableField placeholder={item.reference} readonly />
               <TicketTableField placeholder={formatDescription(item)} readonly bigger />
-              <TicketTableField placeholder={item.price.toFixed(2)} readonly />
-              {item.added ? (
-                <TicketTableAmountField
-                  placeholder={item.amount || '0'}
-                  value={
-                    this.props.tmp[item.reference] && this.props.tmp[item.reference].amount
-                      ? this.props.tmp[item.reference].amount
-                      : ''
-                  }
-                  onChange={(amount) =>
-                    this.props.updateTmpData(item.reference, {
-                      amount: parseInt(amount, 10),
-                    })
-                  }
-                  onBlur={(e) => {
-                    if (this.props.tmp[item.reference] && this.props.tmp[item.reference].amount) {
-                      this.props.updateTicketData(item, {
-                        amount: this.props.tmp[item.reference].amount,
-                      });
-                    }
-                  }}
-                />
-              ) : (
-                  <TicketTableField placeholder={item.amount} readonly />
-                )}
-              {item.added ? (
-                <TicketTableField placeholder="0" readonly />
-              ) : item.amount === item.amount_return_prev ? (
-                <TicketTableField placeholder={item.amount} readonly />
-              ) : (
-                    <TicketTableAmountFieldFixed
-                      placeholder={
-                        item.amount_return_prev > 0
-                          ? item.amount_return_prev > 1
-                            ? `${item.amount_return_prev - item.amount_return_prev_last} ( ${
-                            item.amount_return_prev
-                            } )`
-                            : `${item.amount_return_prev - item.amount_return_prev_last}`
-                          : ''
-                      }
-                      value={item.amount_return || '0'}
-                    />
-                  )}
-              <TicketTableField
-                placeholder={(item.added
-                  ? item.price * item.amount
-                  : -item.price * (item.amount_return || 0)
-                ).toFixed(2)}
-                readonly
-              />
+              <TicketTableField placeholder={formatDecimalPlaces(item.price)} readonly />
+              {this.getTicketItemAddedAmount(item, i)}
+              {this.getTicketItemRemovedAmount(item, i)}
+              {this.getTicketItemSubtotalAmount(item, i)}
               {this.getTicketItemAction(item, i)}
             </TicketTableRowContainer>
           ))}

@@ -37,8 +37,7 @@ export class TicketHeader extends React.Component {
             <Button
               data-cy={ticketsSelectors.RETURN_VOUCHER_BUTTON}
               inactive={
-                isEmpty(this.props.ticket.items) ||
-                this.props.ticket.items.every((item) => !item.amount_return)
+                this.props.isTicketVoucherCheckoutDisabled
               }
               primary
               icon="gift"
@@ -52,10 +51,7 @@ export class TicketHeader extends React.Component {
               }
             />
             <Button
-              inactive={
-                isEmpty(this.props.ticket.items) ||
-                this.props.ticket.items.every((item) => !item.amount_return)
-              }
+              inactive={this.props.isTicketCheckoutDisabled}
               icon="check"
               title={<FormattedMessage {...messages.checkoutTicket} />}
               onClick={() =>

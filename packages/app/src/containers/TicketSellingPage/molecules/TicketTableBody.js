@@ -5,8 +5,7 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
-import { formatDescription } from 'utils/ticket';
-import { getSubtotal, formatDecimalPlaces } from 'utils/ticket';
+import { getSubtotal, formatDescription, formatDecimalPlaces } from 'utils/ticket';
 import TicketTableBodyContainer from '../atoms/TicketTableBodyContainer';
 import HeightAdapterContainer from '../atoms/HeightAdapterContainer';
 import TicketTableRowContainer from '../atoms/TicketTableRowContainer';
@@ -66,7 +65,7 @@ export class TicketTableBody extends React.Component {
                 }}
               />
               <TicketTableField placeholder={formatDecimalPlaces(getSubtotal(operation))} readonly />
-              <TicketTableButton primary icon="remove-close" onClick={() => this.props.removeStockFromTicket(i)} />
+              <TicketTableButton primary icon="remove-close" onClick={() => this.props.removeStockFromTicket(operation.reference)} />
             </TicketTableRowContainer>
           ))}
         </TicketTableBodyContainer>

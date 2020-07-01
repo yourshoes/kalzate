@@ -98,7 +98,7 @@
   "kz.containers.TicketSoldItems.print": "Imprimir",
   "kz.containers.TicketSoldItems.new": "Nuevo",
   "kz.containers.TicketSoldItems.gift": "Cupón",
-  "kz.containers.TicketSoldItems.checkout": "Devolver",
+  "kz.containers.TicketSoldItems.checkout": "Finalizar",
   "kz.containers.TicketSoldItems.table.reference": "Referencia",
   "kz.containers.TicketSoldItems.table.description": "Descripción",
   "kz.containers.TicketSoldItems.table.subtotal": "Subtotal",

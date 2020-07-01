@@ -30,7 +30,7 @@ import {
 import { TOGGLE_TICKET_PAYMENTS_VISIBILITY } from 'containers/TicketPaymentsContainer/constants';
 
 import { REMOVE_TICKET_ACTION } from 'containers/TicketSellingPage/constants';
-import { UPDATE_TICKET_OPERATION_ACTION } from 'actions/tickets/types';
+import { UPDATE_TICKET_OPERATION_ACTION, ADD_STOCK_TO_TICKET_ACTION } from 'actions/tickets/types';
 
 // The initial state of the App
 const initialState = {
@@ -54,6 +54,13 @@ function appReducer(state = initialState, action) {
   switch (action.type) {
     // case CREATE_STOCK_SUCCESS_ACTION:
     //   return state.update('items', (items) => items.push(action.stock));
+    case ADD_STOCK_TO_TICKET_ACTION:
+      return {
+        ...state,
+        ticket: merge({}, state.ticket, {
+          [action.data.stockItem.reference]: { amount: null, discountValue: null },
+        }),
+      };
     case UPDATE_TICKET_OPERATION_ACTION:
       return {
         ...state,

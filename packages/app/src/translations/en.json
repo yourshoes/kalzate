@@ -94,7 +94,7 @@
   "kz.containers.TicketSoldItems.print": "Print Ticket",
   "kz.containers.TicketSoldItems.new": "New Ticket",
   "kz.containers.TicketSoldItems.gift": "Voucher",
-  "kz.containers.TicketSoldItems.checkout": "Return",
+  "kz.containers.TicketSoldItems.checkout": "Checkout",
   "kz.containers.TicketSoldItems.table.reference": "Reference",
   "kz.containers.TicketSoldItems.table.description": "Description",
   "kz.containers.TicketSoldItems.table.subtotal": "Subtotal",

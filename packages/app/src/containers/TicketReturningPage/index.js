@@ -8,7 +8,10 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { ticket, ticketBalance, isTicketCheckoutDisabled } from 'selectors/tickets';
+import {
+  ticket, ticketOperations, ticketBalance, isEmptyTicket,
+  isTicketCheckoutDisabled, isTicketVoucherCheckoutDisabled
+} from 'selectors/tickets';
 import {
   selectTicketDomain,
   makeSelectTicketTmpData,
@@ -20,8 +23,6 @@ import {
   updateTicketData,
   updateTicketTax,
   updateTicketDiscount,
-  removeStockFromTicket,
-  returnStockFromTicket,
   undoReturnStockFromTicket,
   returnAllStockFromTicket,
   removeTicket,
@@ -29,6 +30,14 @@ import {
   getMatches,
   loadTicket,
 } from './actions';
+
+import {
+  removeStockFromTicket,
+  returnItemFromTicket,
+  updateTicketOperation,
+  addStockToTicket
+} from 'actions/tickets';
+
 import Container from './atoms/Container';
 import TicketHeader from './molecules/TicketHeader';
 import TicketBody from './molecules/TicketBody';
@@ -57,6 +66,11 @@ TicketItems.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   ticket,
+  ticketOperations,
+  ticketBalance,
+  isEmptyTicket,
+  isTicketCheckoutDisabled,
+  isTicketVoucherCheckoutDisabled,
   tmp: makeSelectTicketTmpData(),
   matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),
@@ -70,8 +84,6 @@ function mapDispatchToProps(dispatch) {
     updateTicketDiscount: (discount) => dispatch(updateTicketDiscount(discount)),
     removeStockFromTicket: (item, positioninList) =>
       dispatch(removeStockFromTicket(item, positioninList)),
-    returnStockFromTicket: (item, positioninList, value) =>
-      dispatch(returnStockFromTicket(item, positioninList, value)),
     undoReturnStockFromTicket: (item, positioninList) =>
       dispatch(undoReturnStockFromTicket(item, positioninList)),
     returnAllStockFromTicket: () => dispatch(returnAllStockFromTicket()),
@@ -79,6 +91,16 @@ function mapDispatchToProps(dispatch) {
     getMatches: (field, value) => dispatch(getMatches(field, value)),
     loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
     closeTicket: (ticket, state) => dispatch(closeTicket(ticket, state)),
+
+    updateTicketOperation: (reference, data) =>
+      dispatch(updateTicketOperation(reference, data)),
+    removeStockFromTicket: (operationIndexPosition) =>
+      dispatch(removeStockFromTicket(operationIndexPosition)),
+    returnItemFromTicket: (item) =>
+      dispatch(returnItemFromTicket(item)),
+    addStockToTicket: (item, options) =>
+      dispatch(addStockToTicket(item, options)),
+
   };
 }
 
