@@ -5,17 +5,19 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
+import messages from '../messages';
 import { getSubtotal, formatDescription, formatDecimalPlaces } from 'utils/ticket';
 import TicketTableBodyContainer from '../atoms/TicketTableBodyContainer';
 import HeightAdapterContainer from '../atoms/HeightAdapterContainer';
 import TicketTableRowContainer from '../atoms/TicketTableRowContainer';
 import TicketTableField from './TicketTableField';
 import TicketTableAmountField from './TicketTableAmountField';
-import TicketTableAmountFieldFixed from './TicketTableAmountFieldFixed';
 import TicketTableButton from './TicketTableButton';
 import Section5 from '../atoms/Section5';
 import TicketButton from '../atoms/TicketButton';
 import { tickets as ticketsSelectors } from '@kalzate/cy';
+
 
 export class TicketTableBody extends React.Component {
 
@@ -82,10 +84,29 @@ export class TicketTableBody extends React.Component {
       return (<TicketTableField placeholder="0" readonly />);
     }
 
+    if (item.previousRemovedAmount > 0) {
+      return (
+        <TicketTableAmountField
+          placeholder={item.removedAmount}
+          info={<FormattedMessage {...messages.removedAmountInfoTooltip}
+            values={{
+              returnAmount: item.previousAddedAmount - item.previousRemovedAmount,
+              previousAddedAmount: item.previousAddedAmount,
+              previousRemovedAmount: item.previousRemovedAmount
+            }} />}
+          readonly
+        />
+      )
+    }
+
     return (
       <TicketTableAmountField
         placeholder={item.removedAmount}
         readonly
+        info={<FormattedMessage {...messages.amountInfoTooltip}
+          values={{
+            returnAmount: item.previousAddedAmount - item.previousRemovedAmount,
+          }} />}
       />
     )
 
@@ -101,7 +122,7 @@ export class TicketTableBody extends React.Component {
     }
 
     return (<TicketTableField
-      placeholder={formatDecimalPlaces(getSubtotal({ ...item, amount: item.removedAmount }))}
+      placeholder={formatDecimalPlaces(getSubtotal({ ...item, operation: 'return', amount: item.removedAmount }))}
       readonly
     />)
 
@@ -109,7 +130,7 @@ export class TicketTableBody extends React.Component {
 
   getTicketItemAction(item, i) {
 
-    if (item.isNewEntry) {
+    if (item.isNewEntry || item.addedAmount) {
       return (
         <TicketTableButton
           primary

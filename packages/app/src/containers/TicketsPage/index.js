@@ -29,10 +29,8 @@ import {
 import { DEFAULT_SCHEMA_TYPE } from 'config';
 
 export class TicketsPage extends React.Component {
-  componentDidMount() { }
 
   getItemsComponent() {
-
 
     if (this.props.isNewTicket) {
       return <TicketBasePage />;

@@ -87,6 +87,8 @@
   "kz.containers.TicketItems.table.price": "Price",
   "kz.containers.TicketItems.table.amount": "Amount",
   "kz.containers.TicketItems.search": "Ticket ID",
+  "kz.containers.TicketSoldItems.amountInfoTooltip": "You can return up to a maximum of {returnAmount} units previously bought",
+  "kz.containers.TicketSoldItems.removedAmountInfoTooltip": "You can return up to {returnAmount} units (out of {previousAddedAmount} units previously bought and {previousRemovedAmount} units previously returned)",
   "kz.containers.TicketSoldItems.notFound": "Ticket empty",
   "kz.containers.TicketSoldItems.notFoundHelp": "This ticket has been removed from the system",
   "kz.containers.TicketSoldItems.discount": "Discount",

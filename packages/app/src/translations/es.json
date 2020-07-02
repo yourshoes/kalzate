@@ -91,6 +91,8 @@
   "kz.containers.TicketItems.table.price": "Precio",
   "kz.containers.TicketItems.table.amount": "Cantidad",
   "kz.containers.TicketItems.search": "Código Ticket",
+  "kz.containers.TicketSoldItems.amountInfoTooltip": "Puedes devolver hasta un máximo de {returnAmount} unidades anteriormente compradas",
+  "kz.containers.TicketSoldItems.removedAmountInfoTooltip": "Puedes devolver hasta un máximo de {returnAmount} unidades (de un total de {previousAddedAmount} unidades compradas y {previousRemovedAmount} unidades ya devueltas)",
   "kz.containers.TicketSoldItems.notFound": "Ticket vacío",
   "kz.containers.TicketSoldItems.notFoundHelp": "Este ticket ha sido eliminado del sistema",
   "kz.containers.TicketSoldItems.discount": "Descuento",
