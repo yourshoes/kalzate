@@ -101,7 +101,7 @@ export function StockTableRows(props) {
             primary
             icon="link-external"
             data-cy={stockSelectors.ADD_ITEM_TO_TICKET}
-            onClick={() => props.addStockToTicket(_data)}
+            onClick={() => props.createAddOperation(_data)}
           />
         </StockTableHeaderContainer>
       ))}

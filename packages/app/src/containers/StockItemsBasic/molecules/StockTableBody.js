@@ -34,7 +34,7 @@ export function StockTableBody(props) {
           onUpdate={(stock) => props.updateStock(stock)}
           tmp={props.tmp}
           updateTmpData={props.updateTmpData}
-          addStockToTicket={props.addStockToTicket}
+          createAddOperation={props.createAddOperation}
           data-cy={stock.ITEM}
         />
       )}

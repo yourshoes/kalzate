@@ -1,61 +1,28 @@
 import * as ActionTypes from './types';
 
-export function addStockToTicket(stockItem, options = {}) {
-    return {
-        type: ActionTypes.ADD_STOCK_TO_TICKET_ACTION,
-        data: {
-            stockItem: {
-                ...stockItem,
-                discountType: 'fixed',
-                discountValue: 0,
-            },
-            options: {
-                incremental: true,
-                ...options,
-                operationType: 'add',
 
-            }
-        },
-    };
-}
-
-export function returnItemFromTicket(item) {
+export function createAddOperation(stock, operation = {}) {
     return {
-        type: ActionTypes.RETURN_ITEM_FROM_TICKET_ACTION,
+        type: ActionTypes.CREATE_ADD_OPERATION_ACTION,
         data: {
-            amount: item.amount,
-            brand: item.brand,
-            created_at: item.created_at,
-            desc: item.desc,
-            id: item.id,
-            price: item.price,
-            reference: item.reference,
-            sold: item.sold,
-            operation: 'return',
-            discountType: 'fixed',
-            discountValue: 0,
-        },
-    };
-}
-
-export function removeStockFromTicket(operationReference) {
-    return {
-        type: ActionTypes.REMOVE_STOCK_FROM_TICKET_ACTION,
-        data: {
-            operationReference
+            stock,
+            ...operation,
+            operation: 'add'
         }
     };
 }
 
-export function updateTicketOperation(reference, data) {
+export function createRemoveOperation(stock, operation = {}) {
     return {
-        type: ActionTypes.UPDATE_TICKET_OPERATION_ACTION,
+        type: ActionTypes.CREATE_REMOVE_OPERATION_ACTION,
         data: {
-            reference,
-            ...data
+            stock,
+            ...operation,
+            operation: 'remove'
         }
     };
 }
+
 
 export function updateTicketPayment(payment) {
     return {

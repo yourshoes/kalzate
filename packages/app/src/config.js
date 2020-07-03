@@ -107,7 +107,7 @@ export const TICKET_NEGATIVE_BALANCE = 'negative';
 export const DEFAULT_TICKET_ITEMS_LIMIT = 50;
 
 export const ADD_ITEM_OPERATION = 'add';
-export const RETURN_ITEM_OPERATION = 'return';
+export const REMOVE_ITEM_OPERATION = 'remove';
 export const DISCOUNT_PERCENTAGE_TYPE = 'percentage';
 export const DISCOUNT_FIXED_TYPE = 'fixed';
 

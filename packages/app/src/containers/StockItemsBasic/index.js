@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
-import { addStockToTicket } from 'actions/tickets';
+import { createAddOperation } from 'actions/tickets';
 import {
   makeSelectStockItems,
   makeSelectStockLimit,
@@ -84,7 +84,7 @@ function mapDispatchToProps(dispatch) {
     searchStock: (search, limit, skip) => dispatch(searchStock(search, limit, skip)),
     getMatches: (field, value) => dispatch(getMatches(field, value)),
     updateTmpData: (reference, data) => dispatch(updateTmpData(reference, data)),
-    addStockToTicket: (stockItem) => dispatch(addStockToTicket(stockItem)),
+    createAddOperation: (stockItem) => dispatch(createAddOperation(stockItem)),
   };
 }
 

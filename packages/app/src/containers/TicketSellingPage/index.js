@@ -21,13 +21,11 @@ import {
   updateTicketTax,
   updateTicketDiscount,
   removeTicket,
-  closeTicket,
   getMatches,
   loadTicket,
 } from './actions';
 import {
-  removeStockFromTicket,
-  updateTicketOperation,
+  createAddOperation,
   createTicket
 } from 'actions/tickets';
 import Container from './atoms/Container';
@@ -73,20 +71,21 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateTmpData(reference, data)),
     updateTicketData: (item, data) =>
       dispatch(updateTicketData(item, data)),
-    updateTicketOperation: (reference, data) =>
-      dispatch(updateTicketOperation(reference, data)),
+
     updateTicketTax: (vat) =>
       dispatch(updateTicketTax(vat)),
     updateTicketDiscount: (discount) =>
       dispatch(updateTicketDiscount(discount)),
-    removeStockFromTicket: (operationIndexPosition) =>
-      dispatch(removeStockFromTicket(operationIndexPosition)),
     removeTicket: () =>
       dispatch(removeTicket()),
     getMatches: (field, value) => dispatch(getMatches(field, value)),
     loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
+
+
     createTicket: (ticket, settings) =>
       dispatch(createTicket(ticket, settings)),
+    createAddOperation: (stock, operation) =>
+      dispatch(createAddOperation(stock, operation)),
   };
 }
 

@@ -1,7 +1,7 @@
 import {
   DEFAULT_DECIMAL_PLACES,
   ADD_ITEM_OPERATION,
-  RETURN_ITEM_OPERATION,
+  REMOVE_ITEM_OPERATION,
   DISCOUNT_PERCENTAGE_TYPE,
   DISCOUNT_FIXED_TYPE,
   DEFAULT_SCHEMA_TYPE,
@@ -44,13 +44,17 @@ export const getAmount = ({ operation, amount }) => {
     return amount
   }
 
-  if (operation === RETURN_ITEM_OPERATION) {
+  if (operation === REMOVE_ITEM_OPERATION) {
     return - amount
   }
 }
 
-export const getSubtotal = ({ operation, amount, price, discountType, discountValue }) => {
-  let subtotal = amount * price;
+export const getSubtotal = ({ stock, operation, amount, discountType, discountValue }) => {
+  if (!operation) {
+    return 0;
+  }
+
+  let subtotal = amount * stock.price;
 
   if (discountType === DISCOUNT_PERCENTAGE_TYPE) {
     subtotal *= (1 - discountValue / 100);
@@ -59,7 +63,7 @@ export const getSubtotal = ({ operation, amount, price, discountType, discountVa
     subtotal -= discountValue;
   }
 
-  if (subtotal > (amount * price) || subtotal <= 0) {
+  if (subtotal > (amount * stock.price) || subtotal <= 0) {
     return 0;
   }
 
@@ -67,11 +71,11 @@ export const getSubtotal = ({ operation, amount, price, discountType, discountVa
     return subtotal
   }
 
-  if (operation === RETURN_ITEM_OPERATION) {
+  if (operation === REMOVE_ITEM_OPERATION) {
     return - subtotal
   }
 
-  throw new Error(`operation type "${operation}" unknown, use "${ADD_ITEM_OPERATION}" or "${RETURN_ITEM_OPERATION}"`)
+  throw new Error(`operation type "${operation}" unknown, use "${ADD_ITEM_OPERATION}" or "${REMOVE_ITEM_OPERATION}"`)
 }
 
 const getPaymentAmount = (payments, paymentMethod, field = 'amount') => {
@@ -99,18 +103,19 @@ export const parseOperations = (history, operations) => {
   // Merge all history operations as an object 
   // composing previousAddedAmount & previousRemovedAmount fields
   // which contains all previous sold and returned amounts so far
-  const mergedOperations = history.reduce((acc, op) => {
-    const operation = acc[op.reference];
-    if (operation) {
+  const mergedOperations = history.reduce((acc, { stock, discountValue,
+    discountType, operation, amount }) => {
+    const existingOperation = acc[stock.reference];
+    if (existingOperation) {
       return {
         ...acc,
-        [op.reference]: {
-          ...operation,
-          ...(op.operation === ADD_ITEM_OPERATION && {
-            previousAddedAmount: op.amount + operation.previousAddedAmount
+        [stock.reference]: {
+          ...existingOperation,
+          ...(operation === ADD_ITEM_OPERATION && {
+            previousAddedAmount: amount + existingOperation.previousAddedAmount
           }),
-          ...(op.operation === RETURN_ITEM_OPERATION && {
-            previousRemovedAmount: op.amount + operation.previousRemovedAmount
+          ...(operation === REMOVE_ITEM_OPERATION && {
+            previousRemovedAmount: amount + existingOperation.previousRemovedAmount
           })
         }
       };
@@ -118,16 +123,17 @@ export const parseOperations = (history, operations) => {
 
     return {
       ...acc,
-      [op.reference]: {
-        ...op,
-        amount: undefined,
+      [stock.reference]: {
+        stock,
+        discountValue,
+        discountType,
         addedAmount: 0,
         removedAmount: 0,
         previousAddedAmount: 0,
         previousRemovedAmount: 0,
-        ...(op.operation === ADD_ITEM_OPERATION && { previousAddedAmount: op.amount }),
-        ...(op.operation === RETURN_ITEM_OPERATION && {
-          previousRemovedAmount: op.amount
+        ...(operation === ADD_ITEM_OPERATION && { previousAddedAmount: amount }),
+        ...(operation === REMOVE_ITEM_OPERATION && {
+          previousRemovedAmount: amount
         })
       }
     };
@@ -135,33 +141,41 @@ export const parseOperations = (history, operations) => {
 
   // Add the current amount and return fields with the info
   // about current s
-  for (let op of operations) {
-    const currentOperation = mergedOperations[op.reference];
+  for (let { stock, discountValue,
+    discountType, operation, amount } of operations) {
+
+    const currentOperation = mergedOperations[stock.reference];
 
     if (currentOperation) {
-      mergedOperations[op.reference] = {
+      mergedOperations[stock.reference] = {
         ...currentOperation,
-        amount: undefined,
-        ...(op.operation === ADD_ITEM_OPERATION && { addedAmount: op.amount + currentOperation.addedAmount }),
-        ...(op.operation === RETURN_ITEM_OPERATION && {
-          removedAmount: op.amount + currentOperation.removedAmount
+        discountValue,
+        discountType,
+        ...(operation === ADD_ITEM_OPERATION && { addedAmount: amount + currentOperation.addedAmount, operation }),
+        ...(operation === REMOVE_ITEM_OPERATION && {
+          removedAmount: amount + currentOperation.removedAmount,
+          operation
         })
       };
-    } else {
-      mergedOperations[op.reference] = {
-        ...op,
-        amount: undefined,
+    }
+    else {
+      mergedOperations[stock.reference] = {
+        stock,
+        discountValue,
+        discountType,
         isNewEntry: true,
         addedAmount: 0,
         removedAmount: 0,
-        ...(op.operation === ADD_ITEM_OPERATION && { addedAmount: op.amount }),
-        ...(op.operation === RETURN_ITEM_OPERATION && {
-          removedAmount: op.amount
+        ...(operation === ADD_ITEM_OPERATION && { addedAmount: amount }),
+        ...(operation === REMOVE_ITEM_OPERATION && {
+          removedAmount: amount
         }),
+        operation: ADD_ITEM_OPERATION,
         previousAddedAmount: 0,
         previousRemovedAmount: 0
       };
     }
+
   }
 
   return Object.values(mergedOperations);

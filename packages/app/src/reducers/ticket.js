@@ -41,7 +41,9 @@ import {
   ADD_VOUCHER_PAYMENT_AMOUNT_SUCCESS_ACTION,
   REMOVE_VOUCHER_PAYMENT_AMOUNT_ACTION,
   CREATE_TICKET_SUCCESS_ACTION,
-  LOAD_TICKET_SUCCESS_ACTION
+  LOAD_TICKET_SUCCESS_ACTION,
+  CREATE_ADD_OPERATION_ACTION,
+  CREATE_REMOVE_OPERATION_ACTION
 } from 'actions/tickets/types';
 
 // The initial state of the App
@@ -234,7 +236,7 @@ function returnItemFromTicket(state, action) {
 
 function removeStockFromTicket(state, action) {
   const operationIndexPosition = state.operations.findIndex(
-    operation => operation.reference === action.operationReference);
+    ({ stock }) => stock.reference === action.operationReference);
   if (operationIndexPosition === -1) {
     return state;
   }
@@ -306,6 +308,35 @@ function loadTicket(state, action) {
   console.log('ticket reducer', action)
   return action;
 }
+
+
+function createOperation(state, action) {
+  const { stock, ...operation } = action;
+
+  if (operation.amount === 0) {
+    return removeStockFromTicket(state, { operationReference: stock.reference })
+  }
+
+  const existingOperation = state.operations.find(theOperation =>
+    theOperation.stock.reference === stock.reference);
+
+  if (existingOperation) {
+    const operations = state.operations.map((theOperation) =>
+      theOperation.stock.reference === stock.reference ?
+        { ...theOperation, amount: theOperation.amount + 1, ...operation } : theOperation
+    );
+    return { ...state, operations };
+  }
+
+  console.log(stock, operation)
+
+  return {
+    ...state, operations: [{
+      stock, amount: 1, ...operation
+    }, ...state.operations]
+  };
+}
+
 
 
 
@@ -413,6 +444,9 @@ function appReducer(state = initialState, action) {
       return removeTicket(state, action.data);
     case LOAD_TICKET_SUCCESS_ACTION:
       return loadTicket(state, action.data);
+    case CREATE_ADD_OPERATION_ACTION:
+    case CREATE_REMOVE_OPERATION_ACTION:
+      return createOperation(state, action.data);
 
 
 

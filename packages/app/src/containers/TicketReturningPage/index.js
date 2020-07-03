@@ -31,10 +31,8 @@ import {
 } from './actions';
 
 import {
-  removeStockFromTicket,
-  returnItemFromTicket,
-  updateTicketOperation,
-  addStockToTicket,
+  createAddOperation,
+  createRemoveOperation,
   createTicket
 } from 'actions/tickets';
 
@@ -82,8 +80,7 @@ function mapDispatchToProps(dispatch) {
     updateTicketData: (item, data) => dispatch(updateTicketData(item, data)),
     updateTicketTax: (vat) => dispatch(updateTicketTax(vat)),
     updateTicketDiscount: (discount) => dispatch(updateTicketDiscount(discount)),
-    removeStockFromTicket: (item, positioninList) =>
-      dispatch(removeStockFromTicket(item, positioninList)),
+
     undoReturnStockFromTicket: (item, positioninList) =>
       dispatch(undoReturnStockFromTicket(item, positioninList)),
     returnAllStockFromTicket: () => dispatch(returnAllStockFromTicket()),
@@ -91,14 +88,10 @@ function mapDispatchToProps(dispatch) {
     getMatches: (field, value) => dispatch(getMatches(field, value)),
     loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
 
-    updateTicketOperation: (reference, data) =>
-      dispatch(updateTicketOperation(reference, data)),
-    removeStockFromTicket: (operationIndexPosition) =>
-      dispatch(removeStockFromTicket(operationIndexPosition)),
-    returnItemFromTicket: (item) =>
-      dispatch(returnItemFromTicket(item)),
-    addStockToTicket: (item, options) =>
-      dispatch(addStockToTicket(item, options)),
+    createAddOperation: (stock, operation) =>
+      dispatch(createAddOperation(stock, operation)),
+    createRemoveOperation: (stock, operation) =>
+      dispatch(createRemoveOperation(stock, operation)),
     createTicket: (ticket, settings) =>
       dispatch(createTicket(ticket, settings)),
 
