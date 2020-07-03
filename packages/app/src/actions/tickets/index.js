@@ -23,7 +23,14 @@ export function returnItemFromTicket(item) {
     return {
         type: ActionTypes.RETURN_ITEM_FROM_TICKET_ACTION,
         data: {
-            ...item,
+            amount: item.amount,
+            brand: item.brand,
+            created_at: item.created_at,
+            desc: item.desc,
+            id: item.id,
+            price: item.price,
+            reference: item.reference,
+            sold: item.sold,
             operation: 'return',
             discountType: 'fixed',
             discountValue: 0,

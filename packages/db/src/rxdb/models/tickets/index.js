@@ -154,7 +154,7 @@ class Tickets {
       await Promise.all(
         ticket.operations.map(({ operation, id, amount }) => {
 
-          if (!id) {
+          if (!id || !amount || !operation) {
             return Promise.resolve();
           }
 
@@ -223,7 +223,7 @@ class Tickets {
 
         const parentTicket = await this.findOne(getQuery('id', parentTicketId));
 
-        history.push(parentTicket.operations);
+        history.push(...parentTicket.operations);
 
         parentTicketId = parentTicket.prevNode;
 
@@ -353,8 +353,9 @@ class Tickets {
   }
 
   validateTicket(ticket) {
+    if (!ticket.balance) return 'Ticket balance cannot be empty, use either positive or negative';
     if (isEmpty(ticket.operations)) return 'Ticket operations cannot be empty';
-    if (isEmpty(ticket.payments)) return 'Ticket payments cannot be empty';
+    if (ticket.balance === 'positive' && isEmpty(ticket.payments)) return 'Ticket payments cannot be empty';
     return false;
   }
   // validateTicketSold(ticket) {

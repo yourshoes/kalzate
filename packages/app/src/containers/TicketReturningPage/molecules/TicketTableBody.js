@@ -80,9 +80,10 @@ export class TicketTableBody extends React.Component {
 
   getTicketItemRemovedAmount(item, i) {
 
-    if (item.addedAmount > 0 || item.isNewEntry) {
+    if (item.addedAmount > 0 || item.isNewEntry || (item.previousAddedAmount - item.previousRemovedAmount) === 0) {
       return (<TicketTableField placeholder="0" readonly />);
     }
+
 
     if (item.previousRemovedAmount > 0) {
       return (
@@ -145,7 +146,7 @@ export class TicketTableBody extends React.Component {
         <TicketButton
           data-cy={ticketsSelectors.INCREASE_RETURN_ITEM_BUTTON}
           primary
-          disabled={item.addedAmount > 0 || item.removedAmount === item.previousAddedAmount}
+          disabled={item.addedAmount > 0 || item.removedAmount === item.previousAddedAmount - item.previousRemovedAmount}
           width={50}
           icon="arrow-up"
           onClick={() =>
@@ -173,6 +174,8 @@ export class TicketTableBody extends React.Component {
 
 
   render() {
+
+    console.log('1111....', this.props.ticketOperations);
 
     return (
       <HeightAdapterContainer>

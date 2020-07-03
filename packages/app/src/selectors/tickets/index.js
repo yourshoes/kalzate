@@ -11,13 +11,13 @@ import {
 } from 'utils/ticket';
 
 
-export const ticket = (state) => state.ticket;
+export const ticketDomain = (state) => state.ticket;
 
 export const ticketList = (state) => state.tickets;
 
 export const isTicketReadOnly =
     createSelector(
-        ticket,
+        ticketDomain,
         (ticket) =>
             (ticket.isChecked === true &&
                 ticket.nextNode)
@@ -26,7 +26,7 @@ export const isTicketReadOnly =
 
 export const isNewTicket =
     createSelector(
-        ticket,
+        ticketDomain,
         (ticket) => ticket.isChecked === false
     );
 
@@ -38,7 +38,7 @@ export const isNewTicket =
  * A value of zero means the customer does not have to pay anything
  */
 export const ticketTotalAmount =
-    createSelector(ticket, (ticket) => ticket.operations
+    createSelector(ticketDomain, (ticket) => ticket.operations
         .reduce((acc, operation) => acc + getSubtotal(operation), 0)
     );
 
@@ -49,7 +49,7 @@ export const ticketTotalAmount =
  * A value of zero means the customer does not have to pay anything
  */
 export const ticketProvidedAmount =
-    createSelector(ticket, (ticket) =>
+    createSelector(ticketDomain, (ticket) =>
         ticket.payments
             .reduce((acc, { amount }) =>
                 amount ? acc + amount : acc, 0)
@@ -85,7 +85,7 @@ export const ticketRemainingAmount =
 
 export const isTicketCheckoutDisabled =
     createSelector(
-        ticket,
+        ticketDomain,
         ticketTotalAmount,
         ticketProvidedAmount,
         (ticket, totalAmount, providedAmount) => {
@@ -95,7 +95,7 @@ export const isTicketCheckoutDisabled =
 
 export const isTicketVoucherCheckoutDisabled =
     createSelector(
-        ticket,
+        ticketDomain,
         ticketTotalAmount,
         (ticket, totalAmount) => {
             return isEmpty(ticket.operations) || totalAmount >= 0;
@@ -105,7 +105,7 @@ export const isTicketVoucherCheckoutDisabled =
 
 export const ticketPayments =
     createSelector(
-        ticket,
+        ticketDomain,
         ({ payments }) => payments
     );
 
@@ -136,7 +136,7 @@ export const ticketVoucherPaymentConcept =
 
 export const ticketOperations =
     createSelector(
-        ticket,
+        ticketDomain,
         ({ operations = [], history = [] }) => {
 
             if (!history.length) {
@@ -151,4 +151,13 @@ export const isEmptyTicket =
     createSelector(
         ticketOperations,
         (operations) => operations.length === 0
+    );
+
+export const ticket =
+    createSelector(
+        ticketDomain,
+        isTicketReadOnly,
+        ticketBalance,
+        (ticket, isTicketReadOnly, balance) =>
+            ({ ...ticket, balance, ...(!isTicketReadOnly && { created_at: undefined }) })
     );

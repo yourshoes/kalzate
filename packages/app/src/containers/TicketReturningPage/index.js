@@ -26,7 +26,6 @@ import {
   undoReturnStockFromTicket,
   returnAllStockFromTicket,
   removeTicket,
-  closeTicket,
   getMatches,
   loadTicket,
 } from './actions';
@@ -35,7 +34,8 @@ import {
   removeStockFromTicket,
   returnItemFromTicket,
   updateTicketOperation,
-  addStockToTicket
+  addStockToTicket,
+  createTicket
 } from 'actions/tickets';
 
 import Container from './atoms/Container';
@@ -90,7 +90,6 @@ function mapDispatchToProps(dispatch) {
     removeTicket: () => dispatch(removeTicket()),
     getMatches: (field, value) => dispatch(getMatches(field, value)),
     loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
-    closeTicket: (ticket, state) => dispatch(closeTicket(ticket, state)),
 
     updateTicketOperation: (reference, data) =>
       dispatch(updateTicketOperation(reference, data)),
@@ -100,6 +99,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(returnItemFromTicket(item)),
     addStockToTicket: (item, options) =>
       dispatch(addStockToTicket(item, options)),
+    createTicket: (ticket, settings) =>
+      dispatch(createTicket(ticket, settings)),
 
   };
 }

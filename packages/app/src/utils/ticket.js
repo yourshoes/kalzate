@@ -166,3 +166,20 @@ export const parseOperations = (history, operations) => {
 
   return Object.values(mergedOperations);
 }
+
+export const marshallTicket = ({
+  isChecked,
+  isGift,
+  isVoucher,
+  balance,
+  prevNode,
+  payments,
+  operations }) => ({
+    isChecked,
+    isGift,
+    isVoucher,
+    balance,
+    prevNode,
+    payments,
+    operations
+  })

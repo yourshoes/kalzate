@@ -6,9 +6,7 @@
 /* System imports */
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { isEmpty } from 'lodash';
 import Button from 'components/Button';
-import { TICKET_RETURN_STATE } from 'config';
 import TicketSectionContainer from '../atoms/TicketSectionContainer';
 import Section50 from '../atoms/Section50';
 import SectionLeft from '../atoms/SectionLeft';
@@ -35,6 +33,18 @@ export class TicketHeader extends React.Component {
         <Section50>
           <SectionRight>
             <Button
+              inactive={this.props.isTicketCheckoutDisabled}
+              icon="check"
+              title={<FormattedMessage {...messages.checkoutTicket} />}
+              onClick={() =>
+                this.props.createTicket({
+                  ...this.props.ticket,
+                  prevNode: this.props.ticket.id,
+                  balance: this.props.ticketBalance
+                }, this.props.settings)
+              }
+            />
+            <Button
               data-cy={ticketsSelectors.RETURN_VOUCHER_BUTTON}
               inactive={
                 this.props.isTicketVoucherCheckoutDisabled
@@ -43,25 +53,15 @@ export class TicketHeader extends React.Component {
               icon="gift"
               title={<FormattedMessage {...messages.giftTicket} />}
               onClick={() =>
-                this.props.closeTicket(this.props.ticket, {
-                  state: TICKET_RETURN_STATE,
-                  asVoucher: true,
-                  settings: this.props.settings,
-                })
+                this.props.createTicket({
+                  ...this.props.ticket,
+                  prevNode: this.props.ticket.id,
+                  isVoucher: true,
+                  balance: this.props.ticketBalance
+                }, this.props.settings)
               }
             />
-            <Button
-              inactive={this.props.isTicketCheckoutDisabled}
-              icon="check"
-              title={<FormattedMessage {...messages.checkoutTicket} />}
-              onClick={() =>
-                this.props.closeTicket(this.props.ticket, {
-                  state: TICKET_RETURN_STATE,
-                  asVoucher: false,
-                  settings: this.props.settings,
-                })
-              }
-            />
+
           </SectionRight>
         </Section50>
       </TicketSectionContainer>

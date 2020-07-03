@@ -7,13 +7,16 @@ import {
   PRINT_TICKET_ACTION,
 } from 'containers/TicketSellingPage/constants';
 import { REFRESH_STOCK_ACTION } from 'containers/StockItems/constants';
+import { marshallTicket } from 'utils/ticket';
 import { compileTicket } from 'utils/receipt';
 
 function* closeTicket(action) {
   try {
     const { ticket, settings } = action.data;
 
-    const ticketListItem = yield call((...args) => Tickets().create(...args), ticket, true);
+    console.log('create ticket', ticket)
+
+    const ticketListItem = yield call((...args) => Tickets().create(...args), marshallTicket(ticket), true);
 
     const createdTicket = { ...ticket, ...ticketListItem };
 

@@ -41,10 +41,11 @@ export class TicketHeader extends React.Component {
               //@todo title has a conflict with html native title attribute, this prop should be a children and html title prop for html attribute
               title={<FormattedMessage {...messages.giftTicket} />}
               onClick={() =>
-                this.props.closeTicket(this.props.ticket, {
+                this.props.createTicket({
+                  ...this.props.ticket,
                   isGift: true,
-                  settings: this.props.settings,
-                })
+                  balance: this.props.ticketBalance
+                }, this.props.settings)
               }
             />
             <Button
