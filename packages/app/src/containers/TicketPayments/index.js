@@ -11,6 +11,7 @@ import { createStructuredSelector } from 'reselect';
 import { PaymentMethods } from './molecules/PaymentMethods';
 import { updateTicketPayment, addVoucherPaymentAmount, removeVoucherPaymentAmount } from 'actions/tickets';
 import {
+  isTicketReadOnly,
   ticketTotalAmount,
   ticketRemainingAmount,
   ticketCreditCardPaymentAmount,
@@ -44,6 +45,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
+  isTicketReadOnly,
   totalAmount: ticketTotalAmount,
   remainingAmount: ticketRemainingAmount,
   creditCardPaymentAmount: ticketCreditCardPaymentAmount,

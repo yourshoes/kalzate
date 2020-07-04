@@ -24,9 +24,10 @@ export class Voucher extends React.Component {
       addVoucherPaymentAmount,
       removeVoucherPaymentAmount,
       totalAmount,
+      isTicketReadOnly,
       intl } = this.props;
 
-    const isPaymentMethodDisabled = totalAmount <= 0;
+    const isPaymentMethodDisabled = totalAmount <= 0 || isTicketReadOnly;
 
     return (
       <div>

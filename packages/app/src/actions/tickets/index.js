@@ -1,6 +1,5 @@
 import * as ActionTypes from './types';
 
-
 export function createAddOperation(stock, operation = {}) {
     return {
         type: ActionTypes.CREATE_ADD_OPERATION_ACTION,

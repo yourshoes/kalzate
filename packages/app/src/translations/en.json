@@ -116,6 +116,8 @@
   "kz.containers.TicketReturnItems.table.price": "Price",
   "kz.containers.TicketReturnItems.table.amount": "Amount",
   "kz.containers.TicketReturnItems.search": "Ticket ID",
+  "kz.containers.TicketReadOnly.addedAmountInfoTooltip": "This cutomer did buy {amount} units of this item in previous tickets",
+  "kz.containers.TicketReadOnly.removedAmountInfoTooltip": "This cutomer did return {amount} units of this item in previous tickets",
   "kz.components.Modal.ok": "ok",
   "kz.components.Modal.cancel": "Cancel",
   "octoql.components.Footer.author.message": "",

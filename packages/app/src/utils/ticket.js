@@ -187,6 +187,7 @@ export const marshallTicket = ({
   isVoucher,
   balance,
   prevNode,
+  nextNode,
   payments,
   operations }) => ({
     isChecked,
@@ -194,6 +195,7 @@ export const marshallTicket = ({
     isVoucher,
     balance,
     prevNode,
+    nextNode,
     payments,
     operations
   })

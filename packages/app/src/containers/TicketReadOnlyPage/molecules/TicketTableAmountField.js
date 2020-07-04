@@ -5,6 +5,8 @@
 
 /* System imports */
 import React, { PropTypes } from 'react';
+import Tooltip from 'components/Tooltip';
+import InfoTooltip, { TooltipContainer } from '../atoms/InfoTooltip';
 import Section10 from '../atoms/Section10';
 import FloatLabel from '../atoms/FloatLabel';
 import TicketInput from '../atoms/TicketInput';
@@ -42,6 +44,14 @@ export class TicketTableField extends React.Component {
             value={this.state.value}
           />}
           <TicketLabel readonly={this.props.readonly}>{this.props.placeholder}</TicketLabel>
+          {this.props.info &&
+            <TooltipContainer readonly={this.props.readonly}>
+              <Tooltip color="inherit" right="10" direction="up">
+                <InfoTooltip>
+                  {this.props.info}
+                </InfoTooltip>
+              </Tooltip>
+            </TooltipContainer>}
         </FloatLabel>
       </Section10>
     );

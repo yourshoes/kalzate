@@ -6,6 +6,14 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  addedAmountInfoTooltip: {
+    id: 'kz.containers.TicketReadOnly.addedAmountInfoTooltip',
+    defaultMessage: 'Ticket has previous added units',
+  },
+  removedAmountInfoTooltip: {
+    id: 'kz.containers.TicketReadOnly.removedAmountInfoTooltip',
+    defaultMessage: 'Ticket has previous removed units',
+  },
   notFound: {
     id: 'kz.containers.TicketReturnItems.notFound',
     defaultMessage: 'Ticket empty',

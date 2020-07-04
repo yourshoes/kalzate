@@ -120,6 +120,8 @@
   "kz.containers.TicketReturnItems.table.price": "Precio",
   "kz.containers.TicketReturnItems.table.amount": "Cantidad",
   "kz.containers.TicketReturnItems.search": "Código Ticket",
+  "kz.containers.TicketReadOnly.addedAmountInfoTooltip": "Este cliente compró {amount} unidades de este artículo en compras anteriores",
+  "kz.containers.TicketReadOnly.removedAmountInfoTooltip": "Este cliente devolvió {amount} unidades de este artículo en compras anteriores",
   "kz.components.Modal.ok": "Importar",
   "kz.components.Modal.cancel": "Cancelar",
   "octoql.components.Footer.author.message": "Made with love by {author}.",

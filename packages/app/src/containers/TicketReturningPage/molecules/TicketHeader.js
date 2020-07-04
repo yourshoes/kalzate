@@ -40,7 +40,8 @@ export class TicketHeader extends React.Component {
                 this.props.createTicket({
                   ...this.props.ticket,
                   prevNode: this.props.ticket.id,
-                  balance: this.props.ticketBalance
+                  ...(this.props.ticketOperations.every(({ addedAmount, previousAddedAmount, removedAmount, previousRemovedAmount }) =>
+                    previousAddedAmount + addedAmount === previousRemovedAmount + removedAmount) && { nextNode: this.props.ticket.id })
                 }, this.props.settings)
               }
             />
@@ -56,8 +57,9 @@ export class TicketHeader extends React.Component {
                 this.props.createTicket({
                   ...this.props.ticket,
                   prevNode: this.props.ticket.id,
+                  ...(this.props.ticketOperations.every(({ addedAmount, previousAddedAmount, removedAmount, previousRemovedAmount }) =>
+                    previousAddedAmount + addedAmount === previousRemovedAmount + removedAmount) && { nextNode: this.props.ticket.id }),
                   isVoucher: true,
-                  balance: this.props.ticketBalance
                 }, this.props.settings)
               }
             />

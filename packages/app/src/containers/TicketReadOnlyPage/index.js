@@ -15,6 +15,9 @@ import {
   selectSettingsData,
 } from './selectors';
 import {
+  ticket, ticketOperations, isEmptyTicket
+} from 'selectors/tickets';
+import {
   updateTmpData,
   updateTicketData,
   updateTicketTax,
@@ -54,7 +57,9 @@ TicketItems.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  ticket: selectTicketDomain(),
+  ticket,
+  ticketOperations,
+  isEmptyTicket,
   tmp: makeSelectTicketTmpData(),
   matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),

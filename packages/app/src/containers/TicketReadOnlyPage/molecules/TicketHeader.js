@@ -37,7 +37,7 @@ export class TicketHeader extends React.Component {
         </Section50>
         <Section50>
           <SectionRight>
-            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="cloud-download" title={<FormattedMessage {...messages.printTicket} />} onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SOLD_STATE, asGift: true, settings: this.props.settings })} />
+            <Button inactive={this.props.isEmptyTicket} primary icon="cloud-download" title={<FormattedMessage {...messages.printTicket} />} onClick={() => this.props.printTicket(this.props.ticket, { settings: this.props.settings })} />
           </SectionRight>
         </Section50>
       </TicketSectionContainer>

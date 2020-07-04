@@ -171,6 +171,39 @@ export class TicketTableBody extends React.Component {
     );
   }
 
+  getTicketItemDiscount(stock, operation) {
+
+    if (operation.isNewEntry || operation.addedAmount > 0) {
+      return (
+        <TicketTableAmountField
+          placeholder={operation.discountValue || '0'}
+          value={
+            this.props.tmp[stock.reference] && Number.isFinite(this.props.tmp[stock.reference].discountValue)
+              ? this.props.tmp[stock.reference].discountValue
+              : ''
+          }
+          onChange={(discountValue) =>
+            this.props.updateTmpData(stock.reference, {
+              discountValue: parseInt(discountValue, 10),
+            })
+          }
+          onBlur={() => {
+            if (this.props.tmp[stock.reference] && Number.isFinite(this.props.tmp[stock.reference].discountValue)) {
+              this.props.createAddOperation(stock, {
+                amount: operation.addedAmount,
+                discountValue: this.props.tmp[stock.reference].discountValue,
+                discountType: 'fixed'
+              });
+            }
+          }}
+        />
+      );
+    }
+
+    return <TicketTableField placeholder={operation.discountValue || '0'} readonly />
+
+  }
+
 
   render() {
 
@@ -194,6 +227,7 @@ export class TicketTableBody extends React.Component {
               <TicketTableField placeholder={formatDecimalPlaces(stock.price)} readonly />
               {this.getTicketItemAddedAmount(stock, operation)}
               {this.getTicketItemRemovedAmount(stock, operation)}
+              {this.getTicketItemDiscount(stock, operation)}
               {this.getTicketItemSubtotalAmount(stock, operation)}
               {this.getTicketItemAction(stock, operation)}
             </TicketTableRowContainer>

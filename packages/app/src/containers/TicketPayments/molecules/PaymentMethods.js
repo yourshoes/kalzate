@@ -23,10 +23,11 @@ export function PaymentMethods(props) {
     cashPaymentAmount,
     updateTicketPayment,
     totalAmount,
+    isTicketReadOnly,
     remainingAmount,
     intl } = props;
 
-  const isPaymentMethodDisabled = totalAmount <= 0;
+  const isPaymentMethodDisabled = totalAmount <= 0 || isTicketReadOnly;
   return (
     <PaymentSectionContainer>
       <PaymentMethod

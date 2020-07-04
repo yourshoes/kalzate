@@ -13,7 +13,6 @@ import {
   isTicketCheckoutDisabled, isTicketVoucherCheckoutDisabled
 } from 'selectors/tickets';
 import {
-  selectTicketDomain,
   makeSelectTicketTmpData,
   makeSelectTicketCreatedAtMatches,
   selectSettingsData,
