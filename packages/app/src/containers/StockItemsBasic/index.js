@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl } from 'react-intl';
 import { createAddOperation } from 'actions/tickets';
+import { isTicketReadOnly } from 'selectors/tickets';
 import {
   makeSelectStockItems,
   makeSelectStockLimit,
@@ -64,6 +65,7 @@ StockItemsPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  isTicketReadOnly,
   items: makeSelectStockItems(),
   limit: makeSelectStockLimit(),
   skip: makeSelectStockOffset(),

@@ -35,6 +35,7 @@ export function StockTableBody(props) {
           tmp={props.tmp}
           updateTmpData={props.updateTmpData}
           createAddOperation={props.createAddOperation}
+          isTicketReadOnly={props.isTicketReadOnly}
           data-cy={stock.ITEM}
         />
       )}

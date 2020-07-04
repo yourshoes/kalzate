@@ -11,6 +11,7 @@ import StockButton from './StockButton';
 import StockField from './StockField';
 import messages from '../messages';
 import { stock as stockSelectors } from '@kalzate/cy';
+import { isTicketReadOnly } from 'selectors/tickets';
 
 const isRealNumeric = function (input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
@@ -100,6 +101,7 @@ export function StockTableRows(props) {
           <StockButton
             primary
             icon="link-external"
+            disabled={props.isTicketReadOnly}
             data-cy={stockSelectors.ADD_ITEM_TO_TICKET}
             onClick={() => props.createAddOperation(_data)}
           />

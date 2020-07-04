@@ -172,7 +172,7 @@ class Tickets {
       const voucher = ticket.payments.find(({ method }) => method === PAYMENT_METHOD_VOUCHER);
       if (voucher) {
         await this.updateBy({
-          id: {
+          created_at: {
             $eq: voucher.concept,
           }
         }, { hasVoucherExpired: true })

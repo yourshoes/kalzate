@@ -14,15 +14,22 @@ function* voucherTickets(action) {
   try {
     const { data: voucherId } = action;
 
-    return yield put(addVoucherPaymentAmountSuccess(100.34));
-    const ticket = yield call(
-      (voucherId) => Tickets().query('ticketById', voucherId),
+    console.log('get ticket', voucherId)
+
+    const { items, total } = yield call(
+      (voucherId) => Tickets().query('ticketByCreationDate', voucherId),
       voucherId
     );
 
-    console.log('voucher ticket', ticket);
+    if (total !== 1) {
+      return yield put(addVoucherPaymentAmountError('INVALID_VOUCHER'));
+    }
 
-    if (!ticket.isVoucher) {
+    const ticket = items[0];
+
+    console.log(ticket, '??')
+
+    if (!ticket || !ticket.isVoucher) {
       return yield put(addVoucherPaymentAmountError('INVALID_VOUCHER'));
     }
 
