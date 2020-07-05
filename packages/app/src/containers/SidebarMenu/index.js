@@ -38,9 +38,12 @@ function SidebarMenu(props) {
           <MenuItem actived={routeName === 'settings'} to="/settings" highlight cursor>
             <FormattedMessage {...messages.settings} />
           </MenuItem>
-          <MenuItem actived={routeName === 'discover'} to="/discover" highlight cursor>
+          <MenuItem actived={routeName === 'discover'} highlight cursor disabled>
             <FormattedMessage {...messages.discover} />
           </MenuItem>
+          {/* <MenuItem actived={routeName === 'discover'} to="/discover" highlight cursor>
+            <FormattedMessage {...messages.discover} />
+          </MenuItem> */}
         </MenuGroup>
         <MenuGroup>
           <MenuItem actived={routeName === 'tickets'} noroute>

@@ -8,7 +8,7 @@ import {
   PAYMENT_METHOD_CREDIT_CARD,
   PAYMENT_METHOD_PHONE,
   PAYMENT_METHOD_CASH,
-  PAYMENT_METHOD_TICKET,
+  PAYMENT_METHOD_VOUCHER,
   DEFAULT_RETURN_TICKET_DAYS_ALLOWED,
 } from 'config';
 
@@ -59,12 +59,12 @@ function compileTicketPrintShopCase(settings, field) {
 
 function compileTicketPrintPreprocess(field, value, padding, operation, ticket) {
   if (field === 'description') {
-    return String(lodash.padEnd(formatDescription(operation), parseInt(padding, 10)));
+    return String(lodash.padEnd(formatDescription(operation.stock), parseInt(padding, 10)));
   }
   if (field === 'price') {
     return ticket.isGift
       ? lodash.padEnd('0.00', parseInt(padding, 10))
-      : String(lodash.padEnd(formatDecimalPlaces(value), parseInt(padding, 10)));
+      : String(lodash.padEnd(formatDecimalPlaces(operation.stock.price), parseInt(padding, 10)));
   }
   if (field === 'subtotal') {
     return ticket.isGift
@@ -122,7 +122,7 @@ function compileTicketPrintTicketCase(settings, ticket, field, options) {
               return 'Phone App';
             case PAYMENT_METHOD_CASH:
               return 'Cash';
-            case PAYMENT_METHOD_TICKET:
+            case PAYMENT_METHOD_VOUCHER:
               return 'Voucher';
             default:
               return '';
@@ -131,7 +131,7 @@ function compileTicketPrintTicketCase(settings, ticket, field, options) {
         .join('\r\n ');
 
     case 'code':
-      return ticket.created_at || ticket.id || '1111111111111';
+      return ticket.created_at || new Date().getTime();
     case 'id':
       return ticket.id;
     case 'given':

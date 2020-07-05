@@ -247,9 +247,10 @@ const Item = styled.li`
   font-weight: ${(props) => (props.highlight ? '100' : '100')};
   -webkit-font-smoothing: antialiased;
   font-variant: all-petite-caps;
-  ${(props) => (props.cursor ? cursor(props) : '')};
+  ${(props) => (!props.disabled && props.cursor ? cursor(props) : '')};
   border-left: 5px solid transparent;
   ${(props) => (props.actived ? route : '')};
+  ${(props) => (props.disabled ? 'color: rgba(163, 168, 174, 0.3);' : '')};
 `;
 const P = styled.p`
   padding: 0 30px;
@@ -328,22 +329,25 @@ export function MenuItem(props) {
       cursor={props.cursor}
       highlight={props.highlight}
       actived={props.actived}
-      onClick={(event) => (props.onClick ? props.onClick(event) : null)}
+      onClick={(event) => props.onClick ? props.onClick(event) : null}
+      disabled={props.disabled}
     >
-      {props.to ? (
-        <Route to={props.to} actived={props.actived}>
-          <P selected={props.selected}>
-            {props.children}
-            {!!props.state && getTicketState(props.state)}
-          </P>
-        </Route>
-      ) : (
-          <P selected={props.selected} noroute={props.noroute}>
-            {props.children}
-            {!!props.state && getTicketState(props.state)}
-          </P>
-        )}
-    </Item>
+      {
+        props.to ? (
+          <Route to={props.to} actived={props.actived}>
+            <P selected={props.selected}>
+              {props.children}
+              {!!props.state && getTicketState(props.state)}
+            </P>
+          </Route>
+        ) : (
+            <P selected={props.selected} noroute={props.noroute}>
+              {props.children}
+              {!!props.state && getTicketState(props.state)}
+            </P>
+          )
+      }
+    </Item >
   );
 }
 

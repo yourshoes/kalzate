@@ -34,8 +34,7 @@ export const DEFAULT_TICKET_TEMPLATE = `MY STORE {{shop name}}
  --------------------------------------------
                            TOTAL: {{ticket total}}
  
-  Payment Methods: 
-  {{ticket payment}}, 
+  {{ticket payment}}
   Amount: {{ticket given}},
   Return: {{ticket return}}
  
