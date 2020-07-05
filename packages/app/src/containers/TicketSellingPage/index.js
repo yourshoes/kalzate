@@ -8,8 +8,16 @@ import React, { PropTypes } from 'react';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { ticket, ticketBalance, ticketOperations, isEmptyTicket, isTicketCheckoutDisabled } from 'selectors/tickets';
-
+import {
+  ticket,
+  ticketBalance,
+  ticketOperations,
+  isEmptyTicket,
+  isTicketCheckoutDisabled
+} from 'selectors/tickets';
+import {
+  ticketMatches
+} from 'selectors/tmp';
 import {
   makeSelectTicketTmpData,
   makeSelectTicketCreatedAtMatches,
@@ -21,10 +29,10 @@ import {
   updateTicketTax,
   updateTicketDiscount,
   removeTicket,
-  getMatches,
-  loadTicket,
 } from './actions';
 import {
+  getTicketMatches,
+  loadTicket,
   createAddOperation,
   createTicket
 } from 'actions/tickets';
@@ -56,8 +64,8 @@ TicketItems.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   ticket,
+  ticketMatches,
   tmp: makeSelectTicketTmpData(),
-  matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),
   ticketOperations,
   ticketBalance,
@@ -78,10 +86,10 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateTicketDiscount(discount)),
     removeTicket: () =>
       dispatch(removeTicket()),
-    getMatches: (field, value) => dispatch(getMatches(field, value)),
-    loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
 
 
+    getTicketMatches: (field, value) => dispatch(getTicketMatches(field, value)),
+    loadTicket: (...args) => dispatch(loadTicket(...args)),
     createTicket: (ticket, settings) =>
       dispatch(createTicket(ticket, settings)),
     createAddOperation: (stock, operation) =>

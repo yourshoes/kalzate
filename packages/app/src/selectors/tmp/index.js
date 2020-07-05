@@ -14,3 +14,9 @@ export const ticketVoucherPaymentError =
         errors,
         ({ voucher }) => voucher
     );
+
+export const ticketMatches =
+    createSelector(
+        tmpDomain,
+        ({ matches }) => matches.tickets
+    );

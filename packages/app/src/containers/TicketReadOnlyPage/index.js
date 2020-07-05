@@ -18,6 +18,9 @@ import {
   ticket, ticketOperations, isEmptyTicket
 } from 'selectors/tickets';
 import {
+  ticketMatches
+} from 'selectors/tmp';
+import {
   updateTmpData,
   updateTicketData,
   updateTicketTax,
@@ -27,9 +30,11 @@ import {
   undoReturnStockFromTicket,
   removeTicket,
   closeTicket,
-  getMatches,
-  loadTicket,
 } from './actions';
+import {
+  getTicketMatches,
+  loadTicket
+} from 'actions/tickets';
 import Container from './atoms/Container';
 import TicketHeader from './molecules/TicketHeader';
 import TicketBody from './molecules/TicketBody';
@@ -59,9 +64,9 @@ TicketItems.propTypes = {
 const mapStateToProps = createStructuredSelector({
   ticket,
   ticketOperations,
+  ticketMatches,
   isEmptyTicket,
   tmp: makeSelectTicketTmpData(),
-  matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),
 });
 
@@ -83,8 +88,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(undoReturnStockFromTicket(item, positioninList)),
     removeTicket: () =>
       dispatch(removeTicket()),
-    getMatches: (field, value) => dispatch(getMatches(field, value)),
-    loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
+    getTicketMatches: (field, value) => dispatch(getTicketMatches(field, value)),
+    loadTicket: (...args) => dispatch(loadTicket(...args)),
     closeTicket: (ticket, state) =>
       dispatch(closeTicket(ticket, state)),
   };

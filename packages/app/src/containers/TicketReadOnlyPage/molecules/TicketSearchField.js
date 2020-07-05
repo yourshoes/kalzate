@@ -95,12 +95,17 @@ export class TicketSearchField extends React.Component {
             })
           }
           onEscape={() => this.setState({ matchesVisible: false })}
-          onEnter={() =>
+          onEnter={() => {
             this.setState({
               value: this.shouldDisplayMatches()
                 ? this.props.matches[this.state.matchIndex]
                 : this.state.value,
-            }, () => !!this.state.value && this.props.loadTicket({ created_at: this.state.value }, { fetch: true }))
+            });
+
+            if (this.props.matches[this.state.matchIndex]) {
+              this.props.loadTicket(this.props.matches[this.state.matchIndex], 'createdAt');
+            }
+          }
           }
 
         />

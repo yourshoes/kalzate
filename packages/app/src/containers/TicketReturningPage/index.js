@@ -13,6 +13,9 @@ import {
   isTicketCheckoutDisabled, isTicketVoucherCheckoutDisabled
 } from 'selectors/tickets';
 import {
+  ticketMatches
+} from 'selectors/tmp';
+import {
   makeSelectTicketTmpData,
   makeSelectTicketCreatedAtMatches,
   selectSettingsData,
@@ -25,11 +28,11 @@ import {
   undoReturnStockFromTicket,
   returnAllStockFromTicket,
   removeTicket,
-  getMatches,
-  loadTicket,
 } from './actions';
 
 import {
+  getTicketMatches,
+  loadTicket,
   createAddOperation,
   createRemoveOperation,
   createTicket
@@ -65,6 +68,7 @@ const mapStateToProps = createStructuredSelector({
   ticket,
   ticketOperations,
   ticketBalance,
+  ticketMatches,
   isEmptyTicket,
   isTicketCheckoutDisabled,
   isTicketVoucherCheckoutDisabled,
@@ -84,9 +88,9 @@ function mapDispatchToProps(dispatch) {
       dispatch(undoReturnStockFromTicket(item, positioninList)),
     returnAllStockFromTicket: () => dispatch(returnAllStockFromTicket()),
     removeTicket: () => dispatch(removeTicket()),
-    getMatches: (field, value) => dispatch(getMatches(field, value)),
-    loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
 
+    getTicketMatches: (field, value) => dispatch(getTicketMatches(field, value)),
+    loadTicket: (...args) => dispatch(loadTicket(...args)),
     createAddOperation: (stock, operation) =>
       dispatch(createAddOperation(stock, operation)),
     createRemoveOperation: (stock, operation) =>

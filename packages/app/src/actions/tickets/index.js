@@ -71,10 +71,10 @@ export function createTicketSuccess(ticket) {
     };
 }
 
-export function loadTicket(ticketId) {
+export function loadTicket(value, field = 'id') {
     return {
         type: ActionTypes.LOAD_TICKET_ACTION,
-        data: ticketId
+        data: { value, field }
     };
 }
 
@@ -82,5 +82,26 @@ export function loadTicketSuccess(ticket) {
     return {
         type: ActionTypes.LOAD_TICKET_SUCCESS_ACTION,
         data: ticket
+    };
+}
+
+export function getTicketMatches(field, value) {
+    return {
+        type: ActionTypes.GET_TICKET_MATCHES_ACTION,
+        data: { field, value }
+    };
+}
+
+export function getTicketMatchesError(error) {
+    return {
+        type: ActionTypes.GET_TICKET_MATCHES_ERROR_ACTION,
+        data: error
+    };
+}
+
+export function getTicketMatchesSuccess(matches) {
+    return {
+        type: ActionTypes.GET_TICKET_MATCHES_SUCCESS_ACTION,
+        data: matches
     };
 }

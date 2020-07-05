@@ -9,12 +9,12 @@ import { loadTicketSuccess } from 'actions/tickets';
 
 function* loadTickets(action) {
   try {
-    const { data: ticketId } = action;
-
+    const { value, field } = action.data;
     const ticket = yield call(
-      (ticketId) =>
-        Tickets().open({ value: ticketId }),
-      ticketId
+      (value, field) =>
+        Tickets().open({ value, field }),
+      value,
+      field
     );
     return yield put(loadTicketSuccess(ticket));
   } catch (e) {

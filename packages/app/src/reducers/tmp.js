@@ -34,7 +34,9 @@ import {
   CREATE_REMOVE_OPERATION_ACTION,
   CREATE_ADD_OPERATION_ACTION,
   ADD_VOUCHER_PAYMENT_AMOUNT_ACTION,
-  ADD_VOUCHER_PAYMENT_AMOUNT_ERROR_ACTION
+  ADD_VOUCHER_PAYMENT_AMOUNT_ERROR_ACTION,
+  GET_TICKET_MATCHES_SUCCESS_ACTION,
+  GET_TICKET_MATCHES_ERROR_ACTION
 } from 'actions/tickets/types';
 
 // The initial state of the App
@@ -48,7 +50,7 @@ const initialState = {
   },
   matches: {
     stock: { reference: [] },
-    tickets: { created_at: [] },
+    tickets: [],
   },
   modal: { removeStock: false, archiveStock: false },
   visibility: { tickets: { payments: true, total: true, raw: false } },
@@ -120,12 +122,12 @@ function appReducer(state = initialState, action) {
           stock: { ...state.matches.stock, [action.field]: action.items || [] },
         },
       };
-    case GET_MATCHES_TICKETS_SUCCESS_ACTION:
+    case GET_TICKET_MATCHES_SUCCESS_ACTION:
       return {
         ...state,
         matches: {
           ...state.matches,
-          tickets: { ...state.matches.tickets, [action.field]: action.items || [] },
+          tickets: action.data || [],
         },
       };
     case UPDATE_STOCK_MODAL_OPTION_ACTION:

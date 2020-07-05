@@ -24,8 +24,8 @@ export class TicketHeader extends React.Component {
             <TicketSearchField
               intl={this.props.intl}
               ticket={this.props.ticket}
-              matches={this.props.matches}
-              getMatches={(...args) => this.props.getMatches(...args)}
+              matches={this.props.ticketMatches}
+              getMatches={(...args) => this.props.getTicketMatches(...args)}
               loadTicket={(...args) => this.props.loadTicket(...args)}
             />
           </SectionLeft>
