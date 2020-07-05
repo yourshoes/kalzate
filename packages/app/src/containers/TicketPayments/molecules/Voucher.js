@@ -15,6 +15,10 @@ export class Voucher extends React.Component {
     this.state = { loading: false };
   }
 
+  componentWillReceiveProps({ voucherPaymentAmount, ticketVoucherPaymentError }) {
+    if (voucherPaymentAmount || ticketVoucherPaymentError) this.setState({ loading: false });
+  }
+
   render() {
 
     const {

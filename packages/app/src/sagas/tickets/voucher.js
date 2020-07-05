@@ -1,6 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { Tickets } from 'db';
-import { DEFAULT_TICKET_ITEMS_LIMIT } from 'config';
 import {
   ADD_VOUCHER_PAYMENT_AMOUNT_ACTION,
 } from 'actions/tickets/types';
@@ -26,8 +25,6 @@ function* voucherTickets(action) {
     }
 
     const ticket = items[0];
-
-    console.log(ticket, '??')
 
     if (!ticket || !ticket.isVoucher) {
       return yield put(addVoucherPaymentAmountError('INVALID_VOUCHER'));

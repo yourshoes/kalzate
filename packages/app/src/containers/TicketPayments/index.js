@@ -20,6 +20,10 @@ import {
   ticketVoucherPaymentConcept
 } from 'selectors/tickets';
 
+import {
+  ticketVoucherPaymentError
+} from 'selectors/tmp';
+
 export class TicketPayments extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
   render() {
@@ -46,6 +50,7 @@ function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = createStructuredSelector({
   isTicketReadOnly,
+  ticketVoucherPaymentError,
   totalAmount: ticketTotalAmount,
   remainingAmount: ticketRemainingAmount,
   creditCardPaymentAmount: ticketCreditCardPaymentAmount,

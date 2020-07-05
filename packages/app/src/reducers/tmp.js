@@ -30,7 +30,12 @@ import {
 import { TOGGLE_TICKET_PAYMENTS_VISIBILITY } from 'containers/TicketPaymentsContainer/constants';
 
 import { REMOVE_TICKET_ACTION } from 'containers/TicketSellingPage/constants';
-import { CREATE_REMOVE_OPERATION_ACTION, CREATE_ADD_OPERATION_ACTION } from 'actions/tickets/types';
+import {
+  CREATE_REMOVE_OPERATION_ACTION,
+  CREATE_ADD_OPERATION_ACTION,
+  ADD_VOUCHER_PAYMENT_AMOUNT_ACTION,
+  ADD_VOUCHER_PAYMENT_AMOUNT_ERROR_ACTION
+} from 'actions/tickets/types';
 
 // The initial state of the App
 const initialState = {
@@ -47,13 +52,32 @@ const initialState = {
   },
   modal: { removeStock: false, archiveStock: false },
   visibility: { tickets: { payments: true, total: true, raw: false } },
-  loading: { tickets: false }
+  loading: { tickets: false },
+  errors: {
+    voucher: null
+  }
 };
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
     // case CREATE_STOCK_SUCCESS_ACTION:
     //   return state.update('items', (items) => items.push(action.stock));
+    case ADD_VOUCHER_PAYMENT_AMOUNT_ACTION:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          voucher: null
+        }
+      };
+    case ADD_VOUCHER_PAYMENT_AMOUNT_ERROR_ACTION:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          voucher: action.data
+        }
+      };
     case CREATE_REMOVE_OPERATION_ACTION:
     case CREATE_ADD_OPERATION_ACTION:
       return {

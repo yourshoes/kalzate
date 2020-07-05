@@ -133,7 +133,6 @@ export const ticketVoucherPaymentConcept =
         (payments) => getVoucherPaymentConcept(payments)
     );
 
-
 export const ticketOperations =
     createSelector(
         ticketDomain,
