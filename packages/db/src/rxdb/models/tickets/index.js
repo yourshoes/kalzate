@@ -152,11 +152,13 @@ class Tickets {
 
       // Update Stock
       await Promise.all(
-        ticket.operations.map(({ operation, id, amount }) => {
+        ticket.operations.map(({ operation, stock, amount }) => {
 
-          if (!id || !amount || !operation) {
+          if (!operation || !stock || !amount) {
             return Promise.resolve();
           }
+
+          const id = stock.id;
 
           if (operation === ADD_ITEM_OPERATION) {
             return this.stock.decreaseAmount({ id, amount });

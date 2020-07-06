@@ -48,7 +48,7 @@ export class TicketFooter extends React.Component {
         </Section50>
         <Section50 includeStyles={section50StylesRightCont}>
           <SectionRight>
-            <Button
+            {/* <Button
               data-cy={ticketsSelectors.SELL_SAVE_BUTTON}
               inactive={this.props.isEmptyTicket}
               icon="cloud-download"
@@ -56,7 +56,7 @@ export class TicketFooter extends React.Component {
               onClick={() =>
                 this.props.closeTicket(this.props.ticket, { state: TICKET_SAVE_STATE })
               }
-            />
+            /> */}
             <Button
               data-cy={ticketsSelectors.NEW_TICKET_BUTTON}
               inactive={this.props.isEmptyTicket}

@@ -44,7 +44,6 @@ export class TicketHeader extends React.Component {
                 this.props.createTicket({
                   ...this.props.ticket,
                   isGift: true,
-                  balance: this.props.ticketBalance
                 }, this.props.settings)
               }
             />
@@ -57,7 +56,7 @@ export class TicketHeader extends React.Component {
               icon="check"
               title={<FormattedMessage {...messages.checkoutTicket} />}
               onClick={() =>
-                this.props.createTicket({ ...this.props.ticket, balance: this.props.ticketBalance }, this.props.settings)
+                this.props.createTicket({ ...this.props.ticket }, this.props.settings)
               }
             />
           </SectionRight>

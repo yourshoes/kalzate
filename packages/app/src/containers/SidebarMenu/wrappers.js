@@ -53,8 +53,8 @@ const Footer = styled.div`
   font-size: 1.5em;
   text-align: center;
   display: table;
-  border-top: ${(props) =>
-    props.theme && props.theme.app.border ? props.theme.app.border : '1px solid #27292c'};
+  /*border-top: ${(props) =>
+    props.theme && props.theme.app.border ? props.theme.app.border : '1px solid #27292c'};*/
 `;
 const EM = styled.em`
   font-size: 1em;

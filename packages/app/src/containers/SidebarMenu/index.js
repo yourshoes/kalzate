@@ -76,9 +76,9 @@ function SidebarMenu(props) {
           </MenuTicketListContainer>
         </MenuGroup>
       </Menu>
-      <MenuSearch
+      {/* <MenuSearch
         onChange={(field, value, operator = '$eq') => props.searchTickets(field, value, operator)}
-      />
+      /> */}
       <MenuFooter to="/tickets" icon="inbox">
         <FormattedMessage {...messages.cashDrawer} />
       </MenuFooter>

@@ -157,6 +157,13 @@ export const ticket =
         ticketDomain,
         isTicketReadOnly,
         ticketBalance,
-        (ticket, isTicketReadOnly, balance) =>
-            ({ ...ticket, balance, ...(!isTicketReadOnly && { created_at: undefined }) })
+        ticketVoucherPaymentAmount,
+        ticketTotalAmount,
+        (ticket, isTicketReadOnly, balance, voucherAmount, totalAmount) =>
+            ({
+                ...ticket,
+                balance,
+                isVoucher: voucherAmount > totalAmount,
+                ...(!isTicketReadOnly && { created_at: undefined })
+            })
     );

@@ -20,13 +20,16 @@ The `Ticket` entity properties are:
     - method: Enum - The payment method enum (cash, creditCard, mobile, wallet, voucher)
     - concept: String - The payment concept (voucher id, phone number, wallet id)
 - operations: [Object] - The list of historical operations performed in the ticker
-    - operation
-    - brand
-    - description
+    - operation - It can be either add or remove operation
     - amount
-    - price
     - discountValue: Number - The discount to apply to totalAmount
     - discountType: String - The discount type enum (fixed / percentage)
+    - stock
+        - id
+        - reference
+        - brand
+        - description
+        - price
 
 ## Stock
 
@@ -166,10 +169,12 @@ blue: its a gift ticket (optional)
             operations: [
                 {
                     operation: "add", 
-                    brand: "b", 
-                    description: "d", 
                     amount: 2,
-                    price: 20.00
+                    stock: {
+                        brand: "b", 
+                        description: "d", 
+                        price: 20.00
+                    }
                 }
             ] 
         }
@@ -198,7 +203,11 @@ blue: its a gift ticket (optional)
                     brand: "b", 
                     description: "d", 
                     amount: 2,
-                    price: 20.00
+                    stock: {
+                        brand: "b", 
+                        description: "d", 
+                        price: 20.00
+                    }
                 }
             ] 
         }
@@ -229,10 +238,13 @@ blue: its a gift ticket (optional)
             operations: [
                 {
                     operation: "add", 
-                    brand: "b", 
                     description: "d", 
-                    amount: 2,
-                    price: 20.00
+                    brand: "b",
+                    stock: {
+                        brand: "b", 
+                        description: "d", 
+                        price: 20.00
+                    }
                 }
             ] 
         }
@@ -270,10 +282,13 @@ total with discount: 36
                     operation: "add", 
                     brand: "b", 
                     description: "d", 
-                    amount: 2,
-                    price: 20.00,
                     discountValue: 10,
                     discountType: "percentage",
+                    stock: {
+                        brand: "b", 
+                        description: "d", 
+                        price: 20.00
+                    }
                 }
             ] 
         }
