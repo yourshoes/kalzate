@@ -5,14 +5,17 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { ticketList } from 'selectors/tickets';
-import { makeSelectTicketItems, makeSelectTicketID } from './selectors';
+import { makeSelectTicketID } from './selectors';
+import {
+  settings
+} from 'selectors/settings';
 // import { mouseTrap } from 'react-mousetrap';
 // import { createStructuredSelector } from 'reselect';
 // import { push } from 'react-router-redux';
 // import HotKeys from 'utils/hotkeys';
 // import PubSub from 'utils/pubsub';
 import { searchTickets } from './actions';
-import { loadTicket } from 'actions/tickets';
+import { loadTicket, printDailySummaryTicket } from 'actions/tickets';
 // import { selectResources, selectResource } from './selectors';
 import messages from './messages';
 import {
@@ -79,7 +82,9 @@ function SidebarMenu(props) {
       {/* <MenuSearch
         onChange={(field, value, operator = '$eq') => props.searchTickets(field, value, operator)}
       /> */}
-      <MenuFooter to="/tickets" icon="inbox">
+      <MenuFooter to="/tickets" icon="inbox" onClick={() => {
+        props.printDailySummaryTicket(props.settings);
+      }}>
         <FormattedMessage {...messages.cashDrawer} />
       </MenuFooter>
     </Container>
@@ -95,6 +100,7 @@ SidebarMenu.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   ticketList,
+  settings,
   ticketID: makeSelectTicketID(),
 });
 
@@ -102,6 +108,7 @@ function mapDispatchToProps(dispatch) {
   return {
     loadTicket: (ticket) => dispatch(loadTicket(ticket)),
     searchTickets: (field, value, operator) => dispatch(searchTickets(field, value, operator)),
+    printDailySummaryTicket: (settings) => dispatch(printDailySummaryTicket(settings)),
   };
 }
 

@@ -12,6 +12,18 @@ export const dailyTicketIds = () => ({
     skip: 0
 });
 
+export const dailyTicketOperations = () => ({
+    match: {
+        created_at: {
+            $gte: new Date().setHours(0, 0, 0, 0),
+        },
+    },
+    sort: 'created_at',
+    fields: ({ operations }) => operations,
+    limit: null, // no limit
+    skip: 0
+});
+
 export const ticketById = (ticketId) => ({
     match: {
         id: {
@@ -67,6 +79,7 @@ export const weeklyTickets = (limit = 0, skip = 0) => {
 
 export default {
     dailyTicketIds,
+    dailyTicketOperations,
     ticketById,
     ticketByCreationDate,
     ticketMatches,

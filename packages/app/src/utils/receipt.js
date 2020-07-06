@@ -131,12 +131,18 @@ function compileTicketPrintTicketCase(settings, ticket, field, options) {
         .join('\r\n ');
 
     case 'code':
+      if (ticket.isDailySummaryTicket) {
+        return dateFormat(new Date(), 'dd/mm/yyyy HH:MM:ss')
+      }
       return ticket.created_at || new Date().getTime();
     case 'id':
       return ticket.id;
     case 'given':
       return ticket.isGift ? '0.00' : formatPrice(ticketProvidedAmount({ ticket }));
     case 'return':
+      if (ticket.isDailySummaryTicket) {
+        return '0.00'
+      }
       return ticket.isGift ? '0.00' : formatPrice(ticketExchangeAmount({ ticket }));
     case 'total':
       return ticket.isGift ? '0.00' : formatPrice(ticketTotalAmount({ ticket }));
@@ -146,6 +152,9 @@ function compileTicketPrintTicketCase(settings, ticket, field, options) {
       }
       if (ticket.isVoucher) {
         return 'Voucher';
+      }
+      if (ticket.isDailySummaryTicket) {
+        return 'Daily Summary Ticket';
       }
       return 'Ticket';
     default:

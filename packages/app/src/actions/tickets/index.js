@@ -105,3 +105,10 @@ export function getTicketMatchesSuccess(matches) {
         data: matches
     };
 }
+
+export function printDailySummaryTicket(settings) {
+    return {
+        type: ActionTypes.PRINT_DAILY_SUMMARY_TICKET_ACTION,
+        data: settings
+    };
+}

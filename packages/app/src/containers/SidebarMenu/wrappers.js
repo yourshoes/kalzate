@@ -91,7 +91,7 @@ const FooterContent = styled(Link)`
 export function MenuFooter(props) {
   return (
     <Footer>
-      <FooterContent to={props.to}>
+      <FooterContent to={props.to} onClick={props.onClick}>
         <Octicon name={props.icon} /> <EM>{props.children}</EM>
       </FooterContent>
     </Footer>
