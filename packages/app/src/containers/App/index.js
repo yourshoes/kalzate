@@ -92,6 +92,11 @@ class App extends React.Component {
           hint: HotKeys.CREATE_TICKET.keys,
         },
         {
+          value: HotKeys.IMPORT_STOCK.keys,
+          title: messages.importStock.id,
+          hint: HotKeys.IMPORT_STOCK.keys,
+        },
+        {
           value: HotKeys.CHANGE_LANG.keys,
           title: messages.changeLang.id,
           hint: HotKeys.CHANGE_LANG.keys,
@@ -100,11 +105,6 @@ class App extends React.Component {
           value: HotKeys.CHANGE_THEME.keys,
           title: messages.changeTheme.id,
           hint: HotKeys.CHANGE_THEME.keys,
-        },
-        {
-          value: HotKeys.IMPORT_STOCK.keys,
-          title: messages.importStock.id,
-          hint: HotKeys.IMPORT_STOCK.keys,
         },
         {
           value: HotKeys.EXPORT_DATABASE.keys,
