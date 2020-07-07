@@ -260,6 +260,15 @@ class Tickets {
     }
   }
 
+  /**
+   * @method dump
+   * This is a method to export the collection as JSON data
+   * @param {boolean} decrypt
+   */
+  async dump(decrypt = true) {
+    return this.collection.dump(decrypt);
+  }
+
   /** ***************************************************** */
   /*                  PRIVATE METHODS                      */
   /** ***************************************************** */

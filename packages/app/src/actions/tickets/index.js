@@ -78,6 +78,12 @@ export function loadTicket(value, field = 'id') {
     };
 }
 
+export function removeTicket() {
+    return {
+        type: ActionTypes.REMOVE_TICKET_ACTION,
+    };
+}
+
 export function loadTicketSuccess(ticket) {
     return {
         type: ActionTypes.LOAD_TICKET_SUCCESS_ACTION,

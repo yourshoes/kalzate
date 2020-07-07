@@ -49,7 +49,7 @@ function SidebarMenu(props) {
           </MenuItem> */}
         </MenuGroup>
         <MenuGroup>
-          <MenuItem actived={routeName === 'tickets'} noroute>
+          <MenuItem actived={routeName === 'tickets'} to="/tickets" highlight cursor>
             <FormattedMessage {...messages.tickets} />
           </MenuItem>
 

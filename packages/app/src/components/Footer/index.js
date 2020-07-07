@@ -63,7 +63,7 @@ export default function Footer() {
           </ThemeToggle>
           <StatusBarItem>
             <A style={{ secondary: true }}>
-              <Octicon name="sync" />
+              <Octicon name="rocket" />
               <FormattedMessage {...messages.help} />
               {/* <FormattedMessage {...messages.notifications} />*/}
             </A>
