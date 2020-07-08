@@ -53,7 +53,7 @@ export class Voucher extends React.Component {
           value={voucherPaymentConcept}
           icon={<Octicon mega name="gift" verticalAlign='middle' />} />
         <PaymentMethod
-          data-cy={ticketsSelectors.PAYMENT_METHOD_VOUCHER}
+          data-cy={ticketsSelectors.PAYMENT_METHOD_VOUCHER_AMOUNT}
           visible={Boolean(voucherPaymentAmount) === true}
           placeholder={intl.formatMessage(messages.ticket)}
           readonly={true}

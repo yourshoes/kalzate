@@ -161,11 +161,11 @@ class Tickets {
           const id = stock.id;
 
           if (operation === ADD_ITEM_OPERATION) {
-            return this.stock.decreaseAmount({ id, amount });
+            return this.stock && this.stock.decreaseAmount({ id, amount });
           }
 
           if (operation === RETURN_ITEM_OPERATION) {
-            return this.stock.increaseAmount({ id, amount });
+            return this.stock && this.stock.increaseAmount({ id, amount });
           }
         })
       );
@@ -366,7 +366,7 @@ class Tickets {
   validateTicket(ticket) {
     if (!ticket.balance) return 'Ticket balance cannot be empty, use either positive or negative';
     if (isEmpty(ticket.operations)) return 'Ticket operations cannot be empty';
-    if (ticket.balance === 'positive' && isEmpty(ticket.payments)) return 'Ticket payments cannot be empty';
+    if (ticket.balance === 'positive' && !ticket.isChecked && isEmpty(ticket.payments)) return 'Ticket payments cannot be empty';
     return false;
   }
   // validateTicketSold(ticket) {

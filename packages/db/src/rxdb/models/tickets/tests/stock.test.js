@@ -4,7 +4,7 @@ import { getTicketsInstance, isErrorInstanceOf } from './common';
 import { getStockInstance } from '../../stock_basic/tests/common';
 import { validTicketDocument, validStockItem, validAddOperation, validReturnOperation } from './fixtures';
 
-describe('create ticket method', function () {
+describe('create ticket method (stock)', function () {
   let ticketInstance;
   let stockInstance;
   beforeAll(async () => {
@@ -32,7 +32,7 @@ describe('create ticket method', function () {
       ...validTicketDocument,
       operations: [{
         ...validAddOperation,
-        id: stockItemId
+        stock: { ...validAddOperation.stock, id: stockItemId }
       }]
     }
     const case2 = await isErrorInstanceOf(
@@ -49,7 +49,7 @@ describe('create ticket method', function () {
     expect(case3[0].get().amount).toBe(expectedAmount);
   });
 
-  it('should inrease the stock items amount when returning a ticket', async () => {
+  it('should increase the stock items amount when returning a ticket', async () => {
     // Case 1: Create stock item
     const case1 = await isErrorInstanceOf(
       () =>
@@ -64,7 +64,7 @@ describe('create ticket method', function () {
       ...validTicketDocument,
       operations: [{
         ...validReturnOperation,
-        id: stockItemId
+        stock: { ...validAddOperation.stock, id: stockItemId }
       }]
     }
     const case2 = await isErrorInstanceOf(

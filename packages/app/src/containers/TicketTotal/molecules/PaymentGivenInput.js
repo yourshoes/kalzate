@@ -9,7 +9,6 @@ import { PAYMENT_METHOD_CASH, TICKET_SOLD_STATE } from 'config';
 import { isRealNumeric } from 'utils/helper';
 import PaymentSection from '../atoms/PaymentSection';
 import GivenAmount from '../atoms/GivenAmount';
-import { tickets as ticketsSelectors } from '@kalzate/cy';
 
 export class PaymentGiven extends React.Component {
   constructor(props) {
@@ -124,7 +123,6 @@ export class PaymentGiven extends React.Component {
     return (
       <PaymentSection>
         <GivenAmount
-          data-cy={ticketsSelectors.PAYMENT_INPUT}
           type="text"
           innerRef={(input) => (this.input = input)}
           disabled={this.props.method !== PAYMENT_METHOD_CASH}

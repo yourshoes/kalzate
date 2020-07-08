@@ -88,8 +88,18 @@ export const isTicketCheckoutDisabled =
         ticketDomain,
         ticketTotalAmount,
         ticketProvidedAmount,
-        (ticket, totalAmount, providedAmount) => {
-            return isEmpty(ticket.operations) || totalAmount > providedAmount || totalAmount === 0;
+        isNewTicket,
+        (ticket, totalAmount, providedAmount, isNewTicket) => {
+            if (isEmpty(ticket.operations)) {
+                return true;
+            }
+
+            if (isNewTicket) {
+                return totalAmount > providedAmount || totalAmount === 0;
+            }
+
+            return totalAmount > 0 && totalAmount > providedAmount;
+
         }
     );
 

@@ -72,13 +72,13 @@ The `Settings` entity properties are:
 
 total ticket amount is calculated from "add" operations.
 
-Looping over operations we sum up (amount - discount) per each operation of type "add", then we apply global discount and taxes if provided.
+Looping over operations, we sum up (amount - discount) per each operation of type "add", then we apply global discount and taxes if provided.
 
 A global discount is the same as applying that discount to every stock item in the ticket. If a stock item in the ticket already have a local discount, then global discount is not applied to it. Global discount is only applied to stock items in the ticket which has no discount at all applied. All discounts (global & local) are 0 by default
 
 If the operation is of type "return" the total amount will be same as in "add" operation but with a negative value.
 
-In total there will be 3 different screens for the ticket management:
+In total there will be 3 different screens/use cases for the ticket management:
 
 - Base case screen (aka new ticket): 
 
@@ -96,29 +96,25 @@ Note: The taxes is a global setting which is applie automatically to prices when
 
 * E2E cases would at least contain:
 
- - Scenario 1:
-
- Employee creates a new ticket with 2 stock items A,B and amounts 1,2 and 10% discount 
- Then user return stock items A,B with amounts 1,2 as a voucher according to discount applied
-
- - Scenario 2:
+ - Scenario:
 
  prices(A is 10, B is 10, C is 30)
  
-    Column 1        Column 2
- Employee creates a new ticket with 2 stock items A,B and amounts 1,2
-    A 1 10 10       A 1 10 10
-    B 2 10 20       B 2 10 20
- Then user return stock item A with amounts 1 as a voucher
-    A -1 10 -10     A -1 10 -10
- Then user return stock item B with amount 2 and buy stock item C with amount 1 (total amount is positive) and pay with voucher of stock item A
-    B -2 10 -20     B -1 10 -10
-    C  1 30  30     C  1 30  30
- Then user returns stock item C with amount 1 as a voucher 
-    C -1 30 -30     B -1 10 -10
-                    C -1 30 -30
 
- assert user has a voucher of 30 at the end (column 1) or 40 (column 2)
+ Employee creates a new ticket with 2 stock items A,B and amounts 1,2
+    A 1 10 10
+    B 2 10 20
+ Then user return stock item A with amounts 1 as a voucher
+    A -1 10 -10
+ Then user return stock item B with amount 1 and buy stock item C with amount 1 (total amount is positive) and pay with voucher of stock item A and cash
+    B -1 10 -10
+    C  1 30  30
+ Then user returns stock item C with amount 1 and buy stock item B with amount 4 and pays with voucher A but fails because it is already used and then pays with credit card
+    B  4 10  40
+    C -1 30 -30
+
+So far user has paid a total amount of 50
+    B -5 10 -50
 
 * Ticket menu items colors:
 

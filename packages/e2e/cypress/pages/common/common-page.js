@@ -1,6 +1,18 @@
+
+const globals = {};
+
 class CommonPage {
+
   static visit() {
     cy.visit('/');
+  }
+
+  static getGlobal(key, defaultValue) {
+    return global[key] || defaultValue;
+  }
+
+  static setGlobal(key, value) {
+    global[key] = value;
   }
 
   static async clearDB() {

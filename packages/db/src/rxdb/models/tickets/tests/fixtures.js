@@ -2,6 +2,7 @@
 import { ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION } from '../config';
 
 export const validStockItem = {
+  id: 'id',
   reference: 'reference',
   brand: 'brand',
   desc: 'description',
@@ -11,11 +12,8 @@ export const validStockItem = {
 
 export const validAddOperation = {
   operation: ADD_ITEM_OPERATION,
-  reference: 'reference',
-  brand: 'brand',
-  desc: 'description',
   amount: 1,
-  price: 23.75,
+  stock: validStockItem
 }
 
 export const validReturnOperation = {
@@ -66,10 +64,12 @@ export const noPaymentsTicketDocument = {
   payments: null,
   operations: [{
     operation: 'add',
-    reference: 'reference',
-    brand: 'brand',
-    description: 'description',
     amount: 1,
-    price: 23.75
+    stock: {
+      reference: 'reference',
+      brand: 'brand',
+      description: 'description',
+      price: 23.75
+    }
   }],
 };

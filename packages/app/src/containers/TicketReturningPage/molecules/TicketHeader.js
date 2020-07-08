@@ -33,7 +33,9 @@ export class TicketHeader extends React.Component {
         <Section50>
           <SectionRight>
             <Button
+              data-cy={ticketsSelectors.CHECKOUT_BUTTON}
               inactive={this.props.isTicketCheckoutDisabled}
+              disabled={this.props.isTicketCheckoutDisabled}
               icon="check"
               title={<FormattedMessage {...messages.checkoutTicket} />}
               onClick={() =>
@@ -46,10 +48,11 @@ export class TicketHeader extends React.Component {
               }
             />
             <Button
-              data-cy={ticketsSelectors.RETURN_VOUCHER_BUTTON}
+              data-cy={ticketsSelectors.VOUCHER_BUTTON}
               inactive={
                 this.props.isTicketVoucherCheckoutDisabled
               }
+              disabled={this.props.isTicketCheckoutDisabled}
               primary
               icon="gift"
               title={<FormattedMessage {...messages.giftTicket} />}

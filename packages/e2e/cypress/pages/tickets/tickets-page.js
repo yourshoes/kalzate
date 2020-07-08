@@ -1,29 +1,40 @@
 import { stock, tickets } from '../../common/selectors';
 
+const DEFAULT_TICKET_CREATION_TIMEOUT = 2;
+
 class TicketsPage {
+
   static visit() {
     cy.visit('/tickets');
   }
 
-  static addItem(ref) {
-    cy.getCy(stock.ITEMS_LIST)
-      .contains(ref)
-      .closest(`[data-cy="${stock.ITEM}"]`)
-      .find(`[data-cy="${stock.ADD_ITEM_TO_TICKET}"]`)
-      .click({ force: true });
+  static addItem(ref, amount) {
+    for (let i = 0; i < amount; i++) {
+      cy.getCy(stock.ITEMS_LIST)
+        .contains(ref)
+        .closest(`[data-cy="${stock.ITEM}"]`)
+        .find(`[data-cy="${stock.ADD_ITEM_TO_TICKET}"]`)
+        .click({ force: true });
+    }
   }
 
-  static returnItem(ref) {
-    cy.getCy(tickets.RETURN_ITEMS_LIST)
-      .contains(ref)
-      .closest(`[data-cy="${tickets.RETURN_ITEM_ROW}"]`)
-      .find(`[data-cy="${tickets.INCREASE_RETURN_ITEM_BUTTON}"]`)
-      .click({ force: true });
+  static returnItem(ref, amount) {
+    for (let i = 0; i < amount; i++) {
+      cy.getCy(tickets.RETURN_ITEMS_LIST)
+        .contains(ref)
+        .closest(`[data-cy="${tickets.RETURN_ITEM_ROW}"]`)
+        .find(`[data-cy="${tickets.INCREASE_RETURN_ITEM_BUTTON}"]`)
+        .click({ force: true });
+    }
   }
 
   static pay({ method, amount }) {
-    cy.getCy(method).click({ force: true });
-    cy.getCy(tickets.PAYMENT_INPUT).type(amount);
+    if (method === tickets.PAYMENT_METHOD_VOUCHER) {
+      cy.getCy(method).type(`${amount}{enter}`);
+      cy.wait(DEFAULT_TICKET_CREATION_TIMEOUT * 1000);
+      return;
+    }
+    cy.getCy(method).type(amount);
   }
 
   static openLastTicket() {
@@ -33,25 +44,24 @@ class TicketsPage {
       .click({ force: true });
   }
 
+  static getLastTicketId(fn) {
+    cy.getCy(tickets.TICKETS_LIST)
+      .find('li')
+      .last()
+      .then(($li) => fn($li.text()));
+  }
+
   static checkout() {
-    cy.getCy(tickets.SELL_CHECKOUT_BUTTON).should('not.be.disabled');
-    cy.getCy(tickets.SELL_CHECKOUT_BUTTON).click({ force: true });
+    cy.getCy(tickets.CHECKOUT_BUTTON).click({ force: true });
+    cy.wait(DEFAULT_TICKET_CREATION_TIMEOUT * 1000);
   }
 
   static voucher() {
-    cy.getCy(tickets.RETURN_VOUCHER_BUTTON).should('not.be.disabled');
-    cy.getCy(tickets.RETURN_VOUCHER_BUTTON).click({ force: true });
-    //voucher operation takes a while so we need to wait
-    cy.wait(1000);
-  }
-
-  static save() {
-    cy.getCy(tickets.SELL_SAVE_BUTTON).should('not.be.disabled');
-    cy.getCy(tickets.SELL_SAVE_BUTTON).click({ force: true });
+    cy.getCy(tickets.VOUCHER_BUTTON).click({ force: true });
+    cy.wait(DEFAULT_TICKET_CREATION_TIMEOUT * 1000);
   }
 
   static newTicket() {
-    cy.getCy(tickets.NEW_TICKET_BUTTON).should('not.be.disabled');
     cy.getCy(tickets.NEW_TICKET_BUTTON).click({ force: true });
   }
 }

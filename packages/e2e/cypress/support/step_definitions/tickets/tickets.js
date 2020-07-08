@@ -11,43 +11,51 @@ Given(/^I visit the tickets page$/, () => {
 });
 
 And(/^I have stock$/, () => {
-  StockPage.createNewItem({ ref: 'itemRef', price: 27.5, amount: 5 });
-  StockPage.createNewItem({ ref: 'itemRef2', price: 10.0, amount: 5 });
+  StockPage.createNewItem({ ref: 'itemRefA', price: 10.0, amount: 10 });
+  StockPage.createNewItem({ ref: 'itemRefB', price: 10.0, amount: 10 });
+  StockPage.createNewItem({ ref: 'itemRefC', price: 30.0, amount: 10 });
 });
 
 When(/^I create a new ticket with some items from the stock$/, () => {
-  TicketsPage.addItem('itemRef');
-  TicketsPage.addItem('itemRef2');
-});
-
-And(/^I pay the ticket with a payment method$/, () => {
-  TicketsPage.pay({ method: tickets.PAYMENT_METHOD_CASH, amount: 40 });
-});
-
-Then(/^I can sell the ticket$/, () => {
+  TicketsPage.addItem('itemRefA', 1);
+  TicketsPage.addItem('itemRefB', 2);
+  TicketsPage.pay({ method: tickets.PAYMENT_METHOD_CREDIT_CARD, amount: 30 });
   TicketsPage.checkout();
+  TicketsResultsPage.expectToHaveTickets(1);
 });
 
-And(/^I can return the ticket items$/, () => {
+Then(/^I can return it as a ticket voucher$/, () => {
   TicketsPage.openLastTicket();
-  TicketsPage.returnItem('itemRef');
-});
-
-Then(/^I can get a ticket voucher$/, () => {
+  TicketsPage.returnItem('itemRefA', 1);
   TicketsPage.voucher();
-  TicketsResultsPage.expect().toHaveItems(2);
+  TicketsResultsPage.expectToHaveTickets(2);
 });
 
-And(/^I can save the ticket$/, () => {
-  TicketsPage.save();
-  TicketsPage.newTicket();
-});
-
-And(/^I create a new ticket with one item from the stock$/, () => {
-  TicketsPage.addItem('itemRef');
-});
-
-Then(/^I can open back the saved ticket$/, () => {
+And(/^I can create a new ticket and pay with the ticket voucher$/, () => {
   TicketsPage.openLastTicket();
-  TicketsResultsPage.expect().toHaveItems(1);
+  TicketsPage.returnItem('itemRefB', 2);
+  TicketsPage.addItem('itemRefC', 1);
+  TicketsPage.getLastTicketId((id) => {
+    CommonPage.setGlobal('voucherId', id)
+    TicketsPage.pay({ method: tickets.PAYMENT_METHOD_VOUCHER, amount: CommonPage.getGlobal('voucherId') });
+    TicketsPage.checkout();
+    TicketsResultsPage.expectToHaveTickets(3);
+  });
+});
+
+And(/^I can create a new ticket but cannot pay again with the same ticket voucher$/, () => {
+  TicketsPage.addItem('itemRefA', 1);
+  TicketsPage.pay({ method: tickets.PAYMENT_METHOD_VOUCHER, amount: CommonPage.getGlobal('voucherId') });
+  TicketsResultsPage.expectCheckoutButtonDisabled(true);
+  TicketsPage.checkout();
+  TicketsResultsPage.expectToHaveTickets(3);
+});
+
+Then(/^I can return some items and buy new ones for the same amount without paying$/, () => {
+  TicketsPage.openLastTicket();
+  TicketsPage.returnItem('itemRefA', 1);
+  TicketsPage.addItem('itemRefB', 1);
+  TicketsResultsPage.expectCheckoutButtonDisabled(false);
+  TicketsPage.checkout();
+  TicketsResultsPage.expectToHaveTickets(2);
 });
