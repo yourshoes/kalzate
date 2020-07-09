@@ -1,9 +1,8 @@
 {
-  "name": "@kalzate/electron",
+  "name": "@kalzate/desktop",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Serverless Point Of Sale App For Humans",
-  "main": "index.prod.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kalzate/kalzate.git"
@@ -15,7 +14,7 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production electron-builder",
-    "prebuild": "cross-env NODE_ENV=production yarn --cwd ../app build && mv ../app/build build && cp desktop/* build",
+    "prebuild": "cross-env NODE_ENV=production yarn --cwd ../app build && mv ../app/build build && cp src/* build && cp public/* build",
     "postbuild": "rm -rf build"
   },
   "devDependencies": {

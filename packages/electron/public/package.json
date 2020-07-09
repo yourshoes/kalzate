@@ -1,7 +1,7 @@
 {
   "name": "@kalzate/desktop",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Serverless Point Of Sale App For Humans",
   "main": "index.prod.js",
   "repository": {
