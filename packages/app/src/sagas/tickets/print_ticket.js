@@ -18,9 +18,12 @@ function* printTicket(action) {
   try {
     const { content, printerName, printerIP } = action;
 
-    console.log(content, printerName, printerIP);
     if(window.isElectron){
       print(content, { printerName, printerIP });
+    }
+    else {
+      console.log(content, printerName, printerIP);
+
     }
     
     yield put({

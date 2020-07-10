@@ -38,7 +38,7 @@ export const DEFAULT_TICKET_TEMPLATE = `MY STORE {{shop name}}
   Amount: {{ticket given}},
   Return: {{ticket return}}
  
-  RETURNS ADMITTED BETWEEN {{ticket date "dd/mm/yyyy"}} AND {{ticket return_date 15 "dd/mm/yyyy"}} 
+  RETURNS BETWEEN {{ticket date "dd/mm/yyyy"}} AND {{ticket return_date 15 "dd/mm/yyyy"}} 
  
   *** THANKS FOR SHOPPING AT {{shop name}} ***
  

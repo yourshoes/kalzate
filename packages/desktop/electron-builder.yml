@@ -2,21 +2,21 @@
 appId: com.kalzate
 productName: Kalzate
 copyright: Copyright © 2020 ${author}
-# win:
-#     target:
-#     - target: portable
-#     icon: build/kalzate-icon.ico
-#     legalTrademarks: Github
+win:
+    target:
+    - target: portable
+    icon: build/kalzate-icon.ico
+    legalTrademarks: Github
 # linux:
 #     target:
 #     - target: deb
 #     - target: zip
 #     icon: build/kalzate-icon.ico
 #     category: Development
-mac:
-    target:
-    - target: dmg
-    - target: zip
+# mac:
+#     target:
+#     - target: dmg
+#     - target: zip
 directories:
     output: release
     app: build
