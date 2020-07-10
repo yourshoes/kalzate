@@ -43,8 +43,16 @@ function* closeTicket(action) {
 
     yield put({
       content: ticketReceipt,
-      printerName: settings.printerName,
-      printerIP: settings.printerIP,
+      options: {
+        printerName: settings.printerName,
+        printerIp: settings.printerIP,
+        printerWidth: '58mm',     
+        image: {
+          type: 'qrcode',
+          value: createdTicket.created_at,
+        },     
+        copies: 1,     
+      },
       type: PRINT_TICKET_ACTION,
     });
 
