@@ -10,7 +10,7 @@
     "sonar": "sonar-scanner"
   },
   "dependencies": {
-    "sonarqube-scanner": "^2.4.0",
-    "lerna": "^3.13.1"
+    "lerna": "^3.22.1",
+    "sonarqube-scanner": "^2.4.0"
   }
 }
