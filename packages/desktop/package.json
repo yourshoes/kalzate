@@ -15,11 +15,12 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production electron build",
     "prestart": "yarn make",
-    "make": "cross-env NODE_ENV=production rm -rf build && yarn rebuild && yarn --cwd ../app build && mv ../app/build build && cp -r src/* build && cp -r public/* build",
-    "rebuild": "electron-rebuild"
+    "make": "cross-env NODE_ENV=production rm -rf build && yarn rebuild && yarn --cwd ../app build && mv ../app/build build && cp -r src/* build && cp -r public/* build"
   },
   "dependencies": {
-    "printer": "^0.4.0",
+    "printer": "^0.4.0"
+  },
+  "devDependencies": {
     "cross-env": "5.2.0",
     "electron": "2.0.8",
     "electron-rebuild": "^1.11.0"
