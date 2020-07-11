@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "react-scripts test",
-    "test:ci": "echo 2"
+    "ci": "echo 2"
   },
   "dependencies": {
     "styled-components": "2.1.2"

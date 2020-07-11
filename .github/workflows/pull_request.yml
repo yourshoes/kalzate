@@ -24,4 +24,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm i -g yarn@1
       - run: yarn --frozen-lockfile
-      - run: yarn run test:ci
+      - run: yarn run ci
