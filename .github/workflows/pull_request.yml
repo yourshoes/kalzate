@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  tests:
+  unit-tests:
     name: node ${{ matrix.node-version }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
