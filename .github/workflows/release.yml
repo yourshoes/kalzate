@@ -24,7 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install ubuntu deps
         if: runner.os == 'Linux'
-        run: sudo apt-get install -y libcups2-dev cups-config
+        run: sudo apt-get install -y libcups2-dev
         shell: bash
       # - name: Install windows deps
       #   if: runner.os == 'Windows'
