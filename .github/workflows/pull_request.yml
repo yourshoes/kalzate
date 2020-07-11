@@ -21,6 +21,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm i -g yarn@1
       - run: yarn --frozen-lockfile
-      - run: npm run ci
+      - run: cd ./packages/db/ && npm run ci
+        env:
+          CI: true
+      - run: cd ./packages/ui/ && npm run ci
         env:
           CI: true
