@@ -32,7 +32,7 @@ jobs:
       #   if: runner.os == 'macOS'
       #   run: xcode-select --install
       - run: npm i -g yarn@1
-      - run: yarn --frozen-lockfile
+      - run: yarn
       - run: yarn run make
         working-directory: packages/desktop
       - name: Release Electron app
