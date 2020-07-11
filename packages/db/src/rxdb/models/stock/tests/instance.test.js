@@ -2,11 +2,11 @@
 'use strict';
 
 import { expect } from 'chai';
-import Stock, { Stock as StockModel } from 'models/stock';
+import Stock, { Stock as StockModel } from '../';
 import { NoDatabaseFoundError } from '../../../errors/db';
 import { getStockInstance, isErrorInstanceOf } from './common';
 
-describe('Stock instance', function() {
+describe('Stock instance', function () {
   it('should throw error if no rx database is given', async () => {
     //@todo waiting for https://github.com/chaijs/chai/issues/930
     //expect(e).to.be.an.error(NoDatabaseFoundError);

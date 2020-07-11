@@ -20,12 +20,15 @@ export const getStockInstance = async (
   }
 ) => Stock(await create(dbOptions));
 
-export const isErrorInstanceOf = async (fn, ErrorType) => {
+export const isErrorInstanceOf = async (fn, ErrorType, debug = false) => {
   let error = {};
   let data;
   try {
     data = await fn();
   } catch (e) {
+    if (debug) {
+      console.error(e)
+    }
     error = e;
   }
   const { title, code } = new ErrorType();

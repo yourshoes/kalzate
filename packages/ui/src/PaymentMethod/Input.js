@@ -131,14 +131,12 @@ export class Input extends React.Component {
 
         if (value.includes('.') && selectionStart > value.indexOf('.')) {
             const amount = value.substr(0, value.indexOf('.') + 3);
-            console.log(amount)
             this.setState(
                 { value: amount, cursorStart: selectionStart, cursorEnd: selectionEnd }
             );
             return this.props.onChange(Number(amount))
         }
 
-        console.log('here', value)
         this.setState(
             { value, cursorStart: selectionStart, cursorEnd: selectionEnd }
         );

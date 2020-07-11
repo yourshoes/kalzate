@@ -18,7 +18,7 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     show: false,
-    frame: true,
+    frame: false,
     height: 600,
     width: 800,
     'min-height': 500,
@@ -53,7 +53,7 @@ function createWindow() {
   );
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -61,7 +61,7 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
-    if(app) app.quit();
+    if (app) app.quit();
   });
 
 }
