@@ -6,10 +6,23 @@
 
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectMethod } from './selectors';
 import { PaymentMethods } from './molecules/PaymentMethods';
-import { setMethod } from './actions';
+import { updateTicketPayment, addVoucherPaymentAmount, removeVoucherPaymentAmount } from 'actions/tickets';
+import {
+  isTicketReadOnly,
+  ticketTotalAmount,
+  ticketRemainingAmount,
+  ticketCreditCardPaymentAmount,
+  ticketCashPaymentAmount,
+  ticketVoucherPaymentAmount,
+  ticketVoucherPaymentConcept
+} from 'selectors/tickets';
+
+import {
+  ticketVoucherPaymentError
+} from 'selectors/tmp';
 
 export class TicketPayments extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -24,17 +37,26 @@ export class TicketPayments extends React.Component {
 
 TicketPayments.propTypes = {
   method: PropTypes.string,
-  setMethod: PropTypes.func.isRequired,
+  updateTicketPayment: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    setMethod: (method) => dispatch(setMethod(method)),
+    updateTicketPayment: (payment) => dispatch(updateTicketPayment(payment)),
+    addVoucherPaymentAmount: (voucherId) => dispatch(addVoucherPaymentAmount(voucherId)),
+    removeVoucherPaymentAmount: () => dispatch(removeVoucherPaymentAmount()),
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  method: makeSelectMethod(),
+  isTicketReadOnly,
+  ticketVoucherPaymentError,
+  totalAmount: ticketTotalAmount,
+  remainingAmount: ticketRemainingAmount,
+  creditCardPaymentAmount: ticketCreditCardPaymentAmount,
+  cashPaymentAmount: ticketCashPaymentAmount,
+  voucherPaymentAmount: ticketVoucherPaymentAmount,
+  voucherPaymentConcept: ticketVoucherPaymentConcept
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TicketPayments);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(TicketPayments));

@@ -33,6 +33,8 @@ import StockModal from 'containers/StockItems/molecules/StockModal';
 import { makeSelectLoading } from './selectors';
 import { Section, Article, Toolbar } from './wrappers';
 import messages from './messages';
+import { exportDatabase } from 'actions/app'
+import { removeTicket } from 'actions/tickets'
 
 class App extends React.Component {
   constructor(props) {
@@ -40,9 +42,9 @@ class App extends React.Component {
     this.state = { blur: false };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // Electron requires this becuase it goes by default to not found route
-    if(window.isElectron){
+    if (window.isElectron) {
       this.props.router.push('/');
     }
   }
@@ -53,6 +55,16 @@ class App extends React.Component {
 
     // Subscribe to hotkeys
     this.props.bindShortcut(HotKeys.IMPORT_STOCK.keys, this.openImportStockModal.bind(this));
+
+    // Subscribe to hotkeys
+    this.props.bindShortcut(HotKeys.EXPORT_DATABASE.keys, () => this.props.dispatch(exportDatabase()));
+
+    // Subscribe to hotkeys
+    this.props.bindShortcut(HotKeys.CREATE_TICKET.keys, () => {
+      console.log('here??')
+      this.props.dispatch(removeTicket());
+      this.props.router.push('/tickets');
+    });
 
     // Subscribe to hotkeys
     this.props.bindShortcut(HotKeys.RESET_DB.keys, () => ResetDatabase());
@@ -75,6 +87,16 @@ class App extends React.Component {
     PubSub.publish(PubSub.topics.FUZZY_FINDER_REQUIRED, {
       items: [
         {
+          value: HotKeys.CREATE_TICKET.keys,
+          title: messages.createTicket.id,
+          hint: HotKeys.CREATE_TICKET.keys,
+        },
+        {
+          value: HotKeys.IMPORT_STOCK.keys,
+          title: messages.importStock.id,
+          hint: HotKeys.IMPORT_STOCK.keys,
+        },
+        {
           value: HotKeys.CHANGE_LANG.keys,
           title: messages.changeLang.id,
           hint: HotKeys.CHANGE_LANG.keys,
@@ -85,14 +107,9 @@ class App extends React.Component {
           hint: HotKeys.CHANGE_THEME.keys,
         },
         {
-          value: HotKeys.IMPORT_STOCK.keys,
-          title: messages.importStock.id,
-          hint: HotKeys.IMPORT_STOCK.keys,
-        },
-        {
-          value: HotKeys.EXPORT_STOCK.keys,
-          title: messages.exportStock.id,
-          hint: HotKeys.EXPORT_STOCK.keys,
+          value: HotKeys.EXPORT_DATABASE.keys,
+          title: messages.exportDatabase.id,
+          hint: HotKeys.EXPORT_DATABASE.keys,
         },
         {
           value: HotKeys.RESET_DB.keys,

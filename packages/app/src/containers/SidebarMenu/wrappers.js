@@ -8,7 +8,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Octicon from 'react-octicon';
 import { Link } from 'react-router';
-import { TICKET_SAVE_STATE, TICKET_SOLD_STATE, TICKET_RETURN_STATE } from 'config';
+import { TICKET_POSITIVE_BALANCE, TICKET_NEGATIVE_BALANCE } from 'config';
 export const Container = styled.div`
   display: flex;
   background-color: ${(props) =>
@@ -53,8 +53,8 @@ const Footer = styled.div`
   font-size: 1.5em;
   text-align: center;
   display: table;
-  border-top: ${(props) =>
-    props.theme && props.theme.app.border ? props.theme.app.border : '1px solid #27292c'};
+  /*border-top: ${(props) =>
+    props.theme && props.theme.app.border ? props.theme.app.border : '1px solid #27292c'};*/
 `;
 const EM = styled.em`
   font-size: 1em;
@@ -83,15 +83,15 @@ const FooterContent = styled(Link)`
       : 'rgba(163, 168, 174, 0.5)'};
   &:hover {
     color: ${(props) =>
-      props.theme && props.theme.sidebar.hoverColor
-        ? props.theme.sidebar.hoverColor
-        : 'rgba(163, 168, 174, 0.8)'};
+    props.theme && props.theme.sidebar.hoverColor
+      ? props.theme.sidebar.hoverColor
+      : 'rgba(163, 168, 174, 0.8)'};
   }
 `;
 export function MenuFooter(props) {
   return (
     <Footer>
-      <FooterContent to={props.to}>
+      <FooterContent to={props.to} onClick={props.onClick}>
         <Octicon name={props.icon} /> <EM>{props.children}</EM>
       </FooterContent>
     </Footer>
@@ -125,39 +125,39 @@ const SearchInput = styled.input`
   &::-webkit-input-placeholder {
     /* WebKit, Blink, Edge */
     color: ${(props) =>
-      props.theme && props.theme.sidebar.placeholderColor
-        ? props.theme.sidebar.placeholderColor
-        : 'rgba(163, 168, 174, 0.3)'}
+    props.theme && props.theme.sidebar.placeholderColor
+      ? props.theme.sidebar.placeholderColor
+      : 'rgba(163, 168, 174, 0.3)'}
   }
   &:-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
     color: ${(props) =>
-      props.theme && props.theme.sidebar.placeholderColor
-        ? props.theme.sidebar.placeholderColor
-        : 'rgba(163, 168, 174, 0.3)'}
+    props.theme && props.theme.sidebar.placeholderColor
+      ? props.theme.sidebar.placeholderColor
+      : 'rgba(163, 168, 174, 0.3)'}
     opacity: 1;
   }
   &::-moz-placeholder {
     /* Mozilla Firefox 19+ */
     color: ${(props) =>
-      props.theme && props.theme.sidebar.placeholderColor
-        ? props.theme.sidebar.placeholderColor
-        : 'rgba(163, 168, 174, 0.3)'}
+    props.theme && props.theme.sidebar.placeholderColor
+      ? props.theme.sidebar.placeholderColor
+      : 'rgba(163, 168, 174, 0.3)'}
     opacity: 1;
   }
   &:-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     color: ${(props) =>
-      props.theme && props.theme.sidebar.placeholderColor
-        ? props.theme.sidebar.placeholderColor
-        : 'rgba(163, 168, 174, 0.3)'}
+    props.theme && props.theme.sidebar.placeholderColor
+      ? props.theme.sidebar.placeholderColor
+      : 'rgba(163, 168, 174, 0.3)'}
   }
   &::-ms-input-placeholder {
     /* Microsoft Edge */
     color: ${(props) =>
-      props.theme && props.theme.sidebar.placeholderColor
-        ? props.theme.sidebar.placeholderColor
-        : 'rgba(163, 168, 174, 0.3)'}
+    props.theme && props.theme.sidebar.placeholderColor
+      ? props.theme.sidebar.placeholderColor
+      : 'rgba(163, 168, 174, 0.3)'}
   }
 `;
 
@@ -222,10 +222,10 @@ transition: color .5s ease-in-out;
 cursor:pointer;
  &:hover {
     color: ${
-      props.theme && props.theme.sidebar.hoverColor
-        ? props.theme.sidebar.hoverColor
-        : 'rgba(163, 168, 174, 0.8)'
-    };
+  props.theme && props.theme.sidebar.hoverColor
+    ? props.theme.sidebar.hoverColor
+    : 'rgba(163, 168, 174, 0.8)'
+  };
   }`;
 
 const route = `
@@ -247,9 +247,10 @@ const Item = styled.li`
   font-weight: ${(props) => (props.highlight ? '100' : '100')};
   -webkit-font-smoothing: antialiased;
   font-variant: all-petite-caps;
-  ${(props) => (props.cursor ? cursor(props) : '')};
+  ${(props) => (!props.disabled && props.cursor ? cursor(props) : '')};
   border-left: 5px solid transparent;
   ${(props) => (props.actived ? route : '')};
+  ${(props) => (props.disabled ? 'color: rgba(163, 168, 174, 0.3);' : '')};
 `;
 const P = styled.p`
   padding: 0 30px;
@@ -264,17 +265,17 @@ const P = styled.p`
 `;
 const actived = (props) => `
     color: ${
-      props.theme && props.theme.sidebar.hoverColor
-        ? props.theme.sidebar.hoverColor
-        : 'rgba(163, 168, 174, 0.8)'
-    };
+  props.theme && props.theme.sidebar.hoverColor
+    ? props.theme.sidebar.hoverColor
+    : 'rgba(163, 168, 174, 0.8)'
+  };
 `;
 const notActived = (props) => `
     color: ${
-      props.theme && props.theme.sidebar.color
-        ? props.theme.sidebar.color
-        : 'rgba(163, 168, 174, 0.5)'
-    };
+  props.theme && props.theme.sidebar.color
+    ? props.theme.sidebar.color
+    : 'rgba(163, 168, 174, 0.5)'
+  };
 `;
 const Route = styled(Link)`
   transition: color 0.5s ease-in-out;
@@ -284,9 +285,9 @@ const Route = styled(Link)`
   margin: 0;
   &:hover {
     color: ${(props) =>
-      props.theme && props.theme.sidebar.hoverColor
-        ? props.theme.sidebar.hoverColor
-        : 'rgba(163, 168, 174, 0.8)'};
+    props.theme && props.theme.sidebar.hoverColor
+      ? props.theme.sidebar.hoverColor
+      : 'rgba(163, 168, 174, 0.8)'};
   }
 `;
 
@@ -302,22 +303,22 @@ const TicketStateSpan = styled.span`
 //   background-color: rgba(163, 168, 174, 0.6);
 // `;
 const TicketSaveStateSpan = styled(TicketStateSpan)`
-  background-color: rgba(115, 201, 144, 1);
+  background-color: rgba(100, 148, 237, 1);
 `;
 const TicketSoldStateSpan = styled(TicketStateSpan)`
-  background-color: rgba(100, 148, 237, 1);
+  background-color: rgba(115, 201, 144, 1);
 `;
 const TicketReturnStateSpan = styled(TicketStateSpan)`
   background-color: rgba(226, 192, 141, 1);
 `;
-const getTicketState = (state) => {
-  if (state === TICKET_SAVE_STATE) {
-    return <TicketSaveStateSpan title={'saved'} />;
-  }
-  if (state === TICKET_SOLD_STATE) {
+const getTicketState = (balance) => {
+  // if (balance === 'positive') {
+  //   return <TicketSaveStateSpan title={'saved'} />;
+  // }
+  if (balance === TICKET_POSITIVE_BALANCE) {
     return <TicketSoldStateSpan title={'sold'} />;
   }
-  if (state === TICKET_RETURN_STATE) {
+  if (balance === TICKET_NEGATIVE_BALANCE) {
     return <TicketReturnStateSpan title={'return'} />;
   }
 };
@@ -328,22 +329,25 @@ export function MenuItem(props) {
       cursor={props.cursor}
       highlight={props.highlight}
       actived={props.actived}
-      onClick={(event) => (props.onClick ? props.onClick(event) : null)}
+      onClick={(event) => props.onClick ? props.onClick(event) : null}
+      disabled={props.disabled}
     >
-      {props.to ? (
-        <Route to={props.to} actived={props.actived}>
-          <P selected={props.selected}>
-            {props.children}
-            {!!props.state && getTicketState(props.state)}
-          </P>
-        </Route>
-      ) : (
-        <P selected={props.selected} noroute={props.noroute}>
-          {props.children}
-          {!!props.state && getTicketState(props.state)}
-        </P>
-      )}
-    </Item>
+      {
+        props.to ? (
+          <Route to={props.to} actived={props.actived}>
+            <P selected={props.selected}>
+              {props.children}
+              {!!props.state && getTicketState(props.state)}
+            </P>
+          </Route>
+        ) : (
+            <P selected={props.selected} noroute={props.noroute}>
+              {props.children}
+              {!!props.state && getTicketState(props.state)}
+            </P>
+          )
+      }
+    </Item >
   );
 }
 

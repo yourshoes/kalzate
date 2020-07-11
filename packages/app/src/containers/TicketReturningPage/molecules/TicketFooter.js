@@ -26,22 +26,22 @@ export class TicketFooter extends React.Component {
       <TicketSectionContainer>
         <Section50>
           <SectionLeft>
-            <TicketVatField
+            {/* <TicketVatField
               tax={this.props.ticket.tax}
               updateTax={(tax) => this.props.updateTicketTax(tax)}
-            />
+            /> */}
           </SectionLeft>
           <SectionLeft>
-            <TicketDiscountField
+            {/* <TicketDiscountField
               discount={this.props.ticket.discount}
               updateDiscount={(discount) => this.props.updateTicketDiscount(discount)}
-            />
+            /> */}
           </SectionLeft>
         </Section50>
         <Section50>
           <SectionRight>
-            <Button inactive={isEmpty(this.props.ticket.items)} icon="cloud-download" title={<FormattedMessage {...messages.printTicket} />} onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SAVE_STATE })} />
-            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="trashcan" title={<FormattedMessage {...messages.newTicket} />} onClick={() => this.props.removeTicket()} />
+            {/* <Button inactive={this.props.isEmptyTicket} icon="cloud-download" title={<FormattedMessage {...messages.printTicket} />} onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SAVE_STATE })} /> */}
+            <Button inactive={this.props.isEmptyTicket} primary icon="trashcan" title={<FormattedMessage {...messages.newTicket} />} onClick={() => this.props.removeTicket()} />
             {/* Full ticket displays a modal where user can edit the final content of the ticket, useful in same cases */}
             {/* <Button icon="checklist" title="Full Ticket" /> */}
           </SectionRight>

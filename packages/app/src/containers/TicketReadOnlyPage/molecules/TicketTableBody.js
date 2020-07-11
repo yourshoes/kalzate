@@ -5,45 +5,113 @@
 
 /* System imports */
 import React from 'react';
-import { formatDescription } from 'utils/ticket';
+import { FormattedMessage } from 'react-intl';
+import messages from '../messages';
 import TicketTableBodyContainer from '../atoms/TicketTableBodyContainer';
 import HeightAdapterContainer from '../atoms/HeightAdapterContainer';
 import TicketTableRowContainer from '../atoms/TicketTableRowContainer';
 import TicketTableField from './TicketTableField';
-import { TICKET_RETURN_STATE, TICKET_SOLD_STATE } from 'config';
+import TicketTableAmountField from './TicketTableAmountField';
+import { getSubtotal, formatDescription, formatDecimalPlaces } from 'utils/ticket';
 
 export class TicketTableBody extends React.Component {
-  getSubtotal(item) {
-    if (this.props.ticket.state === TICKET_SOLD_STATE) {
-      return (item.price * item.amount).toFixed(2);
+  getTicketItemAddedAmount(stock, operation) {
+
+    if (!operation.addedAmount && !operation.previousAddedAmount) {
+      return (<TicketTableField placeholder={operation.amount} readonly />);
     }
 
-    return item.wasAdded
-      ? (item.price * (item.amount || 0)).toFixed(2)
-      : (-item.price * (item.wasReturned || 0)).toFixed(2);
+    if (!operation.previousAddedAmount) {
+      return (<TicketTableField placeholder={operation.addedAmount} readonly />);
+    }
+
+    return (
+
+      <TicketTableAmountField
+        placeholder={operation.addedAmount}
+        info={<FormattedMessage {...messages.addedAmountInfoTooltip}
+          values={{
+            amount: operation.previousAddedAmount
+          }} />}
+        readonly
+      />
+
+    )
+
   }
 
-  getReturned(item) {
-    if (item.amount_return_prev !== (item.wasReturned || 0)) {
-      return `${item.wasReturned || 0} (${item.amount_return_prev})`;
+  getTicketItemRemovedAmount(_, operation) {
+
+    if (!operation.removedAmount && !operation.previousRemovedAmount) {
+      return (<TicketTableField placeholder="0" readonly />);
     }
-    return `${item.wasReturned || 0}`;
+
+    console.log('operation!!!', operation)
+    if (operation.previousRemovedAmount) {
+      return (
+        <TicketTableAmountField
+          placeholder={operation.removedAmount}
+          info={<FormattedMessage {...messages.removedAmountInfoTooltip}
+            values={{
+              amount: operation.previousRemovedAmount
+            }} />}
+          readonly
+        />
+      )
+    }
+
+    return (
+      <TicketTableAmountField
+        placeholder={operation.removedAmount}
+        readonly
+      />
+    )
+
   }
+
+  getTicketItemSubtotalAmount(stock, operation) {
+
+    if (operation.amount) {
+      return (<TicketTableField
+        placeholder={formatDecimalPlaces(getSubtotal({ stock, ...operation }))}
+        readonly
+      />)
+    }
+
+    if (operation.addedAmount > 0) {
+      return (<TicketTableField
+        placeholder={formatDecimalPlaces(getSubtotal({ stock, ...operation, amount: operation.addedAmount }))}
+        readonly
+      />)
+    }
+
+    return (<TicketTableField
+      placeholder={formatDecimalPlaces(getSubtotal({ stock, ...operation, amount: operation.removedAmount }))}
+      readonly
+    />)
+
+  }
+
+  getTicketItemDiscount(stock, operation) {
+
+    return <TicketTableField placeholder={operation.discountValue || '0'} readonly />
+
+  }
+
 
   render() {
     return (
       <HeightAdapterContainer>
         <TicketTableBodyContainer>
-          {this.props.ticket.items.map((item, i) => (
-            <TicketTableRowContainer key={i} even={(i + 1) % 2} highlight={item.amount_return}>
-              <TicketTableField placeholder={item.reference} readonly />
-              <TicketTableField placeholder={formatDescription(item)} readonly bigger />
-              <TicketTableField placeholder={item.price.toFixed(2)} readonly />
-              <TicketTableField placeholder={item.amount || 0} readonly />
-              {this.props.ticket.state === TICKET_RETURN_STATE && (
-                <TicketTableField placeholder={this.getReturned(item)} readonly />
-              )}
-              <TicketTableField placeholder={this.getSubtotal(item)} readonly />
+          {this.props.ticketOperations.map(({ stock, ...operation }, i) => (
+            <TicketTableRowContainer key={i} even={(i + 1) % 2}>
+              <TicketTableField placeholder={stock.reference} readonly />
+              <TicketTableField placeholder={formatDescription(stock)} readonly bigger />
+              <TicketTableField placeholder={formatDecimalPlaces(stock.price)} readonly />
+              {this.getTicketItemAddedAmount(stock, operation)}
+              {this.getTicketItemRemovedAmount(stock, operation)}
+              {this.getTicketItemDiscount(stock, operation)}
+              {this.getTicketItemSubtotalAmount(stock, operation)}
             </TicketTableRowContainer>
           ))}
         </TicketTableBodyContainer>

@@ -6,6 +6,7 @@
 export const DEFAULT_COUNTRY = 'spain';
 export const DEFAULT_LOCALE = 'en';
 export const DEFAULT_TIMEZONE = 'Europe/Madrid';
+export const DEFAULT_CURRENCY = '€';
 export const DEFAULT_NAME = 'Kalzate';
 export const DEFAULT_THEME = 'monokai';
 export const DEFAULT_EMAIL = 'zurisadai.pabon@gmail.com';
@@ -33,19 +34,21 @@ export const DEFAULT_TICKET_TEMPLATE = `MY STORE {{shop name}}
  --------------------------------------------
                            TOTAL: {{ticket total}}
  
-  Method: {{ticket payment}}, 
+  {{ticket payment}}
   Amount: {{ticket given}},
   Return: {{ticket return}}
  
-  RETURNS ADMITTED BETWEEN {{ticket date "dd/mm/yyyy"}} AND {{ticket return_date 15 "dd/mm/yyyy"}} 
+  RETURNS BETWEEN {{ticket date "dd/mm/yyyy"}} AND {{ticket return_date 15 "dd/mm/yyyy"}} 
  
   *** THANKS FOR SHOPPING AT {{shop name}} ***
  
  -   -   -   -   -   -   -   -   -   -   -`;
 
 export const DEFAULT_STOCK_ITEMS_LIMIT = 50;
-
+export const DEFAULT_DECIMAL_PLACES = 2;
+export const DEFAULT_RETURN_TICKET_DAYS_ALLOWED = 15;
 export const COUNTRY_SETTING = 'country';
+export const CURRENCY_SETTING = 'currency';
 export const LANG_SETTING = 'lang';
 export const THEME_SETTING = 'theme';
 export const TIMEZONE_SETTING = 'timezone';
@@ -62,6 +65,7 @@ export const ANALYTICS_SERVER_SETTING = 'analyticsServer';
 
 export const DEFAULT_SETTINGS = {
   [COUNTRY_SETTING]: DEFAULT_COUNTRY,
+  [CURRENCY_SETTING]: DEFAULT_CURRENCY,
   [LANG_SETTING]: DEFAULT_LOCALE,
   [THEME_SETTING]: DEFAULT_THEME,
   [TIMEZONE_SETTING]: DEFAULT_TIMEZONE,
@@ -86,6 +90,7 @@ export const PAYMENT_METHOD_CREDIT_CARD = 'payment_method_credit_card';
 export const PAYMENT_METHOD_PHONE = 'payment_method_phone';
 export const PAYMENT_METHOD_CASH = 'payment_method_cash';
 export const PAYMENT_METHOD_TICKET = 'payment_method_ticket';
+export const PAYMENT_METHOD_VOUCHER = 'payment_method_voucher';
 
 /** ****************************************************************************/
 /*                                                                             */
@@ -95,7 +100,15 @@ export const PAYMENT_METHOD_TICKET = 'payment_method_ticket';
 export const TICKET_SAVE_STATE = 'TICKET_SAVE_STATE';
 export const TICKET_SOLD_STATE = 'TICKET_SOLD_STATE';
 export const TICKET_RETURN_STATE = 'TICKET_RETURN_STATE';
+
+export const TICKET_POSITIVE_BALANCE = 'positive';
+export const TICKET_NEGATIVE_BALANCE = 'negative';
 export const DEFAULT_TICKET_ITEMS_LIMIT = 50;
+
+export const ADD_ITEM_OPERATION = 'add';
+export const REMOVE_ITEM_OPERATION = 'remove';
+export const DISCOUNT_PERCENTAGE_TYPE = 'percentage';
+export const DISCOUNT_FIXED_TYPE = 'fixed';
 
 /** ****************************************************************************/
 /*                                                                             */

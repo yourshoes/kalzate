@@ -9,7 +9,13 @@ import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import {
-  selectTicketDomain,
+  ticket, ticketOperations, ticketBalance, isEmptyTicket,
+  isTicketCheckoutDisabled, isTicketVoucherCheckoutDisabled
+} from 'selectors/tickets';
+import {
+  ticketMatches
+} from 'selectors/tmp';
+import {
   makeSelectTicketTmpData,
   makeSelectTicketCreatedAtMatches,
   selectSettingsData,
@@ -19,15 +25,19 @@ import {
   updateTicketData,
   updateTicketTax,
   updateTicketDiscount,
-  removeStockFromTicket,
-  returnStockFromTicket,
   undoReturnStockFromTicket,
   returnAllStockFromTicket,
   removeTicket,
-  closeTicket,
-  getMatches,
-  loadTicket,
 } from './actions';
+
+import {
+  getTicketMatches,
+  loadTicket,
+  createAddOperation,
+  createRemoveOperation,
+  createTicket
+} from 'actions/tickets';
+
 import Container from './atoms/Container';
 import TicketHeader from './molecules/TicketHeader';
 import TicketBody from './molecules/TicketBody';
@@ -55,7 +65,13 @@ TicketItems.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  ticket: selectTicketDomain(),
+  ticket,
+  ticketOperations,
+  ticketBalance,
+  ticketMatches,
+  isEmptyTicket,
+  isTicketCheckoutDisabled,
+  isTicketVoucherCheckoutDisabled,
   tmp: makeSelectTicketTmpData(),
   matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),
@@ -67,17 +83,21 @@ function mapDispatchToProps(dispatch) {
     updateTicketData: (item, data) => dispatch(updateTicketData(item, data)),
     updateTicketTax: (vat) => dispatch(updateTicketTax(vat)),
     updateTicketDiscount: (discount) => dispatch(updateTicketDiscount(discount)),
-    removeStockFromTicket: (item, positioninList) =>
-      dispatch(removeStockFromTicket(item, positioninList)),
-    returnStockFromTicket: (item, positioninList, value) =>
-      dispatch(returnStockFromTicket(item, positioninList, value)),
+
     undoReturnStockFromTicket: (item, positioninList) =>
       dispatch(undoReturnStockFromTicket(item, positioninList)),
     returnAllStockFromTicket: () => dispatch(returnAllStockFromTicket()),
     removeTicket: () => dispatch(removeTicket()),
-    getMatches: (field, value) => dispatch(getMatches(field, value)),
-    loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
-    closeTicket: (ticket, state) => dispatch(closeTicket(ticket, state)),
+
+    getTicketMatches: (field, value) => dispatch(getTicketMatches(field, value)),
+    loadTicket: (...args) => dispatch(loadTicket(...args)),
+    createAddOperation: (stock, operation) =>
+      dispatch(createAddOperation(stock, operation)),
+    createRemoveOperation: (stock, operation) =>
+      dispatch(createRemoveOperation(stock, operation)),
+    createTicket: (ticket, settings) =>
+      dispatch(createTicket(ticket, settings)),
+
   };
 }
 

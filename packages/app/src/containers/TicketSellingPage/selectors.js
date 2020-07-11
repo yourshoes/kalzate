@@ -19,7 +19,7 @@ const selectSettingsData = () => (state) => state.settings;
 
 const makeSelectTicketItems = () =>
   createSelector(selectTicketDomain(), (substate) =>
-    substate.items
+    substate.operations
   );
 
 const makeSelectMatches = () =>

@@ -9,7 +9,16 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
-  selectTicketDomain,
+  ticket,
+  ticketBalance,
+  ticketOperations,
+  isEmptyTicket,
+  isTicketCheckoutDisabled
+} from 'selectors/tickets';
+import {
+  ticketMatches
+} from 'selectors/tmp';
+import {
   makeSelectTicketTmpData,
   makeSelectTicketCreatedAtMatches,
   selectSettingsData,
@@ -19,12 +28,14 @@ import {
   updateTicketData,
   updateTicketTax,
   updateTicketDiscount,
-  removeStockFromTicket,
   removeTicket,
-  closeTicket,
-  getMatches,
-  loadTicket,
 } from './actions';
+import {
+  getTicketMatches,
+  loadTicket,
+  createAddOperation,
+  createTicket
+} from 'actions/tickets';
 import Container from './atoms/Container';
 import TicketHeader from './molecules/TicketHeader';
 import TicketBody from './molecules/TicketBody';
@@ -52,10 +63,14 @@ TicketItems.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  ticket: selectTicketDomain(),
+  ticket,
+  ticketMatches,
   tmp: makeSelectTicketTmpData(),
-  matches: makeSelectTicketCreatedAtMatches(),
   settings: selectSettingsData(),
+  ticketOperations,
+  ticketBalance,
+  isEmptyTicket,
+  isTicketCheckoutDisabled
 });
 
 function mapDispatchToProps(dispatch) {
@@ -64,18 +79,21 @@ function mapDispatchToProps(dispatch) {
       dispatch(updateTmpData(reference, data)),
     updateTicketData: (item, data) =>
       dispatch(updateTicketData(item, data)),
+
     updateTicketTax: (vat) =>
       dispatch(updateTicketTax(vat)),
     updateTicketDiscount: (discount) =>
       dispatch(updateTicketDiscount(discount)),
-    removeStockFromTicket: (item, positioninList) =>
-      dispatch(removeStockFromTicket(item, positioninList)),
     removeTicket: () =>
       dispatch(removeTicket()),
-    getMatches: (field, value) => dispatch(getMatches(field, value)),
-    loadTicket: (ticket, options) => dispatch(loadTicket(ticket, options)),
-    closeTicket: (ticket, state) =>
-      dispatch(closeTicket(ticket, state)),
+
+
+    getTicketMatches: (field, value) => dispatch(getTicketMatches(field, value)),
+    loadTicket: (...args) => dispatch(loadTicket(...args)),
+    createTicket: (ticket, settings) =>
+      dispatch(createTicket(ticket, settings)),
+    createAddOperation: (stock, operation) =>
+      dispatch(createAddOperation(stock, operation)),
   };
 }
 

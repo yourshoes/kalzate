@@ -19,11 +19,6 @@ import { tickets as ticketsSelectors } from '@kalzate/cy';
 
 export class TicketHeader extends React.Component {
   render() {
-    console.log(
-      this.props.ticket.givenAmount,
-      this.props.ticket.totalAmount,
-      this.props.ticket.givenAmount < this.props.ticket.totalAmount
-    );
     return (
       <TicketSectionContainer>
         <Section50>
@@ -31,8 +26,8 @@ export class TicketHeader extends React.Component {
             <TicketSearchField
               intl={this.props.intl}
               ticket={this.props.ticket}
-              matches={this.props.matches}
-              getMatches={(...args) => this.props.getMatches(...args)}
+              matches={this.props.ticketMatches}
+              getMatches={(...args) => this.props.getTicketMatches(...args)}
               loadTicket={(...args) => this.props.loadTicket(...args)}
             />
           </SectionLeft>
@@ -40,34 +35,30 @@ export class TicketHeader extends React.Component {
         <Section50>
           <SectionRight>
             <Button
-              inactive={isEmpty(this.props.ticket.items)}
+              inactive={this.props.isTicketCheckoutDisabled}
+              disabled={this.props.isTicketCheckoutDisabled}
               primary
               icon="gift"
               //@todo title has a conflict with html native title attribute, this prop should be a children and html title prop for html attribute
               title={<FormattedMessage {...messages.giftTicket} />}
               onClick={() =>
-                this.props.closeTicket(this.props.ticket, {
-                  state: TICKET_SOLD_STATE,
-                  asGift: true,
-                  settings: this.props.settings,
-                })
+                this.props.createTicket({
+                  ...this.props.ticket,
+                  isGift: true,
+                }, this.props.settings)
               }
             />
             <Button
-              data-cy={ticketsSelectors.SELL_CHECKOUT_BUTTON}
+              data-cy={ticketsSelectors.CHECKOUT_BUTTON}
               inactive={
-                isEmpty(this.props.ticket.items) ||
-                Number(this.props.ticket.givenAmount) < Number(this.props.ticket.totalAmount)
+                this.props.isTicketCheckoutDisabled
               }
+              disabled={this.props.isTicketCheckoutDisabled}
               primary
               icon="check"
               title={<FormattedMessage {...messages.checkoutTicket} />}
               onClick={() =>
-                this.props.closeTicket(this.props.ticket, {
-                  state: TICKET_SOLD_STATE,
-                  asGift: false,
-                  settings: this.props.settings,
-                })
+                this.props.createTicket({ ...this.props.ticket }, this.props.settings)
               }
             />
           </SectionRight>

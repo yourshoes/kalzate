@@ -4,13 +4,18 @@ import { withRouter } from 'react-router';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { makeSelectTicketItems, makeSelectTicketID } from './selectors';
+import { ticketList } from 'selectors/tickets';
+import { makeSelectTicketID } from './selectors';
+import {
+  settings
+} from 'selectors/settings';
 // import { mouseTrap } from 'react-mousetrap';
 // import { createStructuredSelector } from 'reselect';
 // import { push } from 'react-router-redux';
 // import HotKeys from 'utils/hotkeys';
 // import PubSub from 'utils/pubsub';
-import { loadTicket, searchTickets } from './actions';
+import { searchTickets } from './actions';
+import { loadTicket, printDailySummaryTicket } from 'actions/tickets';
 // import { selectResources, selectResource } from './selectors';
 import messages from './messages';
 import {
@@ -36,12 +41,15 @@ function SidebarMenu(props) {
           <MenuItem actived={routeName === 'settings'} to="/settings" highlight cursor>
             <FormattedMessage {...messages.settings} />
           </MenuItem>
-          <MenuItem actived={routeName === 'discover'} to="/discover" highlight cursor>
+          <MenuItem actived={routeName === 'discover'} highlight cursor disabled>
             <FormattedMessage {...messages.discover} />
           </MenuItem>
+          {/* <MenuItem actived={routeName === 'discover'} to="/discover" highlight cursor>
+            <FormattedMessage {...messages.discover} />
+          </MenuItem> */}
         </MenuGroup>
         <MenuGroup>
-          <MenuItem actived={routeName === 'tickets'} noroute>
+          <MenuItem actived={routeName === 'tickets'} to="/tickets" highlight cursor>
             <FormattedMessage {...messages.tickets} />
           </MenuItem>
 
@@ -51,16 +59,16 @@ function SidebarMenu(props) {
             <MenuItem title="100013" small highlight cursor />
           **/}
           <MenuTicketListContainer data-cy={ticketsSelectors.TICKETS_LIST}>
-            {props.tickets.map((ticket) => (
+            {props.ticketList.items.map((ticket) => (
               <MenuItem
                 key={ticket.created_at}
                 selected={ticket.id === props.ticketID}
                 onClick={() => {
                   // @todo move to a saga
-                  props.loadTicket(ticket);
+                  props.loadTicket(ticket.id);
                   props.router.push('/tickets');
                 }}
-                state={ticket.state}
+                state={ticket.balance}
                 small
                 highlight
                 cursor
@@ -71,10 +79,12 @@ function SidebarMenu(props) {
           </MenuTicketListContainer>
         </MenuGroup>
       </Menu>
-      <MenuSearch
+      {/* <MenuSearch
         onChange={(field, value, operator = '$eq') => props.searchTickets(field, value, operator)}
-      />
-      <MenuFooter to="/tickets" icon="inbox">
+      /> */}
+      <MenuFooter to="/tickets" icon="inbox" onClick={() => {
+        props.printDailySummaryTicket(props.settings);
+      }}>
         <FormattedMessage {...messages.cashDrawer} />
       </MenuFooter>
     </Container>
@@ -89,7 +99,8 @@ SidebarMenu.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  tickets: makeSelectTicketItems(),
+  ticketList,
+  settings,
   ticketID: makeSelectTicketID(),
 });
 
@@ -97,6 +108,7 @@ function mapDispatchToProps(dispatch) {
   return {
     loadTicket: (ticket) => dispatch(loadTicket(ticket)),
     searchTickets: (field, value, operator) => dispatch(searchTickets(field, value, operator)),
+    printDailySummaryTicket: (settings) => dispatch(printDailySummaryTicket(settings)),
   };
 }
 

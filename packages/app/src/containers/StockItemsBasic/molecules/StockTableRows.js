@@ -11,13 +11,14 @@ import StockButton from './StockButton';
 import StockField from './StockField';
 import messages from '../messages';
 import { stock as stockSelectors } from '@kalzate/cy';
+import { isTicketReadOnly } from 'selectors/tickets';
 
-const isRealNumeric = function(input) {
+const isRealNumeric = function (input) {
   return /^[1-9][0-9]*\.?[0-9]{0,2}$/.test(input);
 };
 
 export function StockTableRows(props) {
-  console.log(props.items);
+  // console.log(props.items);
   return (
     <StockTableContainer>
       {props.items.map(({ _data }, i) => (
@@ -66,8 +67,8 @@ export function StockTableRows(props) {
                 price: isRealNumeric(price)
                   ? price
                   : price && props.tmp[_data.reference]
-                  ? props.tmp[_data.reference].price
-                  : '',
+                    ? props.tmp[_data.reference].price
+                    : '',
               })
             }
           />
@@ -100,8 +101,9 @@ export function StockTableRows(props) {
           <StockButton
             primary
             icon="link-external"
+            disabled={props.isTicketReadOnly}
             data-cy={stockSelectors.ADD_ITEM_TO_TICKET}
-            onClick={() => props.addStockToTicket(_data)}
+            onClick={() => props.createAddOperation(_data)}
           />
         </StockTableHeaderContainer>
       ))}

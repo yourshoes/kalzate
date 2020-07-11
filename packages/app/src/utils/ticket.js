@@ -1,19 +1,21 @@
-import dateFormat from 'dateformat';
-import lodash from 'lodash';
 import {
-  PAYMENT_METHOD_CREDIT_CARD,
-  PAYMENT_METHOD_PHONE,
-  PAYMENT_METHOD_CASH,
-  PAYMENT_METHOD_TICKET,
-  TICKET_SOLD_STATE,
-  TICKET_RETURN_STATE,
+  DEFAULT_DECIMAL_PLACES,
+  ADD_ITEM_OPERATION,
+  REMOVE_ITEM_OPERATION,
+  DISCOUNT_PERCENTAGE_TYPE,
+  DISCOUNT_FIXED_TYPE,
   DEFAULT_SCHEMA_TYPE,
+  PAYMENT_METHOD_CREDIT_CARD,
+  PAYMENT_METHOD_CASH,
+  PAYMENT_METHOD_VOUCHER,
+  DEFAULT_CURRENCY
 } from 'config';
 
-const compileTicketTemplateRegex = /{{([^{}]+)}}/g;
-// const compileTicketParamsRegex = /\[([^[]+)\]|"([^"]+)"|([^ ]+)/g;
-const compileTicketParamsRegex = /\[([^[]+)]|"((?:\\.|[^"\\])*)"|([^ ]+)/g;
-const removeQuotesRegex = /"/g;
+export const formatDecimalPlaces = (number, decimals = DEFAULT_DECIMAL_PLACES) => number.toFixed(decimals);
+
+export function formatPrice(amount, currency = DEFAULT_CURRENCY) {
+  return `${formatDecimalPlaces(amount)}${currency}`;
+}
 
 function abbrv(type, value) {
   switch (type) {
@@ -28,160 +30,172 @@ function abbrv(type, value) {
   }
 }
 
-function removeQuotes(str) {
-  return str.replace(removeQuotesRegex, '');
-}
-
-function compileTicketReplacer(settings, ticket, str, match) {
-  return compileTicketPrint(
-    settings,
-    ticket,
-    ...match
-      .match(compileTicketParamsRegex)
-      .map((option) => (option.startsWith('"') ? removeQuotes(option) : option))
-  );
-}
-
-function compileTicketPrint(settings, ticket, category, field, ...options) {
-  if (category.toLowerCase() === 'shop') {
-    return compileTicketPrintShopCase(settings, field.toLowerCase(), options);
-  }
-  if (category.toLowerCase() === 'ticket') {
-    return compileTicketPrintTicketCase(ticket, field.toLowerCase(), options);
-  }
-
-  return '';
-}
-
-function compileTicketPrintShopCase(settings, field) {
-  switch (field) {
-    case 'name':
-      return settings.name;
-    case 'address':
-      return settings.address;
-    case 'email':
-      return settings.email;
-    case 'phone':
-      return settings.phone;
-    default:
-      return '';
-  }
-}
-
-function compileTicketPrintPreprocess(field, value, padding, item, ticket) {
-  if (field === 'description') {
-    return String(lodash.padEnd(formatDescription(item), parseInt(padding, 10)));
-  }
-  if (field === 'price') {
-    return ticket.asGift
-      ? lodash.padEnd('0.00', parseInt(padding, 10))
-      : String(lodash.padEnd(value, parseInt(padding, 10)));
-  }
-  if (field === 'subtotal') {
-    return ticket.asGift
-      ? lodash.padEnd('0.00', parseInt(padding, 10))
-      : String(
-          lodash.padEnd(
-            item.price * (item.toReturn ? -item.amount_return : item.amount),
-            parseInt(padding, 10)
-          )
-        );
-  }
-  if (field === 'amount') {
-    return String(
-      lodash.padEnd(item.toReturn ? -item.amount_return : item.amount, parseInt(padding, 10))
-    );
-  }
-  return String(lodash.padEnd(value, parseInt(padding, 10)));
-}
-
-function compileTicketPrintTicketCase(ticket, field, options) {
-  switch (field) {
-    case 'date': {
-      const [format] = options;
-      const date = new Date(ticket.created_at);
-      return dateFormat(date, format || 'dd/mm/yyyy');
-    }
-    case 'return_date': {
-      const [days, format] = options;
-      const date = new Date(ticket.created_at);
-      date.setDate(date.getDate() + parseInt(days, 10));
-      return dateFormat(date, format || 'dd/mm/yyyy');
-    }
-    case 'items': {
-      const [fields, padding, paddingGlobal] = options.map((option) => JSON.parse(option));
-      console.log('util', ticket);
-      return ticket.items
-        .filter((item) => item.added || (item.toReturn && item.amount_return > 0))
-        .map((item) => {
-          const values = fields.map((f, i) =>
-            compileTicketPrintPreprocess(f.toLowerCase(), item[f], padding[i], item, ticket)
-          );
-
-          return `${new Array(paddingGlobal[0] + 1).join(' ')}${values[0]}${values[1]}${values[2]}${
-            values[3]
-          }${new Array(paddingGlobal[1] + 1).join(' ')}`;
-        })
-        .join('\r\n ');
-    }
-    case 'payment':
-      switch (ticket.method) {
-        case PAYMENT_METHOD_CREDIT_CARD:
-          return 'Credit Card';
-        case PAYMENT_METHOD_PHONE:
-          return 'Phone App';
-        case PAYMENT_METHOD_CASH:
-          return 'Cash';
-        case PAYMENT_METHOD_TICKET:
-          return 'Voucher';
-        default:
-          return '';
-      }
-    case 'code':
-      return ticket.created_at;
-    case 'id':
-      return ticket.id;
-    case 'given':
-      return ticket.asGift ? '0.00' : ticket.givenAmount;
-    case 'return':
-      return ticket.asGift ? '0.00' : ticket.returnAmount;
-    case 'total':
-      return ticket.asGift ? '0.00' : ticket.totalAmount;
-    case 'category':
-      if (ticket.asGift) {
-        return 'Gift';
-      }
-      if (ticket.asVoucher) {
-        return 'Voucher';
-      }
-      if (ticket.state === TICKET_SOLD_STATE) {
-        return 'Sell';
-      }
-      if (ticket.state === TICKET_RETURN_STATE) {
-        return 'Return';
-      }
-      return 'Ticket';
-    default:
-      return '';
-  }
-}
-
-export function compileTicket(settings, ticket) {
-  try {
-    return settings.ticketTemplate.replace(
-      compileTicketTemplateRegex,
-      compileTicketReplacer.bind(null, settings, ticket)
-    );
-  } catch (e) {
-    console.error(e);
-  }
-}
-
 export function formatDescription(item) {
   if (DEFAULT_SCHEMA_TYPE === 'SCHEMA_BASIC') {
     return `${abbrv('DESC', item.desc)}`;
   }
   return `${abbrv('BRAND', item.brand)}-${item.colors.map((c) => abbrv('COLORS', c)).join()} (${
     item.size
-  }-${abbrv('BRAND', item.gender)})`;
+    }-${abbrv('BRAND', item.gender)})`;
 }
+
+export const getAmount = ({ operation, amount }) => {
+  if (operation === ADD_ITEM_OPERATION) {
+    return amount
+  }
+
+  if (operation === REMOVE_ITEM_OPERATION) {
+    return - amount
+  }
+}
+
+export const getSubtotal = ({ stock, operation, amount, discountType, discountValue }) => {
+  if (!operation) {
+    return 0;
+  }
+
+  let subtotal = amount * stock.price;
+
+  if (discountType === DISCOUNT_PERCENTAGE_TYPE) {
+    subtotal *= (1 - discountValue / 100);
+  }
+  else if (discountType === DISCOUNT_FIXED_TYPE) {
+    subtotal -= discountValue;
+  }
+
+  if (subtotal > (amount * stock.price) || subtotal <= 0) {
+    return 0;
+  }
+
+  if (operation === ADD_ITEM_OPERATION) {
+    return subtotal
+  }
+
+  if (operation === REMOVE_ITEM_OPERATION) {
+    return - subtotal
+  }
+
+  throw new Error(`operation type "${operation}" unknown, use "${ADD_ITEM_OPERATION}" or "${REMOVE_ITEM_OPERATION}"`)
+}
+
+const getPaymentAmount = (payments, paymentMethod, field = 'amount') => {
+  const payment = payments.find(({ method }) => method === paymentMethod);
+  if (payment) {
+    return payment[field];
+  }
+  return null;
+}
+
+export const getCreditCardPaymentAmount = (payments) =>
+  getPaymentAmount(payments, PAYMENT_METHOD_CREDIT_CARD);
+
+export const getCashPaymentAmount = (payments) =>
+  getPaymentAmount(payments, PAYMENT_METHOD_CASH);
+
+export const getVoucherPaymentAmount = (payments) =>
+  getPaymentAmount(payments, PAYMENT_METHOD_VOUCHER);
+
+export const getVoucherPaymentConcept = (payments) =>
+  getPaymentAmount(payments, PAYMENT_METHOD_VOUCHER, 'concept');
+
+export const parseOperations = (history, operations) => {
+
+  // Merge all history operations as an object 
+  // composing previousAddedAmount & previousRemovedAmount fields
+  // which contains all previous sold and returned amounts so far
+  const mergedOperations = history.reduce((acc, { stock, discountValue,
+    discountType, operation, amount }) => {
+    const existingOperation = acc[stock.reference];
+    if (existingOperation) {
+      return {
+        ...acc,
+        [stock.reference]: {
+          ...existingOperation,
+          ...(operation === ADD_ITEM_OPERATION && {
+            previousAddedAmount: amount + existingOperation.previousAddedAmount
+          }),
+          ...(operation === REMOVE_ITEM_OPERATION && {
+            previousRemovedAmount: amount + existingOperation.previousRemovedAmount
+          })
+        }
+      };
+    }
+
+    return {
+      ...acc,
+      [stock.reference]: {
+        stock,
+        discountValue,
+        discountType,
+        addedAmount: 0,
+        removedAmount: 0,
+        previousAddedAmount: 0,
+        previousRemovedAmount: 0,
+        ...(operation === ADD_ITEM_OPERATION && { previousAddedAmount: amount }),
+        ...(operation === REMOVE_ITEM_OPERATION && {
+          previousRemovedAmount: amount
+        })
+      }
+    };
+  }, {});
+
+  // Add the current amount and return fields with the info
+  // about current s
+  for (let { stock, discountValue,
+    discountType, operation, amount } of operations) {
+
+    const currentOperation = mergedOperations[stock.reference];
+
+    if (currentOperation) {
+      mergedOperations[stock.reference] = {
+        ...currentOperation,
+        discountValue,
+        discountType,
+        ...(operation === ADD_ITEM_OPERATION && { addedAmount: amount + currentOperation.addedAmount, operation }),
+        ...(operation === REMOVE_ITEM_OPERATION && {
+          removedAmount: amount + currentOperation.removedAmount,
+          operation
+        })
+      };
+    }
+    else {
+      mergedOperations[stock.reference] = {
+        stock,
+        discountValue,
+        discountType,
+        isNewEntry: true,
+        addedAmount: 0,
+        removedAmount: 0,
+        ...(operation === ADD_ITEM_OPERATION && { addedAmount: amount }),
+        ...(operation === REMOVE_ITEM_OPERATION && {
+          removedAmount: amount
+        }),
+        operation: ADD_ITEM_OPERATION,
+        previousAddedAmount: 0,
+        previousRemovedAmount: 0
+      };
+    }
+
+  }
+
+  return Object.values(mergedOperations);
+}
+
+export const marshallTicket = ({
+  isChecked,
+  isGift,
+  isVoucher,
+  balance,
+  prevNode,
+  nextNode,
+  payments,
+  operations }) => ({
+    isChecked,
+    isGift,
+    isVoucher,
+    balance,
+    prevNode,
+    nextNode,
+    payments,
+    operations
+  })

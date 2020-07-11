@@ -1,23 +1,21 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { Tickets } from 'db';
 import {
-  GET_MATCHES_TICKETS_ACTION,
-  GET_MATCHES_TICKETS_ERROR_ACTION,
-  GET_MATCHES_TICKETS_SUCCESS_ACTION,
-} from 'containers/TicketSellingPage/constants';
+  GET_TICKET_MATCHES_ACTION,
+} from 'actions/tickets/types';
+import {
+  getTicketMatchesError,
+  getTicketMatchesSuccess
+} from 'actions/tickets';
 
 function* matchesTickets(action) {
   try {
-    const { field, value } = action;
-    const { items } = yield call((...args) => Tickets().matches(...args), field, value);
-    yield put({
-      type: GET_MATCHES_TICKETS_SUCCESS_ACTION,
-      field,
-      items,
-    });
+    const { field, value } = action.data;
+    const { items: ticketMatches } = yield call((...args) => Tickets().query('ticketMatches', field, value), field, value);
+    yield put(getTicketMatchesSuccess(ticketMatches));
   } catch (e) {
-    yield put({ type: GET_MATCHES_TICKETS_ERROR_ACTION, message: e.message });
+    yield put(getTicketMatchesError(e));
   }
 }
 
-export default takeEvery(GET_MATCHES_TICKETS_ACTION, matchesTickets);
+export default takeEvery(GET_TICKET_MATCHES_ACTION, matchesTickets);

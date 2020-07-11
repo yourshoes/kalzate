@@ -6,21 +6,18 @@ import {
 } from 'containers/TicketSellingPage/constants';
 
 function print(text, options) {
-  try {
-    console.log(text, options);
-    window.ipcRenderer.send('print-ticket', text, options);
-  } catch (error) {
-    console.error(error);
-  }
+   window.ipcRenderer.send('print-ticket', text, options);
 }
 
 function* printTicket(action) {
   try {
-    const { content, printerName, printerIP } = action;
+    const { content, options } = action;
 
-    console.log(content, printerName, printerIP);
     if(window.isElectron){
-      print(content, { printerName, printerIP });
+      print(content, options);
+    }
+    else {
+      console.log('web printing', content, options);
     }
     
     yield put({

@@ -7,6 +7,7 @@
 import React, { PropTypes } from 'react';
 import PaymentSection from '../atoms/PaymentSection';
 import TotalAmount from '../atoms/TotalAmount';
+import { formatPrice } from "utils/ticket";
 
 export function PaymentTotal({
   currency,
@@ -14,7 +15,7 @@ export function PaymentTotal({
   return (
     <PaymentSection>
       <TotalAmount>
-        {totalAmount} {currency}
+        {formatPrice(totalAmount)}
       </TotalAmount>
     </PaymentSection>
   );

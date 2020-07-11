@@ -9,7 +9,10 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 // import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
-import TicketSellingPage from 'containers/TicketSellingPage';
+
+import { isTicketReadOnly, isNewTicket } from 'selectors/tickets';
+
+import TicketBasePage from 'containers/TicketSellingPage';
 import TicketReturningPage from 'containers/TicketReturningPage';
 import TicketReadOnlyPage from 'containers/TicketReadOnlyPage';
 import TicketTotal from 'containers/TicketTotalContainer';
@@ -23,24 +26,21 @@ import {
   makeSelectTicketPaymentsVisibility,
   makeSelectTicketState,
 } from 'containers/TicketsPage/selectors';
-import { TICKET_SOLD_STATE, TICKET_RETURN_STATE, DEFAULT_SCHEMA_TYPE } from 'config';
+import { DEFAULT_SCHEMA_TYPE } from 'config';
 
 export class TicketsPage extends React.Component {
-  componentDidMount() {}
 
   getItemsComponent() {
-    if (this.props.isReadOnly) {
+
+    if (this.props.isNewTicket) {
+      return <TicketBasePage />;
+    }
+
+    if (this.props.isTicketReadOnly) {
       return <TicketReadOnlyPage />;
     }
 
-    if (
-      this.props.ticketState === TICKET_SOLD_STATE ||
-      this.props.ticketState === TICKET_RETURN_STATE
-    ) {
-      return <TicketReturningPage />;
-    }
-
-    return <TicketSellingPage />;
+    return <TicketReturningPage />;
   }
   getStockItemsComponent() {
     if (DEFAULT_SCHEMA_TYPE === 'SCHEMA_SHOES') return <StockItems />;
@@ -72,16 +72,16 @@ export class TicketsPage extends React.Component {
 
 TicketsPage.propTypes = {
   ticketTotalVisibility: PropTypes.bool,
-  isReadOnly: PropTypes.bool,
+  isTicketReadOnly: PropTypes.bool,
   ticketPaymentsVisibility: PropTypes.bool,
-  ticketState: PropTypes.string,
+  isNewTicket: PropTypes.bool,
 };
 
 const mapStateToProps = createStructuredSelector({
   ticketTotalVisibility: makeSelectTicketTotalVisibility(),
-  isReadOnly: makeSelectTicketReadOnly(),
+  isTicketReadOnly,
   ticketPaymentsVisibility: makeSelectTicketPaymentsVisibility(),
-  ticketState: makeSelectTicketState(),
+  isNewTicket,
 });
 
 export default connect(mapStateToProps)(TicketsPage);

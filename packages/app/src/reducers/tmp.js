@@ -30,6 +30,14 @@ import {
 import { TOGGLE_TICKET_PAYMENTS_VISIBILITY } from 'containers/TicketPaymentsContainer/constants';
 
 import { REMOVE_TICKET_ACTION } from 'containers/TicketSellingPage/constants';
+import {
+  CREATE_REMOVE_OPERATION_ACTION,
+  CREATE_ADD_OPERATION_ACTION,
+  ADD_VOUCHER_PAYMENT_AMOUNT_ACTION,
+  ADD_VOUCHER_PAYMENT_AMOUNT_ERROR_ACTION,
+  GET_TICKET_MATCHES_SUCCESS_ACTION,
+  GET_TICKET_MATCHES_ERROR_ACTION
+} from 'actions/tickets/types';
 
 // The initial state of the App
 const initialState = {
@@ -42,21 +50,50 @@ const initialState = {
   },
   matches: {
     stock: { reference: [] },
-    tickets: { created_at: [] },
+    tickets: [],
   },
   modal: { removeStock: false, archiveStock: false },
   visibility: { tickets: { payments: true, total: true, raw: false } },
+  loading: { tickets: false },
+  errors: {
+    voucher: null
+  }
 };
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
     // case CREATE_STOCK_SUCCESS_ACTION:
     //   return state.update('items', (items) => items.push(action.stock));
+    case ADD_VOUCHER_PAYMENT_AMOUNT_ACTION:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          voucher: null
+        }
+      };
+    case ADD_VOUCHER_PAYMENT_AMOUNT_ERROR_ACTION:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          voucher: action.data
+        }
+      };
+    case CREATE_REMOVE_OPERATION_ACTION:
+    case CREATE_ADD_OPERATION_ACTION:
+      return {
+        ...state,
+        ticket: merge({}, state.ticket, {
+          [action.data.stock.reference]: { amount: null, discountValue: null },
+        }),
+      };
+
     case UPDATE_STOCK_TICKET_DATA_ACTION:
       return {
         ...state,
         ticket: merge({}, state.ticket, {
-          [action.item.reference]: { amount: null, discount: null },
+          [action.item.reference]: { amount: null, discountValue: null },
         }),
       };
     case UPDATE_TMP_TICKET_DATA_ACTION:
@@ -85,12 +122,12 @@ function appReducer(state = initialState, action) {
           stock: { ...state.matches.stock, [action.field]: action.items || [] },
         },
       };
-    case GET_MATCHES_TICKETS_SUCCESS_ACTION:
+    case GET_TICKET_MATCHES_SUCCESS_ACTION:
       return {
         ...state,
         matches: {
           ...state.matches,
-          tickets: { ...state.matches.tickets, [action.field]: action.items || [] },
+          tickets: action.data || [],
         },
       };
     case UPDATE_STOCK_MODAL_OPTION_ACTION:

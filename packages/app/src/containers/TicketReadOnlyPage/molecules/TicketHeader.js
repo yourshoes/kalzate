@@ -20,8 +20,8 @@ import TicketSearchField from './TicketSearchField';
 import messages from '../messages';
 
 export class TicketHeader extends React.Component {
-
   render() {
+    console.log('ticket matches', this.props.ticketMatches)
     return (
       <TicketSectionContainer>
         <Section50>
@@ -29,15 +29,15 @@ export class TicketHeader extends React.Component {
             <TicketSearchField
               intl={this.props.intl}
               ticket={this.props.ticket}
-              matches={this.props.matches}
-              getMatches={(...args) => this.props.getMatches(...args)}
+              matches={this.props.ticketMatches}
+              getMatches={(...args) => this.props.getTicketMatches(...args)}
               loadTicket={(...args) => this.props.loadTicket(...args)}
             />
           </SectionLeft>
         </Section50>
         <Section50>
           <SectionRight>
-            <Button inactive={isEmpty(this.props.ticket.items)} primary icon="cloud-download" title={<FormattedMessage {...messages.printTicket} />} onClick={() => this.props.closeTicket(this.props.ticket, { state: TICKET_SOLD_STATE, asGift: true, settings: this.props.settings })} />
+            <Button inactive={this.props.isEmptyTicket} primary icon="cloud-download" title={<FormattedMessage {...messages.printTicket} />} onClick={() => this.props.printTicket(this.props.ticket, { settings: this.props.settings })} />
           </SectionRight>
         </Section50>
       </TicketSectionContainer>

@@ -1,0 +1,27 @@
+{
+  "name": "@kalzate/ui",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Zuri Pabon <zurisadai.pabon@gmail.com> (http://zuri.rocks/)",
+  "description": "Kalzate User Interface Components",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourshoes/kalzate.git"
+  },
+  "scripts": {
+    "test": "react-scripts test",
+    "ci": "echo 2"
+  },
+  "dependencies": {
+    "styled-components": "2.1.2"
+  },
+  "devDependencies": {
+    "@testing-library/react": "10.4.3",
+    "react-dom": "^15.4.1",
+    "react-scripts": "2.1.5"
+  },
+  "peerDependencies": {
+    "react": "15.4.1 || ^16.13.1"
+  }
+}

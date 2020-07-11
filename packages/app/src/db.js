@@ -1,4 +1,4 @@
-import kalzateDB from '@kalzate/db/src';
+import kalzateDB from '@kalzate/db';
 
 import { merge } from 'lodash';
 import {
@@ -10,7 +10,7 @@ import {
   STATE_LOADING_START,
   STATE_LOADING_DONE,
   STATE_LOADING_FAILED,
-} from 'config';
+} from './config';
 import * as themes from 'containers/ThemeProvider/themes';
 import { DEFAULT_THEME } from 'containers/ThemeProvider/constants';
 import { DEFAULT_LOCALE } from 'containers/App/constants'; // eslint-disable-line
@@ -58,7 +58,7 @@ const loadStoreFromDatabase = (store) =>
     const state = {
       settings: merge({}, DEFAULT_SETTINGS, await db.settings.init()),
       tickets: await db.tickets.query(
-        db.tickets.queries.dailyTickets(DEFAULT_TICKET_ITEMS_LIMIT, 0)
+        'dailyTicketIds'
       ),
       stock: {
         ...(await db.stock.get({ limit: DEFAULT_STOCK_ITEMS_LIMIT, skip: 0 })),

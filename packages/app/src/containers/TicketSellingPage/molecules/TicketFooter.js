@@ -34,32 +34,32 @@ export class TicketFooter extends React.Component {
       <TicketSectionContainer>
         <Section50 includeStyles={section50StylesLeftCont}>
           <SectionLeft>
-            <TicketVatField
+            {/* <TicketVatField
               tax={this.props.ticket.tax}
               updateTax={(tax) => this.props.updateTicketTax(tax)}
-            />
+            /> */}
           </SectionLeft>
           <SectionLeft>
-            <TicketDiscountField
+            {/* <TicketDiscountField
               discount={this.props.ticket.discount}
               updateDiscount={(discount) => this.props.updateTicketDiscount(discount)}
-            />
+            /> */}
           </SectionLeft>
         </Section50>
         <Section50 includeStyles={section50StylesRightCont}>
           <SectionRight>
-            <Button
+            {/* <Button
               data-cy={ticketsSelectors.SELL_SAVE_BUTTON}
-              inactive={isEmpty(this.props.ticket.items)}
+              inactive={this.props.isEmptyTicket}
               icon="cloud-download"
               title={<FormattedMessage {...messages.saveTicket} />}
               onClick={() =>
                 this.props.closeTicket(this.props.ticket, { state: TICKET_SAVE_STATE })
               }
-            />
+            /> */}
             <Button
               data-cy={ticketsSelectors.NEW_TICKET_BUTTON}
-              inactive={isEmpty(this.props.ticket.items)}
+              inactive={this.props.isEmptyTicket}
               icon="trashcan"
               title={<FormattedMessage {...messages.newTicket} />}
               onClick={() => this.props.removeTicket()}

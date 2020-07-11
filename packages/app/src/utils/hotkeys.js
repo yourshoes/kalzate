@@ -1,8 +1,9 @@
 export default {
+  CREATE_TICKET: { keys: 'alt+x', default: false },
   CHANGE_LANG: { keys: 'alt+l', default: false },
   CHANGE_THEME: { keys: 'alt+t', default: false },
   IMPORT_STOCK: { keys: 'alt+i', default: false },
-  EXPORT_STOCK: { keys: 'alt+e', default: false },
+  EXPORT_DATABASE: { keys: 'alt+e', default: false },
   RESET_DB: { keys: 'alt+r+d', default: false },
   RUN_NOTEBOOK: { keys: 'alt+enter', default: false },
   MOVE_DOWN_FUZZY_FINDER: { keys: 'down', default: true },

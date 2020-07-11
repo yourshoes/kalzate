@@ -6,6 +6,10 @@
 import { defineMessages } from 'react-intl';
 
 export default defineMessages({
+  createTicket: {
+    id: 'kz.containers.App.actions.createTicket',
+    defaultMessage: 'Create Ticket',
+  },
   changeLang: {
     id: 'kz.containers.App.actions.changeLang',
     defaultMessage: 'Change Language',
@@ -18,9 +22,9 @@ export default defineMessages({
     id: 'kz.containers.App.actions.importStock',
     defaultMessage: 'Import Stock',
   },
-  exportStock: {
-    id: 'kz.containers.App.actions.exportStock',
-    defaultMessage: 'Export Stock',
+  exportDatabase: {
+    id: 'kz.containers.App.actions.exportDatabase',
+    defaultMessage: 'Export Databse',
   },
   resetDB: {
     id: 'kz.containers.App.actions.resetDB',
