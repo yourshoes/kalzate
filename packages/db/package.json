@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "react-scripts test",
-    "ci": "cross-env CI=true react-scripts test --coverage --no-watchman"
+    "ci": "react-scripts test --coverage"
   },
   "dependencies": {
     "pouchdb-adapter-idb": "^6.4.3",
@@ -21,7 +21,6 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "cross-env": "^7.0.2",
     "react-scripts": "2.1.5"
   },
   "jest": {
