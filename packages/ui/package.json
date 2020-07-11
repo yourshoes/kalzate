@@ -11,7 +11,7 @@
   },
   "scripts": {
     "test": "react-scripts test",
-    "ci": "CI=true react-scripts test --coverage --no-watchman --detectOpenHandles"
+    "ci": "react-scripts test --coverage"
   },
   "dependencies": {
     "styled-components": "2.1.2"
