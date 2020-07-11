@@ -22,6 +22,19 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name:  Install Deps
+      - run:   |
+              if [ "$RUNNER_OS" == "Linux" ]; then
+                apt install cups-config
+              elif [ "$RUNNER_OS" == "Windows" ]; then
+                npm install --global --production windows-build-tools
+              elif [ "$RUNNER_OS" == "macOS" ]; then
+                xcode-select --install
+              else
+                echo "$RUNNER_OS not supported"
+                exit 1
+              fi
+          shell: bash
       - run: npm i -g yarn@1
       - run: yarn --frozen-lockfile
       - name: Release Electron app
