@@ -10,8 +10,7 @@ jobs:
     name: node ${{ matrix.node-version }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     env:
-      CI: true
-      NODE_ENV: prod
+      NODE_ENV: production
     strategy:
       matrix:
         node-version: [12]
