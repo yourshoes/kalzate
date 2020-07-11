@@ -22,3 +22,6 @@ jobs:
       - run: npm i -g yarn@1
       - run: yarn --frozen-lockfile
       - run: yarn run ci
+        working-directory: ./packages/db
+      - run: yarn run ci
+        working-directory: ./packages/ui
