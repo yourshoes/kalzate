@@ -22,6 +22,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - run: npm i -g yarn@1
+      - run: yarn --frozen-lockfile
       - name: Release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
