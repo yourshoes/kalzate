@@ -3,21 +3,5 @@ appId: com.kalzate
 productName: Kalzate
 electronVersion : 2.0.8
 copyright: Copyright © 2020 ${author}
-# win:
-#     target:
-#     - target: portable
-#     icon: build/kalzate-icon.ico
-#     legalTrademarks: Github
-# linux:
-#     target:
-#     - target: deb
-#     - target: zip
-#     icon: build/kalzate-icon.ico
-#     category: Development
-# mac:
-#     target:
-#     - target: dmg
-#     - target: zip
 directories:
-    output: release
     app: build
