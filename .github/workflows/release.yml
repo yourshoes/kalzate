@@ -33,7 +33,7 @@ jobs:
       #   run: xcode-select --install
       - run: npm i -g yarn@1
       - run: yarn --frozen-lockfile
-      - run: yarn && yarn add electron-rebuild && yarn run make
+      - run: yarn && yarn run make
         working-directory: ./packages/desktop
       - name: Release Electron app
         uses: samuelmeuli/action-electron-builder@v1
