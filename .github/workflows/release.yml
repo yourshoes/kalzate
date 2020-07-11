@@ -17,31 +17,41 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
+      - run: sudo apt-get install -y libcups2-dev
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install ubuntu deps
-        if: runner.os == 'Linux'
-        run: sudo apt-get install -y libcups2-dev
-        shell: bash
-      # - name: Install windows deps
-      #   if: runner.os == 'Windows'
-      #   run: npm install --global --production windows-build-tools
-      # - name: Install macOS deps
-      #   if: runner.os == 'macOS'
-      #   run: xcode-select --install
       - run: npm i -g yarn@1
       - run: yarn --frozen-lockfile
       - run: yarn run make
-      - name: Release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          package_root: packages/desktop
-          # GitHub token, automatically provided to the action
-          # (No need to define this secret in the repo settings)
-          github_token: ${{ secrets.github_token }}
+    # steps:
+    #   - uses: actions/checkout@v2
+    #   - name: Use Node.js ${{ matrix.node-version }}
+    #     uses: actions/setup-node@v1
+    #     with:
+    #       node-version: ${{ matrix.node-version }}
+    #   - name: Install ubuntu deps
+    #     if: runner.os == 'Linux'
+    #     run: sudo apt-get install -y libcups2-dev
+    #     shell: bash
+    #   # - name: Install windows deps
+    #   #   if: runner.os == 'Windows'
+    #   #   run: npm install --global --production windows-build-tools
+    #   # - name: Install macOS deps
+    #   #   if: runner.os == 'macOS'
+    #   #   run: xcode-select --install
+    #   - run: npm i -g yarn@1
+    #   - run: yarn --frozen-lockfile
+    #   - run: yarn run make
+    #   - name: Release Electron app
+    #     uses: samuelmeuli/action-electron-builder@v1
+    #     with:
+    #       package_root: packages/desktop
+    #       # GitHub token, automatically provided to the action
+    #       # (No need to define this secret in the repo settings)
+    #       github_token: ${{ secrets.github_token }}
 
-          # If the commit is tagged with a version (e.g. "v1.0.0"),
-          # release the app after building
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    #       # If the commit is tagged with a version (e.g. "v1.0.0"),
+    #       # release the app after building
+    #       release: ${{ startsWith(github.ref, 'refs/tags/v') }}
