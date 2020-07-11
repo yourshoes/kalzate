@@ -8,6 +8,10 @@ Install latest stable yarn version:
 
 `nvm install -g yarn`
 
+If you are in windows install with admin terminal (maybe also need to install visual studio 2017):
+
+`npm install --global --production windows-build-tools`
+
 Install project dependencies:
 
 `yarn`
@@ -15,5 +19,3 @@ Install project dependencies:
 Run on your browser (localhost:3000):
 
 `yarn start`
-
-Note: Please, make sure you follow same steps and run `npm pack .` in kalzate-db folder first

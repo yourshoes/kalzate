@@ -13,14 +13,20 @@
     "url": "https://github.com/kalzate/kalzate/issues"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production electron-builder",
-    "prebuild": "cross-env NODE_ENV=production yarn --cwd ../app build && mv ../app/build build && cp src/* build && cp public/* build",
-    "postbuild": "rm -rf build"
+    "release": "cross-env NODE_ENV=production electron-builder",
+    "prerelease": "npm run make",
+    "make": "cross-env NODE_ENV=production rm -rf build && yarn rebuild && yarn --cwd ../app build && mv ../app/build build && cp -r src/* build && cp -r public/* build",
+    "start": "cross-env NODE_ENV=production electron build",
+    "rebuild": "electron-rebuild"
+  },
+  "dependencies": {
+    "printer": "^0.4.0"
   },
   "devDependencies": {
     "cross-env": "5.2.0",
-    "electron": "^2.0.8",
-    "electron-builder": "^20.28.2"
+    "electron": "2.0.8",
+    "electron-builder": "^22.7.0",
+    "electron-rebuild": "^1.11.0"
   },
   "homepage": "https://github.com/kalzate/kalzate#readme"
 }
