@@ -10,22 +10,21 @@ jobs:
     name: node ${{ matrix.node-version }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     env:
-      CI: true
       NODE_ENV: production
     strategy:
       matrix:
         node-version: [12]
-        os: [ubuntu-latest]
+        os: [windows-latest]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install ubuntu deps
-        if: runner.os == 'Linux'
-        run: sudo apt-get install -y libcups2-dev
-        shell: bash
+      # - name: Install ubuntu deps
+      #   if: runner.os == 'Linux'
+      #   run: sudo apt-get install -y libcups2-dev
+      #   shell: bash
       # - name: Install windows deps
       #   if: runner.os == 'Windows'
       #   run: npm install --global --production windows-build-tools
