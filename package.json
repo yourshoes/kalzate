@@ -6,7 +6,6 @@
   ],
   "scripts": {
     "start": "yarn && lerna run start",
-    "ci": "lerna run ci",
     "sonar": "sonar-scanner"
   },
   "dependencies": {

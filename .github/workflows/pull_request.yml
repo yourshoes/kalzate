@@ -1,4 +1,4 @@
-name: tests
+name: unit-tests
 
 on: 
   pull_request:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  unit-tests:
+  tests:
     name: node ${{ matrix.node-version }} / ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
