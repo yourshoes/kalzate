@@ -11,13 +11,14 @@
   },
   "scripts": {
     "test": "react-scripts test",
-    "ci": "react-scripts test --coverage"
+    "ci": "cross-env CI=true react-scripts test --coverage --no-watchman"
   },
   "dependencies": {
     "styled-components": "2.1.2"
   },
   "devDependencies": {
     "@testing-library/react": "10.4.3",
+    "cross-env": "^7.0.2",
     "react-dom": "^15.4.1",
     "react-scripts": "2.1.5"
   },
