@@ -2,7 +2,7 @@
   "name": "@kalzate/db",
   "version": "1.0.0",
   "private": true,
-  "author": "Zuri Pabon <zurisadai.pabon@gmail.com> (http://zuri.rocks/)",
+  "author": "Zuri Pabon <zurisadai.pabon@gmail.com> (http://zuripabon.es/)",
   "description": "Kalzate Data Model Interface",
   "license": "MIT",
   "repository": {
