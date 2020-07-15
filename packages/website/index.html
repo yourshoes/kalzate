@@ -44,8 +44,8 @@
                 Are you starting up a small company and can't find a simple, intuitive Point of Sale software?
                 <br> You've come to the right place, and it's free 🙀
             </p>
-            <a href="demo" data-aos="fade" data-aos-easing="linear" data-aos-duration="1000" data-aos-once="true"
-                class="btn my-4 font-weight-bold atlas-cta cta-green">Try Demo</a>
+            <a href="demo" target="_blank" data-aos="fade" data-aos-easing="linear" data-aos-duration="1000"
+                data-aos-once="true" class="btn my-4 font-weight-bold atlas-cta cta-green">Try Demo</a>
         </div>
     </div>
     <!-- three-blcok -->
@@ -163,7 +163,8 @@
             <div class="row">
 
                 <div class="col-md-12 display-center align-self-center">
-                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=hello.kalzate@gmail.com&lc=US&item_name=
+                    <a id="donate" name="donate"
+                        href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=hello.kalzate@gmail.com&lc=US&item_name=
                     Donate+to+Kalzate+developers&no_note=0&cn=&currency_code=USD&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted"
                         target="_blank" class="btn my-4 font-weight-bold atlas-cta cta-ghost">
                         🧡🙏 Help us keep working at Kalzate 🙏🧡
@@ -241,8 +242,12 @@
             const username = document.querySelector('#name').value;
             const email = document.querySelector('#email').value;
 
-            submitBtn.disabled = true;
+            if (!username || !email) {
+                return;
+            }
+
             submitBtn.textContent = "Sending ...";
+            submitBtn.disabled = true;
 
             Email.send({
                 SecureToken: "85556f6c-4d26-46da-9474-46f9fc7946ed",
@@ -254,12 +259,10 @@
                 message => {
                     submitBtn.disabled = false;
                     submitBtn.textContent = "Send";
-                    console.log('email sent', message)
                 }
             ).catch(error => {
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Send";
-                console.error('email not sent', error)
             });
         });
     </script>
