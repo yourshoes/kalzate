@@ -18,6 +18,11 @@ img {
     transition: .4s ease;
 }
 
+.display-center {
+    display: flex;
+    justify-content: center;
+}
+
 .subtitle {
     font-size: 4rem;
 }

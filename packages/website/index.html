@@ -162,25 +162,16 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-sm-4 col-md-2 py-2 align-self-center">
-                    1
+                <div class="col-md-12 display-center align-self-center">
+                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=hello.kalzate@gmail.com&lc=US&item_name=
+                    Donate+to+Kalzate+developers&no_note=0&cn=&currency_code=USD&bn=PP-DonationsBF:btn_donateCC_LG.gif:NonHosted"
+                        target="_blank" class="btn my-4 font-weight-bold atlas-cta cta-ghost">
+                        🧡🙏 Help us keep working at Kalzate 🙏🧡
+                    </a>
                 </div>
-                <div class="col-sm-4 col-md-2 py-2 align-self-center">
-                    3
-                </div>
-                <div class="col-sm-4 col-md-2 py-2 align-self-center">
-                    5
-                </div>
-                <div class="col-sm-4 col-md-2 py-2 align-self-center">
-                    10
-                </div>
-                <div class="col-sm-4 col-md-2 py-2 align-self-center">
-                    ?
-                </div>
-                <div class="col-sm-4 col-md-2 py-2 align-self-center">
-                    Donate
-                </div>
+
             </div>
+
         </div>
     </div>
     <!-- contact -->
@@ -208,8 +199,8 @@
                                 <input type="email" class="form-control" id="email">
                             </div>
                         </div>
-                        <button id="send-email" type="button"
-                            class="btn font-weight-bold atlas-cta atlas-cta-wide cta-green my-3">Submit</button>
+                        <button id="send-email" data-loading-text="Sending Email" type="button"
+                            class="btn font-weight-bold atlas-cta atlas-cta-wide cta-green my-3">Send</button>
                     </form>
                 </div>
             </div>
@@ -251,20 +242,23 @@
             const email = document.querySelector('#email').value;
 
             submitBtn.disabled = true;
+            submitBtn.textContent = "Sending ...";
 
             Email.send({
-                SecureToken: "2932f86c-1748-4175-9bf2-1d2d1f5fa597",
-                To: 'zuriebu@gmail.com',
+                SecureToken: "85556f6c-4d26-46da-9474-46f9fc7946ed",
+                To: 'hello.kalzate@gmail.com',
                 From: 'zuriebu@gmail.com',
                 Subject: "Kalzate: Request Demo",
                 Body: `The user "${username}" wants to request a demo "${email}"`
             }).then(
                 message => {
                     submitBtn.disabled = false;
+                    submitBtn.textContent = "Send";
                     console.log('email sent', message)
                 }
             ).catch(error => {
                 submitBtn.disabled = false;
+                submitBtn.textContent = "Send";
                 console.error('email not sent', error)
             });
         });
