@@ -10,7 +10,7 @@
     "url": "https://github.com/yourshoes/kalzate.git"
   },
   "scripts": {
-    "release": "gh-pages -d dist",
+    "release": "gh-pages -d .",
     "make": "cross-env NODE_ENV=production rm -rf demo && yarn --cwd ../app build && mv ../app/build demo"
   },
   "devDependencies": {
