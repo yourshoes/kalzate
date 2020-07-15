@@ -20,7 +20,7 @@ export default function Footer() {
       <StatusBar>
         <StatusBarLeft>
           <StatusBarItem>
-            <A to="https://www.kalzate.com" target="_blank" style={{ primary: true }}>
+            <A to="https://kalzate.app" target="_blank" style={{ primary: true }}>
               <Octicon name="home" />
               <FormattedMessage {...messages.home} />
             </A>
@@ -63,7 +63,7 @@ export default function Footer() {
           </ThemeToggle>
           <StatusBarItem>
             <A target="_blank"
-              href="https://www.kalzate.com#donate"
+              href="https://kalzate.app#donate"
               style={{ secondary: true }}>
               <Octicon name="rocket" />
               <FormattedMessage {...messages.help} />

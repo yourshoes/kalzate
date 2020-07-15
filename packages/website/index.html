@@ -205,10 +205,10 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="Email">Your Email</label>
-                                <input type="email" class="form-control" id="Email">
+                                <input type="email" class="form-control" id="email">
                             </div>
                         </div>
-                        <button type="submit"
+                        <button id="send-email" type="button"
                             class="btn font-weight-bold atlas-cta atlas-cta-wide cta-green my-3">Submit</button>
                     </form>
                 </div>
@@ -238,8 +238,35 @@
 
     <!-- AOS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script>
         AOS.init({
+        });
+
+        const submitBtn = document.querySelector('#send-email');
+
+        submitBtn.addEventListener('click', function () {
+
+            const username = document.querySelector('#name').value;
+            const email = document.querySelector('#email').value;
+
+            submitBtn.disabled = true;
+
+            Email.send({
+                SecureToken: "2932f86c-1748-4175-9bf2-1d2d1f5fa597",
+                To: 'zuriebu@gmail.com',
+                From: 'zuriebu@gmail.com',
+                Subject: "Kalzate: Request Demo",
+                Body: `The user "${username}" wants to request a demo "${email}"`
+            }).then(
+                message => {
+                    submitBtn.disabled = false;
+                    console.log('email sent', message)
+                }
+            ).catch(error => {
+                submitBtn.disabled = false;
+                console.error('email not sent', error)
+            });
         });
     </script>
 </body>
