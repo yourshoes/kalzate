@@ -206,11 +206,16 @@
                             <div class="form-group col-md-6 g-recaptcha" data-theme="dark"
                                 data-sitekey="6LcYhbIZAAAAAFhXHAYPcjxYTxqdIQv-DpA7nu98"></div>
                             <div class="form-group col-md-6">
-                                <button id="submit" type="submit"
+                                <button id="submitBtn" type="submit"
                                     class="btn font-weight-bold atlas-cta atlas-cta-wide cta-green my-3">Send</button>
                             </div>
                         </div>
                     </form>
+                    <div id="contact-form-ok" class="d-none row">
+                        <p>
+                            Thanks for reaching us out. <br />We'll come back to you as soon as possible!
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -250,16 +255,21 @@
 
             event.preventDefault();
 
+            const isValidUser = grecaptcha.getResponse();
+
             const username = document.querySelector('#name').value;
             const email = document.querySelector('#email').value;
+            const successMsg = document.querySelector('#contact-form-ok');
 
-            if (!username || !email) {
+            successMsg.classList.add('d-none');
+
+            if (!username || !email || !isValidUser) {
                 return;
             }
 
-            const submitBtn = document.querySelector('#submit');
+            const submitBtn = document.querySelector('#submitBtn');
 
-            submitBtn.textContent = "Sending ...";
+            submitBtn.textContent = "....";
             submitBtn.disabled = true;
 
             Email.send({
@@ -272,6 +282,7 @@
                 message => {
                     submitBtn.disabled = false;
                     submitBtn.textContent = "Send";
+                    successMsg.classList.remove('d-none');
                 }
             ).catch(error => {
                 submitBtn.disabled = false;
