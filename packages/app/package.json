@@ -26,7 +26,7 @@
     "dateformat": "^3.0.3",
     "intl": "1.2.5",
     "js-yaml": "^3.11.0",
-    "lodash": "4.17.2",
+    "lodash": "4.17.19",
     "mousetrap": "^1.6.1",
     "pubsub-js": "^1.5.7",
     "react": "15.4.1",
