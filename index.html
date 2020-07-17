@@ -207,7 +207,15 @@
                                 data-sitekey="6LcYhbIZAAAAAFhXHAYPcjxYTxqdIQv-DpA7nu98"></div>
                             <div class="form-group col-md-6">
                                 <button id="submitBtn" type="submit"
-                                    class="btn font-weight-bold atlas-cta atlas-cta-wide cta-green my-3">Send</button>
+                                    class="btn font-weight-bold atlas-cta atlas-cta-wide cta-green my-3">
+                                    <div class="loading d-none">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                    <span class="submit-text">Send</span>
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -268,9 +276,12 @@
             }
 
             const submitBtn = document.querySelector('#submitBtn');
+            const loadingSpinner = submitBtn.querySelector('.loading');
+            const submitText = submitBtn.querySelector('.submit-text');
 
-            submitBtn.textContent = "....";
             submitBtn.disabled = true;
+            loadingSpinner.classList.remove('d-none');
+            submitText.classList.add('d-none');
 
             Email.send({
                 SecureToken: "85556f6c-4d26-46da-9474-46f9fc7946ed",
@@ -281,12 +292,14 @@
             }).then(
                 message => {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Send";
+                    loadingSpinner.classList.add('d-none');
+                    submitText.classList.remove('d-none');
                     successMsg.classList.remove('d-none');
                 }
             ).catch(error => {
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Send";
+                loadingSpinner.classList.add('d-none');
+                submitText.classList.remove('d-none');
             });
         });
     </script>
