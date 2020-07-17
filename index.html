@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Kalzate Website</title>
-    <meta name="description" content="Free bootstrap template Atlas">
-    <link rel="icon" href="img/favicon.png" sizes="32x32" type="image/png">
+    <meta name="description" content="Kalzate, A Point Of Sale For Busy People">
+    <link rel="shortcut icon" sizes="64x64" href="img/favicon.png" type="image/png" />
     <!-- custom.css -->
     <link rel="stylesheet" href="css/custom.css">
     <!-- bootstrap.min.css -->
@@ -16,6 +16,8 @@
 
     <!-- AOS -->
     <link rel="stylesheet" href="css/aos.css">
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
@@ -189,7 +191,7 @@
                         <li>Email : @com</li>
                         <li>Phone : 361-688-5824</li>
                     </ul> -->
-                    <form>
+                    <form id="contact-form">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="name">Your Name</label>
@@ -200,8 +202,14 @@
                                 <input type="email" class="form-control" id="email">
                             </div>
                         </div>
-                        <button id="send-email" data-loading-text="Sending Email" type="button"
-                            class="btn font-weight-bold atlas-cta atlas-cta-wide cta-green my-3">Send</button>
+                        <div class="row">
+                            <div class="form-group col-md-6 g-recaptcha" data-theme="dark"
+                                data-sitekey="6LcYhbIZAAAAAFhXHAYPcjxYTxqdIQv-DpA7nu98"></div>
+                            <div class="form-group col-md-6">
+                                <button id="submit" type="submit"
+                                    class="btn font-weight-bold atlas-cta atlas-cta-wide cta-green my-3">Send</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -230,14 +238,17 @@
 
     <!-- AOS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script>
         AOS.init({
         });
 
-        const submitBtn = document.querySelector('#send-email');
+        const contactForm = document.querySelector('#contact-form');
 
-        submitBtn.addEventListener('click', function () {
+        contactForm.addEventListener('submit', function (event) {
+
+            event.preventDefault();
 
             const username = document.querySelector('#name').value;
             const email = document.querySelector('#email').value;
@@ -245,6 +256,8 @@
             if (!username || !email) {
                 return;
             }
+
+            const submitBtn = document.querySelector('#submit');
 
             submitBtn.textContent = "Sending ...";
             submitBtn.disabled = true;
