@@ -20,6 +20,11 @@ img {
     margin: 0;
 }
 
+#contact-form-ok {
+    text-align: center;
+    justify-content: center;
+}
+
 #banner header a i {
     font-size: 1.8rem;
     transition: .4s ease;
