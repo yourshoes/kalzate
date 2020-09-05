@@ -5,7 +5,6 @@
 		// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
 		"dbaeumer.vscode-eslint",
 		"msjsdiag.debugger-for-chrome",
-		"peterjausovec.vscode-docker",
 		"mikestead.dotenv",
 		"github.vscode-pull-request-github",
 		"eamodio.gitlens",

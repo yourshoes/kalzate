@@ -1,9 +1,0 @@
-/*
- *
- * WorkSpacePage constants
- *
- */
-
-export const UPDATE_SETTING_ACTION = 'ui/SettingsPage/UPDATE_SETTING_ACTION';
-export const UPDATE_SETTING_ERROR_ACTION = 'UPDATE_SETTING_ERROR_ACTION';
-export const UPDATE_SETTING_SUCCESS_ACTION = 'UPDATE_SETTING_SUCCESS_ACTION';

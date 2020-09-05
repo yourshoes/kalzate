@@ -1,7 +1,0 @@
----
-appId: com.kalzate
-productName: Kalzate
-electronVersion : 2.0.8
-copyright: Copyright © 2020 ${author}
-directories:
-    app: build

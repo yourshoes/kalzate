@@ -1,7 +1,0 @@
-{
-  "extends": "react-app",
-  "rules": {
-    "react/sort-comp": [1],
-    "react/prop-types": [1]
-  }
-}

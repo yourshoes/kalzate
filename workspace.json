@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "projects": {
+    "kalzate": {
+      "root": "apps/kalzate",
+      "sourceRoot": "apps/kalzate/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/kalzate",
+            "index": "apps/kalzate/src/index.html",
+            "main": "apps/kalzate/src/main.tsx",
+            "polyfills": "apps/kalzate/src/polyfills.ts",
+            "tsConfig": "apps/kalzate/tsconfig.app.json",
+            "assets": [
+              "apps/kalzate/src/favicon.ico",
+              "apps/kalzate/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/kalzate/src/environments/environment.ts",
+                  "with": "apps/kalzate/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "kalzate:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "kalzate:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "apps/kalzate/tsconfig.app.json",
+              "apps/kalzate/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/kalzate/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/kalzate/jest.config.js",
+            "tsConfig": "apps/kalzate/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "kalzate-e2e": {
+      "root": "apps/kalzate-e2e",
+      "sourceRoot": "apps/kalzate-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/kalzate-e2e/cypress.json",
+            "tsConfig": "apps/kalzate-e2e/tsconfig.e2e.json",
+            "devServerTarget": "kalzate:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "kalzate:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["apps/kalzate-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/kalzate-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "schematics": {
+    "@nrwl/react": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "styled-components"
+      },
+      "library": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "kalzate"
+}
