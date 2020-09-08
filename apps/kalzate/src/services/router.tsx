@@ -2,18 +2,17 @@ import { lazy } from 'react';
 
 const getPath = (...path) => `/${path.join('/')}`;
 
-export const HOME_PAGE= 'kz.pages.home';
-export const MATCH_PAGE= 'ai.pages.match';
-export const SETTINGS_PAGE= 'ai.pages.settings';
-export const JOIN_PAGE= 'ai.pages.join';
-export const JOIN_PROFILE_PAGE= 'ai.pages.joinProfile';
-export const LOGIN_PAGE= 'ai.pages.login';
-export const AUTH_ACTIONS_PAGE= 'ai.pages.authActions';
-export const PASSWORD_RESET_PAGE= 'ai.pages.resetPassword';
-export const NOT_FOUND_PAGE= 'ai.pages.notFound';
+export const HOME_PAGE = 'kz.pages.home';
+export const MATCH_PAGE = 'ai.pages.match';
+export const SETTINGS_PAGE = 'ai.pages.settings';
+export const JOIN_PAGE = 'ai.pages.join';
+export const JOIN_PROFILE_PAGE = 'ai.pages.joinProfile';
+export const LOGIN_PAGE = 'ai.pages.login';
+export const AUTH_ACTIONS_PAGE = 'ai.pages.authActions';
+export const PASSWORD_RESET_PAGE = 'ai.pages.resetPassword';
+export const NOT_FOUND_PAGE = 'ai.pages.notFound';
 
 class RouterService {
-
   routes = [
     {
       id: HOME_PAGE,
@@ -76,7 +75,7 @@ class RouterService {
     // },
   ];
 
-  reload(){
+  reload() {
     window.location.reload();
   }
 

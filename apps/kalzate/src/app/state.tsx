@@ -27,12 +27,12 @@ export function GlobalStateProvider(props) {
     // );
     // return () => unSubscribe();
     asyncDispatcher(hydrate());
-  }, [asyncDispatcher]);// asyncDispatcher is guaranteed to not change by React
+  }, [asyncDispatcher]); // asyncDispatcher is guaranteed to not change by React
 
   // Every time we call dispatch is going to re-render everything in props.children
   // so let use it carefully
   return (
-    <GlobalStateContext.Provider value={[ globalState, asyncDispatcher ]}>
+    <GlobalStateContext.Provider value={[globalState, asyncDispatcher]}>
       {globalState.ready && props.children}
     </GlobalStateContext.Provider>
   );

@@ -1,4 +1,4 @@
-import {hydrate} from './app';
+import { hydrate } from './app';
 import * as actionTypes from '/app/actions';
 
 // Initial App State

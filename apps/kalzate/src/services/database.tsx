@@ -1,9 +1,7 @@
-
 class DatabaseService {
+  PROFILE_COLLECTION = 'profile';
 
-  PROFILE_COLLECTION='profile'
-
-  async init(){
+  async init() {
     return {};
   }
 }

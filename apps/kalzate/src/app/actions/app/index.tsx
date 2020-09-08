@@ -6,7 +6,7 @@ export const hydrate = () => ({
 
 export const hydrateSuccess = (data = {}) => ({
   type: actionTypes.HYDRATE_SUCCESS_ACTION,
-  data
+  data,
 });
 
 export const exportDatabase = () => ({

@@ -1,7 +1,6 @@
-import { createGlobalStyle  } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import 'sanitize.css/sanitize.css';
 
-/* eslint no-unused-expressions: 0 */
 const GlobalStyle = createGlobalStyle`
 
   html,

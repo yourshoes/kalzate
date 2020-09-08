@@ -1,4 +1,3 @@
-
 export function hydrate(state, payload) {
-    return { ...state, ...payload, ready: true };
+  return { ...state, ...payload, ready: true };
 }
