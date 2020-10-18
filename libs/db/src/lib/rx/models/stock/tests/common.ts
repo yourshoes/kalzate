@@ -21,16 +21,15 @@ export const getStockInstance = async (
 ) => Stock(await createRxDatabase(dbOptions));
 
 export const isErrorInstanceOf = async (fn, ErrorType, debug = false) => {
-  let error;
   let data;
+  const { title, code } = new ErrorType();
   try {
     data = await fn();
-  } catch (e) {
+  } catch (error) {
     if (debug) {
-      console.error(e)
+      console.error(error)
     }
-    error = e;
+    return { data, hasError: error?.title === title && error?.code === code, error };
   }
-  const { title, code } = new ErrorType();
-  return { data, result: error?.title === title && error?.code === code, error };
+  return { data, hasError: false, error: null };
 };

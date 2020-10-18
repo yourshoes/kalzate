@@ -172,25 +172,30 @@ export class Stock {
    * This fetches the stock items given a filter
    * @param {object} {match, limit, skip, count, sort}
    */
-  async get({
-    match,
-    limit = this.defaults.limit,
-    skip = this.defaults.skip,
-    count = true,
-    sort = { createdAt: 'desc' },
-  }) {
+  async get(options) {
+
+    const {
+      match,
+      limit = this.defaults.limit,
+      skip = this.defaults.skip,
+      count = true,
+      sort = { createdAt: 'desc' },
+    } = options || {};
+
     const foundStocks = this.collection
       .find(match)
       .limit(limit)
       .skip(skip)
       .sort(sort)
       .exec();
+
     if (!count) return foundStocks;
     // eslint-disable-next-line no-async-promise-executor
     const totalAmount = new Promise(async (resolve) => {
       const allStocks = await this.collection.find(match).exec();
       resolve(allStocks.length);
     });
+    
     const [items, total] = await Promise.all([foundStocks, totalAmount]);
     return { items, total, limit, skip };
   }
@@ -205,9 +210,8 @@ export class Stock {
     try {
       if (!value) return { value, items: [] };
       const matches = await this.get({
-        match: { [field]: { $regex: new RegExp(`^${value}`) } },
+        match: {selector: { [field]: { $regex: new RegExp(`^${value}`) } }},
       });
-      // return { ...matches, value, items: matches.items.map((i) => i[field]) };
       return { value, items: matches.items.map((i) => i[field]) };
     } catch (e) {
       throw new NoStockMatchesFoundError(e, field, value);
@@ -283,7 +287,7 @@ export class Stock {
       throw new Error('stock items is empty');
     }
 
-    if (options.remove) {
+    if (options?.remove) {
       await this.removeAll();
     }
     // this.collection.pouch.bulkDocs
@@ -297,9 +301,13 @@ export class Stock {
     if (!stock || !stock.reference || !stock.price || stock.price <= 0) {
       throw new Error('Stock requires reference and price');
     }
+
     const isStockCreated = await this.collection
-      .find({ reference: { $eq: stock.reference } })
+      .find()
+      .where('reference')
+      .eq(stock.reference)
       .exec();
+    
     if (!isStockCreated.length) {
       // eslint-disable-next-line @typescript-eslint/camelcase
       return this.upsert(merge(stock, { id: uuidv1(), createdAt: new Date().getTime(), sold: 0 }));
@@ -326,7 +334,7 @@ export class Stock {
       throw new Error('Stock requires an id field to be updated');
     }
     // Remove find check to allow creating a new stock if it does not exist
-    const currentStock = await this.collection.find({ id: { $eq: stock.id } }).exec();
+    const currentStock = await this.collection.find().where('id').eq(stock.id).exec();
     if (!currentStock.length) {
       throw new Error('Stock to be updated does not exists');
     }

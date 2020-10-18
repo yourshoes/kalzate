@@ -3,14 +3,18 @@
  * @desc throws when stock cannot be created
  */
 export class NoStockCreatedError extends Error {
-  constructor(e = { message: '' }, stock = {}) {
+  public title;
+  public code;
+  public message;
+  public data;
+  constructor(e, stock = {}) {
     super(e);
     this.title = 'Stock could not be created';
     this.code = 'NoStockCreatedError';
     this.data = stock;
     this.message = `Stock ${JSON.stringify(
       stock
-    )} could not be created. Please, check extra info: ${e.message}`;
+    )} could not be created. Please, check extra info: ${e?.message}`;
   }
 }
 
@@ -19,7 +23,11 @@ export class NoStockCreatedError extends Error {
  * @desc throws when stock cannot be updated
  */
 export class NoStockUpdatedError extends Error {
-  constructor(e = { message: '' }, stock = {}) {
+  public title;
+  public code;
+  public message;
+  public data;
+  constructor(e, stock = {}) {
     super(e);
     this.title = 'Stock could not be updated';
     this.code = 'NoStockUpdatedError';
@@ -27,7 +35,7 @@ export class NoStockUpdatedError extends Error {
     this.message = `Stock ${JSON.stringify(
       stock
     )} could not be updated. To update an stock, it has to exist and fit the stock schema. Have a look a it on src/models/stock/schema.js. Please, check extra info: ${
-      e.message
+      e?.message
     }`;
   }
 }
@@ -37,13 +45,17 @@ export class NoStockUpdatedError extends Error {
  * @desc throws when no matches are found
  */
 export class NoStockMatchesFoundError extends Error {
-  constructor(e = { message: '' }, field = '', value = '') {
+  public title;
+  public code;
+  public message;
+  public data;
+  constructor(e, field = '', value = '') {
     super(e);
     this.title = 'Stock matches not found';
     this.code = 'NoStockMatchesFoundError';
     this.data = { field, value };
     this.message = `No matches found for field "${field}" with value ${value}.Please, check extra info: ${
-      e.message
+      e?.message
     }`;
   }
 }
@@ -53,13 +65,18 @@ export class NoStockMatchesFoundError extends Error {
  * @desc throws when no matches are found
  */
 export class QueryStockError extends Error {
-  constructor(e = { message: '' }, query = '') {
+  
+  public title;
+  public code;
+  public message;
+  public data;constructor(e, query = '') {
+
     super(e);
     this.title = 'Stock query could not be executed';
     this.code = 'QueryStockError';
     this.data = { query, e };
     this.message = `Stock Query did not run.Please, check extra info: 
     ${JSON.stringify(query)}
-    Error: ${e.message}`;
+    Error: ${e?.message}`;
   }
 }
