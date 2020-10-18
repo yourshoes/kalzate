@@ -12,7 +12,7 @@
 // All
 import { isRxCollection, isRxDatabase } from 'rxdb';
 import { isArray, merge, uniqBy, first } from 'lodash';
-import uuidv1 from 'uuid/v1';
+import  { v1 as uuidv1 } from 'uuid';
 import schema from './schema';
 import { DEFAULT_LIMIT_AMOUNT } from './config';
 import { NoDatabaseFoundError } from '../../errors/db';
@@ -22,8 +22,7 @@ import {
   NoStockMatchesFoundError,
   QueryStockError,
 } from '../../errors/stock';
-
-export class StockBasic {
+export class Stock {
   //   static queries = {
   //     MORE_SOLD: { order: 'times_sold', desc: true },
   //     MORE_EXPENSIVE: {},
@@ -73,7 +72,10 @@ export class StockBasic {
     }),
   };
 
-  constructor(db, collection, schema) {
+  private db = null;
+  private collection = null;
+
+  constructor(db, collection) {
     if (!isRxDatabase(db)) {
       throw new Error('A valid RxDatabase is required!');
     }
@@ -82,7 +84,6 @@ export class StockBasic {
     }
     this.db = db;
     this.collection = collection;
-    this.schema = schema;
   }
 
   /**
@@ -134,7 +135,7 @@ export class StockBasic {
    * This updates an stock item amount by increasing it. it has to exists and fit the schema
    * @param {object} stock
    */
-  async increaseAmount(stock = {}) {
+  async increaseAmount(stock) {
     try {
       const currentStock = first(await this.fetchById(stock));
       // @todo Should we return this.upsert or await this.upsert ?
@@ -152,7 +153,7 @@ export class StockBasic {
    * This updates an stock item amount by decreasing it. it has to exists and fit the schema
    * @param {object} stock
    */
-  async decreaseAmount(stock = {}) {
+  async decreaseAmount(stock) {
     try {
       const currentStock = first(await this.fetchById(stock));
       // @todo Should we return this.upsert or await this.upsert ?
@@ -171,24 +172,30 @@ export class StockBasic {
    * This fetches the stock items given a filter
    * @param {object} {match, limit, skip, count, sort}
    */
-  async get({
-    match,
-    limit = this.defaults.limit,
-    skip = this.defaults.skip,
-    count = true,
-    sort = { created_at: 'desc' },
-  } = {}) {
+  async get(options) {
+
+    const {
+      match,
+      limit = this.defaults.limit,
+      skip = this.defaults.skip,
+      count = true,
+      sort = { createdAt: 'desc' },
+    } = options || {};
+
     const foundStocks = this.collection
       .find(match)
       .limit(limit)
       .skip(skip)
       .sort(sort)
       .exec();
+
     if (!count) return foundStocks;
+    // eslint-disable-next-line no-async-promise-executor
     const totalAmount = new Promise(async (resolve) => {
       const allStocks = await this.collection.find(match).exec();
       resolve(allStocks.length);
     });
+    
     const [items, total] = await Promise.all([foundStocks, totalAmount]);
     return { items, total, limit, skip };
   }
@@ -203,9 +210,8 @@ export class StockBasic {
     try {
       if (!value) return { value, items: [] };
       const matches = await this.get({
-        match: { [field]: { $regex: new RegExp(`^${value}`) } },
+        match: {selector: { [field]: { $regex: new RegExp(`^${value}`) } }},
       });
-      // return { ...matches, value, items: matches.items.map((i) => i[field]) };
       return { value, items: matches.items.map((i) => i[field]) };
     } catch (e) {
       throw new NoStockMatchesFoundError(e, field, value);
@@ -250,7 +256,9 @@ export class StockBasic {
    * @return {string}
    */
   formatDescription(item) {
-    return `${this.abbrv('DESC', item.desc)}`;
+    return `${this.abbrv('BRAND', item.brand)}-${item.colors
+      .map((c) => this.abbrv('COLORS', c))
+      .join()} (${item.size}-${this.abbrv('BRAND', item.gender)})`;
   }
   // async query({ select, where, limit, offset, order }) {
   //   return this.collection.find()
@@ -274,12 +282,12 @@ export class StockBasic {
   /*                  PRIVATE METHODS                      */
   /** ***************************************************** */
 
-  async createBatch(stock = [], options = {}) {
+  async createBatch(stock, options) {
     if (!stock.length) {
       throw new Error('stock items is empty');
     }
 
-    if (options.remove) {
+    if (options?.remove) {
       await this.removeAll();
     }
     // this.collection.pouch.bulkDocs
@@ -289,15 +297,20 @@ export class StockBasic {
     return Promise.all(createOnePromises);
   }
 
-  async createOne(stock = {}, orUpdate = false) {
+  async createOne(stock, orUpdate = false) {
     if (!stock || !stock.reference || !stock.price || stock.price <= 0) {
       throw new Error('Stock requires reference and price');
     }
+
     const isStockCreated = await this.collection
-      .find({ reference: { $eq: stock.reference } })
+      .find()
+      .where('reference')
+      .eq(stock.reference)
       .exec();
+    
     if (!isStockCreated.length) {
-      return this.upsert(merge(stock, { id: uuidv1(), created_at: new Date().getTime(), sold: 0 }));
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      return this.upsert(merge(stock, { id: uuidv1(), createdAt: new Date().getTime(), sold: 0 }));
     }
     if (!orUpdate) {
       throw new Error('Stock already exists');
@@ -305,7 +318,8 @@ export class StockBasic {
     return this.upsert(
       merge(stock, {
         id: isStockCreated[0].id,
-        created_at: isStockCreated[0].created_at,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        createdAt: isStockCreated[0].createdAt,
         amount: (isStockCreated[0].amount || 0) + (stock.amount || 0),
       })
     );
@@ -320,7 +334,7 @@ export class StockBasic {
       throw new Error('Stock requires an id field to be updated');
     }
     // Remove find check to allow creating a new stock if it does not exist
-    const currentStock = await this.collection.find({ id: { $eq: stock.id } }).exec();
+    const currentStock = await this.collection.find().where('id').eq(stock.id).exec();
     if (!currentStock.length) {
       throw new Error('Stock to be updated does not exists');
     }
@@ -329,39 +343,25 @@ export class StockBasic {
 
   abbrv(type, value) {
     switch (type) {
-      case 'DESC':
-        return value ? value.substring(0, 10) : '';
+      case 'COLORS':
+      case 'GENDER':
+      case 'BRAND':
+        return value ? value.substring(0, 3) : '';
       default:
         return value;
     }
   }
 }
 
-export default async function (db) {
+export default async function(db) {
   if (!db) throw new NoDatabaseFoundError();
   // Create or Retrieve collection first
   const collection = db.collections.stock
     ? db.collections.stock
     : await db.collection({
-      name: 'stockbasic',
-      schema,
-      // https://github.com/pubkey/rxdb/blob/master/docs-src/data-migration.md
-      // migrationStrategies: {
-      //   // 1 means, this transforms data from version 0 to version 1
-      //   1: function(oldDoc){
-      //     oldDoc.time = new Date(oldDoc.time).getTime(); // string to unix
-      //     return oldDoc;
-      //   },
-      //   /**
-      //    * this removes all documents older then 2017-02-12
-      //    * they will not appear in the new collection
-      //    */
-      //   2: function(oldDoc){
-      //     if(oldDoc.time < 1486940585) return null;
-      //     else return oldDoc;
-      //   }
-      // }
-    });
+        name: 'stock',
+        schema,
+      });
   // Return an Stock instance
-  return new StockBasic(db, collection);
+  return new Stock(db, collection);
 }

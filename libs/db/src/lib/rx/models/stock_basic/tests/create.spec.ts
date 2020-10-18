@@ -1,9 +1,5 @@
-/* eslint-disable */
-'use strict';
-
 import { NoStockCreatedError } from '../../../errors/stock';
 import { getStockInstance, isErrorInstanceOf } from './common';
-import { expect } from 'chai';
 
 describe('create stock method', function() {
   let stockInstance;
@@ -16,7 +12,7 @@ describe('create stock method', function() {
       async () => await stockInstance.create(),
       NoStockCreatedError
     );
-    expect(case1.result).to.be.true;
+    expect(case1.hasError).toBe(true);
     const case2 = await isErrorInstanceOf(
       async () =>
         await stockInstance.create({
@@ -30,7 +26,7 @@ describe('create stock method', function() {
         }),
       NoStockCreatedError
     );
-    expect(case2.result).to.be.true;
+    expect(case2.hasError).toBe(true);
   });
 
   it('should throw error if stock already exists', async () => {
@@ -42,7 +38,7 @@ describe('create stock method', function() {
         }),
       NoStockCreatedError
     );
-    expect(case1.result).to.be.false;
+    expect(case1.hasError).toBe(false)
     const case2 = await isErrorInstanceOf(
       async () =>
         await stockInstance.create({
@@ -51,7 +47,7 @@ describe('create stock method', function() {
         }),
       NoStockCreatedError
     );
-    expect(case2.result).to.be.true;
+    expect(case2.hasError).toBe(true);
   });
 
   it('should throw error if reference is not an string', async () => {
@@ -60,25 +56,25 @@ describe('create stock method', function() {
       async () => await stockInstance.create({ reference: 2 }),
       NoStockCreatedError
     );
-    expect(case1.result).to.be.true;
+    expect(case1.hasError).toBe(true);
     // undefined
     const case2 = await isErrorInstanceOf(
       async () => await stockInstance.create({ reference: void 0 }),
       NoStockCreatedError
     );
-    expect(case2.result).to.be.true;
+    expect(case2.hasError).toBe(true);
     // Boolean
     const case3 = await isErrorInstanceOf(
       async () => await stockInstance.create({ reference: true }),
       NoStockCreatedError
     );
-    expect(case3.result).to.be.true;
+    expect(case3.hasError).toBe(true);
     // function
     const case4 = await isErrorInstanceOf(
       async () => await stockInstance.create({ reference: () => null }),
       NoStockCreatedError
     );
-    expect(case4.result).to.be.true;
+    expect(case4.hasError).toBe(true);
   });
 
   it('should throw error if no reference is given when creating an item', async () => {
@@ -94,7 +90,7 @@ describe('create stock method', function() {
         }),
       NoStockCreatedError
     );
-    expect(case1.result).to.be.true;
+    expect(case1.hasError).toBe(true);
   });
 
   it('should throw error if no price is given when creating an item', async () => {
@@ -106,7 +102,7 @@ describe('create stock method', function() {
         }),
       NoStockCreatedError
     );
-    expect(case1.result).to.be.true;
+    expect(case1.hasError).toBe(true);
     const case2 = await isErrorInstanceOf(
       async () =>
         await stockInstance.create({
@@ -115,7 +111,7 @@ describe('create stock method', function() {
         }),
       NoStockCreatedError
     );
-    expect(case2.result).to.be.true;
+    expect(case2.hasError).toBe(true);
     const case3 = await isErrorInstanceOf(
       async () =>
         await stockInstance.create({
@@ -128,7 +124,7 @@ describe('create stock method', function() {
         }),
       NoStockCreatedError
     );
-    expect(case3.result).to.be.true;
+    expect(case3.hasError).toBe(true);
   });
 
   it('should create an item using a reference and a price', async function() {
@@ -140,10 +136,10 @@ describe('create stock method', function() {
         }),
       NoStockCreatedError
     );
-    expect(case1.result).to.be.false;
-    expect(case1.data).to.have.property('id');
-    expect(case1.data).to.have.property('created_at');
-    expect(case1.data).to.have.property('reference');
-    expect(case1.data).to.have.property('price');
+    expect(case1.hasError).toBe(false)
+    expect(case1.data).toHaveProperty('id');
+    expect(case1.data).toHaveProperty('createdAt');
+    expect(case1.data).toHaveProperty('reference');
+    expect(case1.data).toHaveProperty('price');
   });
 });

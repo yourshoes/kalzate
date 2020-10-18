@@ -3,7 +3,6 @@
 
 import { NoStockCreatedError, NoStockUpdatedError } from '../../../errors/stock';
 import { getStockInstance, isErrorInstanceOf } from './common';
-import { expect } from 'chai';
 
 describe('update stock method', function () {
   let stockInstance;
@@ -16,12 +15,12 @@ describe('update stock method', function () {
       async () => await stockInstance.update(),
       NoStockUpdatedError
     );
-    expect(case1.result).to.be.true;
+    expect(case1.hasError).toBe(true);
     const case2 = await isErrorInstanceOf(
       async () =>
         await stockInstance.update({
           id: '',
-          created_at: 0,
+          createdAt: 0,
           reference: '',
           brand: '',
           gender: '',
@@ -32,7 +31,7 @@ describe('update stock method', function () {
         }),
       NoStockUpdatedError
     );
-    expect(case2.result).to.be.true;
+    expect(case2.hasError).toBe(true);
   });
 
   it('should not throw error if stock exists', async () => {
@@ -44,18 +43,18 @@ describe('update stock method', function () {
         }),
       NoStockCreatedError
     );
-    expect(case1.result).to.be.false;
+    expect(case1.hasError).toBe(false);
     const case2 = await isErrorInstanceOf(
       async () =>
         await stockInstance.update({
           id: case1.data.id,
-          created_at: case1.data.created_at,
+          createdAt: case1.data.createdAt,
           reference: 'reference',
           price: 2,
         }),
       NoStockUpdatedError
     );
-    expect(case2.result).to.be.false;
+    expect(case2.hasError).toBe(false);
   });
 
   it('should throw error if stock does not exist', async () => {
@@ -63,11 +62,11 @@ describe('update stock method', function () {
       async () =>
         await stockInstance.update({
           id: 'does not exist',
-          created_at: new Date().getTime(),
+          createdAt: new Date().getTime(),
           reference: 'reference2',
         }),
       NoStockUpdatedError
     );
-    expect(case2.result).to.be.true;
+    expect(case2.hasError).toBe(true);
   });
 });

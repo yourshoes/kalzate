@@ -1,12 +1,11 @@
 /* eslint-disable */
 'use strict';
 
-import { expect } from 'chai';
-import Stock, { StockBasic as StockModel } from '..';
+import Stock, { Stock as StockModel } from '../';
 import { NoDatabaseFoundError } from '../../../errors/db';
 import { getStockInstance, isErrorInstanceOf } from './common';
 
-describe('Stock instance', function() {
+describe('Stock instance', function () {
   it('should throw error if no rx database is given', async () => {
     //@todo waiting for https://github.com/chaijs/chai/issues/930
     //expect(e).to.be.an.error(NoDatabaseFoundError);
@@ -14,11 +13,12 @@ describe('Stock instance', function() {
     //   new NoDatabaseFoundError()
     // );
     const case1 = await isErrorInstanceOf(async () => await Stock(), NoDatabaseFoundError);
-    expect(case1.result).to.be.true;
+    expect(case1.hasError).toBe(true);
   });
 
   it('should not throw error if rx database is given', async () => {
     const stockInstance = await getStockInstance();
-    expect(stockInstance).to.be.an.instanceOf(StockModel);
+    expect(stockInstance).toBeInstanceOf(StockModel);
   });
 });
+

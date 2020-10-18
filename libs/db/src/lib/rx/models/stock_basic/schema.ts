@@ -1,10 +1,48 @@
 export default {
-  title: 'item schema',
+  title: 'stock basic schema',
   version: 0,
-  description: 'describes an item',
+  description: 'describes an stock document',
   type: 'object',
+  indexes: [
+    "createdAt",
+    "reference",
+    "sold"
+  ],
   properties: {
+    createdAt: {
+      type: 'number',
+    },
+    id: {
+      type: 'string',
+      primary: true,
+      final: true,
+    },
     reference: {
+      type: 'string',
+      final: true,
+    },
+    brand: {
+      type: 'string',
+    },
+    price: {
+      type: 'number',
+    },
+    amount: {
+      type: 'number',
+    },
+    desc: {
+      type: 'string',
+    },
+    sold: {
+      type: 'number',
+      default: 0,
+    },
+  },
+};
+
+/**
+ * Extended fields
+ * reference: {
       type: 'string',
       primary: true,
     },
@@ -90,5 +128,4 @@ export default {
       type: 'number',
       default: 0,
     },
-  },
-};
+ */
