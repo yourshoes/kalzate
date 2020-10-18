@@ -22,12 +22,25 @@
     }
   },
   "projects": {
-    "kalzate": {
+    "kalzate-web": {
       "tags": []
     },
     "kalzate-e2e": {
       "tags": [],
-      "implicitDependencies": ["kalzate"]
+      "implicitDependencies": ["kalzate-web"]
+    },
+    "landing": {
+      "tags": []
+    },
+    "landing-e2e": {
+      "tags": [],
+      "implicitDependencies": ["landing"]
+    },
+    "components": {
+      "tags": []
+    },
+    "db": {
+      "tags": []
     }
   }
 }
