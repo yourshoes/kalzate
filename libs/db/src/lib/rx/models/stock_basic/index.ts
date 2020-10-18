@@ -40,8 +40,10 @@ export class Stock {
     topSold: () => ({
       match: {
         // MATCH DOES NOT WORK ALONG WITH SORT!!!
-        sold: {
-          $gte: 1,
+        selector: {
+          sold: {
+            $gte: 1,
+          }
         },
       },
       limit: 10,
@@ -51,8 +53,10 @@ export class Stock {
     topNotSold: () => ({
       match: {
         // MATCH DOES NOT WORK ALONG WITH SORT!!!
-        sold: {
-          $gte: 1,
+        selector: {
+          sold: {
+            $gte: 1,
+          }
         },
       },
       limit: 10,
@@ -63,8 +67,10 @@ export class Stock {
     }),
     topEmptyStock: () => ({
       match: {
-        amount: {
-          $eq: 0,
+        selector: {
+          amount: {
+            $eq: 0,
+          }
         },
       },
       limit: 10,
@@ -72,8 +78,8 @@ export class Stock {
     }),
   };
 
-  private db = null;
-  private collection = null;
+  public db = null;
+  public collection = null;
 
   constructor(db, collection) {
     if (!isRxDatabase(db)) {

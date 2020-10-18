@@ -6,6 +6,12 @@ import { isRxCollection, isRxDatabase } from 'rxdb';
 import { groupBy, toPairs, min, max, mean, size, zipWith } from 'lodash';
 
 class Charts {
+  
+  public db;
+  public stock;
+  public ticket;
+  public collection;
+
   TOP_TEN_LIMIT = 10;
 
   constructor(db, stock, ticket) {

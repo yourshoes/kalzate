@@ -3,6 +3,10 @@ import { size, fromPairs, map } from 'lodash';
 import schema from './schema';
 
 class Settings {
+
+  public db;
+  public collection;
+
   defaults = [];
 
   constructor(db, collection) {
