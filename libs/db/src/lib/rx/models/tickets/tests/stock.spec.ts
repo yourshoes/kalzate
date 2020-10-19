@@ -37,7 +37,7 @@ describe('create ticket method (stock)', function () {
     }
     const case2 = await isErrorInstanceOf(
       () => ticketInstance.create(ticketDocument),
-      TicketNoSavedError
+      TicketNoSavedError,
     );
     expect(case2.hasError).toBe(false);
     expect(case2.data).toHaveLength(36);

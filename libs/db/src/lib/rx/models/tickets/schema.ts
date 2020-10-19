@@ -3,10 +3,12 @@ export default {
   version: 0,
   description: 'describes a ticket document',
   type: 'object',
+  indexes: [
+    "createdAt",
+  ],
   properties: {
-    created_at: {
+    createdAt: {
       type: 'number',
-      index: true,
     },
     id: {
       type: 'string',
@@ -45,5 +47,5 @@ export default {
       type: 'array',
     }
   },
-  required: ['created_at', 'id', 'payments', 'operations'],
+  required: ['createdAt', 'id', 'payments', 'operations'],
 };

@@ -25,7 +25,7 @@ describe('open ticket method', function () {
       yesterday.setDate(yesterday.getDate() - 1);
       const case1 = await isErrorInstanceOf(
         () =>
-          ticketInstance.create({ ...validTicketDocument, created_at: yesterday.getTime() }),
+          ticketInstance.create({ ...validTicketDocument, createdAt: yesterday.getTime() }),
         TicketNoSavedError
       );
       expect(case1.hasError).toBe(false)

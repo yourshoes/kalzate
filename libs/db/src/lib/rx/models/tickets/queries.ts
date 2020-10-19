@@ -2,23 +2,27 @@ import omit from 'lodash/omit';
 
 export const dailyTicketIds = () => ({
     match: {
-        created_at: {
-            $gte: new Date().setHours(0, 0, 0, 0),
-        },
+        selector: {
+            createdAt: {
+                $gte: new Date().setHours(0, 0, 0, 0),
+            },
+        }
     },
-    sort: 'created_at',
-    fields: ({ id, created_at, balance }) => ({ id, created_at, balance }),
+    sort: 'createdAt',
+    fields: ({ id, createdAt, balance }) => ({ id, createdAt, balance }),
     limit: null, // no limit
     skip: 0
 });
 
 export const dailyTicketOperations = () => ({
     match: {
-        created_at: {
-            $gte: new Date().setHours(0, 0, 0, 0),
-        },
+        selector: {
+            createdAt: {
+                $gte: new Date().setHours(0, 0, 0, 0),
+            },
+        }
     },
-    sort: 'created_at',
+    sort: 'createdAt',
     fields: ({ operations }) => operations,
     limit: null, // no limit
     skip: 0
@@ -26,34 +30,40 @@ export const dailyTicketOperations = () => ({
 
 export const ticketById = (ticketId) => ({
     match: {
-        id: {
-            $eq: ticketId,
-        },
+        selector: {
+            id: {
+                $eq: ticketId,
+            },
+        }
     },
     fields: (ticket) => omit(ticket, '_rev'),
 });
 
 export const ticketByCreationDate = (ticketId) => ({
     match: {
-        created_at: {
-            $eq: ticketId,
-        },
+        selector: {
+            createdAt: {
+                $eq: ticketId,
+            },
+        }
     },
     fields: (ticket) => omit(ticket, '_rev'),
 });
 
 export const ticketMatches = (field, value) => ({
-    match: { [field]: { $regex: new RegExp(`^${value}`) } },
+    match: { selector: { [field]: { $regex: new RegExp(`^${value}`) } } },
     fields: (ticket) => ticket[field],
 });
 
 export const dailyTickets = (limit, skip) => ({
     match: {
-        created_at: {
-            $gte: new Date().setHours(0, 0, 0, 0),
-        },
+        selector: {
+            createdAt: {
+                $gte: new Date().setHours(0, 0, 0, 0),
+            },
+        }
     },
-    sort: 'created_at',
+    sort: 'createdAt',
     limit,
     skip
 });
@@ -64,14 +74,16 @@ export const weeklyTickets = (limit = 0, skip = 0) => {
     today.setDate(today.getDate() - 7);
     return {
         match: {
-            created_at: {
-                $gte: today.setHours(0, 0, 0, 0),
-            },
-            state: {
-                $eq: 'TICKET_SOLD_STATE',
-            },
+            selector: {
+                createdAt: {
+                    $gte: today.setHours(0, 0, 0, 0),
+                },
+                state: {
+                    $eq: 'TICKET_SOLD_STATE',
+                },
+            }
         },
-        sort: 'created_at',
+        sort: 'createdAt',
         limit,
         skip,
     };

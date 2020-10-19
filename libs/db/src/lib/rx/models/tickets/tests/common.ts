@@ -1,8 +1,8 @@
-import { create, plugin } from 'rxdb';
+import { createRxDatabase, addRxPlugin } from 'rxdb';
 import MemoryAdapter from 'pouchdb-adapter-memory';
 import Tickets from '../';
 
-plugin(MemoryAdapter);
+addRxPlugin(MemoryAdapter);
 
 export const counter = (function* counter() {
   let countId = 0;
@@ -21,19 +21,19 @@ export const getTicketsInstance = async (
     },
     stockInstance = null
   } = {}
-) => Tickets(await create(dbOptions), stockInstance);
+) => Tickets(await createRxDatabase(dbOptions), stockInstance);
 
 export const isErrorInstanceOf = async (fn, ErrorType, debug = false) => {
-  let error = {};
   let data;
+  const { title, code } = new ErrorType();
   try {
     data = await fn();
-  } catch (e) {
+  } catch (error) {
     if (debug) {
-      console.error(e)
+      console.error(error)
     }
-    error = e;
+    return { data, hasError: error?.title === title && error?.code === code, error };
   }
-  const { title, code } = new ErrorType();
-  return { data, hasError: error.title === title && error.code === code, error };
+  return { data, hasError: false, error: null };
 };
+

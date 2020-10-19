@@ -15,13 +15,17 @@
 // All
 import { isRxCollection, isRxDatabase } from 'rxdb';
 import schema from './schema';
-import uuidv1 from 'uuid/v1';
+import  { v1 as uuidv1 } from 'uuid';
 import { isEmpty, isString } from 'lodash';
 import { ADD_ITEM_OPERATION, RETURN_ITEM_OPERATION, PAYMENT_METHOD_VOUCHER } from './config';
 import { TicketNoSavedError, TicketsNotFoundError } from '../../errors/tickets';
 import Queries from './queries';
 
 class Tickets {
+
+  public db = null;
+  public collection = null;
+  public stock = null;
 
   constructor(db, collection, stock) {
     if (!isRxDatabase(db)) {
@@ -109,12 +113,12 @@ class Tickets {
   //     console.log('items', ticket.items);
   //     const newTicket = await this.createOne(omit(ticket, '_rev'));
   //     await this.updateBy(
-  //       { created_at: { $eq: Number(ticket.created_at) } },
-  //       { next: Number(newTicket.created_at) }
+  //       { createdAt: { $eq: Number(ticket.createdAt) } },
+  //       { next: Number(newTicket.createdAt) }
   //     );
   //     await this.updateBy(
-  //       { created_at: { $eq: Number(newTicket.created_at) } },
-  //       { prev: Number(ticket.created_at) }
+  //       { createdAt: { $eq: Number(newTicket.createdAt) } },
+  //       { prev: Number(ticket.createdAt) }
   //     );
   //     return newTicket;
   //   } catch (e) {
@@ -139,7 +143,7 @@ class Tickets {
         throw new Error(validationError);
       }
       // Create ticket
-      const { id, created_at, balance } = await this.createOne(ticket);
+      const { id, createdAt, balance } = await this.createOne(ticket);
 
       // Update parent ticket to point/reference to this new one
       if (ticket.prevNode) {
@@ -174,13 +178,13 @@ class Tickets {
       const voucher = ticket.payments.find(({ method }) => method === PAYMENT_METHOD_VOUCHER);
       if (voucher) {
         await this.updateBy({
-          created_at: {
+          createdAt: {
             $eq: voucher.concept,
           }
         }, { hasVoucherExpired: true })
       }
 
-      return verbose ? { id, created_at, balance } : id;
+      return verbose ? { id, createdAt, balance } : id;
     } catch (error) {
       throw new TicketNoSavedError(error, ticket);
     }
@@ -193,7 +197,9 @@ class Tickets {
    * @param {String} value the field to look the ticket for value
    * @return {Object} Ticket Document
    */
-  async open({ field = 'id', value } = {}) {
+  async open(options) {
+
+    const { field = 'id', value } = options || {};
 
     const getQuery = (field, value) => {
 
@@ -283,7 +289,7 @@ class Tickets {
     try {
       const timestamp = new Date().getTime();
       const newTicket = {
-        created_at: timestamp,
+        createdAt: timestamp,
         ...ticket,
         isChecked: true,
         id: uuidv1(),
@@ -300,14 +306,16 @@ class Tickets {
  * This fetches the ticket items given a filter
  * @param {object} {match, limit, skip, count, sort}
  */
-  async get({
-    match,
-    fields,
-    limit = 0,
-    skip = 0,
-    count = false,
-    sort = { created_at: 'asc' },
-  } = {}) {
+  async get(options) {
+
+    const {
+      match,
+      fields,
+      limit = 0,
+      skip = 0,
+      count = false,
+      sort = { createdAt: 'asc' },
+    } = options || {};
 
     const tickets = await this.collection
       .find(match)
@@ -341,9 +349,9 @@ class Tickets {
    */
   async updateBy(criteria, data) {
     try {
-      const ticketFound = await this.collection.findOne(criteria).exec();
+      const ticketFound = await this.collection.findOne({selector: criteria}).exec();
       if (!ticketFound) {
-        throw new TicketsNotFoundError(null, criteria, data);
+        throw new TicketsNotFoundError(data, criteria);
       }
       return this.upsert({ ...ticketFound._data, ...data });
     } catch (e) {
