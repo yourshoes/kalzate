@@ -10,7 +10,7 @@
   "author": "",
   "license": "Private",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.2",
     "cypress": "^3.1.5",
     "cypress-cucumber-preprocessor": "^1.9.1",
     "fs-extra": "^7.0.1",
